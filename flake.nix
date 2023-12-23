@@ -24,6 +24,7 @@
         hostname,
         system ? "x86_64-linux",
         modules ? [],
+        users ? [],
       }: nixpkgs.lib.nixosSystem {
         inherit system hostname;
         modules = [
@@ -32,7 +33,7 @@
           ./system/programs.nix
           ./system/configuration.nix
           ./system/${hostname}/configuration.nix
-        ] ++ fileList "modules" ++ modules;
+        ] ++ fileList "modules" ++ modules ++ map (user: ./users/${user}/default.nix ) users;
       };
     in {
       photon = constructSystem {

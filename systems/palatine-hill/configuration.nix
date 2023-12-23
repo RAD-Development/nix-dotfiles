@@ -26,10 +26,6 @@ in {
     };
   };
 
-  users.users.brain = {
-    extraGroups = [ "docker" ];
-  };
-
   environment.systemPackages = with pkgs; [
     docker-compose
   ];
@@ -45,4 +41,6 @@ in {
   };
 
   networking.firewall.enable = false;
+
+  system.stateVersion = "23.05";
 }

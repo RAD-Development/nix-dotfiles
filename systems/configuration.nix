@@ -190,7 +190,5 @@ in {
       persistent = true;
       system.autoUpgrade.flake = "github:RAD-Development/nix-dotfiles";
     };
-
-    stateVersion = "22.11";
   };
 }

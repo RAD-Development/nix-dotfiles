@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration for Wavelens Servers";
+  description = "NixOS configuration for RAD-Development Servers";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -37,6 +37,10 @@
     in {
       photon = constructSystem {
         hostname = "photon"
+      };
+
+      palatine-hill = constructSystem {
+        hostname = "palatine-hill"
       };
     };
   };

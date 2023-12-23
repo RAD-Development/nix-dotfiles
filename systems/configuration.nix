@@ -1,7 +1,6 @@
 { pkgs, lib, config, ... }:
 let
 in {
-  time.timeZone = "UTC";
 
   i18n = {
     defaultLocale = "en_US.utf8";
@@ -11,7 +10,6 @@ in {
     ];
   };
 
-  console.keyMap = "de";
 
   networking.firewall.allowedTCPPorts = [ 22 ];
 

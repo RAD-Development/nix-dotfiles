@@ -1,6 +1,8 @@
 { pkgs, lib, config, ... }:
 let
 in {
+  time.timeZone = "Europe/Berlin";
+  console.keyMap = "de";
 
   services = {
     nginx = {

@@ -6,14 +6,15 @@
 
   time.timeZone = "Europe/Berlin";
   console.keyMap = "de";
+  networking.hostId = "7d76fab7";
 
   services = {
     nginx = {
-      #enable = true;
+      enable = true;
     };
 
-    postgres = {
-      #enable = true;
+    postgresql = {
+      enable = true;
     };
 
     portunus = {
@@ -21,11 +22,11 @@
     };
 
     vaultwarden = {
-      #enable = true;
+      enable = true;
     };
 
     gitea = {
-      #enable = true;
+      enable = true;
       #ldap = true;
     };
 

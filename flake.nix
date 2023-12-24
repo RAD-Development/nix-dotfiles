@@ -16,16 +16,14 @@
         nixpkgs-stable.follows = "nixpkgs";
       };
     };
-
-    nix-index-database = {
-      url = "github:Mic92/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { nixpkgs, nixos-modules, nix-index-database, sops-nix, ... }:
+  outputs = { nixpkgs, nixos-modules, sops-nix, ... }:
   let
     inherit (nixpkgs) lib;
+    src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
+    ls = dir: lib.attrNames (builtins.readDir (src + "/${dir}"));
+    fileList = dir: map (file: ./. + "/${dir}/${file}") (ls dir);
   in {
     nixosConfigurations = let
       constructSystem = {
@@ -39,11 +37,11 @@
         modules = [
           nixos-modules.nixosModule
           sops-nix.nixosModules.sops
-          nix-index-database.nixosModules.nix-index
           ./systems/programs.nix
           ./systems/configuration.nix
+          ./systems/${hostname}/hardware.nix
           ./systems/${hostname}/configuration.nix
-        ] ++ modules ++ map(user: ./users/${user}) users;
+        ] ++ modules ++ fileList "modules" ++ map(user: ./users/${user}) users;
 
       };
     in {

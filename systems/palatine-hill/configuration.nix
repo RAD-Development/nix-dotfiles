@@ -2,6 +2,7 @@
 {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
+  networking.hostId = "1139fa08";
 
   virtualisation = {
     docker = {

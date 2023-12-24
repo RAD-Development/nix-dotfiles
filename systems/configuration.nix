@@ -8,6 +8,10 @@
     ];
   };
 
+  boot = {
+    default = true;
+  };
+
   networking.firewall.allowedTCPPorts = [ 22 ];
 
   services = {
@@ -150,9 +154,8 @@
   };
 
   systemd.watchdog = {
-    enable = true;
     device = "/dev/watchdog";
-    runTime = "30s";
+    runtimeTime = "30s";
     rebootTime = "5m";
   };
 
@@ -178,7 +181,7 @@
       enable = true;
       randomizedDelaySec = "1h";
       persistent = true;
-      system.autoUpgrade.flake = "github:RAD-Development/nix-dotfiles";
+      flake = "github:RAD-Development/nix-dotfiles";
     };
   };
 }

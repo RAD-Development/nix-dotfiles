@@ -1,33 +1,36 @@
-{ pkgs, lib, config, ... }:
-let
-in {
+{ ... }:
+{
+  imports = [
+    ./banner.nix
+  ];
+
   time.timeZone = "Europe/Berlin";
   console.keyMap = "de";
 
   services = {
     nginx = {
-      enable = true;
+      #enable = true;
     };
 
     postgres = {
-      enable = true;
+      #enable = true;
     };
 
     portunus = {
-      enable = true;
+      #enable = true;
     };
 
     vaultwarden = {
-      enable = true;
+      #enable = true;
     };
 
     gitea = {
-      enable = true;
-      ldap = true;
+      #enable = true;
+      #ldap = true;
     };
 
     nextcloud = {
-      enable = true;
+      #enable = true;
     };
   };
 

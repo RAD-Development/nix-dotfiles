@@ -1,6 +1,5 @@
-{ pkgs, lib, config, ... }:
-let
-in {
+{ pkgs, ... }:
+{
   time.timeZone = "America/New_York";
   console.keyMap = "us";
 

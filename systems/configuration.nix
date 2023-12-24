@@ -1,7 +1,5 @@
-{ pkgs, lib, config, ... }:
-let
-in {
-
+{ pkgs, ... }:
+{
   i18n = {
     defaultLocale = "en_US.utf8";
     supportedLocales = [
@@ -9,7 +7,6 @@ in {
       "de_DE.UTF-8/UTF-8"
     ];
   };
-
 
   networking.firewall.allowedTCPPorts = [ 22 ];
 
@@ -24,13 +21,6 @@ in {
         PasswordAuthentication = false;
       };
     };
-  };
-
-  users.users.brain = {
-    isNormalUser = true;
-    description = "Administrator";
-    extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -180,7 +170,7 @@ in {
       options = "--delete-oder-than 14d";
     };
 
-    diff-system = true;
+    diffSystem = true;
   };
 
   system = {

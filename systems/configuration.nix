@@ -127,7 +127,9 @@
       enable = true;
       randomizedDelaySec = "1h";
       persistent = true;
-      flake = "github:RAD-Development/nix-dotfiles";
+      # Running this since this is private right now.
+      # Need to set up a ssh-key for github for autoUpgrade
+      flake = "git+ssh://git@github.com/RAD-Development/nix-dotfiles";
     };
   };
 }

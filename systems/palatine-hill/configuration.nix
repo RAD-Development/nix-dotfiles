@@ -2,9 +2,8 @@
 {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
-  boot.zfs.extraPools = [ "ZFS-primary" ];
   networking.hostId = "dc2f9781";
-  boot.initrd.network.ssh.authorizedKeys = [ "ssh-ed25519 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" ];
+  boot.zfs.extraPools = [ "ZFS-primary" ];
 
   virtualisation = {
     docker = {

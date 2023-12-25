@@ -3,14 +3,13 @@
   config,
   pkgs,
   name,
-  pubKeys ? [],
+  publicKeys ? [],
   defaultShell ? "zsh",
 }:
 
 {
   inherit name;
   isNormalUser = true;
-  uid = 1000;
   extraGroups = [
     "wheel"
     "media"
@@ -24,5 +23,5 @@
     "uaccess"
   ];
   shell = pkgs.${defaultShell};
-  openssh.authorizedKeys.keys = pubKeys;
+  openssh.authorizedKeys.keys = publicKeys;
 }

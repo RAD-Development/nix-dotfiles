@@ -21,7 +21,6 @@
       enable = true;
       fixPermissions = true;
       extraConfig = ''StreamLocalBindUnlink yes'';
-      authorizedKeysFiles = [ "../users/dennis/keys/yubikey.pub" ];
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;

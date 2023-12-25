@@ -52,18 +52,25 @@
         ] ++ modules ++ fileList "modules"
         ++ map(user: { config, lib, pkgs, ... }@args: {
           users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
+          boot.initrd.network.ssh.authorizedKeys = config.users.users.${user}.openssh.authorizedKeys.keys;
         }) users
         ++ map(user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users;
       };
     in {
       photon = constructSystem {
         hostname = "photon";
-        users = ["dennis"];
+        users = [
+          "alice"
+          "dennis"
+        ];
       };
 
       palatine-hill = constructSystem {
         hostname = "palatine-hill";
-        users = ["alice"];
+        users = [
+          "alice"
+          "dennis"
+        ];
       };
     };
   };

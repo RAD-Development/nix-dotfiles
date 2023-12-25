@@ -14,6 +14,7 @@ in
         description = "The cpu-type installed on the server.";
       };
       amdGPU = libS.mkOpinionatedOption "the system contains a AMD GPU";
+      fullDiskEncryption = libS.mkOpinionatedOption "use luks full disk encrytion";
     };
   };
 
@@ -22,18 +23,14 @@ in
       # networking for netcard kernelModules = [ "e1000e" ];
       kernelModules = lib.mkIf cfg.amdGPU [ "amdgpu" ];
 
-      network.enable = true;
-      network.ssh = {
+      network = lib.mkIf cfg.fullDiskEncryption {
         enable = true;
-        hostKeys = [
-          "/root/ssh_key"
-        ];
-        port = 2222;
-      };
-      luks = {
-        devices."cryptroot" = {
-          device = "/dev/sda1";
-          preLVM = true;
+        ssh = {
+          enable = true;
+          hostKeys = [
+            "/root/ssh_key"
+          ];
+          port = 2222;
         };
       };
     };

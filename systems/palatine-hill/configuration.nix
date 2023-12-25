@@ -40,6 +40,8 @@
       enable = true;
       config = builtins.readFile ./conf/haproxy.conf;
     };
+
+    openssh.ports = [ 666 ];
   };
 
   networking.firewall.enable = false;

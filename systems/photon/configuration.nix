@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./banner.nix
@@ -18,6 +18,7 @@
 
     postgresql = {
       enable = true;
+      package = pkgs.postgresql_13;
     };
 
     portunus = {

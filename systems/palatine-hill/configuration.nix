@@ -11,6 +11,7 @@
       recommendedDefaults = true;
       logDriver = "local";
       daemon."settings" = {
+        experimental = true;
         exec-opts = [ "native.cgroupdriver=systemd" ];
         log-opts = {
           max-size = "10m";

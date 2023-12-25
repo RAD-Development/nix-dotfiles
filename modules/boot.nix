@@ -7,6 +7,12 @@ in
   options = {
     boot = {
       default = libS.mkOpinionatedOption "enable the boot builder";
+      cpuType = lib.mkOption {
+        type = lib.types.str;
+        example = "amd";
+        default = "";
+        description = "The cpu-type installed on the server.";
+      };
     };
   };
 
@@ -14,8 +20,8 @@ in
     supportedFilesystems = [ "zfs" ];
     tmp.useTmpfs = true;
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    kernelParams = [ "kvm-amd" "nordrand" ];
-    zfs = {            
+    kernelParams = [ "nordrand" ] ++ lib.optional (cfg.cpuType == "amd") "kvm-amd";
+    zfs = {
       enableUnstable = true;
       devNodes = "/dev/disk/by-id/";
       forceImportRoot = true;

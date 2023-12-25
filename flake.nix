@@ -3,10 +3,16 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
       inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     sops-nix = {
@@ -18,7 +24,7 @@
     };
   };
 
-  outputs = { nixpkgs, nixos-modules, sops-nix, ... }:
+  outputs = { nixpkgs, nixos-hardware, nixos-modules, home-manager, sops-nix, ... }:
   let
     inherit (nixpkgs) lib;
     src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
@@ -30,27 +36,34 @@
         hostname,
         system ? "x86_64-linux",
         modules ? [],
-        users ? [],
+        users ? ["dennis"],
       }: lib.nixosSystem {
         inherit system;
 
         modules = [
           nixos-modules.nixosModule
+          home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           ./systems/programs.nix
           ./systems/configuration.nix
           ./systems/${hostname}/hardware.nix
           ./systems/${hostname}/configuration.nix
-        ] ++ modules ++ fileList "modules" ++ map(user: ./users/${user}) users;
-
+          { config.networking.hostName = "${hostname}"; }
+        ] ++ modules ++ fileList "modules"
+        ++ map(user: { config, lib, pkgs, ... }@args: {
+          users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
+        }) users
+        ++ map(user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users;
       };
     in {
       photon = constructSystem {
         hostname = "photon";
+        users = ["dennis"];
       };
 
       palatine-hill = constructSystem {
         hostname = "palatine-hill";
+        users = ["alice"];
       };
     };
   };

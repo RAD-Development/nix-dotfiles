@@ -6,6 +6,8 @@
 
   time.timeZone = "Europe/Berlin";
   console.keyMap = "de";
+  i18n.supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
+
   networking.hostId = "7d76fab7";
 
   services = {

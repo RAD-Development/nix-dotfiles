@@ -2,14 +2,16 @@
 {
   i18n = {
     defaultLocale = "en_US.utf8";
-    supportedLocales = [
-      "en_US.UTF-8/UTF-8"
-      "de_DE.UTF-8/UTF-8"
-    ];
+    supportedLocales = [ "en_US.UTF-8/UTF-8" ];
   };
 
   boot = {
     default = true;
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
   };
 
   networking.firewall.allowedTCPPorts = [ 22 ];
@@ -31,22 +33,29 @@
 
   programs = {
     fzf.keybindings = true;
+
     git = {
       enable = true;
       config = {
-        alias = {
-	        p = "pull";
-	        r = "reset --hard";
-          ci = "commit";
-          co = "checkout";
-          lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'";
-          st = "status";
-          undo = "reset --soft HEAD^";
-        };
         interactive.singlekey = true;
         pull.rebase = true;
         rebase.autoStash = true;
         safe.directory = "/etc/nixos";
+      };
+    };
+
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      configure = {
+        customRC = ''
+            set undofile         " save undo file after quit
+            set undolevels=1000  " number of steps to save
+            set undoreload=10000 " number of lines to save
+
+            " Save Cursor Position
+            au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+          '';
       };
     };
 
@@ -64,69 +73,7 @@
       enableBashCompletion = true;
       ohMyZsh = {
         enable = true;
-        plugins = [ "git" "sudo" "docker" "kubectl" "history" "colorize" "direnv" ];
-        theme = "agnoster";
       };
-
-      shellAliases = {
-	      flake = "nvim flake.nix";
-        garbage = "sudo nix-collect-garbage -d";
-        gpw = "git pull | grep \"Already up-to-date\" > /dev/null; while [ $? -gt 1 ]; do sleep 5; git pull | grep \"Already up-to-date\" > /dev/null; done; notify-send Pull f$";
-        l = "ls -lah";
-        nixdir = "echo \"use flake\" > .envrc && direnv allow";
-        nixeditc = "nvim ~/dotfiles/system/configuration.nix";
-        nixeditpc = "nvim ~/dotfiles/system/program.nix";
-        pypi = "pip install --user";
-	      qr = "qrencode -m 2 -t utf8 <<< \"$1\"";
-        update = "sudo nixos-rebuild switch --fast --flake ~/dotfiles/ -L";
-        v = "nvim";
-      };
-    };
-
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      vimAlias = true;
-      viAlias = true;
-      withPython3 = true;
-      configure = {
-        customRC = ''
-              set undofile         " save undo file after quit
-          	  set undolevels=1000  " number of steps to save
-          	  set undoreload=10000 " number of lines to save
-
-          	  " Save Cursor Position
-          	  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-          	'';
-        packages.myVimPackage = with pkgs.vimPlugins; {
-          start = [
-            colorizer
-            copilot-vim
-            csv-vim
-            fugitive
-            fzf-vim
-            nerdtree
-            nvchad
-            nvchad-ui
-            nvim-treesitter-refactor
-            nvim-treesitter.withAllGrammars
-            unicode-vim
-            vim-cpp-enhanced-highlight
-            vim-tmux
-            vim-tmux-navigator
-          ];
-        };
-      };
-    };
-
-    tmux = {
-      enable = true;
-      plugins = with pkgs.tmuxPlugins; [
-        nord
-        vim-tmux-navigator
-        sensible
-        yank
-      ];
     };
 
     nix-ld = {
@@ -170,7 +117,7 @@
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-oder-than 14d";
+      options = "--delete-oder-than 30d";
     };
 
     diffSystem = true;

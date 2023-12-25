@@ -1,8 +1,5 @@
-{ pkgs, lib, config }:
+{ pkgs, lib, config, name, ... }:
 import ../default.nix {
-  inherit pkgs lib config;
-  userName = "AmethystAndroid";
-  pubKeys = {
-    palatine-hill = "ed25516-AAAAAAA";
-  };
+  inherit pkgs lib config name;
+  pubKeys = [ "ed25516-AAAAAAA" ];
 }

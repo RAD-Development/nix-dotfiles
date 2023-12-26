@@ -1,0 +1,17 @@
+keys:
+  # The PGP keys in keys/
+  - &admins
+    - F63832C3080D6E1AC77EECF80B4245FFE305BC82 # alice
+    - 8F79E6CD6434700615867480D11A514F5095BFA8 # dennis
+  
+  # Generate AGE keys from SSH keys with:
+  #   nix-shell -p ssh-to-age --run 'ssh some.ssh.wavelens.io cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
+  - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
+  - &photon age1rjlc6vwnz2lcrpshtd9rldlxels6l2utwmnmf3prus8drfefeywq5ljrdg
+
+creation_rules:
+  - path_regex: systems/photon/secrets\.yaml$
+    key_groups:
+    - pgp: *admins
+      age:
+      - *photon

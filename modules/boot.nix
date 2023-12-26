@@ -39,9 +39,9 @@ in
     tmp.useTmpfs = true;
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [
-      "ip=<ip-addr>::<ip-gateway>:<netmask>"
       "nordrand"
-    ] ++ lib.optional (cfg.cpuType == "amd") "kvm-amd";
+    ] ++ lib.optional (cfg.cpuType == "amd") "kvm-amd"
+    ++ lib.optional cfg.fullDiskEncryption "ip=<ip-addr>::<ip-gateway>:<netmask>";
 
     zfs = {
       enableUnstable = true;

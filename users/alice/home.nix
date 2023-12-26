@@ -26,6 +26,8 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
 
+    ncdu
+
     # Rust packages
     topgrade
     trunk
@@ -36,7 +38,6 @@
     cargo-audit
     cargo-update
     diesel-cli
-    # gitoxide currently broke 09182023
     gitoxide
     tealdeer
     helix
@@ -59,7 +60,15 @@
     clang
   ];
 
-  programs.zsh.enable = true;
+  programs = {
+    zsh.enable = true;
+
+  starship.enable = true;
+  fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  };
 
   home.stateVersion = "23.05";
   # Let Home Manager install and manage itself.

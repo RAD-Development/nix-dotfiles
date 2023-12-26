@@ -17,7 +17,7 @@ in
       filesystem = lib.mkOption {
         type = lib.types.str;
         example = "btrfs";
-        default = "zfs";
+        default = "ext4";
         description = "The filesystem installed.";
       };
       fullDiskEncryption = libS.mkOpinionatedOption "use luks full disk encrytion";
@@ -67,7 +67,6 @@ in
         efiSupport = true;
         efiInstallAsRemovable = true;
         fsIdentifier = "uuid";
-        device = "nodev";
         enableCryptodisk = lib.mkIf cfg.fullDiskEncryption true;
       };
     };

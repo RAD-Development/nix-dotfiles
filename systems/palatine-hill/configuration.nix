@@ -3,7 +3,10 @@
   time.timeZone = "America/New_York";
   console.keyMap = "us";
   networking.hostId = "dc2f9781";
-  boot.zfs.extraPools = [ "ZFS-primary" ];
+  boot = {
+    zfs.extraPools = [ "ZFS-primary" ];
+    loader.grub.device =  "/dev/sda";
+  };
 
   virtualisation = {
     docker = {

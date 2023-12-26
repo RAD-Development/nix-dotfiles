@@ -13,7 +13,7 @@
 
   boot = {
     filesystem = "ext4";
-    loader.grub.device =  "/dev/sda";
+    useSystemdBoot = true;
   };
 
   security = {

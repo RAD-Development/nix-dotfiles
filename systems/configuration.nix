@@ -31,8 +31,6 @@
   nixpkgs.config.allowUnfree = true;
 
   programs = {
-    fzf.keybindings = true;
-
     git = {
       enable = true;
       config = {

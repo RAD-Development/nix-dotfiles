@@ -9,6 +9,7 @@ keys:
   - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
   - &photon age1rjlc6vwnz2lcrpshtd9rldlxels6l2utwmnmf3prus8drfefeywq5ljrdg
 
+# update keys by executing: sops updatekeys secrets.yaml
 creation_rules:
   - path_regex: systems/photon/secrets\.yaml$
     key_groups:

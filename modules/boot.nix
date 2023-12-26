@@ -60,7 +60,7 @@ in
         canTouchEfiVariables = false;
       };
       generationsDir.copyKernels = true;
-      boot.loader.systemd-boot.enable = true;
+      systemd-boot.enable = true;
       /* disable grub support
       grub = {
       enable = true;

@@ -27,13 +27,6 @@
   security.ldap.domainComponent = [ "wavelens" "io" ];
 
   services = {
-    # acme-dns = {
-    #   enable = true;
-    #   settings = {
-    #     general.domain = "wavelens.io";
-    #   };
-    # };
-
     postgresql = {
       enable = true;
       recommendedDefaults = true;

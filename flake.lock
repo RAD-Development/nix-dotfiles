@@ -43,11 +43,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1703545968,
-        "narHash": "sha256-u5yE7Bw2mw/yu+Ljk51YOoy0rz3suGdiOS6dSu8Zgm0=",
+        "lastModified": 1703560280,
+        "narHash": "sha256-gxTHUmXqWQRu59zEAhEJMYA2zrLVwB+epb2XsVYnQ3k=",
         "owner": "SuperSandro2000",
         "repo": "nixos-modules",
-        "rev": "c5ae5e9b02fddb35ae37479c77238fc3dd9a1589",
+        "rev": "ebd413959a9110a2439ae4453b67ebc729bed8d8",
         "type": "github"
       },
       "original": {

@@ -14,6 +14,12 @@ in
         description = "The cpu-type installed on the server.";
       };
       amdGPU = libS.mkOpinionatedOption "the system contains a AMD GPU";
+      filesystem = lib.mkOption {
+        type = lib.types.str;
+        example = "btrfs";
+        default = "zfs";
+        description = "The filesystem installed.";
+      };
       fullDiskEncryption = libS.mkOpinionatedOption "use luks full disk encrytion";
     };
   };
@@ -35,7 +41,7 @@ in
       };
     };
 
-    supportedFilesystems = [ "zfs" ];
+    supportedFilesystems = [ cfg.filesystem ];
     tmp.useTmpfs = true;
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [
@@ -43,7 +49,7 @@ in
     ] ++ lib.optional (cfg.cpuType == "amd") "kvm-amd"
     ++ lib.optional cfg.fullDiskEncryption "ip=<ip-addr>::<ip-gateway>:<netmask>";
 
-    zfs = {
+    zfs = lib.mkIf (cfg.filesystem == "zfs") {
       enableUnstable = true;
       devNodes = "/dev/disk/by-id/";
       forceImportRoot = true;
@@ -57,12 +63,12 @@ in
       grub = {
         enable = true;
         copyKernels = true;
-        zfsSupport = true;
+        zfsSupport = lib.mkIf (cfg.filesystem == "zfs") true;
         efiSupport = true;
         efiInstallAsRemovable = true;
         fsIdentifier = "uuid";
         device = "nodev";
-        enableCryptodisk = true;
+        enableCryptodisk = lib.mkIf cfg.fullDiskEncryption true;
       };
     };
   };

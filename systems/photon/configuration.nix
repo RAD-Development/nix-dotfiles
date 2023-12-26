@@ -11,6 +11,8 @@
 
   networking.hostId = "7d76fab7";
 
+  boot.filesystem = "ext4";
+
   security = {
     acme = {
       acceptTerms = true;

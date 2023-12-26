@@ -60,15 +60,18 @@ in
         canTouchEfiVariables = false;
       };
       generationsDir.copyKernels = true;
+      boot.loader.systemd-boot.enable = true;
+      /* disable grub support
       grub = {
-        enable = true;
-        copyKernels = true;
-        zfsSupport = lib.mkIf (cfg.filesystem == "zfs") true;
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-        fsIdentifier = "uuid";
-        enableCryptodisk = lib.mkIf cfg.fullDiskEncryption true;
+      enable = true;
+      copyKernels = true;
+      zfsSupport = lib.mkIf (cfg.filesystem == "zfs") true;
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      fsIdentifier = "uuid";
+      enableCryptodisk = lib.mkIf cfg.fullDiskEncryption true;
       };
+      */
     };
   };
 }

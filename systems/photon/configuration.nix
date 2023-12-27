@@ -124,7 +124,7 @@
         enable = true;
         adminGroup = "gitea-admins";
         userGroup = "user";
-        ldapSearchUserPasswordFile = config.sops.secrets."gitea/ldap-password".path;
+        bindPasswordFile = config.sops.secrets."gitea/ldap-password".path;
       };
 
       settings = {

@@ -6,6 +6,7 @@
   boot = {
     zfs.extraPools = [ "ZFS-primary" ];
     loader.grub.device =  "/dev/sda";
+    useSystemdBoot = true;
   };
 
   virtualisation = {

@@ -1,10 +1,10 @@
-{
-  lib,
-  config,
-  pkgs,
-  name,
-  publicKeys ? [],
-  defaultShell ? "zsh",
+{ lib
+, config
+, pkgs
+, name
+, publicKeys ? [ ]
+, defaultShell ? "zsh"
+,
 }:
 
 {

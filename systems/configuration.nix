@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   i18n = {
     defaultLocale = "en_US.utf8";
@@ -7,6 +7,9 @@
 
   boot = {
     default = true;
+    kernel.sysctl = {
+      "net.ipv6.conf.ens3.accept_ra" = 1;
+    };
   };
 
   home-manager = {
@@ -14,7 +17,12 @@
     useUserPackages = true;
   };
 
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  networking = {
+    firewall = {
+      enable = lib.mkDefault true;
+      allowedTCPPorts = [ 22 ];
+    };
+  };
 
   services = {
     openssh = {
@@ -46,13 +54,13 @@
       defaultEditor = true;
       configure = {
         customRC = ''
-            set undofile         " save undo file after quit
-            set undolevels=1000  " number of steps to save
-            set undoreload=10000 " number of lines to save
+          set undofile         " save undo file after quit
+          set undolevels=1000  " number of steps to save
+          set undoreload=10000 " number of lines to save
 
-            " Save Cursor Position
-            au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-          '';
+          " Save Cursor Position
+          au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+        '';
       };
     };
 

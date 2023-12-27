@@ -9,7 +9,26 @@
   console.keyMap = "de";
   i18n.supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
 
-  networking.hostId = "7d76fab7";
+  networking = {
+    hostId = "7d76fab7";
+    firewall = {
+      allowedTCPPorts = [
+        80
+        443
+        3306
+      ];
+    };
+    interfaces = {
+      ens3.ipv6.addresses = [{
+        address = "2a03:4000:57:b96::1";
+        prefixLength = 64;
+      }];
+    };
+    defaultGateway6 = {
+      address = "fe80::1";
+      interface = "ens3";
+    };
+  };
 
   boot = {
     filesystem = "ext4";
@@ -18,11 +37,25 @@
 
   security.acme = {
     acceptTerms = true;
+    preliminarySelfsigned = true;
+    staging = false;
     defaults = {
-      dnsPropagationCheck = true;
       email = "info@wavelens.io";
+      postRun = "systemctl restart nginx.service";
+      dnsProvider = "rfc2136";
+      group = "nginx";
+    };
+
+    certs = {
+      "hostoguest.ai" = {
+        email = "office@hostoguest.ai";
+      };
+      "app.hostoguest.ai" = {
+        email = "office@hostoguest.ai";
+      };
     };
   };
+  users.users.nginx.extraGroups = [ "acme" ];
 
   security.ldap.domainComponent = [ "wavelens" "io" ];
 
@@ -48,6 +81,7 @@
       ldapPreset = true;
       removeAddGroup = true;
       domain = "auth.wavelens.io";
+      port = 3890;
       seedGroups = true;
       seedSettings = {
         groups = [
@@ -91,11 +125,12 @@
 
     vaultwarden = {
       enable = true;
-      configureNginx = true;
+      configureNginx = false;
       domain = "bitwarden.wavelens.io";
       recommendedDefaults = true;
       config = {
-        PUSH_ENABLED = true;
+        # TODO
+        PUSH_ENABLED = false;
         PUSH_IDENTITY_URI = "https://identity.bitwarden.eu";
         PUSH_RELAY_URI = "https://push.bitwarden.eu";
         SENDMAIL_COMMAND = "/run/wrappers/bin/sendmail";
@@ -104,27 +139,61 @@
         SMTP_FROM_NAME = "Wavelens Vault";
         SHOW_PASSWORD_HINT = false;
         SIGNUPS_ALLOWED = false;
-        USE_SENDMAIL = true;
+        USE_SENDMAIL = false;
       };
       dbBackend = "postgresql";
+    };
+
+    # TODO: TEMPORAY
+    mysql = {
+      enable = true;
+      package = pkgs.mariadb;
+      ensureUsers = [
+        # {
+        #   name = "nextcloud";
+        #   ensurePermissions = {
+        #     "web_nextcloud.*" = "ALL PRIVILEGES";
+        #   };
+
+        # }
+        # {
+        #   name = "gitea";
+        #   ensurePermissions = {
+        #     "web_gitea.*" = "ALL PRIVILEGES";
+        #   };
+        # }
+        # {
+        #   name = "web_wp_hostoguest";
+        #   ensurePermissions = {
+        #     "web_wp_hostoguest.*" = "ALL PRIVILEGES";
+        #   };
+        # }
+      ];
+      ensureDatabases = [
+        # "web_nextcloud"
+        # "web_gitea"
+        # "web_wp_hostoguest"
+      ];
     };
 
     gitea = {
       enable = true;
       recommendedDefaults = true;
-      lfs.enable = true;
+      lfs.enable = false;
       repositoryRoot = "/var/lib/gitea/repositories";
       database = {
-        type = "postgres";
-        createDatabase = true;
+        createDatabase = false;
+        type = "mysql";
+        name = "web_gitea";
+        user = "web_gitea";
         passwordFile = config.sops.secrets."gitea/postgres-password".path;
       };
 
       ldap = {
-        enable = true;
+        enable = false;
         adminGroup = "gitea-admins";
         userGroup = "user";
-        bindPasswordFile = config.sops.secrets."gitea/ldap-password".path;
+        searchUserPasswordFile = config.sops.secrets."gitea/ldap-password".path;
       };
 
       settings = {
@@ -199,26 +268,56 @@
       configurePreviewSettings = true;
       https = true;
       hostName = "cloud.wavelens.io";
-      database.createLocally = true;
+      database.createLocally = false;
       config = {
-        dbtype = "pgsql";
-        adminpassFile = config.sops.secrets."nextcloud/postgres-password".path;
+        dbtype = "mysql";
+        dbname = "web_nextcloud";
+        dbuser = "web_nextcloud";
+        dbpassFile = config.sops.secrets."nextcloud/postgres-password".path;
+        adminpassFile = config.sops.secrets."nextcloud/admin-password".path;
       };
     };
 
     redis.servers."redis" = {
+      enable = true;
       port = 6379;
-      openFirewall = true;
     };
 
     openssh = {
       extraConfig = ''
-          Match User gitea
-            AllowAgentForwarding no
-            AllowTcpForwarding no
-            PermitTTY no
-            X11Forwarding no
-        '';
+        Match User gitea
+          AllowAgentForwarding no
+          AllowTcpForwarding no
+          PermitTTY no
+          X11Forwarding no
+      '';
+    };
+
+    wordpress = {
+      webserver = "nginx";
+      sites = {
+        "hostoguest.ai".database = {
+          createLocally = false;
+          name = "web_wp_hostoguest";
+          user = "web_wp_hostoguest";
+          passwordFile = config.sops.secrets."wordpress/hostoguest-password".path;
+        };
+      };
+    };
+
+    staticpage = {
+      enable = true;
+      sites = {
+        "homepage" = {
+          root = "wavelens.io";
+          domain = "wavelens.io";
+        };
+        "static" = {
+          root = "static.wavelens.io";
+          subdomain = "static";
+          domain = "wavelens.io";
+        };
+      };
     };
   };
 
@@ -228,8 +327,10 @@
       "gitea/postgres-password".owner = "gitea";
       "gitea/ldap-password".owner = "gitea";
       "nextcloud/postgres-password".owner = "nextcloud";
+      "nextcloud/admin-password".owner = "nextcloud";
       "portunus/users/admin-password".owner = "portunus";
       "portunus/users/search-password".owner = "portunus";
+      "wordpress/hostoguest-password".owner = "wordpress";
     };
   };
 

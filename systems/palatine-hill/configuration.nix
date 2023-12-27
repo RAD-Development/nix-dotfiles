@@ -45,6 +45,7 @@
     };
 
     openssh.ports = [ 666 ];
+    autopull = {enable = true; path = /root/dotfiles; };
   };
 
   networking.firewall.enable = false;

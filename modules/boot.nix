@@ -21,6 +21,7 @@ in
         description = "The filesystem installed.";
       };
       fullDiskEncryption = libS.mkOpinionatedOption "use luks full disk encrytion";
+      useSystemdBoot = libS.mkOpinionatedOption "use systemd boot";
     };
   };
 
@@ -33,9 +34,6 @@ in
         enable = true;
         ssh = {
           enable = true;
-          hostKeys = [
-            "/root/ssh_key"
-          ];
           port = 2222;
         };
       };
@@ -60,18 +58,16 @@ in
         canTouchEfiVariables = false;
       };
       generationsDir.copyKernels = true;
-      systemd-boot.enable = true;
-      /* disable grub support
-      grub = {
-      enable = true;
-      copyKernels = true;
-      zfsSupport = lib.mkIf (cfg.filesystem == "zfs") true;
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-      fsIdentifier = "uuid";
-      enableCryptodisk = lib.mkIf cfg.fullDiskEncryption true;
+      systemd-boot.enable = lib.mkIf cfg.useSystemdBoot true;
+      grub = lib.mkIf (!cfg.useSystemdBoot) {
+        enable = true;
+        copyKernels = true;
+        zfsSupport = lib.mkIf (cfg.filesystem == "zfs") true;
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+        fsIdentifier = "uuid";
+        enableCryptodisk = lib.mkIf cfg.fullDiskEncryption true;
       };
-      */
     };
   };
 }

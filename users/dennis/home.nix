@@ -87,8 +87,10 @@
         nixeditpc = "nvim ~/dotfiles/system/program.nix";
         pypi = "pip install --user";
         qr = "qrencode -m 2 -t utf8 <<< \"$1\"";
-        update = "sudo nixos-rebuild switch --fast --flake ~/dotfiles/ -L";
+        update = "sudo nixos-rebuild switch --fast --flake /root/dotfiles/ -L";
         v = "nvim";
+        jc = "journalctl -xe";
+        sc = "sudo systemctl";
       };
     };
   };

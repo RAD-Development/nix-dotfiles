@@ -9,22 +9,22 @@ in
 
     paths = lib.mkOption {
       type = with lib.types; listOf str;
-      default = [];
+      default = [ ];
       description = "Extra paths to include in backup.";
     };
 
     exclude = lib.mkOption {
       type = with lib.types; listOf str;
-      default = [];
+      default = [ ];
       description = "Extra paths to exclude in backup.";
     };
   };
 
   config = {
-    assertions = [ {
+    assertions = [{
       assertion = cfg.paths != [ ] -> cfg.enable;
       message = "Configuring backup services.backup.paths without enabling services.backup.enable is useless!";
-    } ];
+    }];
 
     services = {
       postgresqlBackup = {
@@ -54,9 +54,9 @@ in
               "/etc/subuid"
               "/var/lib/nixos/"
             ] ++ cfg.paths
-              ++ lib.optional config.services.postgresql.enable "/var/backup/postgresql/"
-              ++ lib.optional (config.security.acme.certs != {}) "/var/lib/acme/"
-              ++ lib.optional config.security.dhparams.enable "/var/lib/dhparams/";
+            ++ lib.optional config.services.postgresql.enable "/var/backup/postgresql/"
+            ++ lib.optional (config.security.acme.certs != { }) "/var/lib/acme/"
+            ++ lib.optional config.security.dhparams.enable "/var/lib/dhparams/";
             pruneOpts = [
               "--group-by host"
               "--keep-daily 7"

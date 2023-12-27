@@ -53,12 +53,12 @@
         ++ map(user: { config, lib, pkgs, ... }@args: {
           users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
           boot.initrd.network.ssh.authorizedKeys = config.users.users.${user}.openssh.authorizedKeys.keys;
-          # sops = {
-          #   secrets."${user}/user-password" = {
-          #     sopsFile = ./users/${user}/secrets.yaml;
-          #     neededForUsers = true;
-          #   };
-          # };
+          sops = {
+            secrets."${user}/user-password" = {
+              sopsFile = ./users/${user}/secrets.yaml;
+              neededForUsers = true;
+            };
+          };
         }) users
         ++ map(user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users;
       };

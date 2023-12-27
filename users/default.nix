@@ -23,6 +23,6 @@
     "uaccess"
   ];
   shell = pkgs.${defaultShell};
-  # hashedPasswordFile = config.sops.secrets."${name}/user-password".path;
+  hashedPasswordFile = config.sops.secrets."${name}/user-password".path;
   openssh.authorizedKeys.keys = publicKeys;
 }

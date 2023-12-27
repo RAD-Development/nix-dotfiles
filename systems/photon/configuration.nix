@@ -228,6 +228,8 @@
       "gitea/postgres-password".owner = "gitea";
       "gitea/ldap-password".owner = "gitea";
       "nextcloud/postgres-password".owner = "nextcloud";
+      "portunus/users/admin-password".owner = "portunus";
+      "portunus/users/search-password".owner = "portunus";
     };
   };
 

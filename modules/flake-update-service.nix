@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs,... }:
 
 let
   cfg = config.services.autopull;
@@ -22,6 +22,10 @@ in
         description = "systemd-timer compatible time between pulls";
         default = "6h";
       };
+      sshkey = lib.mkOption {
+        type = lib.types.str;
+        description = "ssh-key used to pull the repository";
+      };
     };
   };
 
@@ -36,6 +40,7 @@ in
         # TODO: See how we can migrate this to DynamicUser=yes instead
         User = "root";
         WorkingDirectory = cfg.path;
+        Environment = lib.mkIf (cfg.sshkey != "") "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.sshkey} -o IdentitiesOnly=yes";
         ExecStart = "git pull";
       };
     };

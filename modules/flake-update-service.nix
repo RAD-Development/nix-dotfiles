@@ -26,6 +26,11 @@ in
         type = lib.types.str;
         description = "ssh-key used to pull the repository";
       };
+      triggersRebuild = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''Whether or not the rebuild service should be triggered after pulling.'';
+      };
     };
   };
 
@@ -42,6 +47,8 @@ in
         WorkingDirectory = cfg.path;
         Environment = lib.mkIf (cfg.ssh-key != "") "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
         ExecStart = "${pkgs.git}/bin/git pull";
+        Before = "nixos-upgrade.service";
+        Wants = "nixos-upgrade.service";
       };
     };
     systemd.timers."autopull@${cfg.name}" = {

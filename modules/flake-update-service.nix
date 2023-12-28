@@ -40,7 +40,7 @@ in
         # TODO: See how we can migrate this to DynamicUser=yes instead
         User = "root";
         WorkingDirectory = cfg.path;
-        Environment = lib.mkIf (cfg.sshkey != "") "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.sshkey} -o IdentitiesOnly=yes";
+        Environment = lib.mkIf (cfg.ssh-key != "") "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
         ExecStart = "git pull";
       };
     };
@@ -52,5 +52,6 @@ in
         Unit = "autopull@${cfg.name}.service";
       };
     };
+    environment.systemPackages = [ pkgs.openssh ];
   };
 }

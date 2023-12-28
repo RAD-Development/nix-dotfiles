@@ -22,7 +22,7 @@ in
         description = "systemd-timer compatible time between pulls";
         default = "6h";
       };
-      sshkey = lib.mkOption {
+      ssh-key = lib.mkOption {
         type = lib.types.str;
         description = "ssh-key used to pull the repository";
       };

@@ -5,7 +5,8 @@
   networking.hostId = "dc2f9781";
   boot = {
     zfs.extraPools = [ "ZFS-primary" ];
-    loader.grub.device =  "/dev/sda";
+    loader.grub.device = "/dev/sda";
+    filesystem = "zfs";
     useSystemdBoot = true;
   };
 

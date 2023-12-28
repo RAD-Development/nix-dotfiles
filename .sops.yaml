@@ -6,7 +6,7 @@ keys:
   # Generate AGE keys from SSH keys with:
   #   nix-shell -p ssh-to-age --run 'ssh some.ssh.wavelens.io cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
   - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
-  - &photon age1rjlc6vwnz2lcrpshtd9rldlxels6l2utwmnmf3prus8drfefeywq5ljrdg
+  - &photon age13aqs2mx66dmnyd74sygnwavufv6a4pwnvcqj4ud4l94jk0tjgu6ss57slw
 
 # update keys by executing: sops updatekeys secrets.yaml
 creation_rules:

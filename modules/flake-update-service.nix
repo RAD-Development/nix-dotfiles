@@ -29,7 +29,7 @@ in
       triggersRebuild = lib.mkOption {
         type = lib.types.bool;
         default = false;
-        description = ''Whether or not the rebuild service should be triggered after pulling.'';
+        description = ''Whether or not the rebuild service should be triggered after pulling. Note that system.autoUpgrade must be pointed at the same directory as this service if you'd like to use this option.'';
       };
     };
   };

@@ -319,16 +319,6 @@
         };
       };
     };
-
-    openssh = {
-      extraConfig = ''
-          Match User gitea
-            AllowAgentForwarding no
-            AllowTcpForwarding no
-            PermitTTY no
-            X11Forwarding no
-        '';
-    };
   };
 
   sops = {

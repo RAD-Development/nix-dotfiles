@@ -76,6 +76,7 @@
               "dennis"
             ];
           };
+
           palatine-hill = constructSystem {
             hostname = "palatine-hill";
             users = [

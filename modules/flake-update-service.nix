@@ -41,7 +41,7 @@ in
         User = "root";
         WorkingDirectory = cfg.path;
         Environment = lib.mkIf (cfg.ssh-key != "") "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
-        ExecStart = "git pull";
+        ExecStart = "${pkgs.git}/bin/git pull";
       };
     };
     systemd.timers."autopull@${cfg.name}" = {
@@ -52,6 +52,6 @@ in
         Unit = "autopull@${cfg.name}.service";
       };
     };
-    environment.systemPackages = [ pkgs.openssh ];
+    environment.systemPackages = [ pkgs.openssh pkgs.git ];
   };
 }

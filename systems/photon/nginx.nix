@@ -15,8 +15,8 @@ let
       ];
     in
     map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
-      
-  httpsListen = 
+
+  httpsListen =
     let
       listen = [
         {
@@ -33,7 +33,7 @@ let
       ];
     in
     map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
-  
+
   defaultListen = httpListen ++ httpsListen;
 in
 {

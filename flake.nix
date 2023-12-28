@@ -32,6 +32,7 @@
       fileList = dir: map (file: ./. + "/${dir}/${file}") (ls dir);
     in
     {
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
       nixosConfigurations =
         let
           constructSystem =

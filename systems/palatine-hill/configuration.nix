@@ -47,7 +47,7 @@
     };
 
     openssh.ports = [ 666 ];
-    autopull = {enable = true; path = /root/dotfiles; ssh-key = "/root/.ssh/id_ed25519_ghdeploy"; };
+    autopull = { enable = true; path = /root/dotfiles; ssh-key = "/root/.ssh/id_ed25519_ghdeploy"; };
   };
 
   networking.firewall.enable = false;

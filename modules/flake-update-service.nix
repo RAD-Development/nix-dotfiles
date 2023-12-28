@@ -1,11 +1,11 @@
-{ config, lib, pkgs,... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.services.autopull;
 in
 {
   options = {
-    services.autopull =  {
+    services.autopull = {
       enable = lib.mkEnableOption "autopull";
       name = lib.mkOption {
         type = lib.types.str;
@@ -30,7 +30,7 @@ in
   };
 
   # implementation
-  config = lib.mkIf (cfg.enable && !(builtins.isNull cfg.path)){
+  config = lib.mkIf (cfg.enable && !(builtins.isNull cfg.path)) {
     systemd.services."autopull@${cfg.name}" = {
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];

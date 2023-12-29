@@ -22,14 +22,41 @@
         nixpkgs-stable.follows = "nixpkgs";
       };
     };
+    pre-commit-hooks ={
+      url = "github:cachix/pre-commit-hooks.nix";
+      # below doesnt seem to work as expected...
+      # inputs.nixpkgs.follow = "nixpkgs";
+    };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      # below doesnt seem to work as expected...
+      # inputs.nixpkgs.follow = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, nixos-hardware, nixos-modules, home-manager, sops-nix, ... }:
+  outputs = { nixpkgs, nixos-hardware, nixos-modules, home-manager, sops-nix, pre-commit-hooks, flake-utils, ... }:
     let
       inherit (nixpkgs) lib;
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
       ls = dir: lib.attrNames (builtins.readDir (src + "/${dir}"));
       fileList = dir: map (file: ./. + "/${dir}/${file}") (ls dir);
+
+
+        config = {
+          repos = [
+            {
+              repo = "local";
+              hooks = [
+                {
+                  id = "nixpkgs-fmt";
+                  entry = "${nixpkgs.nixpkgs-fmt}/bin/nixpkgs-fmt";
+                  language = "system";
+                  files = "\\.nix";
+                }
+              ];
+            }
+          ];
+        };
     in
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
@@ -87,7 +114,18 @@
           };
         };
 
-      devShell = lib.mapAttrs
+        checks = flake-utils.lib.eachDefaultSystem
+          (system:
+            {
+            pre-commit-check = pre-commit-hooks.lib.x86_64-linux.run {
+            src = ./.;
+            hooks = {
+              nixpkgs-fmt.enable = true;
+            };
+          };
+            }
+          );
+        devShell = lib.mkMerge lib.mapAttrs
         (system: sopsPkgs:
           with nixpkgs.legacyPackages.${system};
           mkShell {
@@ -99,5 +137,5 @@
           }
         )
         sops-nix.packages;
-    };
+      };
 }

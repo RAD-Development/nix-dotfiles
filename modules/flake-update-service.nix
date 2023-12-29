@@ -20,7 +20,7 @@ in
       frequency = lib.mkOption {
         type = lib.types.str;
         description = "systemd-timer compatible time between pulls";
-        default = "6h";
+        default = "1h";
       };
       ssh-key = lib.mkOption {
         type = lib.types.str;
@@ -46,7 +46,7 @@ in
         User = "root";
         WorkingDirectory = cfg.path;
         Environment = lib.mkIf (cfg.ssh-key != "") "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
-        ExecStart = "${pkgs.git}/bin/git pull";
+        ExecStart = "${pkgs.git}/bin/git pull --all";
         Before = "nixos-upgrade.service";
         Wants = "nixos-upgrade.service";
       };

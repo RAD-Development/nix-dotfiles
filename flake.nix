@@ -69,9 +69,10 @@
             };
         in
         {
-          photon = constructSystem {
-            hostname = "photon";
+          jeeves-jr = constructSystem {
+            hostname = "jeeves-jr";
             users = [
+              "richie"
               "alice"
               "dennis"
             ];
@@ -80,6 +81,16 @@
           palatine-hill = constructSystem {
             hostname = "palatine-hill";
             users = [
+              "richie"
+              "alice"
+              "dennis"
+            ];
+          };
+
+          photon = constructSystem {
+            hostname = "photon";
+            users = [
+              "richie"
               "alice"
               "dennis"
             ];

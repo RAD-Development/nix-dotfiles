@@ -10,6 +10,9 @@ keys:
   - &photon age13aqs2mx66dmnyd74sygnwavufv6a4pwnvcqj4ud4l94jk0tjgu6ss57slw
   - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh
 
+# add new users by executing: sops users/<user>/secrets.yaml
+# then have someone already in the repo run the below
+#
 # update keys by executing: sops updatekeys secrets.yaml
 creation_rules:
   - path_regex: systems/jeeves-jr/secrets\.yaml$

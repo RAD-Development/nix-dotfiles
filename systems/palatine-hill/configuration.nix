@@ -47,6 +47,7 @@
     };
 
     openssh.ports = [ 666 ];
+    smartd.enable = true;
   };
 
   networking.firewall.enable = false;

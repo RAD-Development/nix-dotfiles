@@ -1,7 +1,13 @@
+# BIASED
 { config, lib, ... }:
 {
   config = {
     services = lib.mkIf config.services.gitea.enable {
+      fail2ban = {
+        enable = true;
+        
+      };
+
       openssh = {
         extraConfig = ''
           Match User gitea

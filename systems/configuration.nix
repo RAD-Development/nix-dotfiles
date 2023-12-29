@@ -25,11 +25,16 @@
   };
 
   services = {
+    fail2ban = {
+      enable = lib.mkDefault true;
+      recommendedDefaults = true;
+    };
+
     openssh = {
       enable = true;
       fixPermissions = true;
       extraConfig = ''StreamLocalBindUnlink yes'';
-      # below is a modified default to include ecdsa (as per this https://infosec.mozilla.org/guidelines/openssh#modern-openssh-67)
+
       hostKeys = [
         {
           bits = 4096;
@@ -46,13 +51,20 @@
         }
       ];
       settings = {
-        PermitRootLogin = "no";
+        ClientAliveCountMax = 10;
+        Compression = "NO";
+        IgnoreRhosts = "yes";
+        MaxAuthTries = 3;
+        MaxSessions = 10;
         PasswordAuthentication = false;
-        # below config options from https://sysadministrivia.com/news/hardening-ssh-security
+        PermitEmptyPasswords = "no";
+        PermitRootLogin = "no";
+
         KexAlgorithms = [
           "curve25519-sha256@libssh.org"
           "diffie-hellman-group-exchange-sha256"
         ];
+
         Ciphers = [
           "chacha20-poly1305@openssh.com"
           "aes256-gcm@openssh.com"
@@ -61,6 +73,7 @@
           "aes192-ctr"
           "aes128-ctr"
         ];
+
         Macs = [
           "hmac-sha2-512-etm@openssh.com"
           "hmac-sha2-256-etm@openssh.com"
@@ -69,19 +82,6 @@
           "hmac-sha2-256"
           "umac-128@openssh.com"
         ];
-
-        # below config options from Lynis recommendations
-        ClientAliveCountMax =2;
-        Compression = "NO";
-        MaxAuthTries = 3;
-        MaxSessions = 2;
-        # Commenting below as I'm not sure if this will break things
-        # TCPKeepAlive = "NO";
-        # UseDNS = "NO";
-
-        # below config options from https://linux-audit.com/audit-and-harden-your-ssh-configuration/
-        IgnoreRhosts = "yes";
-        PermitEmptyPasswords = "no";
       };
     };
   };

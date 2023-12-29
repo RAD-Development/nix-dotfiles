@@ -6,7 +6,7 @@
 
   boot = {
     # TODO add pool name
-    zfs.extraPools = [  ];
+    zfs.extraPools = [ "Main" ];
     filesystem = "zfs";
     useSystemdBoot = true;
   };

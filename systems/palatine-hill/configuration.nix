@@ -48,6 +48,10 @@
 
     openssh.ports = [ 666 ];
     smartd.enable = true;
+    zfs = {
+      trim.enable = true;
+      autoscrub.enable = true;
+    };
   };
 
   networking.firewall.enable = false;

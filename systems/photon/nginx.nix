@@ -66,7 +66,7 @@ in
         };
       };
 
-      "bitwarden.wavelens.io" = {
+      "vault.wavelens.io" = {
         forceSSL = true;
         enableACME = true;
         listen = defaultListen;

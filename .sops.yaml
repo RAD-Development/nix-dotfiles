@@ -2,19 +2,34 @@ keys:
   # The PGP keys in keys/
   - &admin_alice F63832C3080D6E1AC77EECF80B4245FFE305BC82
   - &admin_dennis 8F79E6CD6434700615867480D11A514F5095BFA8
-  
+  - &admin_richie 29F5017C95D9E60B1B1E8407072B0E0B8312DFE3
+
   # Generate AGE keys from SSH keys with:
   #   nix-shell -p ssh-to-age --run 'ssh some.ssh.wavelens.io cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
   - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
   - &photon age13aqs2mx66dmnyd74sygnwavufv6a4pwnvcqj4ud4l94jk0tjgu6ss57slw
+  - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh
 
+# add new users by executing: sops users/<user>/secrets.yaml
+# then have someone already in the repo run the below
+#
 # update keys by executing: sops updatekeys secrets.yaml
 creation_rules:
+  - path_regex: systems/jeeves-jr/secrets\.yaml$
+    key_groups:
+    - pgp:
+      - *admin_alice
+      - *admin_dennis
+      - *admin_richie
+      age:
+      - *jeeves-jr
+
   - path_regex: systems/palatine-hill/secrets\.yaml$
     key_groups:
     - pgp:
       - *admin_alice
       - *admin_dennis
+      - *admin_richie
       age:
       - *palatine-hill
 
@@ -23,6 +38,7 @@ creation_rules:
     - pgp:
       - *admin_alice
       - *admin_dennis
+      - *admin_richie
       age:
       - *photon
   
@@ -31,6 +47,7 @@ creation_rules:
     - pgp:
       - *admin_alice
       age:
+      - *jeeves-jr
       - *palatine-hill
       - *photon
     
@@ -39,5 +56,15 @@ creation_rules:
     - pgp:
       - *admin_dennis
       age:
+      - *jeeves-jr
+      - *palatine-hill
+      - *photon
+
+  - path_regex: users/richie/secrets\.yaml$
+    key_groups: 
+    - pgp:
+      - *admin_richie
+      age:
+      - *jeeves-jr
       - *palatine-hill
       - *photon

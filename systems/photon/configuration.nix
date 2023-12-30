@@ -2,7 +2,9 @@
 {
   imports = [
     ./banner.nix
+    ./gitea.nix
     ./nginx.nix
+    ./wordpress.nix
   ];
 
   time.timeZone = "Europe/Berlin";
@@ -31,7 +33,6 @@
   };
 
   boot = {
-    filesystem = "ext4";
     useSystemdBoot = true;
   };
 
@@ -41,7 +42,6 @@
     staging = false;
     defaults = {
       email = "info@wavelens.io";
-      postRun = "systemctl restart nginx.service";
       dnsProvider = "rfc2136";
       group = "nginx";
     };
@@ -59,10 +59,19 @@
 
   security.ldap.domainComponent = [ "wavelens" "io" ];
 
+  systemd.services.vaultwarden = {
+    after = [ "postgresql.service" ];
+    requires = [ "postgresql.service" ];
+    serviceConfig = {
+      StateDirectory = lib.mkForce "vaultwarden";
+      EnvironmentFile = [ config.sops.secrets."vaultwarden/smtp-password".path ];
+    };
+  };
+
   services = {
     postgresql = {
       enable = true;
-      recommendedDefaults = true;
+      enableJIT = true;
       upgrade = {
         enable = true;
         stopServices = [
@@ -71,6 +80,23 @@
           "vaultwarden"
         ];
       };
+
+      ensureUsers = map(user: { 
+        name = user;
+        ensureDBOwnership = true;
+      }) [
+        "vaultwarden"
+        "gitea"
+        "nextcloud"
+        "wp_hostoguest"
+      ];
+
+      ensureDatabases = [
+        "vaultwarden"
+        "gitea"
+        "nextcloud"
+        "wp_hostoguest"
+      ];
     };
 
     portunus = {
@@ -108,7 +134,7 @@
           }
           {
             email = "search@wavelens.io";
-            family_name = "-";
+            family_name = "Master";
             given_name = "Search";
             login_name = "search";
             password.from_command = [ "/usr/bin/env" "cat" "/run/secrets/portunus/users/search-password" ];
@@ -125,26 +151,77 @@
 
     vaultwarden = {
       enable = true;
-      configureNginx = false;
-      domain = "bitwarden.wavelens.io";
-      recommendedDefaults = true;
+      dbBackend = "postgresql";
       config = {
-        # TODO
+        DATABASE_URL = lib.mkForce "postgresql:///vaultwarden?host=/run/postgresql";
+        DOMAIN = "https://bitwarden.wavelens.io";
+        DATA_FOLDER = "/var/lib/vaultwarden";
         PUSH_ENABLED = false;
         PUSH_IDENTITY_URI = "https://identity.bitwarden.eu";
         PUSH_RELAY_URI = "https://push.bitwarden.eu";
-        SENDMAIL_COMMAND = "/run/wrappers/bin/sendmail";
-        SMTP_DEBUG = false;
-        SMTP_FROM = "noreply@wavelens.io";
-        SMTP_FROM_NAME = "Wavelens Vault";
+        # SMTP_DEBUG = false;
+        # SMTP_HOST = "crux.uberspace.de";
+        # SMTP_PORT = 587;
+        # SMTP_FROM = "vault@wavelens.io";
+        # SMTP_SECURITY = "starttls";
+        # SMTP_USERNAME = "vault@wavelens.io";
+        # SMTP_FROM_NAME = "Wavelens Vault";
         SHOW_PASSWORD_HINT = false;
         SIGNUPS_ALLOWED = false;
-        USE_SENDMAIL = false;
+        LOG_LEVEL = "warn";
+        PASSWORD_ITERATIONS = 600000;
+        ROCKET_ADDRESS = "127.0.0.1";
+        ROCKET_PORT = 8222;
+        SIGNUPS_VERIFY = false;
+        TRASH_AUTO_DELETE_DAYS = 30;
+        WEBSOCKET_ADDRESS = "127.0.0.1";
+        WEBSOCKET_ENABLED = true;
+        WEBSOCKET_PORT = 8223;
       };
-      dbBackend = "postgresql";
     };
 
-    # TODO: TEMPORAY
+    # TODO: waiting for https://github.com/NixOS/nixpkgs/pull/265783
+    bitwarden-directory-connector-cli = {
+      enable = true;
+      domain = config.services.vaultwarden.config.DOMAIN;
+      ldap = {
+        ad = false;
+        hostname = "auth.wavelens.io";
+        port = 636;
+        rootPath = "dc=wavelens,dc=io";
+        ssl = true;
+        startTls = false;
+        username = "uid=search,ou=users,dc=wavelens,dc=io";
+      };
+      secrets = {
+        bitwarden = {
+          client_path_id = config.sops.secrets."vaultwarden/client-id".path;
+          client_path_secret = config.sops.secrets."vaultwarden/client-secret".path;
+        };
+        ldap = config.sops.secrets."vaultwarden/ldap-password".path;
+      };
+      sync = {
+        creationDateAttribute = "";
+        groups = true;
+        groupFilter = "(cn=vaultwarden-*)";
+        groupNameAttribute = "cn";
+        groupObjectClass = "groupOfNames";
+        groupPath = "ou=groups";
+        largeImport = false;
+        memberAttribute = "member";
+        overwriteExisting = false;
+        removeDisabled = true;
+        revisionDateAttribute = "";
+        useEmailPrefixSuffix = false;
+        userEmailAttribute = "mail";
+        userFilter = "(isMemberOf=cn=vaultwarden-users,ou=groups,dc=wavelens,dc=io)";
+        userObjectClass = "person";
+        userPath = "ou=users";
+        users = true;
+      };
+    };
+
+    # TODO: TEMP -> moving to postgres
     mysql = {
       enable = true;
       package = pkgs.mariadb;
@@ -176,89 +253,6 @@
       ];
     };
 
-    gitea = {
-      enable = true;
-      recommendedDefaults = true;
-      lfs.enable = false;
-      repositoryRoot = "/var/lib/gitea/repositories";
-      database = {
-        createDatabase = false;
-        type = "mysql";
-        name = "web_gitea";
-        user = "web_gitea";
-        passwordFile = config.sops.secrets."gitea/postgres-password".path;
-      };
-
-      ldap = {
-        enable = false;
-        adminGroup = "gitea-admins";
-        userGroup = "user";
-        searchUserPasswordFile = config.sops.secrets."gitea/ldap-password".path;
-      };
-
-      settings = {
-        actions.ENABLED = true;
-        "cron.delete_generated_repository_avatars".ENABLED = true;
-        "cron.repo_health_check".TIMEOUT = "300s";
-        database.LOG_SQL = false;
-        # enable if it is actually useful
-        # federation.ENABLED = true;
-        indexer.REPO_INDEXER_ENABLED = true;
-        log = {
-          LEVEL = "Info";
-          "logger.router.MODE" = "Warn";
-          "logger.xorm.MODE" = "Warn";
-        };
-        mailer = {
-          ENABLED = true;
-          FROM = "gitea@wavelens.io";
-          PROTOCOL = "sendmail";
-          SENDMAIL_PATH = "/run/wrappers/bin/sendmail";
-          SENDMAIL_ARGS = "--";
-        };
-        other.SHOW_FOOTER_VERSION = false;
-        # disabled to prevent us becoming critical infrastructure, might revisit later
-        packages.ENABLED = false;
-        picture = {
-          # this also disables libravatar
-          DISABLE_GRAVATAR = false;
-          ENABLE_FEDERATED_AVATAR = true;
-          GRAVATAR_SOURCE = "libravatar";
-          REPOSITORY_AVATAR_FALLBACK = "random";
-        };
-        repository.DEFAULT_REPO_UNITS = "repo.code,repo.releases,repo.issues,repo.pulls";
-        server = rec {
-          DOMAIN = "git.wavelens.io";
-          ENABLE_GZIP = true;
-          SSH_AUTHORIZED_KEYS_BACKUP = false;
-          SSH_DOMAIN = DOMAIN;
-        };
-        service = {
-          DISABLE_REGISTRATION = true;
-          ENABLE_NOTIFY_MAIL = true;
-          NO_REPLY_ADDRESS = "no_reply@wavelens.io";
-          REGISTER_EMAIL_CONFIRM = true;
-          USER_LOCATION_MAP_URL = "https://www.openstreetmap.org/search?query=";
-        };
-        session = {
-          COOKIE_SECURE = lib.mkForce true;
-          PROVIDER = "db";
-          SAME_SITE = "strict";
-        };
-        "ssh.minimum_key_sizes" = {
-          ECDSA = -1;
-          RSA = 4095;
-        };
-        time.DEFAULT_UI_LOCATION = config.time.timeZone;
-        ui = {
-          DEFAULT_THEME = "arc-green";
-          EXPLORE_PAGING_NUM = 25;
-          FEED_PAGING_NUM = 50;
-          ISSUE_PAGING_NUM = 25;
-        };
-      };
-    };
-
     nextcloud = {
       enable = true;
       package = pkgs.nextcloud27;
@@ -281,28 +275,6 @@
     redis.servers."redis" = {
       enable = true;
       port = 6379;
-    };
-
-    openssh = {
-      extraConfig = ''
-        Match User gitea
-          AllowAgentForwarding no
-          AllowTcpForwarding no
-          PermitTTY no
-          X11Forwarding no
-      '';
-    };
-
-    wordpress = {
-      webserver = "nginx";
-      sites = {
-        "hostoguest.ai".database = {
-          createLocally = false;
-          name = "web_wp_hostoguest";
-          user = "web_wp_hostoguest";
-          passwordFile = config.sops.secrets."wordpress/hostoguest-password".path;
-        };
-      };
     };
 
     staticpage = {
@@ -331,6 +303,10 @@
       "portunus/users/admin-password".owner = "portunus";
       "portunus/users/search-password".owner = "portunus";
       "wordpress/hostoguest-password".owner = "wordpress";
+      "vaultwarden/smtp-password".owner = "vaultwarden";
+      "vaultwarden/ldap-password".owner = "vaultwarden";
+      "vaultwarden/client-id".owner = "vaultwarden";
+      "vaultwarden/client-secret".owner = "vaultwarden";
     };
   };
 

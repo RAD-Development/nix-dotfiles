@@ -2,10 +2,11 @@
 {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
-  networking.hostId = "dc2f9781";
+  networking.hostId = "1beb3026";
+
   boot = {
-    zfs.extraPools = [ "ZFS-primary" ];
-    loader.grub.device = "/dev/sda";
+    # TODO add pool name
+    zfs.extraPools = [ "Main" ];
     filesystem = "zfs";
     useSystemdBoot = true;
   };
@@ -22,7 +23,7 @@
           max-size = "10m";
           max-file = "5";
         };
-        data-root = "/var/lib/docker2";
+        data-root = "/var/lib/docker";
       };
       storageDriver = "overlay2";
     };
@@ -38,20 +39,9 @@
   ];
 
   services = {
-    samba.enable = true;
     nfs.server.enable = true;
 
-    haproxy = {
-      enable = true;
-      config = builtins.readFile ./conf/haproxy.conf;
-    };
-
-    openssh.ports = [ 666 ];
-    autopull = {
-      enable = true;
-      path = /root/dotfiles;
-      ssh-key = "/root/.ssh/id_ed25519_ghdeploy";
-    };
+    openssh.ports = [ 352 ];
     smartd.enable = true;
     zfs = {
       trim.enable = true;

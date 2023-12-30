@@ -15,8 +15,8 @@ let
       ];
     in
     map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
-
-  httpsListen =
+      
+  httpsListen = 
     let
       listen = [
         {
@@ -33,7 +33,7 @@ let
       ];
     in
     map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
-
+  
   defaultListen = httpListen ++ httpsListen;
 in
 {
@@ -66,9 +66,13 @@ in
         };
       };
 
-      "bitwarden.wavelens.io" = {
+      "vault.wavelens.io" = {
         forceSSL = true;
         enableACME = true;
+        listen = defaultListen;
+        locations = {
+          "/".proxyPass = "http://127.0.0.1:${toString config.services.vaultwarden.config.ROCKET_PORT}";
+        };
       };
 
       "git.wavelens.io" = {

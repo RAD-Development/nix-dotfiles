@@ -3,7 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    
+    patch-bitwarden-directory-connector.url = "github:Silver-Golden/nixpkgs/bitwarden-directory-connector_pkgs";
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    flake-utils.url = "github:numtide/flake-utils";
 
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
@@ -34,7 +38,7 @@
     };
   };
 
-  outputs = { nixpkgs, nixos-hardware, nixos-modules, home-manager, sops-nix, pre-commit-hooks, flake-utils, ... }:
+  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, pre-commit-hooks, flake-utils, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
@@ -69,12 +73,20 @@
             , users ? [ "dennis" ]
             ,
             }: lib.nixosSystem {
-              inherit system;
-
+              inherit system lib;
+              
               modules = [
+                {
+                  nixpkgs.overlays = [
+                    (_self: super: {
+                      bitwarden-directory-connector-cli = inputs.patch-bitwarden-directory-connector.legacyPackages.${system}.bitwarden-directory-connector-cli;
+                    })
+                  ];
+                }
                 nixos-modules.nixosModule
                 home-manager.nixosModules.home-manager
                 sops-nix.nixosModules.sops
+                "${inputs.patch-bitwarden-directory-connector}/nixos/modules/services/security/bitwarden-directory-connector-cli.nix"
                 ./systems/programs.nix
                 ./systems/configuration.nix
                 ./systems/${hostname}/hardware.nix
@@ -97,11 +109,12 @@
             };
         in
         {
-          photon = constructSystem {
-            hostname = "photon";
+          jeeves-jr = constructSystem {
+            hostname = "jeeves-jr";
             users = [
               "alice"
               "dennis"
+              "richie"
             ];
           };
 
@@ -110,10 +123,19 @@
             users = [
               "alice"
               "dennis"
+              "richie"
+            ];
+          };
+
+          photon = constructSystem {
+            hostname = "photon";
+            users = [
+              "alice"
+              "dennis"
+              "richie"
             ];
           };
         };
-
         checks = flake-utils.lib.eachDefaultSystem
           (system:
             {
@@ -125,7 +147,7 @@
           };
             }
           );
-        devShell = lib.mkMerge lib.mapAttrs
+      devShell = lib.mapAttrs
         (system: sopsPkgs:
           with nixpkgs.legacyPackages.${system};
           mkShell {
@@ -137,5 +159,5 @@
           }
         )
         sops-nix.packages;
-      };
+    };
 }

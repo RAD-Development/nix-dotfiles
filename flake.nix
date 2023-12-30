@@ -53,6 +53,12 @@
                 language = "system";
                 files = "\\.nix";
               }
+              {
+                id = "nix-flake-check";
+                entry = "nix flake check";
+                language = "system";
+                files = "\\.nix";
+              }
             ];
           }
         ];

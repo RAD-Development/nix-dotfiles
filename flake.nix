@@ -34,7 +34,7 @@
     nix-pre-commit.url = "github:jmgilman/nix-pre-commit";
   };
 
-  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, nix-pre-commit, flake-utils, ... }@inputs:
+  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, nix-pre-commit, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;

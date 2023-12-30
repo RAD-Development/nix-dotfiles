@@ -31,11 +31,6 @@
       # below doesnt seem to work as expected...
       # inputs.nixpkgs.follow = "nixpkgs";
     };
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      # below doesnt seem to work as expected...
-      # inputs.nixpkgs.follow = "nixpkgs";
-    };
   };
 
   outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, pre-commit-hooks, flake-utils, ... }@inputs:

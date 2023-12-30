@@ -180,45 +180,45 @@
     };
 
     # TODO: waiting for https://github.com/NixOS/nixpkgs/pull/265783
-    # bitwarden-directory-connector = {
-    #   enable = true;
-    #   inherit (config.services.vaultwarden) domain;
-    #   ldap = {
-    #     ad = false;
-    #     hostname = "auth.wavelens.io";
-    #     port = 636;
-    #     rootPath = "dc=wavelens,dc=io";
-    #     ssl = true;
-    #     startTls = false;
-    #     username = "uid=search,ou=users,dc=wavelens,dc=io";
-    #   };
-    #   secrets = {
-    #     bitwarden = {
-    #       client_path_id = config.sops.secrets."vaultwarden/client-id".path;
-    #       client_path_secret = config.sops.secrets."vaultwarden/client-secret".path;
-    #     };
-    #     ldap = config.sops.secrets."vaultwarden/ldap-password".path;
-    #   };
-    #   sync = {
-    #     creationDateAttribute = "";
-    #     groups = true;
-    #     groupFilter = "(cn=vaultwarden-*)";
-    #     groupNameAttribute = "cn";
-    #     groupObjectClass = "groupOfNames";
-    #     groupPath = "ou=groups";
-    #     largeImport = false;
-    #     memberAttribute = "member";
-    #     overwriteExisting = false;
-    #     removeDisabled = true;
-    #     revisionDateAttribute = "";
-    #     useEmailPrefixSuffix = false;
-    #     userEmailAttribute = "mail";
-    #     userFilter = "(isMemberOf=cn=vaultwarden-users,ou=groups,dc=wavelens,dc=io)";
-    #     userObjectClass = "person";
-    #     userPath = "ou=users";
-    #     users = true;
-    #   };
-    # };
+    bitwarden-directory-connector-cli = {
+      enable = true;
+      domain = config.services.vaultwarden.config.DOMAIN;
+      ldap = {
+        ad = false;
+        hostname = "auth.wavelens.io";
+        port = 636;
+        rootPath = "dc=wavelens,dc=io";
+        ssl = true;
+        startTls = false;
+        username = "uid=search,ou=users,dc=wavelens,dc=io";
+      };
+      secrets = {
+        bitwarden = {
+          client_path_id = config.sops.secrets."vaultwarden/client-id".path;
+          client_path_secret = config.sops.secrets."vaultwarden/client-secret".path;
+        };
+        ldap = config.sops.secrets."vaultwarden/ldap-password".path;
+      };
+      sync = {
+        creationDateAttribute = "";
+        groups = true;
+        groupFilter = "(cn=vaultwarden-*)";
+        groupNameAttribute = "cn";
+        groupObjectClass = "groupOfNames";
+        groupPath = "ou=groups";
+        largeImport = false;
+        memberAttribute = "member";
+        overwriteExisting = false;
+        removeDisabled = true;
+        revisionDateAttribute = "";
+        useEmailPrefixSuffix = false;
+        userEmailAttribute = "mail";
+        userFilter = "(isMemberOf=cn=vaultwarden-users,ou=groups,dc=wavelens,dc=io)";
+        userObjectClass = "person";
+        userPath = "ou=users";
+        users = true;
+      };
+    };
 
     # TODO: TEMP -> moving to postgres
     mysql = {
@@ -316,6 +316,8 @@
       "wordpress/hostoguest-password".owner = "wordpress";
       "vaultwarden/smtp-password".owner = "vaultwarden";
       "vaultwarden/ldap-password".owner = "vaultwarden";
+      "vaultwarden/client-id".owner = "vaultwarden";
+      "vaultwarden/client-secret".owner = "vaultwarden";
     };
   };
 

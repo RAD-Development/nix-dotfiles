@@ -3,7 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    
+    patch-bitwarden-directory-connector.url = "github:Silver-Golden/nixpkgs/bitwarden-directory-connector_pkgs";
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    flake-utils.url = "github:numtide/flake-utils";
 
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
@@ -24,7 +28,7 @@
     };
   };
 
-  outputs = { nixpkgs, nixos-hardware, nixos-modules, home-manager, sops-nix, ... }:
+  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
@@ -41,18 +45,19 @@
             , users ? [ "dennis" ]
             ,
             }: lib.nixosSystem {
-              inherit system;
-
+              inherit system lib;
+              
               modules = [
                 nixos-modules.nixosModule
                 home-manager.nixosModules.home-manager
                 sops-nix.nixosModules.sops
+                { nixpkgs = import ./overlays { inherit inputs system; }; }
                 ./systems/programs.nix
                 ./systems/configuration.nix
                 ./systems/${hostname}/hardware.nix
                 ./systems/${hostname}/configuration.nix
                 { config.networking.hostName = "${hostname}"; }
-              ] ++ modules ++ fileList "modules"
+              ] ++ modules ++ fileList "modules" ++ fileList "patches/modules"
               ++ map
                 (user: { config, lib, pkgs, ... }@args: {
                   users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
@@ -72,27 +77,27 @@
           jeeves-jr = constructSystem {
             hostname = "jeeves-jr";
             users = [
-              "richie"
               "alice"
               "dennis"
+              "richie"
             ];
           };
 
           palatine-hill = constructSystem {
             hostname = "palatine-hill";
             users = [
-              "richie"
               "alice"
               "dennis"
+              "richie"
             ];
           };
 
           photon = constructSystem {
             hostname = "photon";
             users = [
-              "richie"
               "alice"
               "dennis"
+              "richie"
             ];
           };
         };

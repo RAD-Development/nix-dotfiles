@@ -28,7 +28,7 @@ in
         filter = "apache-nohome";
         action = ''iptables-multiport[name=HTTP, port="http,https"]'';
         logpath = "/var/log/httpd/error_log*";
-        backend = "auto";
+        backend = "systemd";
         findtime = 600;
         bantime  = 600;
         maxretry = 5;

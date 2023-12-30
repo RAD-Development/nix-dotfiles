@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    
+
     patch-bitwarden-directory-connector.url = "github:Silver-Golden/nixpkgs/bitwarden-directory-connector_pkgs";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -26,14 +26,15 @@
         nixpkgs-stable.follows = "nixpkgs";
       };
     };
-    pre-commit-hooks ={
-      url = "github:cachix/pre-commit-hooks.nix";
-      # below doesnt seem to work as expected...
-      # inputs.nixpkgs.follow = "nixpkgs";
-    };
+    # pre-commit-hooks ={
+    #   url = "github:cachix/pre-commit-hooks.nix";
+    #   # below doesnt seem to work as expected...
+    #   # inputs.nixpkgs.follow = "nixpkgs";
+    # };
+    nix-pre-commit.url = "github:jmgilman/nix-pre-commit";
   };
 
-  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, pre-commit-hooks, flake-utils, ... }@inputs:
+  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, nix-pre-commit, flake-utils, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
@@ -41,21 +42,21 @@
       fileList = dir: map (file: ./. + "/${dir}/${file}") (ls dir);
 
 
-        config = {
-          repos = [
-            {
-              repo = "local";
-              hooks = [
-                {
-                  id = "nixpkgs-fmt";
-                  entry = "${nixpkgs.nixpkgs-fmt}/bin/nixpkgs-fmt";
-                  language = "system";
-                  files = "\\.nix";
-                }
-              ];
-            }
-          ];
-        };
+      config = {
+        repos = [
+          {
+            repo = "local";
+            hooks = [
+              {
+                id = "nixpkgs-fmt";
+                entry = "${nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
+                language = "system";
+                files = "\\.nix";
+              }
+            ];
+          }
+        ];
+      };
     in
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
@@ -69,7 +70,7 @@
             ,
             }: lib.nixosSystem {
               inherit system lib;
-              
+
               modules = [
                 {
                   nixpkgs.overlays = [
@@ -131,17 +132,6 @@
             ];
           };
         };
-        checks = flake-utils.lib.eachDefaultSystem
-          (system:
-            {
-            pre-commit-check = pre-commit-hooks.lib.x86_64-linux.run {
-            src = ./.;
-            hooks = {
-              nixpkgs-fmt.enable = true;
-            };
-          };
-            }
-          );
       devShell = lib.mapAttrs
         (system: sopsPkgs:
           with nixpkgs.legacyPackages.${system};
@@ -151,6 +141,9 @@
               apacheHttpd
               sopsPkgs.sops-import-keys-hook
             ];
+            shellHook = (nix-pre-commit.lib.${system}.mkConfig {
+              inherit pkgs config;
+            }).shellHook;
           }
         )
         sops-nix.packages;

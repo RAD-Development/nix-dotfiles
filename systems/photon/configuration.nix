@@ -4,6 +4,7 @@
     ./banner.nix
     ./gitea.nix
     ./nginx.nix
+    ./wordpress.nix
   ];
 
   time.timeZone = "Europe/Berlin";
@@ -274,18 +275,6 @@
     redis.servers."redis" = {
       enable = true;
       port = 6379;
-    };
-
-    wordpress = {
-      webserver = "nginx";
-      sites = {
-        "hostoguest.ai".database = {
-          createLocally = false;
-          name = "web_wp_hostoguest";
-          user = "web_wp_hostoguest";
-          passwordFile = config.sops.secrets."wordpress/hostoguest-password".path;
-        };
-      };
     };
 
     staticpage = {

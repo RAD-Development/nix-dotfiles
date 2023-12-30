@@ -48,16 +48,23 @@
               inherit system lib;
               
               modules = [
+                {
+                  nixpkgs.overlays = [
+                    (_self: super: {
+                      bitwarden-directory-connector-cli = inputs.patch-bitwarden-directory-connector.legacyPackages.${system}.bitwarden-directory-connector-cli;
+                    })
+                  ];
+                }
                 nixos-modules.nixosModule
                 home-manager.nixosModules.home-manager
                 sops-nix.nixosModules.sops
-                { nixpkgs = import ./overlays { inherit inputs system; }; }
+                "${inputs.patch-bitwarden-directory-connector}/nixos/modules/services/security/bitwarden-directory-connector-cli.nix"
                 ./systems/programs.nix
                 ./systems/configuration.nix
                 ./systems/${hostname}/hardware.nix
                 ./systems/${hostname}/configuration.nix
                 { config.networking.hostName = "${hostname}"; }
-              ] ++ modules ++ fileList "modules" ++ fileList "patches/modules"
+              ] ++ modules ++ fileList "modules"
               ++ map
                 (user: { config, lib, pkgs, ... }@args: {
                   users.users.${user} = import ./users/${user} (args // { name = "${user}"; });

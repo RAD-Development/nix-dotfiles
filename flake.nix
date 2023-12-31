@@ -26,12 +26,13 @@
         nixpkgs-stable.follows = "nixpkgs";
       };
     };
-    # pre-commit-hooks ={
-    #   url = "github:cachix/pre-commit-hooks.nix";
-    #   # below doesnt seem to work as expected...
-    #   # inputs.nixpkgs.follow = "nixpkgs";
-    # };
-    nix-pre-commit.url = "github:jmgilman/nix-pre-commit";
+    nix-pre-commit = {
+      url = "github:jmgilman/nix-pre-commit";
+      inputs = {
+        nixpkgs.follow = "nixpkgs";
+        flake-utils.follow = "flake-utils";
+      };
+    };
   };
 
   outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, nix-pre-commit, ... }@inputs:

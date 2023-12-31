@@ -123,6 +123,10 @@
             members = [ "search" ];
             permissions.ldap.can_read = true;
           }
+          {
+            long_name = "Vaultwarden Users";
+            name = "vaultwarden-users";
+          }
         ];
 
         users = [
@@ -180,7 +184,6 @@
       };
     };
 
-    # TODO: waiting for https://github.com/NixOS/nixpkgs/pull/265783
     bitwarden-directory-connector-cli = {
       enable = true;
       domain = config.services.vaultwarden.config.DOMAIN;
@@ -193,6 +196,7 @@
         startTls = false;
         username = "uid=search,ou=users,dc=wavelens,dc=io";
       };
+
       secrets = {
         bitwarden = {
           client_path_id = config.sops.secrets."vaultwarden/client-id".path;
@@ -200,6 +204,7 @@
         };
         ldap = config.sops.secrets."vaultwarden/ldap-password".path;
       };
+
       sync = {
         creationDateAttribute = "";
         groups = true;
@@ -209,7 +214,7 @@
         groupPath = "ou=groups";
         largeImport = false;
         memberAttribute = "member";
-        overwriteExisting = false;
+        overwriteExisting = true;
         removeDisabled = true;
         revisionDateAttribute = "";
         useEmailPrefixSuffix = false;
@@ -225,32 +230,6 @@
     mysql = {
       enable = true;
       package = pkgs.mariadb;
-      ensureUsers = [
-        # {
-        #   name = "nextcloud";
-        #   ensurePermissions = {
-        #     "web_nextcloud.*" = "ALL PRIVILEGES";
-        #   };
-
-        # }
-        # {
-        #   name = "gitea";
-        #   ensurePermissions = {
-        #     "web_gitea.*" = "ALL PRIVILEGES";
-        #   };
-        # }
-        # {
-        #   name = "web_wp_hostoguest";
-        #   ensurePermissions = {
-        #     "web_wp_hostoguest.*" = "ALL PRIVILEGES";
-        #   };
-        # }
-      ];
-      ensureDatabases = [
-        # "web_nextcloud"
-        # "web_gitea"
-        # "web_wp_hostoguest"
-      ];
     };
 
     nextcloud = {

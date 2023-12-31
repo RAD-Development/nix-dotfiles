@@ -20,14 +20,10 @@
       userGroup = "gitea-users";
       searchUserPasswordFile = config.sops.secrets."gitea/ldap-password".path;
       options = {
-        name = "auto-ldap";
         security-protocol = "LDAPS";
         host = "auth.wavelens.io";
         port = 636;
-        bind-dn = "cn=search,dc=wavelens,dc=io";
         user-search-base = "ou=users,dc=wavelens,dc=io";
-        user-filter = "(&(uid=%s)(isMemberOf=cn=gitea-users,ou=groups,dc=wavelens,dc=io))";
-        admin-filter = "(memberOf=cn=gitea-admins,ou=groups,dc=wavelens,dc=io)";
         username-attribute = "uid";
         surname-attribute = "sn";
         email-attribute = "mail";

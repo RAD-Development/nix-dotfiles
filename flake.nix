@@ -7,7 +7,15 @@
     patch-bitwarden-directory-connector.url = "github:Silver-Golden/nixpkgs/bitwarden-directory-connector_pkgs";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    flake-utils.url = "github:numtide/flake-utils";
+
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
+
+    systems = {
+      url = "github:nix-systems/default";
+    };
 
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
@@ -59,6 +67,7 @@
                 entry = "nix flake check";
                 language = "system";
                 files = "\\.nix";
+                pass_filenames = false;
               }
             ];
           }

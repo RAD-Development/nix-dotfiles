@@ -47,11 +47,6 @@
     };
 
     openssh.ports = [ 666 ];
-    autopull = {
-      enable = true;
-      path = /root/dotfiles;
-      ssh-key = "/root/.ssh/id_ed25519_ghdeploy";
-    };
     smartd.enable = true;
     zfs = {
       trim.enable = true;

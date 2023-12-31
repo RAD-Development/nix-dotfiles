@@ -5,5 +5,3 @@
 *.retry
 result
 result-*
-
-/.pre-commit-config.yaml

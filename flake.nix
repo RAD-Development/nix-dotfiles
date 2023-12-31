@@ -29,8 +29,8 @@
     nix-pre-commit = {
       url = "github:jmgilman/nix-pre-commit";
       inputs = {
-        nixpkgs.follow = "nixpkgs";
-        flake-utils.follow = "flake-utils";
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
       };
     };
   };

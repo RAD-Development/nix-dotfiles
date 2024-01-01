@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, config, ... }:
 {
   i18n = {
     defaultLocale = "en_US.utf8";
@@ -17,16 +17,18 @@
     useUserPackages = true;
   };
 
+  users.defaultUserShell = pkgs.zsh;
+
   networking = {
     firewall = {
       enable = lib.mkDefault true;
-      allowedTCPPorts = [ 22 ];
+      allowedTCPPorts = [ ];
     };
   };
 
   services = {
     fail2ban = {
-      enable = lib.mkDefault true;
+      enable = lib.mkIf config.networking.firewall.enable (lib.mkDefault true);
       recommendedDefaults = true;
     };
 

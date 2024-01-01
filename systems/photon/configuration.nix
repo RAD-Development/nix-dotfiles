@@ -84,10 +84,11 @@
         ];
       };
 
-      ensureUsers = map(user: { 
-        name = user;
-        ensureDBOwnership = true;
-      }) [
+      ensureUsers = map
+        (user: {
+          name = user;
+          ensureDBOwnership = true;
+        }) [
         "vaultwarden"
         "gitea"
         "nextcloud"
@@ -134,13 +135,14 @@
 
         users = [
           {
+            email = "info@wavelens.io";
             family_name = "Administrator";
             given_name = "Initial";
             login_name = "admin";
             password.from_command = [ "/usr/bin/env" "cat" "/run/secrets/portunus/users/admin-password" ];
           }
           {
-            email = "search@wavelens.io";
+            email = "noreply@wavelens.io";
             family_name = "Master";
             given_name = "Search";
             login_name = "search";
@@ -237,7 +239,7 @@
 
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud27;
+      package = pkgs.nextcloud28;
       recommendedDefaults = true;
       configureImaginary = true;
       configureRedis = true;
@@ -266,7 +268,7 @@
           root = "wavelens.io";
           domain = "wavelens.io";
         };
-        
+
         "static" = {
           root = "static.wavelens.io";
           subdomain = "static";

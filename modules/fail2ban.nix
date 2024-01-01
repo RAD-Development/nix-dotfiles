@@ -30,9 +30,10 @@ in
         logpath = "/var/log/httpd/error_log*";
         backend = "systemd";
         findtime = 600;
-        bantime  = 600;
+        bantime = 600;
         maxretry = 5;
       };
+
       dovecot = {
         settings = {
           filter = "dovecot[mode=aggressive]";

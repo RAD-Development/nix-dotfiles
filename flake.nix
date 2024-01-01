@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    
+
     patch-bitwarden-directory-connector.url = "github:Silver-Golden/nixpkgs/bitwarden-directory-connector_pkgs";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -46,7 +46,7 @@
             ,
             }: lib.nixosSystem {
               inherit system lib;
-              
+
               modules = [
                 {
                   nixpkgs.overlays = [

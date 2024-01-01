@@ -20,12 +20,14 @@
         3306
       ];
     };
+
     interfaces = {
       ens3.ipv6.addresses = [{
         address = "2a03:4000:57:b96::1";
         prefixLength = 64;
       }];
     };
+
     defaultGateway6 = {
       address = "fe80::1";
       interface = "ens3";
@@ -50,6 +52,7 @@
       "hostoguest.ai" = {
         email = "office@hostoguest.ai";
       };
+
       "app.hostoguest.ai" = {
         email = "office@hostoguest.ai";
       };
@@ -263,6 +266,7 @@
           root = "wavelens.io";
           domain = "wavelens.io";
         };
+        
         "static" = {
           root = "static.wavelens.io";
           subdomain = "static";

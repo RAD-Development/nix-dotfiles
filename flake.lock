@@ -61,11 +61,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1703899776,
-        "narHash": "sha256-I1hE5u3VR/1h2ZM0Q4B1L1BccLFGNfMPPQyy3CRLFqs=",
+        "lastModified": 1703993012,
+        "narHash": "sha256-7sv9Rhgp+qJgYiuYGkqdgGwHUDoBWyVg+c1WQRMzYqw=",
         "owner": "SuperSandro2000",
         "repo": "nixos-modules",
-        "rev": "2e9865e82f060907d4be682a514bdf0af86ad25e",
+        "rev": "f7528ff523c545975df483b18a188e83102a44ae",
         "type": "github"
       },
       "original": {
@@ -127,11 +127,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1703387502,
-        "narHash": "sha256-JnWuQmyanPtF8c5yAEFXVWzaIlMxA3EAZCh8XNvnVqE=",
+        "lastModified": 1703991717,
+        "narHash": "sha256-XfBg2dmDJXPQEB8EdNBnzybvnhswaiAkUeeDj7fa/hQ=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "e523e89763ff45f0a6cf15bcb1092636b1da9ed3",
+        "rev": "cfdbaf68d00bc2f9e071f17ae77be4b27ff72fa6",
         "type": "github"
       },
       "original": {

@@ -50,6 +50,7 @@
           type = "ecdsa";
         }
       ];
+
       settings = {
         ClientAliveCountMax = 10;
         Compression = "NO";

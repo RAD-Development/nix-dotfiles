@@ -85,6 +85,11 @@
         ];
       };
     };
+    autopull = {
+      enable = true;
+      path = /root/dotfiles;
+      ssh-key = "/root/.ssh/id_ed25519_ghdeploy";
+    };
   };
 
   nixpkgs.config.allowUnfree = true;

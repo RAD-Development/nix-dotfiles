@@ -41,11 +41,6 @@
     samba.enable = true;
     nfs.server.enable = true;
 
-    haproxy = {
-      enable = true;
-      config = builtins.readFile ./conf/haproxy.conf;
-    };
-
     openssh.ports = [ 666 ];
     smartd.enable = true;
     zfs = {

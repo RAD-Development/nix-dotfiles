@@ -205,7 +205,7 @@
           client_path_id = config.sops.secrets."vaultwarden/client-id".path;
           client_path_secret = config.sops.secrets."vaultwarden/client-secret".path;
         };
-        ldap = config.sops.secrets."vaultwarden/ldap-password".path;
+        ldap = config.sops.secrets."portunus/ldap-password".path;
       };
 
       sync = {
@@ -233,6 +233,20 @@
     mysql = {
       enable = true;
       package = pkgs.mariadb;
+
+      ensureDatabases = [
+        "web_wp_hostoguest"
+        "bookstack"
+      ];
+
+      ensureUsers = [
+        {
+          name = "bookstack";
+          ensurePermissions = {
+            "bookstack.*" = "ALL PRIVILEGES";
+          };
+        }
+      ];
     };
 
     nextcloud = {
@@ -374,7 +388,6 @@
       "bookstack/mysql-password".owner = "bookstack";
       "bookstack/ldap-password".owner = "bookstack";
       "gitea/postgres-password".owner = "gitea";
-      "gitea/ldap-password".owner = "gitea";
       "nextcloud/postgres-password".owner = "nextcloud";
       "nextcloud/admin-password".owner = "nextcloud";
       "nextcloud/ldap-password".owner = "nextcloud";

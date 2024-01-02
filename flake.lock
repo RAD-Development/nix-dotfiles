@@ -34,7 +34,9 @@
     },
     "flake-utils": {
       "inputs": {
-        "systems": "systems"
+        "systems": [
+          "systems"
+        ]
       },
       "locked": {
         "lastModified": 1701680307,
@@ -70,6 +72,7 @@
         "type": "github"
       }
     },
+
     "mailserver": {
       "inputs": {
         "blobs": "blobs",
@@ -99,6 +102,29 @@
         "owner": "simple-nixos-mailserver",
         "repo": "nixos-mailserver",
         "type": "gitlab"
+
+    "nix-pre-commit": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1653259102,
+        "narHash": "sha256-XfCEu4zur/N2Dk4v8wFiQAgJ7bgNqPqwWp1vBXkeczM=",
+        "owner": "jmgilman",
+        "repo": "nix-pre-commit",
+        "rev": "6a99b2711c7eac9960939d8eb91e84322b22d50c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jmgilman",
+        "repo": "nix-pre-commit",
+        "type": "github"
+
       }
     },
     "nixos-hardware": {
@@ -174,11 +200,13 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "mailserver": "mailserver",
+        "nix-pre-commit": "nix-pre-commit",
         "nixos-hardware": "nixos-hardware",
         "nixos-modules": "nixos-modules",
         "nixpkgs": "nixpkgs",
         "patch-bitwarden-directory-connector": "patch-bitwarden-directory-connector",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "systems": "systems"
       }
     },
     "sops-nix": {

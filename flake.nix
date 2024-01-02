@@ -7,7 +7,15 @@
     patch-bitwarden-directory-connector.url = "github:Silver-Golden/nixpkgs/bitwarden-directory-connector_pkgs";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    flake-utils.url = "github:numtide/flake-utils";
+
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
+
+    systems = {
+      url = "github:nix-systems/default";
+    };
 
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
@@ -36,16 +44,48 @@
         nixpkgs-stable.follows = "nixpkgs";
       };
     };
+    nix-pre-commit = {
+      url = "github:jmgilman/nix-pre-commit";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
 
-  outputs = { nixpkgs, mailserver, nixos-modules, home-manager, sops-nix, ... }@inputs:
+  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, mailserver, nix-pre-commit, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
       ls = dir: lib.attrNames (builtins.readDir (src + "/${dir}"));
       fileList = dir: map (file: ./. + "/${dir}/${file}") (ls dir);
+
+
+      config = {
+        repos = [
+          {
+            repo = "local";
+            hooks = [
+              {
+                id = "nixpkgs-fmt";
+                entry = "${nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
+                language = "system";
+                files = "\\.nix";
+              }
+              {
+                id = "nix-flake-check";
+                entry = "nix flake check";
+                language = "system";
+                files = "\\.nix";
+                pass_filenames = false;
+              }
+            ];
+          }
+        ];
+      };
     in
     {
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
       nixosConfigurations =
         let
           constructSystem =
@@ -119,7 +159,6 @@
             ];
           };
         };
-
       devShell = lib.mapAttrs
         (system: sopsPkgs:
           with nixpkgs.legacyPackages.${system};
@@ -129,6 +168,9 @@
               apacheHttpd
               sopsPkgs.sops-import-keys-hook
             ];
+            shellHook = (nix-pre-commit.lib.${system}.mkConfig {
+              inherit pkgs config;
+            }).shellHook;
           }
         )
         sops-nix.packages;

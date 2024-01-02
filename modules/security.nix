@@ -20,7 +20,7 @@
     };
 
     networking.firewall = lib.mkIf config.services.openssh.enable {
-      allowedTCPPorts = [ config.services.openssh.port ];
+      allowedTCPPorts = config.services.openssh.ports;
     };
   };
 }

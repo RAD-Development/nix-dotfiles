@@ -17,10 +17,10 @@
       enable = true;
       adminGroup = "gitea-admins";
       userGroup = "gitea-users";
-      searchUserPasswordFile = config.sops.secrets."gitea/ldap-password".path;
+      searchUserPasswordFile = config.sops.secrets."portunus/ldap-password".path;
       options = {
         security-protocol = "LDAPS";
-        host = "auth.wavelens.io";
+        host = config.services.portunus.domain;
         port = 636;
         user-search-base = "ou=users,dc=wavelens,dc=io";
         username-attribute = "uid";

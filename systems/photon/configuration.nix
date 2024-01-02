@@ -92,14 +92,12 @@
         "vaultwarden"
         "gitea"
         "nextcloud"
-        "wp_hostoguest"
       ];
 
       ensureDatabases = [
         "vaultwarden"
         "gitea"
         "nextcloud"
-        "wp_hostoguest"
       ];
     };
 
@@ -139,14 +137,14 @@
             family_name = "Administrator";
             given_name = "Initial";
             login_name = "admin";
-            password.from_command = [ "/usr/bin/env" "cat" "/run/secrets/portunus/users/admin-password" ];
+            password.from_command = [ "/usr/bin/env" "cat" "${config.sops.secrets."portunus/users/admin-password".path}" ];
           }
           {
             email = "noreply@wavelens.io";
             family_name = "Master";
             given_name = "Search";
             login_name = "search";
-            password.from_command = [ "/usr/bin/env" "cat" "/run/secrets/portunus/users/search-password" ];
+            password.from_command = [ "/usr/bin/env" "cat" "${config.sops.secrets."portunus/ldap-password".path}" ];
           }
         ];
       };
@@ -194,7 +192,7 @@
       domain = config.services.vaultwarden.config.DOMAIN;
       ldap = {
         ad = false;
-        hostname = "auth.wavelens.io";
+        hostname = config.services.portunus.domain;
         port = 636;
         rootPath = "dc=wavelens,dc=io";
         ssl = true;
@@ -207,7 +205,7 @@
           client_path_id = config.sops.secrets."vaultwarden/client-id".path;
           client_path_secret = config.sops.secrets."vaultwarden/client-secret".path;
         };
-        ldap = config.sops.secrets."vaultwarden/ldap-password".path;
+        ldap = config.sops.secrets."portunus/ldap-password".path;
       };
 
       sync = {
@@ -235,6 +233,20 @@
     mysql = {
       enable = true;
       package = pkgs.mariadb;
+
+      ensureDatabases = [
+        "web_wp_hostoguest"
+        "bookstack"
+      ];
+
+      ensureUsers = [
+        {
+          name = "bookstack";
+          ensurePermissions = {
+            "bookstack.*" = "ALL PRIVILEGES";
+          };
+        }
+      ];
     };
 
     nextcloud = {
@@ -248,17 +260,29 @@
       hostName = "cloud.wavelens.io";
       database.createLocally = false;
       config = {
-        dbtype = "mysql";
-        dbname = "web_nextcloud";
-        dbuser = "web_nextcloud";
+        dbtype = "pgsql";
+        dbname = "nextcloud";
+        dbuser = "nextcloud";
         dbpassFile = config.sops.secrets."nextcloud/postgres-password".path;
         adminpassFile = config.sops.secrets."nextcloud/admin-password".path;
       };
     };
 
-    redis.servers."redis" = {
-      enable = true;
-      port = 6379;
+    redis.servers = {
+      "redis" = {
+        enable = true;
+        port = 6379;
+      };
+
+      "rspamd" = {
+        enable = true;
+        port = 6380;
+      };
+
+      "bookstack" = {
+        enable = true;
+        port = 6381;
+      };
     };
 
     staticpage = {
@@ -276,20 +300,100 @@
         };
       };
     };
+
+    rspamd = {
+      enable = true;
+
+      locals = {
+        "groups.conf".text = ''
+          symbols {
+            "FORGED_RECIPIENTS" { weight = 0; }
+          }'';
+      };
+
+      extraConfig = ''
+        actions {
+          reject = null;
+          add_header = 6;
+          greylist = 4;
+        }
+      '';
+    };
+
+    # TODO
+    # rspamd-trainer = {
+    #   enable = true;
+    # };
+
+    bookstack = {
+      enable = true;
+      appKeyFile = config.sops.secrets."bookstack/app-key".path;
+      appURL = "https://${config.services.bookstack.hostname}";
+      hostname = "wiki.wavelens.io";
+
+      database = {
+        user = "bookstack";
+        passwordFile = config.sops.secrets."bookstack/mysql-password".path;
+      };
+
+      config = {
+        CHACHE_DRIVER = "redis";
+        SESSION_DRIVER = "redis";
+        REDIS_SERVER = "127.0.0.1:${toString config.services.redis.servers."bookstack".port}:0";
+
+        AUTH_METHOD = "ldap";
+        LDAP_BASE_DN = "ou=users,dc=wavelens,dc=io";
+        LDAP_DISPLAY_NAME_ATTRIBUTE = "cn";
+        LDAP_DN = "uid=search,ou=users,dc=wavelens,dc=io";
+        LDAP_ID_ATTRIBUT = "uid";
+        LDAP_MAIL_ATTRIBUTE = "mail";
+        LDAP_PASS = "${if (lib.pathExists config.sops.secrets."portunus/ldap-password".path) then config.sops.secrets."portunus/ldap-password".path else ""}";
+        LDAP_SERVER = "${config.services.portunus.domain}:636";
+        LDAP_USER_FILTER = "(isMemberOf=cn=vaultwarden-users,ou=groups,dc=wavelens,dc=io)";
+        LDAP_VERSION = 3;
+      };
+    };
+  };
+
+  mailserver = {
+    enable = true;
+    fqdn = "mail.wavelens.io";
+    domains = [ "wavelens.io" ];
+    certificateScheme = "acme-nginx";
+
+    fullTextSearch = {
+      enable = true;
+      autoIndex = true;
+      indexAttachments = true;
+      enforced = "body";
+    };
+
+    ldap = {
+      enable = true;
+      searchBase = "ou=users,dc=wavelens,dc=io";
+      searchScope = "sub";
+      uris = [ "ldaps://${config.services.portunus.domain}" ];
+
+      bind = {
+        dn = "uid=search,ou=users,dc=wavelens,dc=io";
+        passwordFile = config.sops.secrets."portunus/ldap-password".path;
+      };
+    };
   };
 
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
+      "bookstack/app-key".owner = "bookstack";
+      "bookstack/mysql-password".owner = "bookstack";
       "gitea/postgres-password".owner = "gitea";
-      "gitea/ldap-password".owner = "gitea";
       "nextcloud/postgres-password".owner = "nextcloud";
       "nextcloud/admin-password".owner = "nextcloud";
       "portunus/users/admin-password".owner = "portunus";
       "portunus/users/search-password".owner = "portunus";
+      "portunus/ldap-password" = { };
       "wordpress/hostoguest-password".owner = "wordpress";
       "vaultwarden/smtp-password".owner = "vaultwarden";
-      "vaultwarden/ldap-password".owner = "vaultwarden";
       "vaultwarden/client-id".owner = "vaultwarden";
       "vaultwarden/client-secret".owner = "vaultwarden";
     };

@@ -14,6 +14,16 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    mailserver = {
+      url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-22_11.follows = "nixpkgs";
+        nixpkgs-23_05.follows = "nixpkgs";
+        utils.follows = "flake-utils";
+      };
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +38,7 @@
     };
   };
 
-  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, ... }@inputs:
+  outputs = { nixpkgs, mailserver, nixos-modules, home-manager, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
@@ -55,6 +65,7 @@
                     })
                   ];
                 }
+                mailserver.nixosModules.mailserver
                 nixos-modules.nixosModule
                 home-manager.nixosModules.home-manager
                 sops-nix.nixosModules.sops

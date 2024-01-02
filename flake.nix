@@ -44,6 +44,7 @@
         nixpkgs-stable.follows = "nixpkgs";
       };
     };
+
     nix-pre-commit = {
       url = "github:jmgilman/nix-pre-commit";
       inputs = {

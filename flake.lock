@@ -72,7 +72,6 @@
         "type": "github"
       }
     },
-
     "mailserver": {
       "inputs": {
         "blobs": "blobs",
@@ -102,7 +101,8 @@
         "owner": "simple-nixos-mailserver",
         "repo": "nixos-mailserver",
         "type": "gitlab"
-
+      }
+    },
     "nix-pre-commit": {
       "inputs": {
         "flake-utils": [
@@ -124,7 +124,6 @@
         "owner": "jmgilman",
         "repo": "nix-pre-commit",
         "type": "github"
-
       }
     },
     "nixos-hardware": {

@@ -205,7 +205,7 @@
           client_path_id = config.sops.secrets."vaultwarden/client-id".path;
           client_path_secret = config.sops.secrets."vaultwarden/client-secret".path;
         };
-        ldap = config.sops.secrets."portunus/ldap-password".path;
+        ldap = config.sops.secrets."vaultwarden/ldap-password".path;
       };
 
       sync = {
@@ -233,20 +233,6 @@
     mysql = {
       enable = true;
       package = pkgs.mariadb;
-
-      ensureDatabases = [
-        "web_wp_hostoguest"
-        "bookstack"
-      ];
-
-      ensureUsers = [
-        {
-          name = "bookstack";
-          ensurePermissions = {
-            "bookstack.*" = "ALL PRIVILEGES";
-          };
-        }
-      ];
     };
 
     nextcloud = {
@@ -347,7 +333,7 @@
         LDAP_DN = "uid=search,ou=users,dc=wavelens,dc=io";
         LDAP_ID_ATTRIBUT = "uid";
         LDAP_MAIL_ATTRIBUTE = "mail";
-        LDAP_PASS = "${if (lib.pathExists config.sops.secrets."portunus/ldap-password".path) then config.sops.secrets."portunus/ldap-password".path else ""}";
+        LDAP_PASS = "${if (lib.pathExists config.sops.secrets."bookstack/ldap-password".path) then (builtins.readFile config.sops.secrets."bookstack/ldap-password".path) else ""}";
         LDAP_SERVER = "${config.services.portunus.domain}:636";
         LDAP_USER_FILTER = "(isMemberOf=cn=vaultwarden-users,ou=groups,dc=wavelens,dc=io)";
         LDAP_VERSION = 3;
@@ -376,7 +362,7 @@
 
       bind = {
         dn = "uid=search,ou=users,dc=wavelens,dc=io";
-        passwordFile = config.sops.secrets."portunus/ldap-password".path;
+        passwordFile = config.sops.secrets."mailserver/ldap-password".path;
       };
     };
   };
@@ -386,16 +372,20 @@
     secrets = {
       "bookstack/app-key".owner = "bookstack";
       "bookstack/mysql-password".owner = "bookstack";
+      "bookstack/ldap-password".owner = "bookstack";
       "gitea/postgres-password".owner = "gitea";
+      "gitea/ldap-password".owner = "gitea";
       "nextcloud/postgres-password".owner = "nextcloud";
       "nextcloud/admin-password".owner = "nextcloud";
+      "nextcloud/ldap-password".owner = "nextcloud";
+      "mailserver/ldap-password".owner = "nextcloud";
       "portunus/users/admin-password".owner = "portunus";
-      "portunus/users/search-password".owner = "portunus";
-      "portunus/ldap-password" = { };
+      "portunus/ldap-password".owner = "portunus";
       "wordpress/hostoguest-password".owner = "wordpress";
       "vaultwarden/smtp-password".owner = "vaultwarden";
       "vaultwarden/client-id".owner = "vaultwarden";
       "vaultwarden/client-secret".owner = "vaultwarden";
+      "vaultwarden/ldap-password".owner = "vaultwarden";
     };
   };
 

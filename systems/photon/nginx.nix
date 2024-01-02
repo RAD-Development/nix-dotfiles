@@ -108,6 +108,12 @@ in
         listen = defaultListen;
       };
 
+      "rspamd.wavelens.io" = {
+        forceSSL = true;
+        enableACME = true;
+        listen = defaultListen;
+      };
+
       "wiki.wavelens.io" = {
         forceSSL = lib.mkForce true;
         enableACME = lib.mkForce true;

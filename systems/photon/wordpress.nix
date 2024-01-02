@@ -71,7 +71,7 @@ in
           user = "web_wp_hostoguest";
           passwordFile = config.sops.secrets."wordpress/hostoguest-password".path;
         };
-      
+
         themes = {
           inherit wp_th_hello-elementor;
         };

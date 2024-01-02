@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   httpListen =
     let
@@ -15,8 +15,8 @@ let
       ];
     in
     map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
-      
-  httpsListen = 
+
+  httpsListen =
     let
       listen = [
         {
@@ -33,7 +33,7 @@ let
       ];
     in
     map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
-  
+
   defaultListen = httpListen ++ httpsListen;
 in
 {
@@ -54,6 +54,18 @@ in
         listen = defaultListen;
         locations = {
           "/".extraConfig = "return 404;";
+        };
+      };
+
+      rspamd = {
+        forceSSL = true;
+        enableACME = true;
+        basicAuthFile = "/basic/auth/hashes/file";
+        serverName = "rspamd.wavelens.io";
+        locations = {
+          "/" = {
+            proxyPass = "http://unix:/run/rspamd/worker-controller.sock:/";
+          };
         };
       };
 
@@ -87,6 +99,18 @@ in
       "cloud.wavelens.io" = {
         forceSSL = true;
         enableACME = true;
+        listen = defaultListen;
+      };
+
+      "mail.wavelens.io" = {
+        forceSSL = true;
+        enableACME = true;
+        listen = defaultListen;
+      };
+
+      "wiki.wavelens.io" = {
+        forceSSL = lib.mkForce true;
+        enableACME = lib.mkForce true;
         listen = defaultListen;
       };
 

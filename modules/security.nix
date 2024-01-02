@@ -3,11 +3,6 @@
 {
   config = {
     services = lib.mkIf config.services.gitea.enable {
-      fail2ban = {
-        enable = true;
-        
-      };
-
       openssh = {
         extraConfig = ''
           Match User gitea
@@ -22,6 +17,10 @@
         ECDSA = -1;
         RSA = 4095;
       };
+    };
+
+    networking.firewall = lib.mkIf config.services.openssh.enable {
+      allowedTCPPorts = config.services.openssh.ports;
     };
   };
 }

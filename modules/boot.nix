@@ -1,12 +1,12 @@
 { config, lib, libS, ... }:
 
 let
-cfg = config.boot;
+  cfg = config.boot;
 in
 {
-options = {
-  boot = {
-    default = libS.mkOpinionatedOption "enable the boot builder";
+  options = {
+    boot = {
+      default = libS.mkOpinionatedOption "enable the boot builder";
       cpuType = lib.mkOption {
         type = lib.types.str;
         example = "amd";

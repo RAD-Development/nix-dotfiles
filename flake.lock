@@ -1,5 +1,37 @@
 {
   "nodes": {
+    "blobs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1604995301,
+        "narHash": "sha256-wcLzgLec6SGJA8fx1OEN1yV/Py5b+U5iyYpksUY/yLw=",
+        "owner": "simple-nixos-mailserver",
+        "repo": "blobs",
+        "rev": "2cccdf1ca48316f2cfd1c9a0017e8de5a7156265",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "simple-nixos-mailserver",
+        "repo": "blobs",
+        "type": "gitlab"
+      }
+    },
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1668681692,
+        "narHash": "sha256-Ht91NGdewz8IQLtWZ9LCeNXMSXHUss+9COoqu6JLmXU=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "009399224d5e398d03b22badca40a37ac85412a1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": [
@@ -27,17 +59,48 @@
         ]
       },
       "locked": {
-        "lastModified": 1703838268,
-        "narHash": "sha256-SRg5nXcdPnrsQR2MTAp7en0NyJnQ2wB1ivmsgEbvN+o=",
+        "lastModified": 1704100519,
+        "narHash": "sha256-SgZC3cxquvwTN07vrYYT9ZkfvuhS5Y1k1F4+AMsuflc=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2aff324cf65f5f98f89d878c056b779466b17db8",
+        "rev": "6e91c5df192395753d8e6d55a0352109cb559790",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
         "type": "github"
+      }
+    },
+    "mailserver": {
+      "inputs": {
+        "blobs": "blobs",
+        "flake-compat": "flake-compat",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nixpkgs-22_11": [
+          "nixpkgs"
+        ],
+        "nixpkgs-23_05": [
+          "nixpkgs"
+        ],
+        "utils": [
+          "flake-utils"
+        ]
+      },
+      "locked": {
+        "lastModified": 1703666786,
+        "narHash": "sha256-SLPNpM/rI8XPyVJAxMYAe+n6NiYSpuXvdwPILHP4yZI=",
+        "owner": "simple-nixos-mailserver",
+        "repo": "nixos-mailserver",
+        "rev": "b5023b36a1f6628865cb42b4353bd2ddde0ea9f4",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "simple-nixos-mailserver",
+        "repo": "nixos-mailserver",
+        "type": "gitlab"
       }
     },
     "nix-pre-commit": {
@@ -65,11 +128,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1703879120,
-        "narHash": "sha256-oMJ5xtDswlBWxs0DT/aYKEUIhjEpGZJ9GbIxOclYP8I=",
+        "lastModified": 1704124233,
+        "narHash": "sha256-lBHs/yUtkcGgapHRS31oOb5NqvnVrikvktGOW8rK+sE=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "22ae59fec26591ef72ce4ccb5538c42c5f090fe3",
+        "rev": "f752581d6723a10da7dfe843e917a3b5e4d8115a",
         "type": "github"
       },
       "original": {
@@ -86,11 +149,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1703993012,
-        "narHash": "sha256-7sv9Rhgp+qJgYiuYGkqdgGwHUDoBWyVg+c1WQRMzYqw=",
+        "lastModified": 1704145058,
+        "narHash": "sha256-kWLGj+pGYXuVCJGqWiDOJfTLEXyTdSO01L1Sb+bTksw=",
         "owner": "SuperSandro2000",
         "repo": "nixos-modules",
-        "rev": "f7528ff523c545975df483b18a188e83102a44ae",
+        "rev": "38c5ee92ba80129c31055d903438e2697e41322c",
         "type": "github"
       },
       "original": {
@@ -101,11 +164,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1703637592,
-        "narHash": "sha256-8MXjxU0RfFfzl57Zy3OfXCITS0qWDNLzlBAdwxGZwfY=",
+        "lastModified": 1703961334,
+        "narHash": "sha256-M1mV/Cq+pgjk0rt6VxoyyD+O8cOUiai8t9Q6Yyq4noY=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "cfc3698c31b1fb9cdcf10f36c9643460264d0ca8",
+        "rev": "b0d36bd0a420ecee3bc916c91886caca87c894e9",
         "type": "github"
       },
       "original": {
@@ -135,6 +198,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
+        "mailserver": "mailserver",
         "nix-pre-commit": "nix-pre-commit",
         "nixos-hardware": "nixos-hardware",
         "nixos-modules": "nixos-modules",

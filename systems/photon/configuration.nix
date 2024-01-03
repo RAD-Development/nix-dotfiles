@@ -388,6 +388,7 @@
       "bookstack/mysql-password".owner = "bookstack";
       "bookstack/ldap-password".owner = "bookstack";
       "gitea/postgres-password".owner = "gitea";
+      "gitea/ldap-password".owner = "gitea";
       "nextcloud/postgres-password".owner = "nextcloud";
       "nextcloud/admin-password".owner = "nextcloud";
       "nextcloud/ldap-password".owner = "nextcloud";

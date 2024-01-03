@@ -17,7 +17,7 @@
       enable = true;
       adminGroup = "gitea-admins";
       userGroup = "gitea-users";
-      searchUserPasswordFile = config.sops.secrets."portunus/ldap-password".path;
+      searchUserPasswordFile = config.sops.secrets."gitea/ldap-password".path;
       options = {
         security-protocol = "LDAPS";
         host = config.services.portunus.domain;

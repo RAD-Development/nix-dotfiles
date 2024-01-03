@@ -63,11 +63,11 @@
   programs = {
     zsh.enable = true;
 
-  starship.enable = true;
-  fzf = {
-    enable = true;
-    enableZshIntegration = true;
-  };
+    starship.enable = true;
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
   };
 
   home.stateVersion = "23.05";

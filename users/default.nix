@@ -1,10 +1,10 @@
-{
-  lib,
-  config,
-  pkgs,
-  name,
-  publicKeys ? [],
-  defaultShell ? "zsh",
+{ lib
+, config
+, pkgs
+, name
+, publicKeys ? [ ]
+, defaultShell ? "zsh"
+,
 }:
 
 {
@@ -23,5 +23,6 @@
     "uaccess"
   ];
   shell = pkgs.${defaultShell};
+  hashedPasswordFile = config.sops.secrets."${name}/user-password".path;
   openssh.authorizedKeys.keys = publicKeys;
 }

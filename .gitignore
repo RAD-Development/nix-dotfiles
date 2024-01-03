@@ -1,2 +1,9 @@
+.direnv
+.envrc
+
+.*.swp
+*.retry
 result
-result-man
+result-*
+
+/.pre-commit-config.yaml

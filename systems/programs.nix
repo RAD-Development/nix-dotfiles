@@ -23,6 +23,7 @@
     python3
     qrencode
     ripgrep
+    smartmontools
     speedtest-cli
     tig
     tokei

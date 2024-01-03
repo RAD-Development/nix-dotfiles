@@ -7,10 +7,7 @@
     repositoryRoot = "/var/lib/gitea/repositories";
     database = {
       createDatabase = false;
-      type = "mysql";
-      name = "web_gitea";
-      user = "web_gitea";
-      passwordFile = config.sops.secrets."gitea/postgres-password".path;
+      type = "postgres";
     };
 
     ldap = {

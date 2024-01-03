@@ -1,13 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "alice";
   home.homeDirectory = "/home/alice";
 
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
   home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -27,7 +23,7 @@
     # '')
 
     ncdu
-
+    
     # Rust packages
     topgrade
     trunk
@@ -41,11 +37,6 @@
     gitoxide
     tealdeer
     helix
-
-    # pipx packages
-    # Not sure that I need these right now
-    #python311Packages.python-lsp-server
-    #python311Packages.pycodestyle
 
     # nix specific packages
     nil
@@ -70,7 +61,5 @@
   };
   };
 
-  home.stateVersion = "23.05";
-  # Let Home Manager install and manage itself.
-  # programs.home-manager.enable = false;
+  home.stateVersion = "23.11";
 }

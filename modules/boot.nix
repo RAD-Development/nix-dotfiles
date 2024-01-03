@@ -14,7 +14,14 @@ in
         description = "The cpu-type installed on the server.";
       };
       amdGPU = libS.mkOpinionatedOption "the system contains a AMD GPU";
+      filesystem = lib.mkOption {
+        type = lib.types.str;
+        example = "btrfs";
+        default = "ext4";
+        description = "The filesystem installed.";
+      };
       fullDiskEncryption = libS.mkOpinionatedOption "use luks full disk encrytion";
+      useSystemdBoot = libS.mkOpinionatedOption "use systemd boot";
     };
   };
 
@@ -27,23 +34,20 @@ in
         enable = true;
         ssh = {
           enable = true;
-          hostKeys = [
-            "/root/ssh_key"
-          ];
           port = 2222;
         };
       };
     };
 
-    supportedFilesystems = [ "zfs" ];
+    supportedFilesystems = [ cfg.filesystem ];
     tmp.useTmpfs = true;
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [
-      "ip=<ip-addr>::<ip-gateway>:<netmask>"
       "nordrand"
-    ] ++ lib.optional (cfg.cpuType == "amd") "kvm-amd";
+    ] ++ lib.optional (cfg.cpuType == "amd") "kvm-amd"
+    ++ lib.optional cfg.fullDiskEncryption "ip=<ip-addr>::<ip-gateway>:<netmask>";
 
-    zfs = {
+    zfs = lib.mkIf (cfg.filesystem == "zfs") {
       enableUnstable = true;
       devNodes = "/dev/disk/by-id/";
       forceImportRoot = true;
@@ -54,15 +58,15 @@ in
         canTouchEfiVariables = false;
       };
       generationsDir.copyKernels = true;
-      grub = {
+      systemd-boot.enable = lib.mkIf cfg.useSystemdBoot true;
+      grub = lib.mkIf (!cfg.useSystemdBoot) {
         enable = true;
         copyKernels = true;
-        zfsSupport = true;
+        zfsSupport = lib.mkIf (cfg.filesystem == "zfs") true;
         efiSupport = true;
         efiInstallAsRemovable = true;
         fsIdentifier = "uuid";
-        device = "nodev";
-        enableCryptodisk = true;
+        enableCryptodisk = lib.mkIf cfg.fullDiskEncryption true;
       };
     };
   };

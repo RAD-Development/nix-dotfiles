@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     bat
     btop
+    croc
     deadnix
     direnv
     fd

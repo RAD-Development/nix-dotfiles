@@ -5,10 +5,7 @@
     recommendedDefaults = true;
     lfs.enable = true;
     repositoryRoot = "/var/lib/gitea/repositories";
-    database = {
-      createDatabase = false;
-      type = "postgres";
-    };
+    database.type = "postgres";
 
     ldap = {
       enable = true;

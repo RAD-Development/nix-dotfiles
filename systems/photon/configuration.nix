@@ -370,12 +370,12 @@
 
     ldap = {
       enable = true;
+      uris = [ "ldaps://${config.services.portunus.domain}" ];
       searchBase = "ou=users,dc=wavelens,dc=io";
       searchScope = "sub";
-      uris = [ "ldaps://${config.services.portunus.domain}" ];
 
       bind = {
-        dn = "uid=search,ou=users,dc=wavelens,dc=io";
+        dn = "uid=${config.services.portunus.ldap.searchUserName},ou=users,dc=wavelens,dc=io";
         passwordFile = config.sops.secrets."mailserver/ldap-password".path;
       };
     };

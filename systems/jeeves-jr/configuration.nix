@@ -5,7 +5,6 @@
   networking.hostId = "1beb3026";
 
   boot = {
-    # TODO add pool name
     zfs.extraPools = [ "Main" ];
     filesystem = "zfs";
     useSystemdBoot = true;

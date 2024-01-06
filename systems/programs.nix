@@ -28,12 +28,10 @@
     qrencode
     ripgrep
     smartmontools
-    speedtest-cli
     tig
     tokei
     tree
     unzip
-    usbutils
     ventoy
     wget
     zoxide

@@ -1,9 +1,15 @@
+# y?
 .direnv
 .envrc
 
+# y?
 .*.swp
 *.retry
 result
 result-*
 
+# y?
 /.pre-commit-config.yaml
+
+# allows test file in reopsitory
+test.*

@@ -9,9 +9,13 @@
     fd
     file
     htop
+    hwloc
+    iperf3
     jp2a
     jq
     lsof
+    lynis
+    ncdu
     neofetch
     nix-init
     nix-output-monitor
@@ -29,6 +33,7 @@
     tokei
     tree
     unzip
+    usbutils
     ventoy
     wget
     zoxide

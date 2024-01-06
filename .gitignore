@@ -1,14 +1,14 @@
-# y?
+# direnv
 .direnv
 .envrc
 
-# y?
+# build outputs
 .*.swp
 *.retry
 result
 result-*
 
-# y?
+# If you run nix develop it will generate pre-commit hooks using the python library precommit (see https://github.com/RAD-Development/nix-dotfiles/blob/main/flake.nix#L65)
 /.pre-commit-config.yaml
 
 # allows test file in reopsitory

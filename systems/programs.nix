@@ -9,9 +9,13 @@
     fd
     file
     htop
+    hwloc
+    iperf3
     jp2a
     jq
     lsof
+    lynis
+    ncdu
     neofetch
     nix-init
     nix-output-monitor
@@ -24,7 +28,6 @@
     qrencode
     ripgrep
     smartmontools
-    speedtest-cli
     tig
     tokei
     tree

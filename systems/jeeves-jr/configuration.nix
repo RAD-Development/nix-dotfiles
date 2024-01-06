@@ -41,10 +41,17 @@
     nfs.server.enable = true;
 
     openssh.ports = [ 352 ];
+
     smartd.enable = true;
+
     zfs = {
       trim.enable = true;
       autoScrub.enable = true;
+    };
+
+    zerotierone = {
+      enable = true;
+      joinNetworks = [ "e4da7455b2ae64ca" ];
     };
   };
 

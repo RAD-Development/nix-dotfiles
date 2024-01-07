@@ -54,7 +54,7 @@
         AllowAgentForwarding = "no";
         AllowTcpForwarding = "no";
         TcpKeepAlive = "no";
-        LogLevel = "VERBOSE"
+        LogLevel = "VERBOSE";
       };
     };
 

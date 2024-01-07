@@ -15,7 +15,7 @@ admins: &admins
   - *admin_dennis
   - *admin_richie
 
-serves: &serves
+servers: &servers
   - *palatine-hill
   - *photon
   - *jeeves-jr
@@ -47,14 +47,14 @@ creation_rules:
     key_groups:
       - pgp:
           - *admin_alice
-        age: *serves
+        age: *servers
   - path_regex: users/dennis/secrets\.yaml$
     key_groups:
       - pgp:
           - *admin_dennis
-        age: *serves
+        age: *servers
   - path_regex: users/richie/secrets\.yaml$
     key_groups:
       - pgp:
           - *admin_richie
-        age: *serves
+        age: *servers

@@ -48,12 +48,13 @@
     openssh = {
       ports = [ 352 ];
       settings = {
-        ChallengeResponseAuthentication = "no";
         AllowAgentForwarding = "no";
         AllowTcpForwarding = "no";
-        TcpKeepAlive = "no";
+        ChallengeResponseAuthentication = "no";
+        ClientAliveCountMax = 2;
         LogLevel = "VERBOSE";
         MaxSessions = 2;
+        TcpKeepAlive = "no";
       };
     };
 

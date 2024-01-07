@@ -54,7 +54,7 @@
       ];
 
       settings = {
-        ClientAliveCountMax = 10;
+        ClientAliveCountMax = lib.mkDefault 10;
         Compression = "NO";
         IgnoreRhosts = "yes";
         MaxAuthTries = 3;

@@ -46,7 +46,6 @@
         PermitRootLogin = "no";
         PasswordAuthentication = false;
         ChallengeResponseAuthentication = "no";
-        MaxSessions = 2;
         AllowAgentForwarding = "no";
         AllowTcpForwarding = "no";
         TcpKeepAlive = "no";

@@ -10,6 +10,16 @@ keys:
   - &photon age13aqs2mx66dmnyd74sygnwavufv6a4pwnvcqj4ud4l94jk0tjgu6ss57slw
   - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh
 
+admins: &admins
+  - *admin_alice
+  - *admin_dennis
+  - *admin_richie
+
+servers: &servers
+  - *palatine-hill
+  - *photon
+  - *jeeves-jr
+
 # add new users by executing: sops users/<user>/secrets.yaml
 # then have someone already in the repo run the below
 #
@@ -17,54 +27,34 @@ keys:
 creation_rules:
   - path_regex: systems/jeeves-jr/secrets\.yaml$
     key_groups:
-    - pgp:
-      - *admin_alice
-      - *admin_dennis
-      - *admin_richie
-      age:
-      - *jeeves-jr
+      - pgp: *admins
+        age:
+          - *jeeves-jr
 
   - path_regex: systems/palatine-hill/secrets\.yaml$
     key_groups:
-    - pgp:
-      - *admin_alice
-      - *admin_dennis
-      - *admin_richie
-      age:
-      - *palatine-hill
+      - pgp: *admins
+        age:
+          - *palatine-hill
 
   - path_regex: systems/photon/secrets\.yaml$
     key_groups:
-    - pgp:
-      - *admin_alice
-      - *admin_dennis
-      - *admin_richie
-      age:
-      - *photon
-  
+      - pgp: *admins
+        age:
+          - *photon
+
   - path_regex: users/alice/secrets\.yaml$
     key_groups:
-    - pgp:
-      - *admin_alice
-      age:
-      - *jeeves-jr
-      - *palatine-hill
-      - *photon
-    
+      - pgp:
+          - *admin_alice
+        age: *servers
   - path_regex: users/dennis/secrets\.yaml$
-    key_groups: 
-    - pgp:
-      - *admin_dennis
-      age:
-      - *jeeves-jr
-      - *palatine-hill
-      - *photon
-
+    key_groups:
+      - pgp:
+          - *admin_dennis
+        age: *servers
   - path_regex: users/richie/secrets\.yaml$
-    key_groups: 
-    - pgp:
-      - *admin_richie
-      age:
-      - *jeeves-jr
-      - *palatine-hill
-      - *photon
+    key_groups:
+      - pgp:
+          - *admin_richie
+        age: *servers

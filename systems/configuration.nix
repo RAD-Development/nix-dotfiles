@@ -58,7 +58,7 @@
         Compression = "NO";
         IgnoreRhosts = "yes";
         MaxAuthTries = 3;
-        MaxSessions = 10;
+        MaxSessions = lib.mkDefault 10;
         PasswordAuthentication = false;
         PermitEmptyPasswords = "no";
         PermitRootLogin = "no";

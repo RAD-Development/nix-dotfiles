@@ -40,7 +40,18 @@
   services = {
     nfs.server.enable = true;
 
-    openssh.ports = [ 352 ];
+    openssh = {
+      ports = [ 352 ];
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+        ChallengeResponseAuthentication = "no";
+        MaxSessions = 2;
+        AllowAgentForwarding = "no";
+        AllowTcpForwarding = "no";
+        TcpKeepAlive = "no";
+      };
+    };
 
     smartd.enable = true;
 

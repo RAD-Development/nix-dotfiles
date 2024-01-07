@@ -53,15 +53,23 @@
         }
       ];
 
+      # all of these setting are recommended by lynis unless otherwise commented
       settings = {
-        ClientAliveCountMax = lib.mkDefault 10;
+        AllowAgentForwarding = "no";
+        AllowTcpForwarding = "no";
+        # allows yubikey auth
+        # TODO validate this assumption and remove if not needed
+        ChallengeResponseAuthentication = lib.mkDefault "yes";
+        ClientAliveCountMax = lib.mkDefault 2;
         Compression = "NO";
         IgnoreRhosts = "yes";
+        LogLevel = "VERBOSE";
         MaxAuthTries = 3;
-        MaxSessions = lib.mkDefault 10;
+        MaxSessions = lib.mkDefault 2;
         PasswordAuthentication = false;
         PermitEmptyPasswords = "no";
         PermitRootLogin = "no";
+        TcpKeepAlive = "no";
 
         KexAlgorithms = [
           "curve25519-sha256@libssh.org"

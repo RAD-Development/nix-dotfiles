@@ -60,6 +60,13 @@
 
     smartd.enable = true;
 
+    usbguard = {
+      enable = true;
+      rules = ''
+        allow id 1532:0241
+      '';
+    };
+
     zfs = {
       trim.enable = true;
       autoScrub.enable = true;

@@ -360,6 +360,7 @@
     fqdn = "mail.wavelens.io";
     domains = [ "wavelens.io" ];
     certificateScheme = "acme-nginx";
+    indexDir = "/var/lib/dovecot/indices";
 
     fullTextSearch = {
       enable = true;
@@ -368,17 +369,41 @@
       enforced = "body";
     };
 
-    ldap = {
-      enable = true;
-      uris = [ "ldaps://${config.services.portunus.domain}" ];
-      searchBase = "ou=users,dc=wavelens,dc=io";
-      searchScope = "sub";
+    loginAccounts = {
+      "info@wavelens.io" = {
+        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-info".path;
+        aliases = [ "hey@wavelens.io" ];
+      };
 
-      bind = {
-        dn = "uid=${config.services.portunus.ldap.searchUserName},ou=users,dc=wavelens,dc=io";
-        passwordFile = config.sops.secrets."mailserver/ldap-password".path;
+      "catch@wavelens.io" = {
+        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-catch".path;
+        catchAll = [ "wavelens.io" ];
+      };
+
+      "noreply@wavelens.io" = {
+        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-noreply".path;
+        sendOnly = true;
+      };
+
+      "dennis.wuitz@wavelens.io" = {
+        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-dennis".path;
       };
     };
+
+    # ldap = {
+    #   enable = true;
+    #   uris = [ "ldaps://${config.services.portunus.domain}" ];
+    #   searchBase = "ou=users,dc=wavelens,dc=io";
+    #   searchScope = "sub";
+    #   # userAttrs = ''
+
+    #   # '';
+
+    #   bind = {
+    #     dn = "uid=${config.services.portunus.ldap.searchUserName},ou=users,dc=wavelens,dc=io";
+    #     passwordFile = config.sops.secrets."mailserver/ldap-password".path;
+    #   };
+    # };
   };
 
   sops = {
@@ -392,7 +417,11 @@
       "nextcloud/postgres-password".owner = "nextcloud";
       "nextcloud/admin-password".owner = "nextcloud";
       "nextcloud/ldap-password".owner = "nextcloud";
-      "mailserver/ldap-password".owner = "nextcloud";
+      "mailserver/ldap-password".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-info".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-catch".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-noreply".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-dennis".owner = "dovecot2";
       "portunus/users/admin-password".owner = "portunus";
       "portunus/ldap-password".owner = "portunus";
       "wordpress/hostoguest-password".owner = "wordpress";

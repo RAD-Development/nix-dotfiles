@@ -19,7 +19,10 @@
 
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
     };
 
     mailserver = {

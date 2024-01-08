@@ -77,7 +77,7 @@
 
   services = {
     openssh = {
-      ports = [ 2312 ];
+      ports = [ 12 ];
     };
 
     postgresql = {

@@ -58,6 +58,7 @@
         ENABLE_GZIP = true;
         SSH_AUTHORIZED_KEYS_BACKUP = false;
         SSH_DOMAIN = DOMAIN;
+        SSH_PORT = 2312;
       };
 
       service = {

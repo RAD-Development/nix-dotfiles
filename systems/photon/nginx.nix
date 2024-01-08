@@ -41,7 +41,6 @@ in
     enable = true;
     allRecommendOptions = true;
     generateDhparams = true;
-    openFirewall = true;
     rotateLogsFaster = true;
     setHSTSHeader = true;
     tcpFastOpen = true;

@@ -16,8 +16,12 @@
     firewall = {
       allowedTCPPorts = [
         80
+        8080
         443
+        8443
         3306
+        993
+        465
       ];
     };
 
@@ -72,6 +76,10 @@
   };
 
   services = {
+    openssh = {
+      ports = [ 2312 ];
+    };
+
     postgresql = {
       enable = true;
       enableJIT = true;
@@ -361,6 +369,7 @@
     domains = [ "wavelens.io" ];
     certificateScheme = "acme-nginx";
     indexDir = "/var/lib/dovecot/indices";
+    openFirewall = false;
 
     fullTextSearch = {
       enable = true;

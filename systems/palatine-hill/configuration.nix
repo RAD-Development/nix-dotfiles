@@ -27,10 +27,11 @@
       storageDriver = "overlay2";
     };
 
-    podman = {
-      enable = true;
-      recommendedDefaults = true;
-    };
+    # Disabling as topgrade apparently prefers podman over docker and now I cant update anything :(
+    # podman = {
+    #   enable = true;
+    #   recommendedDefaults = true;
+    # };
   };
 
   environment.systemPackages = with pkgs; [

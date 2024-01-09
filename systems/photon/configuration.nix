@@ -14,6 +14,7 @@
   networking = {
     hostId = "7d76fab7";
     firewall = {
+      pingLimit = "--limit 1/minute --limit-burst 5";
       allowedTCPPorts = [
         80
         8080
@@ -76,9 +77,7 @@
   };
 
   services = {
-    openssh = {
-      ports = [ 12 ];
-    };
+    openssh.ports = [ 12 ];
 
     postgresql = {
       enable = true;

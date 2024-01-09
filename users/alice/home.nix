@@ -61,9 +61,9 @@
 
     topgrade = {
       enable = true;
-      settings.config = {
+      settings = {
         misc = {
-          disable = [ "system" "nix" ];
+          disable = [ "system" "nix" "shell" ];
         };
       };
     };

@@ -23,9 +23,8 @@
     # '')
 
     ncdu
-    
+
     # Rust packages
-    topgrade
     trunk
     wasm-pack
     cargo-watch
@@ -58,6 +57,13 @@
     fzf = {
       enable = true;
       enableZshIntegration = true;
+    };
+
+    topgrade = {
+      enable = true;
+      settings.config = {
+        disable = [ "system" "nix" ];
+      };
     };
   };
 

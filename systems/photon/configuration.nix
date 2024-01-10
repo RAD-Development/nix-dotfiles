@@ -13,8 +13,10 @@
 
   networking = {
     hostId = "7d76fab7";
+    nftables.enable = true;
     firewall = {
-      pingLimit = "--limit 1/minute --limit-burst 5";
+      filterForward = true;
+      pingLimit = "1/minute burst 5 packets";
       allowedTCPPorts = [
         80
         8080

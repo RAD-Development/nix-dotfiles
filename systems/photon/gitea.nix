@@ -51,7 +51,10 @@
         REPOSITORY_AVATAR_FALLBACK = "random";
       };
 
-      repository.DEFAULT_REPO_UNITS = "repo.code,repo.releases,repo.issues,repo.pulls";
+      repository = {
+        DISABLE_HTTP_GIT = true;
+        DEFAULT_REPO_UNITS = "repo.code,repo.releases,repo.issues,repo.pulls";
+      };
 
       server = rec {
         DOMAIN = "git.wavelens.io";

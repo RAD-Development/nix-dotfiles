@@ -19,9 +19,7 @@
       pingLimit = "1/minute burst 5 packets";
       allowedTCPPorts = [
         80
-        8080
         443
-        8443
         3306
         993
         465

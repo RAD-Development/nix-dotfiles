@@ -101,12 +101,6 @@ in
         listen = defaultListen;
       };
 
-      "mail.wavelens.io" = {
-        forceSSL = true;
-        enableACME = true;
-        listen = defaultListen;
-      };
-
       "rspamd.wavelens.io" = {
         forceSSL = true;
         enableACME = true;

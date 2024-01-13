@@ -37,6 +37,8 @@
     docker-compose
   ];
 
+  security.auditd.enable = true;
+
   services = {
     nfs.server.enable = true;
 

@@ -17,9 +17,7 @@
       pingLimit = "--limit 1/minute --limit-burst 5";
       allowedTCPPorts = [
         80
-        8080
         443
-        8443
         3306
         993
         465

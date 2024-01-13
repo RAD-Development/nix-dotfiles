@@ -39,7 +39,7 @@
     ];
 
     etc = {
-      # Creates /etc/lynis/custom.prf
+      Creates /etc/lynis/custom.prf
       "lynis/custom.prf" = {
         text = ''
           skip-test=BANN-7126
@@ -52,6 +52,30 @@
           skip-test=LOGG-2190
           skip-test=LYNIS
           skip-test=TOOL-5002
+        '';
+        mode = "0440";
+      };
+      "login.defs" = {
+        text = ''
+          DEFAULT_HOME yes
+          ENCRYPT_METHOD YESCRYPT
+          GID_MAX 29999
+          GID_MIN 1000
+          SYS_GID_MAX 999
+          SYS_GID_MIN 400
+          SYS_UID_MAX 999
+          SYS_UID_MIN 400
+          TTYGROUP tty
+          TTYPERM 0620
+          UID_MAX 29999
+          UID_MIN 1000
+          UMASK 077
+          PASS_MAX_DAYS	99999
+          PASS_MIN_DAYS	0
+          PASS_WARN_AGE	7
+          SHA_CRYPT_MIN_ROUNDS 5000
+          SHA_CRYPT_MAX_ROUNDS 5000
+
         '';
         mode = "0440";
       };

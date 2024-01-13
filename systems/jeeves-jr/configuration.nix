@@ -49,7 +49,7 @@
           skip-test=FIRE-4513
           skip-test=HRDN-7222
           skip-test=KRNL-5820
-          skip-test=LOGG-2190s
+          skip-test=LOGG-2190
           skip-test=LYNIS
           skip-test=TOOL-5002
         '';

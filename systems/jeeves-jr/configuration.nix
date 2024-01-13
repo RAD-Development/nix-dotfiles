@@ -33,9 +33,31 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    docker-compose
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      docker-compose
+    ];
+
+    etc = {
+      # Creates /etc/lynis/custom.prf
+      "lynis/custom.prf" = {
+        text = ''
+          skip-test=BANN-7126
+          skip-test=BANN-7130
+          skip-test=DEB-0520
+          skip-test=DEB-0810
+          skip-test=FIRE-4513
+          skip-test=HRDN-7222
+          skip-test=KRNL-5820
+          skip-test=LOGG-2190s
+          skip-test=LYNIS
+          skip-test=TOOL-5002
+        '';
+        mode = "0440";
+      };
+    };
+  };
+
 
   security.auditd.enable = true;
 

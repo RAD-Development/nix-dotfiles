@@ -55,6 +55,8 @@
 
     smartd.enable = true;
 
+    sysstat.enable = true;
+
     usbguard = {
       enable = true;
       rules = ''

@@ -61,7 +61,7 @@
         ClientAliveCountMax = lib.mkDefault 2;
         Compression = "NO";
         IgnoreRhosts = "yes";
-        LogLevel = "VERBOSE";
+        LogLevel = lib.mkDefault "VERBOSE";
         MaxAuthTries = 3;
         MaxSessions = lib.mkDefault 2;
         PasswordAuthentication = false;

@@ -3,15 +3,6 @@
 {
   config = {
     services = {
-      openssh = lib.mkIf config.services.gitea.enable {
-        extraConfig = ''
-          Match User gitea
-            AllowAgentForwarding no
-            AllowTcpForwarding no
-            PermitTTY no
-            X11Forwarding no
-        '';
-      };
 
       gitea.settings."ssh.minimum_key_sizes" = lib.mkIf config.services.gitea.enable {
         ECDSA = -1;

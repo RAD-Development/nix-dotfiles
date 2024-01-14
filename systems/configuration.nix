@@ -68,6 +68,8 @@
         PermitEmptyPasswords = "no";
         PermitRootLogin = "no";
         TcpKeepAlive = "no";
+        PermitTTY = "no";
+        X11Forwarding = false;
 
         KexAlgorithms = [
           "curve25519-sha256@libssh.org"

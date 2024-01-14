@@ -53,15 +53,21 @@
         }
       ];
 
+      # all of these setting are recommended by lynis unless otherwise commented
       settings = {
-        ClientAliveCountMax = 10;
+        AllowAgentForwarding = "no";
+        AllowTcpForwarding = "no";
+        ChallengeResponseAuthentication = "no";
+        ClientAliveCountMax = lib.mkDefault 2;
         Compression = "NO";
         IgnoreRhosts = "yes";
+        LogLevel = lib.mkDefault "VERBOSE";
         MaxAuthTries = 3;
-        MaxSessions = 10;
+        MaxSessions = lib.mkDefault 2;
         PasswordAuthentication = false;
         PermitEmptyPasswords = "no";
         PermitRootLogin = "no";
+        TcpKeepAlive = "no";
 
         KexAlgorithms = [
           "curve25519-sha256@libssh.org"

@@ -57,9 +57,7 @@
       settings = {
         AllowAgentForwarding = "no";
         AllowTcpForwarding = "no";
-        # allows yubikey auth
-        # TODO validate this assumption and remove if not needed
-        ChallengeResponseAuthentication = lib.mkDefault "yes";
+        ChallengeResponseAuthentication = "no";
         ClientAliveCountMax = lib.mkDefault 2;
         Compression = "NO";
         IgnoreRhosts = "yes";

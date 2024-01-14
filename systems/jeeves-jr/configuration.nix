@@ -69,13 +69,7 @@
       port = 22;
     };
 
-    openssh = {
-      ports = [ 352 ];
-      settings = {
-        # not sure if this is needed
-        ChallengeResponseAuthentication = "no";
-      };
-    };
+    openssh.ports = [ 352 ];
 
     smartd.enable = true;
 

@@ -4,6 +4,14 @@
   config = {
     services = {
 
+      openssh = lib.mkIf config.services.gitea.enable {
+        extraConfig = ''
+          Match User gitea
+            PermitTTY no
+            X11Forwarding no
+        '';
+      };
+
       gitea.settings."ssh.minimum_key_sizes" = lib.mkIf config.services.gitea.enable {
         ECDSA = -1;
         RSA = 4095;

@@ -68,11 +68,22 @@
       config = {
         repos = [
           {
+            repo = "https://gitlab.com/vojko.pribudic/pre-commit-update";
+            rev = "89c51188f5fb88a346d0e17773605857fce4aa42";
+            hooks = [
+              {
+                id = "pre-commit-update";
+                args = [ "--dry-run" ];
+              }
+            ];
+          }
+          {
             repo = "local";
             hooks = [
               {
-                id = "nixpkgs-fmt";
+                id = "nixpkgs-fmt check";
                 entry = "${nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
+                args = [ "--check" ];
                 language = "system";
                 files = "\\.nix";
               }

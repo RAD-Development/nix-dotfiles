@@ -64,11 +64,6 @@
   services = {
     nfs.server.enable = true;
 
-    endlessh-go = {
-      enable = true;
-      port = 22;
-    };
-
     openssh.ports = [ 352 ];
 
     smartd.enable = true;

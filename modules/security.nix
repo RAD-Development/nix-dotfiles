@@ -3,11 +3,10 @@
 {
   config = {
     services = {
+
       openssh = lib.mkIf config.services.gitea.enable {
         extraConfig = ''
           Match User gitea
-            AllowAgentForwarding no
-            AllowTcpForwarding no
             PermitTTY no
             X11Forwarding no
         '';

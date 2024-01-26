@@ -4,7 +4,6 @@
     ./banner.nix
     ./gitea.nix
     ./nginx.nix
-    ./wordpress.nix
   ];
 
   time.timeZone = "Europe/Berlin";
@@ -13,6 +12,7 @@
 
   networking = {
     hostId = "7d76fab7";
+    domain = "wavelens.io";
     nftables.enable = true;
     firewall = {
       filterForward = true;
@@ -52,28 +52,22 @@
       dnsProvider = "rfc2136";
       group = "nginx";
     };
-
-    certs = {
-      "hostoguest.ai" = {
-        email = "office@hostoguest.ai";
-      };
-
-      "app.hostoguest.ai" = {
-        email = "office@hostoguest.ai";
-      };
-    };
   };
+
   users.users.nginx.extraGroups = [ "acme" ];
 
   security.ldap.domainComponent = [ "wavelens" "io" ];
 
-  systemd.services.vaultwarden = {
-    after = [ "postgresql.service" ];
-    requires = [ "postgresql.service" ];
-    serviceConfig = {
-      StateDirectory = lib.mkForce "vaultwarden";
-      EnvironmentFile = [ config.sops.secrets."vaultwarden/smtp-password".path ];
+  systemd = {
+    services.vaultwarden = {
+      after = [ "postgresql.service" ];
+      requires = [ "postgresql.service" ];
+      serviceConfig = {
+        StateDirectory = lib.mkForce "vaultwarden";
+        EnvironmentFile = [ config.sops.secrets."vaultwarden/smtp-password".path ];
+      };
     };
+    timers.bitwarden-directory-connector-cli.wants = [ "network-online.target" ];
   };
 
   services = {
@@ -111,8 +105,6 @@
     portunus = {
       enable = true;
       addToHosts = true;
-      # TODO
-      # configureOAuth2Proxy = true;
       ldapPreset = true;
       removeAddGroup = true;
       domain = "auth.wavelens.io";
@@ -212,7 +204,7 @@
           client_path_id = config.sops.secrets."vaultwarden/client-id".path;
           client_path_secret = config.sops.secrets."vaultwarden/client-secret".path;
         };
-        ldap = config.sops.secrets."portunus/ldap-password".path;
+        ldap = config.sops.secrets."vaultwarden/ldap-password".path;
       };
 
       sync = {
@@ -236,7 +228,6 @@
       };
     };
 
-    # TODO: TEMP -> moving to postgres
     mysql = {
       enable = true;
       package = pkgs.mariadb;
@@ -303,6 +294,12 @@
         "static" = {
           root = "static.wavelens.io";
           subdomain = "static";
+          domain = "wavelens.io";
+        };
+
+        "api-wiki" = {
+          root = "apidocs.wavelens.io";
+          subdomain = "api-wiki";
           domain = "wavelens.io";
         };
       };
@@ -432,7 +429,6 @@
       "mailserver/mail-passwords/wavelens-dennis".owner = "dovecot2";
       "portunus/users/admin-password".owner = "portunus";
       "portunus/ldap-password".owner = "portunus";
-      "wordpress/hostoguest-password".owner = "wordpress";
       "vaultwarden/smtp-password".owner = "vaultwarden";
       "vaultwarden/client-id".owner = "vaultwarden";
       "vaultwarden/client-secret".owner = "vaultwarden";

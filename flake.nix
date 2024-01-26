@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    patch-bitwarden-directory-connector.url = "github:Silver-Golden/nixpkgs/bitwarden-directory-connector_pkgs";
-
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     flake-utils = {
@@ -29,8 +27,8 @@
       url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nixpkgs-22_11.follows = "nixpkgs";
         nixpkgs-23_05.follows = "nixpkgs";
+        nixpkgs-23_11.follows = "nixpkgs";
         utils.follows = "flake-utils";
       };
     };
@@ -57,19 +55,18 @@
     };
   };
 
-  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, mailserver, nix-pre-commit, ... }@inputs:
+  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, mailserver, nix-pre-commit, ... }:
     let
       inherit (nixpkgs) lib;
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
       ls = dir: lib.attrNames (builtins.readDir (src + "/${dir}"));
       fileList = dir: map (file: ./. + "/${dir}/${file}") (ls dir);
 
-
       config = {
         repos = [
           {
             repo = "https://gitlab.com/vojko.pribudic/pre-commit-update";
-            rev = "89c51188f5fb88a346d0e17773605857fce4aa42";
+            rev = "f4886322eb7fc53c49e28cc1991674deb1f790bd";
             hooks = [
               {
                 id = "pre-commit-update";
@@ -110,21 +107,13 @@
             , users ? [ "dennis" ]
             ,
             }: lib.nixosSystem {
-              inherit system lib;
+              inherit system;
 
               modules = [
-                {
-                  nixpkgs.overlays = [
-                    (_self: super: {
-                      bitwarden-directory-connector-cli = inputs.patch-bitwarden-directory-connector.legacyPackages.${system}.bitwarden-directory-connector-cli;
-                    })
-                  ];
-                }
                 mailserver.nixosModules.mailserver
                 nixos-modules.nixosModule
                 home-manager.nixosModules.home-manager
                 sops-nix.nixosModules.sops
-                "${inputs.patch-bitwarden-directory-connector}/nixos/modules/services/security/bitwarden-directory-connector-cli.nix"
                 ./systems/programs.nix
                 ./systems/configuration.nix
                 ./systems/${hostname}/hardware.nix
@@ -174,6 +163,7 @@
             ];
           };
         };
+
       devShell = lib.mapAttrs
         (system: sopsPkgs:
           with nixpkgs.legacyPackages.${system};
@@ -183,6 +173,7 @@
               apacheHttpd
               sopsPkgs.sops-import-keys-hook
             ];
+
             shellHook = (nix-pre-commit.lib.${system}.mkConfig {
               inherit pkgs config;
             }).shellHook;

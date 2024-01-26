@@ -112,22 +112,6 @@ in
         enableACME = lib.mkForce true;
         listen = defaultListen;
       };
-
-      "hostoguest.ai" = {
-        forceSSL = true;
-        enableACME = true;
-        listen = defaultListen;
-        serverAliases = [ "www.hostoguest.ai" ];
-      };
-
-      "app.hostoguest.ai" = {
-        forceSSL = true;
-        enableACME = true;
-        listen = defaultListen;
-        locations = {
-          "/".proxyPass = "http://127.0.0.1:8000";
-        };
-      };
     };
   };
 }

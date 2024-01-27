@@ -26,6 +26,8 @@
     };
   };
 
+  security.auditd.enable = true;
+
   services = {
     fail2ban = {
       enable = lib.mkIf config.networking.firewall.enable (lib.mkDefault true);

@@ -18,7 +18,9 @@
       filterForward = true;
       pingLimit = "1/minute burst 5 packets";
       allowedTCPPorts = [
+        25
         80
+        143
         443
         3306
         993

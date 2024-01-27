@@ -55,11 +55,20 @@
     };
   };
 
-  outputs = { nixpkgs, nixos-modules, home-manager, sops-nix, mailserver, nix-pre-commit, ... }:
+  outputs =
+    { home-manager
+    , mailserver
+    , nix-pre-commit
+    , nixos-modules
+    , nixpkgs
+    , sops-nix
+    , ...
+    }:
     let
       inherit (nixpkgs) lib;
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
       ls = dir: lib.attrNames (builtins.readDir (src + "/${dir}"));
+      lsdir = dir: if (builtins.pathExists (src + "/${dir}")) then (lib.attrNames (lib.filterAttrs (path: type: type == "directory") (builtins.readDir (src + "/${dir}")))) else [ ];
       fileList = dir: map (file: ./. + "/${dir}/${file}") (ls dir);
 
       config = {
@@ -105,7 +114,6 @@
             , system ? "x86_64-linux"
             , modules ? [ ]
             , users ? [ "dennis" ]
-            ,
             }: lib.nixosSystem {
               inherit system;
 
@@ -162,7 +170,24 @@
               "richie"
             ];
           };
-        };
+        } // (builtins.listToAttrs (builtins.concatMap
+          (user: map
+            (system: {
+              name = "${user}.${system}";
+              value = lib.nixosSystem {
+                system = "x86_64-linux";
+                modules = [
+                  nixos-modules.nixosModule
+                  home-manager.nixosModules.home-manager
+                  sops-nix.nixosModules.sops
+                  ./users/${user}/systems/${system}/configuration.nix
+                  ./users/${user}/systems/${system}/hardware.nix
+                  { config.networking.hostName = "${system}"; }
+                ] ++ fileList "modules";
+              };
+            })
+            (lsdir "users/${user}/systems"))
+          (lsdir "users")));
 
       devShell = lib.mapAttrs
         (system: sopsPkgs:

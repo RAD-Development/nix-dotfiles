@@ -8,7 +8,27 @@
     loader.grub.device = "/dev/sda";
     filesystem = "zfs";
     useSystemdBoot = true;
+    kernelParams = [
+      "i915.force_probe=56a5"
+      "i915.enable_guc=2"
+    ];
   };
+
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      vaapiVdpau
+      libvdpau-va-gl
+      intel-compute-runtime
+      intel-media-sdk
+    ];
+  };
+  hardware.enableAllFirmware = true;
 
   virtualisation = {
     docker = {
@@ -36,6 +56,7 @@
 
   environment.systemPackages = with pkgs; [
     docker-compose
+    jellyfin-ffmpeg
   ];
 
   services = {

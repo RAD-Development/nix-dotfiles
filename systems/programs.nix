@@ -34,6 +34,7 @@
     unzip
     ventoy
     wget
+    zip
     zoxide
     zsh-nix-shell
   ];

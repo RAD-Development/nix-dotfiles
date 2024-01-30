@@ -143,47 +143,27 @@
               ++ map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users;
             };
         in
-        {
-          jeeves-jr = constructSystem {
-            hostname = "jeeves-jr";
-            users = [
-              "alice"
-              "dennis"
-              "richie"
-            ];
-          };
-
-          palatine-hill = constructSystem {
-            hostname = "palatine-hill";
-            users = [
-              "alice"
-              "dennis"
-              "richie"
-            ];
-          };
-
-          photon = constructSystem {
-            hostname = "photon";
-            users = [
-              "alice"
-              "dennis"
-              "richie"
-            ];
-          };
-        } // (builtins.listToAttrs (builtins.concatMap
+        (builtins.listToAttrs (map
+          (system: {
+            name = system;
+            value = constructSystem { hostname = system; } // (import ./systems/${system} { });
+          })
+          (lsdir "systems"))) //
+        (builtins.listToAttrs (builtins.concatMap
           (user: map
-            (system: {
+            (system: rec {
               name = "${user}.${system}";
+              cfg = import ./users/${user}/systems/${system} { };
               value = lib.nixosSystem {
-                system = "x86_64-linux";
+                system = cfg.system ? "x86_64-linux";
                 modules = [
                   nixos-modules.nixosModule
-                  home-manager.nixosModules.home-manager
                   sops-nix.nixosModules.sops
                   ./users/${user}/systems/${system}/configuration.nix
                   ./users/${user}/systems/${system}/hardware.nix
                   { config.networking.hostName = "${system}"; }
-                ] ++ fileList "modules";
+                ] ++ fileList "modules"
+                ++ lib.optional (cfg.home-manager ? false) home-manager.nixosModules.home-manager;
               };
             })
             (lsdir "users/${user}/systems"))

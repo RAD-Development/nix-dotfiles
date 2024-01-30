@@ -75,6 +75,21 @@
   services = {
     openssh.ports = [ 12 ];
 
+    backup = {
+      enable = true;
+      paths = [
+        "/var/lib/bookstack/"
+        "/var/lib/dovecot/"
+        "/var/lib/gitea/"
+        "/var/lib/nextcloud/"
+        "/var/lib/portunus/"
+        "/var/lib/postfix/"
+        "/var/lib/private/"
+        "/var/lib/vaultwarden/"
+        "/var/lib/www/"
+      ];
+    };
+
     postgresql = {
       enable = true;
       enableJIT = true;
@@ -235,7 +250,6 @@
       package = pkgs.mariadb;
 
       ensureDatabases = [
-        "web_wp_hostoguest"
         "bookstack"
       ];
 
@@ -347,16 +361,16 @@
         SESSION_DRIVER = "redis";
         REDIS_SERVER = "127.0.0.1:${toString config.services.redis.servers."bookstack".port}:0";
 
-        AUTH_METHOD = "ldap";
-        LDAP_BASE_DN = "ou=users,dc=wavelens,dc=io";
-        LDAP_DISPLAY_NAME_ATTRIBUTE = "cn";
-        LDAP_DN = "uid=search,ou=users,dc=wavelens,dc=io";
-        LDAP_ID_ATTRIBUT = "uid";
-        LDAP_MAIL_ATTRIBUTE = "mail";
-        LDAP_PASS = "${if (lib.pathExists config.sops.secrets."bookstack/ldap-password".path) then (builtins.readFile config.sops.secrets."bookstack/ldap-password".path) else ""}";
-        LDAP_SERVER = "${config.services.portunus.domain}:636";
-        LDAP_USER_FILTER = "(isMemberOf=cn=vaultwarden-users,ou=groups,dc=wavelens,dc=io)";
-        LDAP_VERSION = 3;
+        # AUTH_METHOD = "ldap";
+        # LDAP_BASE_DN = "ou=users,dc=wavelens,dc=io";
+        # LDAP_DISPLAY_NAME_ATTRIBUTE = "cn";
+        # LDAP_DN = "uid=search,ou=users,dc=wavelens,dc=io";
+        # LDAP_ID_ATTRIBUT = "uid";
+        # LDAP_MAIL_ATTRIBUTE = "mail";
+        # LDAP_PASS = "${if (lib.pathExists config.sops.secrets."bookstack/ldap-password".path) then (builtins.readFile config.sops.secrets."bookstack/ldap-password".path) else ""}";
+        # LDAP_SERVER = "${config.services.portunus.domain}:636";
+        # LDAP_USER_FILTER = "(isMemberOf=cn=vaultwarden-users,ou=groups,dc=wavelens,dc=io)";
+        # LDAP_VERSION = 3;
       };
     };
   };

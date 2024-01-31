@@ -22,7 +22,7 @@
     "plugdev"
     "uaccess"
   ];
-  shell = pkgs.${defaultShell};
-  hashedPasswordFile = config.sops.secrets."${name}/user-password".path;
+  shell = lib.mkIf config.programs.${defaultShell}.enable pkgs.${defaultShell};
+  hashedPasswordFile = config.sops.secrets."${name}/user-password".path or null;
   openssh.authorizedKeys.keys = publicKeys;
 }

@@ -126,22 +126,6 @@
         "type": "github"
       }
     },
-    "nixos-hardware": {
-      "locked": {
-        "lastModified": 1706182238,
-        "narHash": "sha256-Ti7CerGydU7xyrP/ow85lHsOpf+XMx98kQnPoQCSi1g=",
-        "owner": "NixOS",
-        "repo": "nixos-hardware",
-        "rev": "f84eaffc35d1a655e84749228cde19922fcf55f1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nixos-hardware",
-        "type": "github"
-      }
-    },
     "nixos-modules": {
       "inputs": {
         "flake-utils": [
@@ -152,11 +136,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1706608774,
-        "narHash": "sha256-kbMofnGXCRPInXWm7UAfMYcvIAuHIZO0vBytNhWt+nc=",
+        "lastModified": 1706696840,
+        "narHash": "sha256-qjt5LnYMsRG0E6xTyikj+VgXMw1sfX9MIdKAPIbbn6U=",
         "owner": "SuperSandro2000",
         "repo": "nixos-modules",
-        "rev": "2dae76c258451a2c98e3dee5d1144f5061878e2a",
+        "rev": "98ceffd9619b775a806170b08b1ca453e10662a0",
         "type": "github"
       },
       "original": {
@@ -167,11 +151,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1706371002,
-        "narHash": "sha256-dwuorKimqSYgyu8Cw6ncKhyQjUDOyuXoxDTVmAXq88s=",
+        "lastModified": 1706550542,
+        "narHash": "sha256-UcsnCG6wx++23yeER4Hg18CXWbgNpqNXcHIo5/1Y+hc=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "c002c6aa977ad22c60398daaa9be52f2203d0006",
+        "rev": "97b17f32362e475016f942bbdfda4a4a72a8a652",
         "type": "github"
       },
       "original": {
@@ -187,7 +171,6 @@
         "home-manager": "home-manager",
         "mailserver": "mailserver",
         "nix-pre-commit": "nix-pre-commit",
-        "nixos-hardware": "nixos-hardware",
         "nixos-modules": "nixos-modules",
         "nixpkgs": "nixpkgs",
         "sops-nix": "sops-nix",

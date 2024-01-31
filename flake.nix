@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
@@ -111,60 +109,61 @@
         let
           constructSystem =
             { hostname
-            , system ? "x86_64-linux"
+            , users
+            , home ? true
             , modules ? [ ]
-            , users ? [ "dennis" ]
+            , server ? true
+            , sops ? true
+            , system ? "x86_64-linux"
             }: lib.nixosSystem {
               inherit system;
 
               modules = [
-                mailserver.nixosModules.mailserver
                 nixos-modules.nixosModule
-                home-manager.nixosModules.home-manager
                 sops-nix.nixosModules.sops
+                { config.networking.hostName = "${hostname}"; }
+              ] ++ (if server then [
+                mailserver.nixosModules.mailserver
                 ./systems/programs.nix
                 ./systems/configuration.nix
                 ./systems/${hostname}/hardware.nix
                 ./systems/${hostname}/configuration.nix
-                { config.networking.hostName = "${hostname}"; }
-              ] ++ modules ++ fileList "modules"
+              ] else [
+                ./users/${builtins.head users}/systems/${hostname}/configuration.nix
+                ./users/${builtins.head users}/systems/${hostname}/hardware.nix
+              ]) ++ fileList "modules"
+              ++ modules
+              ++ lib.optional home home-manager.nixosModules.home-manager
+              ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
               ++ map
                 (user: { config, lib, pkgs, ... }@args: {
                   users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
-                  boot.initrd.network.ssh.authorizedKeys = config.users.users.${user}.openssh.authorizedKeys.keys;
-                  sops = {
+                  boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
+                  sops = lib.mkIf sops {
                     secrets."${user}/user-password" = {
                       sopsFile = ./users/${user}/secrets.yaml;
                       neededForUsers = true;
                     };
                   };
                 })
-                users
-              ++ map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users;
+                users;
             };
         in
         (builtins.listToAttrs (map
           (system: {
             name = system;
-            value = constructSystem { hostname = system; } // (import ./systems/${system} { });
+            value = constructSystem ({ hostname = system; } // builtins.removeAttrs (import ./systems/${system} { }) [ "hostname" "server" "home" ]);
           })
           (lsdir "systems"))) //
         (builtins.listToAttrs (builtins.concatMap
           (user: map
-            (system: rec {
+            (system: {
               name = "${user}.${system}";
-              cfg = import ./users/${user}/systems/${system} { };
-              value = lib.nixosSystem {
-                system = cfg.system ? "x86_64-linux";
-                modules = [
-                  nixos-modules.nixosModule
-                  sops-nix.nixosModules.sops
-                  ./users/${user}/systems/${system}/configuration.nix
-                  ./users/${user}/systems/${system}/hardware.nix
-                  { config.networking.hostName = "${system}"; }
-                ] ++ fileList "modules"
-                ++ lib.optional (cfg.home-manager ? false) home-manager.nixosModules.home-manager;
-              };
+              value = constructSystem ({
+                hostname = system;
+                server = false;
+                users = [ user ];
+              } // builtins.removeAttrs (import ./users/${user}/systems/${system} { }) [ "hostname" "server" "users" ]);
             })
             (lsdir "users/${user}/systems"))
           (lsdir "users")));

@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
   networking.hostId = "1beb3026";
@@ -34,9 +33,7 @@
   };
 
   environment = {
-    systemPackages = with pkgs; [
-      docker-compose
-    ];
+    systemPackages = with pkgs; [ docker-compose ];
 
     etc = {
       # Creates /etc/lynis/custom.prf

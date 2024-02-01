@@ -1,9 +1,7 @@
 { config, lib, ... }:
 
-let
-  cfg = config.services.hydra;
-in
-{
+let cfg = config.services.hydra;
+in {
   config = {
     services.hydra.extraConfig = lib.mkDefault (lib.concatLines [
       cfg.extraConfig

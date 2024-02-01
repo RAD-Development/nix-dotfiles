@@ -1,10 +1,5 @@
-{ pkgs, ... }:
-{
-  imports = [
-    ../configuration.nix
-    ../programs.nix
-    ./programs.nix
-  ];
+{ pkgs, ... }: {
+  imports = [ ../configuration.nix ../programs.nix ./programs.nix ];
 
   time.timeZone = "America/New_York";
   console.keyMap = "us";
@@ -23,9 +18,7 @@
 
   boot = {
     default = true;
-    kernel.sysctl = {
-      "net.ipv6.conf.ens3.accept_ra" = 1;
-    };
+    kernel.sysctl = { "net.ipv6.conf.ens3.accept_ra" = 1; };
   };
 
   system.stateVersion = "23.05";

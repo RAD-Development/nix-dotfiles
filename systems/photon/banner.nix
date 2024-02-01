@@ -1,5 +1,4 @@
-{ config, ... }:
-{
+{ config, ... }: {
   services.openssh.banner = ''
     Welcome to ${config.networking.hostName}, another
     ░██╗░░░░░░░██╗░█████╗░██╗░░░██╗███████╗██╗░░░░░███████╗███╗░░██╗░██████╗

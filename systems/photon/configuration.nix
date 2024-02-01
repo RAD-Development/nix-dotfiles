@@ -50,7 +50,7 @@
     preliminarySelfsigned = true;
     staging = false;
     defaults = {
-      email = "info@wavelens.io";
+      email = "security@wavelens.io";
       dnsProvider = "rfc2136";
       group = "nginx";
     };
@@ -399,6 +399,7 @@
       "catch@wavelens.io" = {
         hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-catch".path;
         catchAll = [ "wavelens.io" ];
+        aliases = [ "security@wavelens.io" ];
       };
 
       "noreply@wavelens.io" = {

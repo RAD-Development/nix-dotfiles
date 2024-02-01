@@ -75,7 +75,7 @@
         repos = [
           {
             repo = "https://gitlab.com/vojko.pribudic/pre-commit-update";
-            rev = "f4886322eb7fc53c49e28cc1991674deb1f790bd";
+            rev = "bbd69145df8741f4f470b8f1cf2867121be52121";
             hooks = [
               {
                 id = "pre-commit-update";

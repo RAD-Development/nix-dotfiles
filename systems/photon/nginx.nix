@@ -49,7 +49,7 @@ in
       "default" = {
         default = true;
         addSSL = true;
-        useACMEHost = "git.wavelens.io";
+        useACMEHost = "wavelens.io";
         listen = defaultListen;
         locations."/".extraConfig = "return 404;";
       };

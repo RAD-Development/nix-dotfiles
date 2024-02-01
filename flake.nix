@@ -56,7 +56,8 @@
   };
 
   outputs =
-    { home-manager
+    { self
+    , home-manager
     , mailserver
     , nix-pre-commit
     , nixos-modules

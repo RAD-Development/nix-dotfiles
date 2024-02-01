@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
@@ -62,6 +62,10 @@
     jellyfin-ffmpeg
   ];
 
+  systemd.services.hydra-notify = {
+    serviceConfig.EnvironmentFile = config.sops.secrets."hydra/environment".path;
+  };
+
   services = {
     samba.enable = true;
     nfs.server.enable = true;
@@ -104,6 +108,13 @@
   };
 
   networking.firewall.enable = false;
+
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      "hydra/environment".owner = "hydra";
+    };
+  };
 
   system.stateVersion = "23.05";
 }

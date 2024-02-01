@@ -48,11 +48,13 @@ creation_rules:
       - pgp:
           - *admin_alice
         age: *servers
+    
   - path_regex: users/dennis/secrets\.yaml$
     key_groups:
       - pgp:
           - *admin_dennis
         age: *servers
+  
   - path_regex: users/richie/secrets\.yaml$
     key_groups:
       - pgp:

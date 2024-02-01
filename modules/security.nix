@@ -1,6 +1,5 @@
 # BIASED
-{ config, lib, ... }:
-{
+{ config, lib, ... }: {
   config = {
     services = {
 
@@ -23,8 +22,6 @@
       };
     };
 
-    networking.firewall = lib.mkIf config.services.openssh.enable {
-      allowedTCPPorts = config.services.openssh.ports ++ [ 22 ];
-    };
+    networking.firewall = lib.mkIf config.services.openssh.enable { allowedTCPPorts = config.services.openssh.ports ++ [ 22 ]; };
   };
 }

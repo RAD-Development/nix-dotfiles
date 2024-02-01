@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
   networking.hostId = "dc2f9781";
@@ -8,15 +7,10 @@
     loader.grub.device = "/dev/sda";
     filesystem = "zfs";
     useSystemdBoot = true;
-    kernelParams = [
-      "i915.force_probe=56a5"
-      "i915.enable_guc=2"
-    ];
+    kernelParams = [ "i915.force_probe=56a5" "i915.enable_guc=2" ];
   };
 
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
+  nixpkgs.config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };
 
   hardware = {
     enableAllFirmware = true;
@@ -57,10 +51,9 @@
     # };
   };
 
-  environment.systemPackages = with pkgs; [
-    docker-compose
-    jellyfin-ffmpeg
-  ];
+  environment.systemPackages = with pkgs; [ docker-compose jellyfin-ffmpeg ];
+
+  systemd.services.hydra-notify = { serviceConfig.EnvironmentFile = config.sops.secrets."hydra/environment".path; };
 
   services = {
     samba.enable = true;
@@ -101,9 +94,22 @@
       minimumDiskFree = 50;
       minimumDiskFreeEvaluator = 100;
     };
+
+    nix-serve = {
+      enable = true;
+      secretKeyFile = config.sops.secrets."nix-serve/secret-key".path;
+    };
   };
 
   networking.firewall.enable = false;
+
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      "hydra/environment".owner = "hydra";
+      "nix-serve/secret-key".owner = "root";
+    };
+  };
 
   system.stateVersion = "23.05";
 }

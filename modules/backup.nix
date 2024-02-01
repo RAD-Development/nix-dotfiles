@@ -1,9 +1,7 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.services.backup;
-in
-{
+let cfg = config.services.backup;
+in {
   options.services.backup = {
     enable = lib.mkEnableOption "backup";
 
@@ -54,9 +52,7 @@ in
       restic.backups =
         let
           commonOpts = {
-            extraBackupArgs = [
-              "--exclude-file=${pkgs.writeText "restic-exclude-file" (lib.concatMapStrings (x: x + "\n") cfg.exclude)}"
-            ];
+            extraBackupArgs = [ "--exclude-file=${pkgs.writeText "restic-exclude-file" (lib.concatMapStrings (x: x + "\n") cfg.exclude)}" ];
 
             initialize = true;
             passwordFile = config.sops.secrets."restic/password".path;
@@ -74,19 +70,11 @@ in
               "/etc/subgid"
               "/etc/subuid"
               "/var/lib/nixos/"
-            ] ++ cfg.paths
-            ++ lib.optional config.services.postgresql.enable "/var/backup/postgresql/"
-            ++ lib.optional config.services.mysql.enable "/var/lib/mysql/"
-            ++ lib.optional (config.security.acme.certs != { }) "/var/lib/acme/"
-            ++ lib.optional config.security.dhparams.enable "/var/lib/dhparams/"
+            ] ++ cfg.paths ++ lib.optional config.services.postgresql.enable "/var/backup/postgresql/" ++ lib.optional config.services.mysql.enable "/var/lib/mysql/"
+            ++ lib.optional (config.security.acme.certs != { }) "/var/lib/acme/" ++ lib.optional config.security.dhparams.enable "/var/lib/dhparams/"
             ++ lib.optional config.mailserver.enable config.mailserver.mailDirectory;
 
-            pruneOpts = [
-              "--group-by host"
-              "--keep-daily 7"
-              "--keep-weekly 4"
-              "--keep-monthly 12"
-            ];
+            pruneOpts = [ "--group-by host" "--keep-daily 7" "--keep-weekly 4" "--keep-monthly 12" ];
 
             timerConfig = {
               OnCalendar = "*-*-* ${lib.fixedWidthString 2 "0" (toString cfg.backup_at)}:30:00";
@@ -95,13 +83,9 @@ in
           };
         in
         lib.mkIf cfg.enable {
-          local = commonOpts // {
-            repository = "/var/backup";
-          };
+          local = commonOpts // { repository = "/var/backup"; };
 
-          offsite = lib.mkIf (cfg.offsite != [ ]) commonOpts // {
-            repository = "sftp://offsite/${config.networking.hostName}";
-          };
+          offsite = lib.mkIf (cfg.offsite != [ ]) commonOpts // { repository = "sftp://offsite/${config.networking.hostName}"; };
         };
     };
 
@@ -124,9 +108,7 @@ in
           path = "/root/.ssh/config";
           sopsFile = ./backup.yaml;
         };
-      } // lib.mkIf cfg.enable {
-      "restic/password".owner = "root";
-    };
+      } // lib.mkIf cfg.enable { "restic/password".owner = "root"; };
 
     system.activationScripts.linkResticSSHConfigIntoVirtioFS = lib.mkIf (cfg.enable && cfg.offsite != [ ]) ''
       echo "Linking restic ssh config..."
@@ -142,9 +124,7 @@ in
         restic-backups-offsite.serviceConfig.Environment = lib.mkIf (cfg.offsite != [ ]) "RESTIC_PROGRESS_FPS=0.016666";
       };
 
-      timers = lib.mkIf config.services.postgresqlBackup.enable {
-        postgresqlBackup.timerConfig.RandomizedDelaySec = "5m";
-      };
+      timers = lib.mkIf config.services.postgresqlBackup.enable { postgresqlBackup.timerConfig.RandomizedDelaySec = "5m"; };
     };
   };
 }

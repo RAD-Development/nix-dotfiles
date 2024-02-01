@@ -2,42 +2,41 @@
 let
   eachSite = config.services.staticpage.sites;
 
-  siteOpts = { lib, name, config, ... }:
-    {
-      options = {
-        package = lib.mkPackageOption pkgs "page" { };
+  siteOpts = { lib, name, config, ... }: {
+    options = {
+      package = lib.mkPackageOption pkgs "page" { };
 
-        root = lib.mkOption {
-          type = lib.types.str;
-          description = "The Document-Root folder in /var/lib";
-        };
+      root = lib.mkOption {
+        type = lib.types.str;
+        description = "The Document-Root folder in /var/lib";
+      };
 
-        domain = lib.mkOption {
-          type = lib.types.str;
-          example = "example.com";
-          description = "The staticpage's domain.";
-        };
+      domain = lib.mkOption {
+        type = lib.types.str;
+        example = "example.com";
+        description = "The staticpage's domain.";
+      };
 
-        subdomain = lib.mkOption {
-          type = with lib.types; nullOr str;
-          default = null;
-          example = "app";
-          description = "The staticpage subdomain.";
-        };
+      subdomain = lib.mkOption {
+        type = with lib.types; nullOr str;
+        default = null;
+        example = "app";
+        description = "The staticpage subdomain.";
+      };
 
-        usePHP = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Configure the Nginx Server to use PHP";
-        };
+      usePHP = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Configure the Nginx Server to use PHP";
+      };
 
-        configureNginx = lib.mkOption {
-          type = lib.types.bool;
-          default = true;
-          description = "Configure the Nginx Server to serve the site with acne";
-        };
+      configureNginx = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Configure the Nginx Server to serve the site with acne";
       };
     };
+  };
 in
 {
   options.services.staticpage = {
@@ -81,7 +80,7 @@ in
                   allow all;
                 '';
               };
-              locations."~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$" = {
+              locations."~* .(js|css|png|jpg|jpeg|gif|ico|svg)$" = {
                 extraConfig = ''
                   try_files $uri @rewrite;
                   expires max;
@@ -94,17 +93,17 @@ in
                 '';
               };
             } // lib.optionalAttrs cfg.usePHP {
-              locations."~ '\.php$|^/update.php'" = {
+              locations."~ '.php$|^/update.php'" = {
                 extraConfig = ''
                   include ${pkgs.nginx}/conf/fastcgi_params;
                   include ${pkgs.nginx}/conf/fastcgi.conf;
                   fastcgi_pass  unix:${config.services.phpfpm.pools.${name}.socket};
                   fastcgi_index index.php;
-  
+
                   fastcgi_split_path_info ^(.+?\.php)(|/.*)$;
                   # Ensure the php file exists. Mitigates CVE-2019-11043
                   try_files $fastcgi_script_name =404;
-  
+
                   # Block httpoxy attacks. See https://httpoxy.org/.
                   fastcgi_param HTTP_PROXY "";
                   fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -114,7 +113,7 @@ in
                 '';
               };
 
-              locations."~ \..*/.*\.php$" = {
+              locations."~ ..*/.*.php$" = {
                 extraConfig = ''
                   return 403;
                 '';
@@ -124,7 +123,7 @@ in
                   return 403;
                 '';
               };
-              locations."~ ^/sites/[^/]+/files/.*\.php$" = {
+              locations."~ ^/sites/[^/]+/files/.*.php$" = {
                 extraConfig = ''
                   deny all;
                 '';
@@ -139,7 +138,7 @@ in
                   rewrite ^ /index.php;
                 '';
               };
-              locations."~ /vendor/.*\.php$" = {
+              locations."~ /vendor/.*.php$" = {
                 extraConfig = ''
                   deny all;
                   return 404;
@@ -150,7 +149,7 @@ in
                   try_files $uri @rewrite;
                 '';
               };
-              locations."~ ^(/[a-z\-]+)?/system/files/" = {
+              locations."~ ^(/[a-z-]+)?/system/files/" = {
                 extraConfig = ''
                   try_files $uri /index.php?$query_string;
                 '';

@@ -1,5 +1,5 @@
-{ ... }:
-{
+{ ... }: {
   system = "x86_64-linux";
-  home-manager = true;
+  home = true;
+  sops = false;
 }

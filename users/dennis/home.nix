@@ -16,7 +16,8 @@
         r = "reset --hard";
         ci = "commit";
         co = "checkout";
-        lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'";
+        lg =
+          "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'";
         st = "status";
         undo = "reset --soft HEAD^";
       };
@@ -57,14 +58,12 @@
       baseIndex = 1;
       clock24 = true;
       keyMode = "vi";
-      terminal = "screen-256color\"\nset -g mouse on\n# \"";
+      terminal = ''
+        screen-256color"
+        set -g mouse on
+        # "'';
       shortcut = "Space";
-      plugins = with pkgs.tmuxPlugins; [
-        nord
-        vim-tmux-navigator
-        sensible
-        yank
-      ];
+      plugins = with pkgs.tmuxPlugins; [ nord vim-tmux-navigator sensible yank ];
     };
 
     zsh = {
@@ -80,13 +79,13 @@
       shellAliases = {
         flake = "nvim flake.nix";
         garbage = "sudo nix-collect-garbage -d";
-        gpw = "git pull | grep \"Already up-to-date\" > /dev/null; while [ $? -gt 1 ]; do sleep 5; git pull | grep \"Already up-to-date\" > /dev/null; done; notify-send Pull f$";
+        gpw = ''git pull | grep "Already up-to-date" > /dev/null; while [ $? -gt 1 ]; do sleep 5; git pull | grep "Already up-to-date" > /dev/null; done; notify-send Pull f$'';
         l = "ls -lah";
-        nixdir = "echo \"use flake\" > .envrc && direnv allow";
+        nixdir = ''echo "use flake" > .envrc && direnv allow'';
         nixeditc = "nvim ~/dotfiles/system/configuration.nix";
         nixeditpc = "nvim ~/dotfiles/system/program.nix";
         pypi = "pip install --user";
-        qr = "qrencode -m 2 -t utf8 <<< \"$1\"";
+        qr = ''qrencode -m 2 -t utf8 <<< "$1"'';
         update = "sudo nixos-rebuild switch --fast --flake /root/dotfiles/ -L";
         v = "nvim";
         jc = "journalctl -xe";

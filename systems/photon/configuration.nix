@@ -1,10 +1,5 @@
-{ config, pkgs, lib, ... }:
-{
-  imports = [
-    ./banner.nix
-    ./gitea.nix
-    ./nginx.nix
-  ];
+{ config, pkgs, lib, ... }: {
+  imports = [ ./banner.nix ./gitea.nix ./nginx.nix ];
 
   time.timeZone = "Europe/Berlin";
   console.keyMap = "de";
@@ -17,15 +12,7 @@
     firewall = {
       filterForward = true;
       pingLimit = "1/minute burst 5 packets";
-      allowedTCPPorts = [
-        25
-        80
-        143
-        443
-        3306
-        993
-        465
-      ];
+      allowedTCPPorts = [ 25 80 143 443 3306 993 465 ];
     };
 
     interfaces = {
@@ -41,9 +28,7 @@
     };
   };
 
-  boot = {
-    useSystemdBoot = true;
-  };
+  boot = { useSystemdBoot = true; };
 
   security.acme = {
     acceptTerms = true;
@@ -77,17 +62,8 @@
 
     backup = {
       enable = true;
-      paths = [
-        "/var/lib/bookstack/"
-        "/var/lib/dovecot/"
-        "/var/lib/gitea/"
-        "/var/lib/nextcloud/"
-        "/var/lib/portunus/"
-        "/var/lib/postfix/"
-        "/var/lib/private/"
-        "/var/lib/vaultwarden/"
-        "/var/lib/www/"
-      ];
+      paths =
+        [ "/var/lib/bookstack/" "/var/lib/dovecot/" "/var/lib/gitea/" "/var/lib/nextcloud/" "/var/lib/portunus/" "/var/lib/postfix/" "/var/lib/private/" "/var/lib/vaultwarden/" "/var/lib/www/" ];
     };
 
     postgresql = {
@@ -95,28 +71,16 @@
       enableJIT = true;
       upgrade = {
         enable = true;
-        stopServices = [
-          "gitea"
-          "nextcloud"
-          "vaultwarden"
-        ];
+        stopServices = [ "gitea" "nextcloud" "vaultwarden" ];
       };
 
       ensureUsers = map
         (user: {
           name = user;
           ensureDBOwnership = true;
-        }) [
-        "vaultwarden"
-        "gitea"
-        "nextcloud"
-      ];
+        }) [ "vaultwarden" "gitea" "nextcloud" ];
 
-      ensureDatabases = [
-        "vaultwarden"
-        "gitea"
-        "nextcloud"
-      ];
+      ensureDatabases = [ "vaultwarden" "gitea" "nextcloud" ];
     };
 
     portunus = {
@@ -249,18 +213,12 @@
       enable = true;
       package = pkgs.mariadb;
 
-      ensureDatabases = [
-        "bookstack"
-      ];
+      ensureDatabases = [ "bookstack" ];
 
-      ensureUsers = [
-        {
-          name = "bookstack";
-          ensurePermissions = {
-            "bookstack.*" = "ALL PRIVILEGES";
-          };
-        }
-      ];
+      ensureUsers = [{
+        name = "bookstack";
+        ensurePermissions = { "bookstack.*" = "ALL PRIVILEGES"; };
+      }];
     };
 
     nextcloud = {
@@ -407,9 +365,7 @@
         sendOnly = true;
       };
 
-      "dennis.wuitz@wavelens.io" = {
-        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-dennis".path;
-      };
+      "dennis.wuitz@wavelens.io" = { hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-dennis".path; };
     };
 
     # ldap = {

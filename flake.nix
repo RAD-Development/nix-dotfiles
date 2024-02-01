@@ -10,7 +10,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
-    nixpkgs-fmt.url = "github:rad-development/nixpkgs-fmt";
+    nixpkgs-fmt = {
+      url = "github:rad-development/nixpkgs-fmt";
+      inputs.fenix.inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     flake-utils = {
       url = "github:numtide/flake-utils";
@@ -61,7 +64,7 @@
     let
       inherit (nixpkgs) lib;
       systems = [ "x86_64-linux" "aarch64-linux" ];
-      forEachSystem = nixpkgs.lib.genAttrs systems;
+      forEachSystem = lib.genAttrs systems;
 
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
       ls = dir: lib.attrNames (builtins.readDir (src + "/${dir}"));
@@ -179,16 +182,23 @@
         sops-nix.packages;
 
       hydraJobs = {
-        build = (recursiveMerge (map
-          (machine: {
-            ${machine.pkgs.system} = (builtins.listToAttrs (map
-              (pkg: {
-                name = pkg.name;
-                value = pkg;
+        build = (recursiveMerge
+          (
+            (map
+              (machine: {
+                ${machine.pkgs.system} = (builtins.listToAttrs (map
+                  (pkg: {
+                    name = pkg.name;
+                    value = pkg;
+                  })
+                  machine.config.environment.systemPackages));
               })
-              machine.config.environment.systemPackages));
-          })
-          (builtins.attrValues self.nixosConfigurations)));
+              (builtins.attrValues self.nixosConfigurations)) ++ [
+              (forEachSystem (system: {
+                ${system}.${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name} = nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt;
+              }))
+            ]
+          ));
       };
     };
 }

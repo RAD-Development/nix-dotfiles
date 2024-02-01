@@ -9,13 +9,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    systems.url = "github:nix-systems/default";
+    nixpkgs-fmt.url = "github:rad-development/nixpkgs-fmt";
 
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
     };
-
-    systems = { url = "github:nix-systems/default"; };
 
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
@@ -57,7 +57,7 @@
     };
   };
 
-  outputs = { self, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }:
+  outputs = { self, nixpkgs-fmt, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }:
     let
       inherit (nixpkgs) lib;
       systems = [ "x86_64-linux" "aarch64-linux" ];
@@ -80,7 +80,8 @@
                 f (attrPath ++ [ n ]) values
               else
                 lib.last values);
-        in f [ ] attrList;
+        in
+        f [ ] attrList;
 
       config = {
         repos = [
@@ -97,8 +98,8 @@
             hooks = [
               {
                 id = "nixfmt check";
-                entry = "${nixpkgs.legacyPackages.x86_64-linux.nixfmt}/bin/nixfmt";
-                args = [ "-w=200" "-c" ];
+                entry = "${nixpkgs-fmt.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
+                args = [ "--check" ];
                 language = "system";
                 files = "\\.nix";
               }
@@ -113,64 +114,81 @@
           }
         ];
       };
-    in {
-      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt);
-      nixosConfigurations = let
-        constructSystem = { hostname, users, home ? true, modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
-          lib.nixosSystem {
-            inherit system;
+    in
+    {
+      formatter = forEachSystem (system: nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt);
+      nixosConfigurations =
+        let
+          constructSystem = { hostname, users, home ? true, modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
+            lib.nixosSystem {
+              inherit system;
 
-            modules = [ nixos-modules.nixosModule sops-nix.nixosModules.sops { config.networking.hostName = "${hostname}"; } ] ++ (if server then [
-              mailserver.nixosModules.mailserver
-              ./systems/programs.nix
-              ./systems/configuration.nix
-              ./systems/${hostname}/hardware.nix
-              ./systems/${hostname}/configuration.nix
-            ] else [
-              ./users/${builtins.head users}/systems/${hostname}/configuration.nix
-              ./users/${builtins.head users}/systems/${hostname}/hardware.nix
-            ]) ++ fileList "modules" ++ modules ++ lib.optional home home-manager.nixosModules.home-manager
-              ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ]) ++ map (user:
-                { config, lib, pkgs, ... }@args: {
-                  users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
-                  boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
-                  sops = lib.mkIf sops {
-                    secrets."${user}/user-password" = {
-                      sopsFile = ./users/${user}/secrets.yaml;
-                      neededForUsers = true;
+              modules = [ nixos-modules.nixosModule sops-nix.nixosModules.sops { config.networking.hostName = "${hostname}"; } ] ++ (if server then [
+                mailserver.nixosModules.mailserver
+                ./systems/programs.nix
+                ./systems/configuration.nix
+                ./systems/${hostname}/hardware.nix
+                ./systems/${hostname}/configuration.nix
+              ] else [
+                ./users/${builtins.head users}/systems/${hostname}/configuration.nix
+                ./users/${builtins.head users}/systems/${hostname}/hardware.nix
+              ]) ++ fileList "modules" ++ modules ++ lib.optional home home-manager.nixosModules.home-manager
+                ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ]) ++ map
+                (user:
+                  { config, lib, pkgs, ... }@args: {
+                    users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
+                    boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
+                    sops = lib.mkIf sops {
+                      secrets."${user}/user-password" = {
+                        sopsFile = ./users/${user}/secrets.yaml;
+                        neededForUsers = true;
+                      };
                     };
-                  };
-                }) users;
-          };
-      in (builtins.listToAttrs (map (system: {
-        name = system;
-        value = constructSystem ({ hostname = system; } // builtins.removeAttrs (import ./systems/${system} { }) [ "hostname" "server" "home" ]);
-      }) (lsdir "systems"))) // (builtins.listToAttrs (builtins.concatMap (user:
-        map (system: {
-          name = "${user}.${system}";
-          value = constructSystem ({
-            hostname = system;
-            server = false;
-            users = [ user ];
-          } // builtins.removeAttrs (import ./users/${user}/systems/${system} { }) [ "hostname" "server" "users" ]);
-        }) (lsdir "users/${user}/systems")) (lsdir "users")));
+                  })
+                users;
+            };
+        in
+        (builtins.listToAttrs (map
+          (system: {
+            name = system;
+            value = constructSystem ({ hostname = system; } // builtins.removeAttrs (import ./systems/${system} { }) [ "hostname" "server" "home" ]);
+          })
+          (lsdir "systems"))) // (builtins.listToAttrs (builtins.concatMap
+          (user:
+            map
+              (system: {
+                name = "${user}.${system}";
+                value = constructSystem ({
+                  hostname = system;
+                  server = false;
+                  users = [ user ];
+                } // builtins.removeAttrs (import ./users/${user}/systems/${system} { }) [ "hostname" "server" "users" ]);
+              })
+              (lsdir "users/${user}/systems"))
+          (lsdir "users")));
 
-      devShell = lib.mapAttrs (system: sopsPkgs:
-        with nixpkgs.legacyPackages.${system};
-        mkShell {
-          sopsPGPKeyDirs = [ "./keys" ];
-          nativeBuildInputs = [ apacheHttpd sopsPkgs.sops-import-keys-hook ];
-          packages = [ self.formatter.${system} ];
-          shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
-        }) sops-nix.packages;
+      devShell = lib.mapAttrs
+        (system: sopsPkgs:
+          with nixpkgs.legacyPackages.${system};
+          mkShell {
+            sopsPGPKeyDirs = [ "./keys" ];
+            nativeBuildInputs = [ apacheHttpd sopsPkgs.sops-import-keys-hook ];
+            packages = [ self.formatter.${system} ];
+            shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
+          })
+        sops-nix.packages;
 
       hydraJobs = {
-        build = (recursiveMerge (map (machine: {
-          ${machine.pkgs.system} = (builtins.listToAttrs (map (pkg: {
-            name = pkg.name;
-            value = pkg;
-          }) machine.config.environment.systemPackages));
-        }) (builtins.attrValues self.nixosConfigurations)));
+        build = (recursiveMerge (map
+          (machine: {
+            ${machine.pkgs.system} = (builtins.listToAttrs (map
+              (pkg: {
+                name = pkg.name;
+                value = pkg;
+              })
+              machine.config.environment.systemPackages));
+          })
+          (builtins.attrValues self.nixosConfigurations)));
       };
     };
 }

@@ -74,10 +74,11 @@
         stopServices = [ "gitea" "nextcloud" "vaultwarden" ];
       };
 
-      ensureUsers = map (user: {
-        name = user;
-        ensureDBOwnership = true;
-      }) [ "vaultwarden" "gitea" "nextcloud" ];
+      ensureUsers = map
+        (user: {
+          name = user;
+          ensureDBOwnership = true;
+        }) [ "vaultwarden" "gitea" "nextcloud" ];
 
       ensureDatabases = [ "vaultwarden" "gitea" "nextcloud" ];
     };

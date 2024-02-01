@@ -74,10 +74,11 @@
         stopServices = [ "hydra" ];
       };
 
-      ensureUsers = map (user: {
-        name = user;
-        ensureDBOwnership = true;
-      }) [ "hydra" ];
+      ensureUsers = map
+        (user: {
+          name = user;
+          ensureDBOwnership = true;
+        }) [ "hydra" ];
 
       ensureDatabases = [ "hydra" ];
     };

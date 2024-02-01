@@ -1,42 +1,37 @@
 { config, lib, ... }:
 let
-  httpListen =
-    let
-      listen = [
-        {
-          addr = "[::]";
-          port = 80;
-        }
-        {
-          addr = "[::]";
-          port = 8080;
-          extraParameters = [ "proxy_protocol" ];
-        }
-      ];
-    in
-    map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
+  httpListen = let
+    listen = [
+      {
+        addr = "[::]";
+        port = 80;
+      }
+      {
+        addr = "[::]";
+        port = 8080;
+        extraParameters = [ "proxy_protocol" ];
+      }
+    ];
+  in map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
 
-  httpsListen =
-    let
-      listen = [
-        {
-          addr = "[::]";
-          port = 443;
-          ssl = true;
-        }
-        {
-          addr = "[::]";
-          port = 8443;
-          ssl = true;
-          extraParameters = [ "proxy_protocol" ];
-        }
-      ];
-    in
-    map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
+  httpsListen = let
+    listen = [
+      {
+        addr = "[::]";
+        port = 443;
+        ssl = true;
+      }
+      {
+        addr = "[::]";
+        port = 8443;
+        ssl = true;
+        extraParameters = [ "proxy_protocol" ];
+      }
+    ];
+  in map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
 
   defaultListen = httpListen ++ httpsListen;
-in
-{
+in {
   services.nginx = {
     enable = true;
     allRecommendOptions = true;
@@ -49,7 +44,7 @@ in
       "default" = {
         default = true;
         addSSL = true;
-        useACMEHost = "git.wavelens.io";
+        useACMEHost = "wavelens.io";
         listen = defaultListen;
         locations."/".extraConfig = "return 404;";
       };

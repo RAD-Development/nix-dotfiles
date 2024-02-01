@@ -1,5 +1,4 @@
-{ config, lib, ... }:
-{
+{ config, lib, ... }: {
   services.gitea = {
     enable = true;
     recommendedDefaults = true;

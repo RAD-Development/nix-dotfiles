@@ -105,6 +105,11 @@
       minimumDiskFree = 50;
       minimumDiskFreeEvaluator = 100;
     };
+
+    nix-serve = {
+      enable = true;
+      secretKeyFile = config.sops.secrets."nix-serve/secret-key".path;
+    };
   };
 
   networking.firewall.enable = false;
@@ -113,6 +118,7 @@
     defaultSopsFile = ./secrets.yaml;
     secrets = {
       "hydra/environment".owner = "hydra";
+      "nix-serve/secret-key".owner = "root";
     };
   };
 

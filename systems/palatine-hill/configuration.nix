@@ -10,6 +10,10 @@
     kernelParams = [ "i915.force_probe=56a5" "i915.enable_guc=2" ];
   };
 
+  nix.extraOptions = ''
+    allowed-uris = https://github.com ssh://github.com https://git.wavelens.io ssh://git.wavelens.io
+  '';
+
   nixpkgs.config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };
 
   hardware = {

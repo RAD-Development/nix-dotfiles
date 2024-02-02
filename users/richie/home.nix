@@ -10,7 +10,7 @@
     trunk
     wasm-pack
     cargo-watch
-    #pkgs.cargo-tarpaulin
+    # pkgs.cargo-tarpaulin
     cargo-generate
     cargo-audit
     cargo-update

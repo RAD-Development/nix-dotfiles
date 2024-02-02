@@ -98,7 +98,7 @@
               if builtins.tail values == [ ] then
                 builtins.head values
               else if builtins.all builtins.isList values then
-                builtins.unique (builtins.concatLists values)
+                lib.unique (builtins.concatLists values)
               else if builtins.all builtins.isAttrs values then
                 f (attrPath ++ [ n ]) values
               else

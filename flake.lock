@@ -109,19 +109,19 @@
         "type": "github"
       }
     },
-    "libgit2": {
+    "lowdown-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1697646580,
-        "narHash": "sha256-oX4Z3S9WtJlwvj0uH9HlYcWv+x1hqp8mhXl7HsLu2f0=",
-        "owner": "libgit2",
-        "repo": "libgit2",
-        "rev": "45fd9ed7ae1a9b74b957ef4f337bc3c8b3df01b5",
+        "lastModified": 1633514407,
+        "narHash": "sha256-Dw32tiMjdK9t3ETl5fzGrutQTzh2rufgZV4A/BbxuD4=",
+        "owner": "kristapsdz",
+        "repo": "lowdown",
+        "rev": "d2c2b44ff6c27b936ec27358a2653caaef8f73b8",
         "type": "github"
       },
       "original": {
-        "owner": "libgit2",
-        "repo": "libgit2",
+        "owner": "kristapsdz",
+        "repo": "lowdown",
         "type": "github"
       }
     },
@@ -159,23 +159,23 @@
     "nix": {
       "inputs": {
         "flake-compat": "flake-compat_2",
-        "libgit2": "libgit2",
+        "lowdown-src": "lowdown-src",
         "nixpkgs": [
           "nixpkgs"
         ],
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1706733363,
-        "narHash": "sha256-CvjeQyDq84xgXVRq9OpRwyge26sngDsDGDh5qqLlyLk=",
+        "lastModified": 1687956155,
+        "narHash": "sha256-nL3tSXLhXk5jyzX4aWpJvz3JdTyImK+0paRhQqx4f4A=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "db82034fee01bcba88bae1b0460ae97010cf0a16",
+        "rev": "b8cb447a457a4a5e8b26143ba3c8cc5cc6caf0b7",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "2.20-maintenance",
+        "ref": "nixos-unstable",
         "repo": "nix",
         "type": "github"
       }

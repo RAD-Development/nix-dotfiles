@@ -11,7 +11,7 @@
     systems.url = "github:nix-systems/default";
 
     nix = {
-      url = "github:NixOS/nix/2.20-maintenance";
+      url = "github:NixOS/nix/nixos-unstable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

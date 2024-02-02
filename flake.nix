@@ -10,6 +10,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
 
+    nix = {
+      url = "github:NixOS/nix/nixos-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
@@ -69,11 +74,17 @@
     };
   };
 
-  outputs = { self, nixpkgs-fmt, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }:
+  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }:
     let
       inherit (nixpkgs) lib;
       systems = [ "x86_64-linux" "aarch64-linux" ];
       forEachSystem = lib.genAttrs systems;
+
+      overlayList = [ self.overlays.default nix.overlays.default ];
+      pkgsBySystem = forEachSystem (system: import nixpkgs {
+        inherit system;
+        overlays = overlayList;
+      });
 
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
       ls = dir: lib.attrNames (builtins.readDir (src + "/${dir}"));
@@ -129,6 +140,10 @@
     in
     {
       formatter = forEachSystem (system: nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt);
+      overlays.default = final: prev: {
+        nixpkgs-fmt = forEachSystem (system: nixpkgs-fmt.legacyPackages.${system}.nixpkgs.fmt);
+      };
+
       nixosConfigurations =
         let
           constructSystem = { hostname, users, home ? true, modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
@@ -195,16 +210,16 @@
           (
             (map
               (machine: {
-                ${machine.pkgs.system} = (builtins.listToAttrs (map
-                  (pkg: {
+                ${machine.pkgs.system} = (builtins.listToAttrs (builtins.filter (v: v != { }) (map
+                  (pkg: (if (builtins.hasAttr pkg.name pkgsBySystem.${machine.pkgs.system}) then {
                     name = pkg.name;
-                    value = pkg;
-                  })
-                  machine.config.environment.systemPackages));
+                    value = pkgsBySystem.${machine.pkgs.system}.${pkg.name};
+                  } else { }))
+                  machine.config.environment.systemPackages)));
               })
               (builtins.attrValues self.nixosConfigurations)) ++ [
               (forEachSystem (system: {
-                ${system}.${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name} = nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt;
+                ${system}.${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name} = pkgsBySystem.${system}.${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name};
               }))
             ]
           ));

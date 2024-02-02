@@ -69,18 +69,18 @@
     postgresql = {
       enable = true;
       enableJIT = true;
+      identMap = ''
+        # ArbitraryMapName systemUser DBUser
+           superuser_map      root      postgres
+           superuser_map      alice  postgres
+           # Let other names login as themselves
+           superuser_map      /^(.*)$   \1
+      '';
+
       upgrade = {
         enable = true;
         stopServices = [ "hydra" ];
       };
-
-      ensureUsers = map
-        (user: {
-          name = user;
-          ensureDBOwnership = true;
-        }) [ "hydra" ];
-
-      ensureDatabases = [ "hydra" ];
     };
 
     hydra = {

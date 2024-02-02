@@ -9,14 +9,24 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
-    nixpkgs-fmt = {
-      url = "github:rad-development/nixpkgs-fmt";
-      inputs.fenix.inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
+    };
+
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixpkgs-fmt = {
+      url = "github:rad-development/nixpkgs-fmt";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+        fenix.follows = "fenix";
+      };
     };
 
     nixos-modules = {

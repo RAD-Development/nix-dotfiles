@@ -54,7 +54,7 @@
         EnvironmentFile = [ config.sops.secrets."vaultwarden/smtp-password".path ];
       };
     };
-    timers.bitwarden-directory-connector-cli.wants = [ "network-online.target" ];
+    timers.bitwarden-directory-connector-cli.wants = [ "network-online.target" ]; # TODO: TEMPORARY
   };
 
   services = {

@@ -16,8 +16,7 @@
         r = "reset --hard";
         ci = "commit";
         co = "checkout";
-        lg =
-          "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'";
+        lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'";
         st = "status";
         undo = "reset --soft HEAD^";
       };
@@ -28,13 +27,14 @@
       viAlias = true;
       withPython3 = true;
       extraConfig = ''
-                  set undofile         " save undo file after quit
-        	  set undolevels=1000  " number of steps to save
-        	  set undoreload=10000 " number of lines to save
+        set undofile         " save undo file after quit
+        set undolevels=1000  " number of steps to save
+        set undoreload=10000 " number of lines to save
 
-        	  " Save Cursor Position
-        	  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-        	'';
+        " Save Cursor Position
+        au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+      '';
+
       plugins = with pkgs.vimPlugins; [
         colorizer
         copilot-vim
@@ -76,6 +76,7 @@
         plugins = [ "git" "sudo" "docker" "kubectl" "history" "colorize" "direnv" ];
         theme = "agnoster";
       };
+
       shellAliases = {
         flake = "nvim flake.nix";
         garbage = "sudo nix-collect-garbage -d";

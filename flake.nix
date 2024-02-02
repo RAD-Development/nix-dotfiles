@@ -10,6 +10,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
 
+    nix-index-database = {
+      url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix = {
       url = "github:NixOS/nix/latest-release";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -72,9 +77,17 @@
         flake-utils.follows = "flake-utils";
       };
     };
+
+    c3d2-user-module = {
+      url = "git+https://gitea.c3d2.de/C3D2/nix-user-module.git";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixos-modules.follows = "nixos-modules";
+      };
+    };
   };
 
-  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }:
+  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [ "x86_64-linux" "aarch64-linux" ];
@@ -84,6 +97,7 @@
       pkgsBySystem = forEachSystem (system: import nixpkgs {
         inherit system;
         overlays = overlayList;
+        config.allowUnfree = true;
       });
 
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
@@ -178,7 +192,7 @@
         (builtins.listToAttrs (map
           (system: {
             name = system;
-            value = constructSystem ({ hostname = system; } // builtins.removeAttrs (import ./systems/${system} { }) [ "hostname" "server" "home" ]);
+            value = constructSystem ({ hostname = system; } // builtins.removeAttrs (import ./systems/${system} { inherit inputs; }) [ "hostname" "server" "home" ]);
           })
           (lsdir "systems"))) // (builtins.listToAttrs (builtins.concatMap
           (user:
@@ -189,7 +203,7 @@
                   hostname = system;
                   server = false;
                   users = [ user ];
-                } // builtins.removeAttrs (import ./users/${user}/systems/${system} { }) [ "hostname" "server" "users" ]);
+                } // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [ "hostname" "server" "users" ]);
               })
               (lsdir "users/${user}/systems"))
           (lsdir "users")));
@@ -223,6 +237,22 @@
               }))
             ]
           ));
-      };
+      } // lib.mapAttrs (_: lib.hydraJob) (
+        let
+          getBuildEntryPoint = name: nixosSystem:
+            let
+              cfg =
+                if (lib.hasPrefix "iso" name) then
+                  nixosSystem.config.system.build.isoImage
+                else
+                  nixosSystem.config.system.build.toplevel;
+            in
+            if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
+              lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
+            else
+              cfg;
+        in
+        lib.mapAttrs getBuildEntryPoint self.nixosConfigurations
+      );
     };
 }

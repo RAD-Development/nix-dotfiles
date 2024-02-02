@@ -11,7 +11,7 @@
   };
 
   nix.extraOptions = ''
-    allowed-uris = https://github.com ssh://github.com https://git.wavelens.io ssh://git.wavelens.io
+    allowed-uris = github: gitlab: git+https:// git+ssh:// https://
   '';
 
   nixpkgs.config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };

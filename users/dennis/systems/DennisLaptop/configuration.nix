@@ -46,9 +46,9 @@
     };
 
     zsh.shellAliases = {
-      nixedit = "nvim ~/dotfiles/system/laptop/configuration.nix";
-      nixeditp = "nvim ~/dotfiles/system/laptop/program.nix";
-      nixedith = "nvim ~/dotfiles/system/laptop/hardware-configuration.nix";
+      nixedit = "nvim ~/dotfiles/users/dennis/systems/DennisLaptop/configuration.nix";
+      nixeditp = "nvim ~/dotfiles/users/dennis/systems/DennisLaptop/program.nix";
+      nixedith = "nvim ~/dotfiles/users/dennis/systems/DennisLaptop/hardware-configuration.nix";
     };
   };
 

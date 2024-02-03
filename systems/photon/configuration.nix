@@ -141,7 +141,7 @@
       dbBackend = "postgresql";
       config = {
         DATABASE_URL = lib.mkForce "postgresql:///vaultwarden?host=/run/postgresql";
-        DOMAIN = "https://bitwarden.wavelens.io";
+        DOMAIN = "https://vault.wavelens.io";
         DATA_FOLDER = "/var/lib/vaultwarden";
         PUSH_ENABLED = false;
         PUSH_IDENTITY_URI = "https://identity.bitwarden.eu";
@@ -333,6 +333,7 @@
     };
   };
 
+  services.dovecot2.sieve.extensions = [ "fileinto" "copy" ];
   mailserver = {
     enable = true;
     fqdn = "mail.wavelens.io";

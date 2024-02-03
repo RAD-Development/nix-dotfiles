@@ -128,11 +128,11 @@
         gpw = "git pull | grep \"Already up-to-date\" > /dev/null; while [ $? -gt 1 ]; do sleep 5; git pull | grep \"Already up-to-date\" > /dev/null; done; notify-send Pull f$";
         l = "ls -lah";
         nixdir = "echo \"use flake\" > .envrc && direnv allow";
-        nixeditc = "nvim ~/dotfiles/system/configuration.nix";
-        nixeditpc = "nvim ~/dotfiles/system/program.nix";
+        nixeditc = "nvim ~/dotfiles/users/dennis/systems/configuration.nix";
+        nixeditpc = "nvim ~/dotfiles/users/dennis/systems/program.nix";
         pypi = "pip install --user";
         qr = "qrencode -m 2 -t utf8 <<< \"$1\"";
-        update = "sudo nixos-rebuild switch --fast --flake ~/dotfiles/ -L";
+        update = "sudo nixos-rebuild switch --fast --accept-flake-config --flake ~/dotfiles/ -L";
         v = "nvim";
       };
 

@@ -2,6 +2,7 @@
   description = "NixOS configuration for RAD-Development Servers";
 
   nixConfig = {
+    substituters = [ "https://cache.alicehuston.xyz" "https://cache.nixos.org" "https://nix-community.cachix.org" ];
     trusted-substituters = [ "https://cache.alicehuston.xyz" "https://cache.nixos.org" "https://nix-community.cachix.org" ];
     trusted-public-keys = [ "cache.alicehuston.xyz:SJAm8HJVTWUjwcTTLAoi/5E1gUOJ0GWum2suPPv7CUo=%" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
   };
@@ -233,26 +234,34 @@
               })
               (builtins.attrValues self.nixosConfigurations)) ++ [
               (forEachSystem (system: {
-                ${system}.${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name} = pkgsBySystem.${system}.${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name};
+                ${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name} = pkgsBySystem.${system}.${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name};
               }))
             ]
           ));
-      } // lib.mapAttrs (_: lib.hydraJob) (
-        let
-          getBuildEntryPoint = name: nixosSystem:
-            let
-              cfg =
-                if (lib.hasPrefix "iso" name) then
-                  nixosSystem.config.system.build.isoImage
-                else
-                  nixosSystem.config.system.build.toplevel;
-            in
-            if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
-              lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
-            else
-              cfg;
-        in
-        lib.mapAttrs getBuildEntryPoint self.nixosConfigurations
-      );
+      } // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob))
+        (
+          let
+            mkBuild = (type:
+              let
+                getBuildEntryPoint = name: nixosSystem:
+                  if builtins.hasAttr type nixosSystem.config.system.build then
+                    let
+                      cfg = nixosSystem.config.system.build.${type};
+                    in
+                    if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
+                      lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
+                    else
+                      cfg
+                  else { };
+              in
+              lib.filterAttrs (n: v: v != { }) (lib.mapAttrs getBuildEntryPoint self.nixosConfigurations)
+            );
+          in
+          builtins.listToAttrs (map
+            (type: {
+              name = type;
+              value = mkBuild type;
+            }) [ "toplevel" "isoImage" ])
+        );
     };
 }

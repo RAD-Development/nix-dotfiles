@@ -333,6 +333,16 @@
     };
   };
 
+  # TODO: TEMPORARY until mailserver update
+  services.dovecot2.sieve.scripts.after = builtins.toFile "spam.sieve" ''
+    require "fileinto";
+
+    if header :is "X-Spam" "Yes" {
+        fileinto "Junk";
+        stop;
+    }
+  '';
+
   mailserver = {
     enable = true;
     fqdn = "mail.wavelens.io";

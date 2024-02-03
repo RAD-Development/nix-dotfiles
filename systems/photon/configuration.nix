@@ -182,8 +182,8 @@
 
       secrets = {
         bitwarden = {
-          client_path_id = config.sops.secrets."vaultwarden/client-id".path;
-          client_path_secret = config.sops.secrets."vaultwarden/client-secret".path;
+          client_path_id = config.sops.secrets."vaultwarden-connector/client-id".path;
+          client_path_secret = config.sops.secrets."vaultwarden-connector/client-secret".path;
         };
         ldap = config.sops.secrets."vaultwarden/ldap-password".path;
       };
@@ -333,9 +333,6 @@
     };
   };
 
-  # TODO: TEMPORARY until mailserver update
-  services.dovecot2.sieve.scripts.after = lib.mkForce (builtins.toFile "spam.sieve" '' '');
-
   mailserver = {
     enable = true;
     fqdn = "mail.wavelens.io";
@@ -406,9 +403,9 @@
       "portunus/users/admin-password".owner = "portunus";
       "portunus/ldap-password".owner = "portunus";
       "vaultwarden/smtp-password".owner = "vaultwarden";
-      "vaultwarden/client-id".owner = "vaultwarden";
-      "vaultwarden/client-secret".owner = "vaultwarden";
       "vaultwarden/ldap-password".owner = "vaultwarden";
+      "vaultwarden-connector/client-id".owner = "bwdc";
+      "vaultwarden-connector/client-secret".owner = "bwdc";
     };
   };
 

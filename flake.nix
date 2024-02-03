@@ -11,6 +11,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
+    mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
 
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
@@ -46,16 +47,6 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
-      };
-    };
-
-    mailserver = {
-      url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        nixpkgs-23_05.follows = "nixpkgs";
-        nixpkgs-23_11.follows = "nixpkgs";
-        utils.follows = "flake-utils";
       };
     };
 

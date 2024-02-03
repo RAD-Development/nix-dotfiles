@@ -14,7 +14,10 @@
     useUserPackages = true;
   };
 
-  users.defaultUserShell = pkgs.zsh;
+  users = {
+    defaultUserShell = pkgs.zsh;
+    mutableUsers = false;
+  };
 
   networking = {
     firewall = {

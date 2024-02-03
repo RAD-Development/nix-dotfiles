@@ -10,9 +10,20 @@
     kernelParams = [ "i915.force_probe=56a5" "i915.enable_guc=2" ];
   };
 
-  nix.extraOptions = ''
-    allowed-uris = github: gitlab: git+https:// git+ssh:// https://
-  '';
+  nix = {
+    extraOptions = ''
+      allowed-uris = github: gitlab: git+https:// git+ssh:// https://
+    '';
+
+    buildMachines = [{
+      hostName = "localhost";
+      maxJobs = 2;
+      protocol = "ssh-ng";
+      speedFactor = 2;
+      supportedFeatures = [ "kvm" "nixos-test" "big-parallel" "benchmark" ];
+      system = "x86_64-linux";
+    }];
+  };
 
   nixpkgs.config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };
 

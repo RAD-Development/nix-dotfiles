@@ -5,6 +5,7 @@
     substituters = [ "https://cache.alicehuston.xyz" "https://cache.nixos.org" "https://nix-community.cachix.org" ];
     trusted-substituters = [ "https://cache.alicehuston.xyz" "https://cache.nixos.org" "https://nix-community.cachix.org" ];
     trusted-public-keys = [ "cache.alicehuston.xyz:SJAm8HJVTWUjwcTTLAoi/5E1gUOJ0GWum2suPPv7CUo=%" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
+    trusted-users = [ "root" ];
   };
 
   inputs = {
@@ -241,7 +242,7 @@
       } // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob))
         (
           let
-            mkBuild = (type:
+            mkBuild = type:
               let
                 getBuildEntryPoint = name: nixosSystem:
                   if builtins.hasAttr type nixosSystem.config.system.build then
@@ -254,8 +255,7 @@
                       cfg
                   else { };
               in
-              lib.filterAttrs (n: v: v != { }) (lib.mapAttrs getBuildEntryPoint self.nixosConfigurations)
-            );
+              lib.filterAttrs (n: v: v != { }) (lib.mapAttrs getBuildEntryPoint self.nixosConfigurations);
           in
           builtins.listToAttrs (map
             (type: {

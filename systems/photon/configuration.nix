@@ -334,14 +334,7 @@
   };
 
   # TODO: TEMPORARY until mailserver update
-  services.dovecot2.sieve.scripts.after = builtins.toFile "spam.sieve" ''
-    require "fileinto";
-
-    if header :is "X-Spam" "Yes" {
-        fileinto "Junk";
-        stop;
-    }
-  '';
+  services.dovecot2.sieve.scripts.after = lib.mkForce (builtins.toFile "spam.sieve" '' '');
 
   mailserver = {
     enable = true;

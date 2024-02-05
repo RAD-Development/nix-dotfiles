@@ -32,7 +32,6 @@
     openssh = {
       enable = true;
       extraConfig = ''StreamLocalBindUnlink yes'';
-      authorizedKeysFiles = [ "../yubikey.pub" ];
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;

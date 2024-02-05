@@ -38,6 +38,7 @@
   environment = {
     systemPackages = with pkgs; [ docker-compose ];
     etc = {
+      # Creates /etc/lynis/custom.prf
       "lynis/custom.prf" = {
         text = ''
           skip-test=BANN-7126

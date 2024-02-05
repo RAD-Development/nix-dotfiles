@@ -1,7 +1,18 @@
 { config, pkgs, ... }: {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
-  networking.hostId = "dc2f9781";
+  systemd.services.hydra-notify.serviceConfig.EnvironmentFile = config.sops.secrets."hydra/environment".path;
+  networking = {
+    hostId = "dc2f9781";
+    firewall.enable = false;
+  };
+
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override {
+      enableHybridCodec = true;
+    };
+  };
+
   boot = {
     zfs.extraPools = [ "ZFS-primary" ];
     loader.grub.device = "/dev/sda";
@@ -25,8 +36,6 @@
     }];
   };
 
-  nixpkgs.config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };
-
   hardware = {
     enableAllFirmware = true;
     opengl = {
@@ -43,6 +52,7 @@
   };
 
   virtualisation = {
+    # Disabling Podman as topgrade apparently prefers podman over docker and now I cant update anything :(
     docker = {
       enable = true;
       recommendedDefaults = true;
@@ -58,17 +68,12 @@
         };
       };
     };
-
-    # Disabling as topgrade apparently prefers podman over docker and now I cant update anything :(
-    # podman = {
-    #   enable = true;
-    #   recommendedDefaults = true;
-    # };
   };
 
-  environment.systemPackages = with pkgs; [ docker-compose jellyfin-ffmpeg ];
-
-  systemd.services.hydra-notify = { serviceConfig.EnvironmentFile = config.sops.secrets."hydra/environment".path; };
+  environment.systemPackages = with pkgs; [
+    docker-compose
+    jellyfin-ffmpeg
+  ];
 
   services = {
     samba.enable = true;
@@ -115,8 +120,6 @@
       secretKeyFile = config.sops.secrets."nix-serve/secret-key".path;
     };
   };
-
-  networking.firewall.enable = false;
 
   sops = {
     defaultSopsFile = ./secrets.yaml;

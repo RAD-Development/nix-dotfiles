@@ -10,7 +10,9 @@
   time.timeZone = "Europe/Berlin";
   console.keyMap = "de";
   i18n.supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
-
+  boot.useSystemdBoot = true;
+  users.users.nginx.extraGroups = [ "acme" ];
+  security.ldap.domainComponent = [ "wavelens" "io" ];
   networking = {
     hostId = "7d76fab7";
     domain = "wavelens.io";
@@ -33,8 +35,6 @@
     };
   };
 
-  boot.useSystemdBoot = true;
-
   security.acme = {
     acceptTerms = true;
     preliminarySelfsigned = true;
@@ -46,11 +46,8 @@
     };
   };
 
-  users.users.nginx.extraGroups = [ "acme" ];
-
-  security.ldap.domainComponent = [ "wavelens" "io" ];
-
   systemd = {
+    timers.bitwarden-directory-connector-cli.wants = [ "network-online.target" ]; # TODO: TEMPORARY
     services.vaultwarden = {
       after = [ "postgresql.service" ];
       requires = [ "postgresql.service" ];
@@ -59,12 +56,10 @@
         EnvironmentFile = [ config.sops.secrets."vaultwarden/smtp-password".path ];
       };
     };
-    timers.bitwarden-directory-connector-cli.wants = [ "network-online.target" ]; # TODO: TEMPORARY
   };
 
   services = {
     openssh.ports = [ 12 ];
-
     backup = {
       enable = true;
       paths = [
@@ -83,18 +78,17 @@
     postgresql = {
       enable = true;
       enableJIT = true;
-      upgrade = {
-        enable = true;
-        stopServices = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
-      };
-
+      ensureDatabases = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
       ensureUsers = map
         (user: {
           name = user;
           ensureDBOwnership = true;
         }) [ "gitea" "nextcloud" "vaultwarden" "outline" ];
 
-      ensureDatabases = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
+      upgrade = {
+        enable = true;
+        stopServices = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
+      };
     };
 
     portunus = {
@@ -215,7 +209,6 @@
     rspamd = {
       enable = true;
       postfix.enable = true;
-
       overrides."password" = {
         enable = true;
         source = pkgs.outline + /etc/rspamd/local.d/worker-controller.inc;
@@ -249,7 +242,6 @@
       storage.storageType = "local";
       logo = "https://static.wavelens.io/logo/logo.svg";
       databaseUrl = "postgresql:///outline?host=/run/postgresql";
-
       smtp = {
         fromEmail = "wiki@wavelens.io";
         host = "localhost";

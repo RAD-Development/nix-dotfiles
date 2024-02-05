@@ -1,7 +1,10 @@
 { pkgs, ... }: {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
-  networking.hostId = "1beb3026";
+  networking = {
+    hostId = "1beb3026";
+    firewall.enable = false;
+  };
 
   boot = {
     zfs.extraPools = [ "Main" ];
@@ -14,16 +17,16 @@
       enable = true;
       recommendedDefaults = true;
       logDriver = "local";
+      storageDriver = "overlay2";
       daemon."settings" = {
         experimental = true;
+        data-root = "/var/lib/docker";
         exec-opts = [ "native.cgroupdriver=systemd" ];
         log-opts = {
           max-size = "10m";
           max-file = "5";
         };
-        data-root = "/var/lib/docker";
       };
-      storageDriver = "overlay2";
     };
 
     podman = {
@@ -34,7 +37,6 @@
 
   environment = {
     systemPackages = with pkgs; [ docker-compose ];
-
     etc = {
       # Creates /etc/lynis/custom.prf
       "lynis/custom.prf" = {
@@ -57,11 +59,8 @@
 
   services = {
     nfs.server.enable = true;
-
     openssh.ports = [ 352 ];
-
     smartd.enable = true;
-
     sysstat.enable = true;
 
     usbguard = {
@@ -81,8 +80,6 @@
       joinNetworks = [ "e4da7455b2ae64ca" ];
     };
   };
-
-  networking.firewall.enable = false;
 
   system.stateVersion = "23.05";
 }

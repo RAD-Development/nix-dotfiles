@@ -7,7 +7,6 @@
     lfs.enable = true;
     repositoryRoot = "/var/lib/gitea/repositories";
     database.type = "postgres";
-
     ldap = {
       enable = true;
       adminGroup = "gitea-admins";
@@ -26,12 +25,13 @@
 
     settings = {
       actions.ENABLED = true;
+      database.LOG_SQL = false;
+      indexer.REPO_INDEXER_ENABLED = true;
+      packages.ENABLED = false;
+      time.DEFAULT_UI_LOCATION = config.time.timeZone;
+      other.SHOW_FOOTER_VERSION = false;
       "cron.delete_generated_repository_avatars".ENABLED = true;
       "cron.repo_health_check".TIMEOUT = "300s";
-      database.LOG_SQL = false;
-
-      indexer.REPO_INDEXER_ENABLED = true;
-
       log = {
         LEVEL = "Info";
         "logger.router.MODE" = "Warn";
@@ -46,8 +46,6 @@
         SENDMAIL_ARGS = "--";
       };
 
-      other.SHOW_FOOTER_VERSION = false;
-      packages.ENABLED = false;
       picture = {
         DISABLE_GRAVATAR = false;
         ENABLE_FEDERATED_AVATAR = true;
@@ -81,8 +79,6 @@
         PROVIDER = "db";
         SAME_SITE = "strict";
       };
-
-      time.DEFAULT_UI_LOCATION = config.time.timeZone;
 
       ui = {
         DEFAULT_THEME = "arc-green";

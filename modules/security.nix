@@ -2,7 +2,6 @@
 { config, lib, ... }: {
   config = {
     services = {
-
       openssh = lib.mkIf config.services.gitea.enable {
         extraConfig = ''
           Match User gitea
@@ -22,6 +21,8 @@
       };
     };
 
-    networking.firewall = lib.mkIf config.services.openssh.enable { allowedTCPPorts = config.services.openssh.ports ++ [ 22 ]; };
+    networking.firewall = lib.mkIf config.services.openssh.enable {
+      allowedTCPPorts = config.services.openssh.ports ++ [ 22 ];
+    };
   };
 }

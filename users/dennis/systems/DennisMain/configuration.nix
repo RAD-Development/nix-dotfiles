@@ -6,6 +6,12 @@
     ../program.nix
   ];
 
+  virtualisation.libvirtd.enable = true;
+  networking = {
+    hostId = "3457acd3";
+    networkmanager.enable = true;
+  };
+
   boot = {
     supportedFilesystems = [ "zfs" ];
     tmp.useTmpfs = true;
@@ -37,8 +43,6 @@
     };
   };
 
-  virtualisation.libvirtd.enable = true;
-
   fileSystems = {
     "/".options = [ "X-mount.mkdir" "noatime" ];
     "/boot".options = [ "X-mount.mkdir" "noatime" ];
@@ -46,11 +50,6 @@
     "/var/lib".options = [ "X-mount.mkdir" "noatime" ];
     "/var/log".options = [ "X-mount.mkdir" "noatime" ];
     "/boot/efis/nvme-Samsung_SSD_980_PRO_1TB_S5GXNF0W178262L-part1".options = [ "x-systemd.idle_timeout=1min" "x-systemd.automount" "nomount" "nofail" "noatime" "X-mount.mkdir" ];
-  };
-
-  networking = {
-    hostId = "3457acd3";
-    networkmanager.enable = true;
   };
 
   sound = {
@@ -96,6 +95,4 @@
       pulse.enable = true;
     };
   };
-
-  security.sudo.wheelNeedsPassword = true;
 }

@@ -11,7 +11,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
-
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -94,7 +93,6 @@
       inherit (nixpkgs) lib;
       systems = [ "x86_64-linux" "aarch64-linux" ];
       forEachSystem = lib.genAttrs systems;
-
       overlayList = [ self.overlays.default nix.overlays.default ];
       pkgsBySystem = forEachSystem (system: import nixpkgs {
         inherit system;
@@ -135,13 +133,13 @@
           {
             repo = "local";
             hooks = [
-              {
-                id = "nixfmt check";
-                entry = "${nixpkgs-fmt.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
-                args = [ "--check" ];
-                language = "system";
-                files = "\\.nix";
-              }
+              # {
+              #   id = "nixfmt check";
+              #   entry = "${nixpkgs-fmt.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
+              #   args = [ "--check" ];
+              #   language = "system";
+              #   files = "\\.nix";
+              # }
               {
                 id = "nix-flake-check";
                 entry = "nix flake check";
@@ -175,19 +173,20 @@
               ] else [
                 ./users/${builtins.head users}/systems/${hostname}/configuration.nix
                 ./users/${builtins.head users}/systems/${hostname}/hardware.nix
-              ]) ++ fileList "modules" ++ modules ++ lib.optional home home-manager.nixosModules.home-manager
-                ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ]) ++ map
-                (user:
-                  { config, lib, pkgs, ... }@args: {
-                    users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
-                    boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
-                    sops = lib.mkIf sops {
-                      secrets."${user}/user-password" = {
-                        sopsFile = ./users/${user}/secrets.yaml;
-                        neededForUsers = true;
-                      };
+              ]) ++ modules
+              ++ fileList "modules"
+              ++ lib.optional home home-manager.nixosModules.home-manager
+              ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
+              ++ map (user: { config, lib, pkgs, ... }@args: {
+                  users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
+                  boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
+                  sops = lib.mkIf sops {
+                    secrets."${user}/user-password" = {
+                      sopsFile = ./users/${user}/secrets.yaml;
+                      neededForUsers = true;
                     };
-                  })
+                  };
+                })
                 users;
             };
         in

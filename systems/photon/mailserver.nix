@@ -32,13 +32,13 @@ let
     '');
 in
 {
+  services.dovecot2.sieve.extensions = [ "fileinto" "copy" ];
   # TODO: inspect
   # services.postfix.config = {
   #   virtual_mailbox_domains = lib.mkForce "ldap:${ldapVirtualMailboxDomains}";
   #   virtual_alias_maps = "ldap:${ldapVirtualAliasMap}";
   # };
 
-  services.dovecot2.sieve.extensions = [ "fileinto" "copy" ];
   mailserver = {
     enable = true;
     fqdn = "mail.wavelens.io";
@@ -46,7 +46,6 @@ in
     certificateScheme = "acme-nginx";
     indexDir = "/var/lib/dovecot/indices";
     openFirewall = false;
-
     fullTextSearch = {
       enable = true;
       autoIndex = true;
@@ -81,7 +80,6 @@ in
       uris = [ "ldaps://${config.services.portunus.domain}" ];
       searchBase = "dc=wavelens,dc=io";
       searchScope = "sub";
-
       bind = {
         dn = "uid=${config.services.portunus.ldap.searchUserName}";
         passwordFile = config.sops.secrets."mailserver/ldap-password".path;

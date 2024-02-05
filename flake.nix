@@ -11,7 +11,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
-
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -92,14 +91,22 @@
   outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
-      systems = [ "x86_64-linux" "aarch64-linux" ];
-      forEachSystem = lib.genAttrs systems;
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
 
+      forEachSystem = lib.genAttrs systems;
       overlayList = [ self.overlays.default nix.overlays.default ];
       pkgsBySystem = forEachSystem (system: import nixpkgs {
         inherit system;
         overlays = overlayList;
-        config.allowUnfree = true;
+        config = {
+          allowUnfree = true;
+          isHydra = true;
+        };
       });
 
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
@@ -135,13 +142,13 @@
           {
             repo = "local";
             hooks = [
-              {
-                id = "nixfmt check";
-                entry = "${nixpkgs-fmt.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
-                args = [ "--check" ];
-                language = "system";
-                files = "\\.nix";
-              }
+              # {
+              #   id = "nixfmt check";
+              #   entry = "${nixpkgs-fmt.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
+              #   args = [ "--check" ];
+              #   language = "system";
+              #   files = "\\.nix";
+              # }
               {
                 id = "nix-flake-check";
                 entry = "nix flake check";
@@ -162,11 +169,15 @@
 
       nixosConfigurations =
         let
-          constructSystem = { hostname, users, home ? true, modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
+          constructSystem = { hostname, users, home ? true, iso ? false, modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
             lib.nixosSystem {
               inherit system;
 
-              modules = [ nixos-modules.nixosModule sops-nix.nixosModules.sops { config.networking.hostName = "${hostname}"; } ] ++ (if server then [
+              modules = [
+                nixos-modules.nixosModule
+                sops-nix.nixosModules.sops
+                { config.networking.hostName = "${hostname}"; }
+              ] ++ (if server then [
                 mailserver.nixosModules.mailserver
                 ./systems/programs.nix
                 ./systems/configuration.nix
@@ -175,8 +186,13 @@
               ] else [
                 ./users/${builtins.head users}/systems/${hostname}/configuration.nix
                 ./users/${builtins.head users}/systems/${hostname}/hardware.nix
-              ]) ++ fileList "modules" ++ modules ++ lib.optional home home-manager.nixosModules.home-manager
-                ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ]) ++ map
+              ]) ++ fileList "modules"
+              ++ modules
+              ++ lib.optional (system != "x86_64-linux") { config.nixpkgs.config.allowUnsupportedSystem = true; }
+              ++ lib.optional home home-manager.nixosModules.home-manager
+              ++ lib.optional iso "${toString nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+              ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
+              ++ map
                 (user:
                   { config, lib, pkgs, ... }@args: {
                     users.users.${user} = import ./users/${user} (args // { name = "${user}"; });

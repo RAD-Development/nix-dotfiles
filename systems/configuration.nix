@@ -1,4 +1,6 @@
 { lib, pkgs, config, ... }: {
+  security.auditd.enable = true;
+  nixpkgs.config.allowUnfree = true;
   i18n = {
     defaultLocale = "en_US.utf8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" ];
@@ -25,8 +27,6 @@
       allowedTCPPorts = [ ];
     };
   };
-
-  security.auditd.enable = true;
 
   services = {
     fail2ban = {
@@ -55,7 +55,6 @@
         }
       ];
 
-      # all of these setting are recommended by lynis unless otherwise commented
       settings = {
         AllowAgentForwarding = "no";
         AllowTcpForwarding = "no";
@@ -71,14 +70,31 @@
         PermitRootLogin = "no";
         TcpKeepAlive = "no";
         X11Forwarding = lib.mkDefault false;
+        KexAlgorithms = [
+          "curve25519-sha256@libssh.org"
+          "diffie-hellman-group-exchange-sha256"
+        ];
 
-        KexAlgorithms = [ "curve25519-sha256@libssh.org" "diffie-hellman-group-exchange-sha256" ];
+        Ciphers = [
+          "chacha20-poly1305@openssh.com"
+          "aes256-gcm@openssh.com"
+          "aes128-gcm@openssh.com"
+          "aes256-ctr"
+          "aes192-ctr"
+          "aes128-ctr"
+        ];
 
-        Ciphers = [ "chacha20-poly1305@openssh.com" "aes256-gcm@openssh.com" "aes128-gcm@openssh.com" "aes256-ctr" "aes192-ctr" "aes128-ctr" ];
-
-        Macs = [ "hmac-sha2-512-etm@openssh.com" "hmac-sha2-256-etm@openssh.com" "umac-128-etm@openssh.com" "hmac-sha2-512" "hmac-sha2-256" "umac-128@openssh.com" ];
+        Macs = [
+          "hmac-sha2-512-etm@openssh.com"
+          "hmac-sha2-256-etm@openssh.com"
+          "umac-128-etm@openssh.com"
+          "hmac-sha2-512"
+          "hmac-sha2-256"
+          "umac-128@openssh.com"
+        ];
       };
     };
+
     autopull = {
       enable = true;
       path = /root/dotfiles;
@@ -86,11 +102,10 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   programs = {
     git = {
       enable = true;
+      lfs.enable = lib.mkDefault true;
       config = {
         interactive.singlekey = true;
         pull.rebase = true;
@@ -116,17 +131,16 @@
 
     zsh = {
       enable = true;
+      syntaxHighlighting.enable = true;
+      zsh-autoenv.enable = true;
+      enableCompletion = true;
+      enableBashCompletion = true;
+      ohMyZsh.enable = true;
       autosuggestions = {
         enable = true;
         strategy = [ "completion" ];
         async = true;
       };
-
-      syntaxHighlighting.enable = true;
-      zsh-autoenv.enable = true;
-      enableCompletion = true;
-      enableBashCompletion = true;
-      ohMyZsh = { enable = true; };
     };
 
     nix-ld = {
@@ -142,6 +156,7 @@
   };
 
   nix = {
+    diffSystem = true;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       keep-outputs = true;
@@ -154,8 +169,6 @@
       dates = "weekly";
       options = "--delete-older-than 30d";
     };
-
-    diffSystem = true;
   };
 
   system = {
@@ -163,8 +176,6 @@
       enable = true;
       randomizedDelaySec = "1h";
       persistent = true;
-      # Running this since this is private right now.
-      # Need to set up a ssh-key for github for autoUpgrade
       flake = "git+ssh://git@github.com/RAD-Development/nix-dotfiles";
     };
   };

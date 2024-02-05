@@ -1,10 +1,7 @@
 { pkgs, ... }:
 
 {
-  home.username = "alice";
-  home.homeDirectory = "/home/alice";
-
-  home.packages = with pkgs; [
+  home = {
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -22,37 +19,40 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
 
-    ncdu
+    username = "alice";
+    homeDirectory = "/home/alice";
+    packages = with pkgs; [
+      ncdu
 
-    # Rust packages
-    trunk
-    wasm-pack
-    cargo-watch
-    #pkgs.cargo-tarpaulin
-    cargo-generate
-    cargo-audit
-    cargo-update
-    diesel-cli
-    gitoxide
-    tealdeer
-    helix
+      # Rust packages
+      trunk
+      wasm-pack
+      cargo-watch
+      #pkgs.cargo-tarpaulin
+      cargo-generate
+      cargo-audit
+      cargo-update
+      diesel-cli
+      gitoxide
+      tealdeer
+      helix
 
-    # nix specific packages
-    nil
-    nixfmt
+      # nix specific packages
+      nil
+      nixfmt
 
-    # markdown
-    nodePackages.markdownlint-cli
+      # markdown
+      nodePackages.markdownlint-cli
 
-    # doom emacs dependencies
-    fd
-    ripgrep
-    clang
-  ];
+      # doom emacs dependencies
+      fd
+      ripgrep
+      clang
+    ];
+  };
 
   programs = {
     zsh.enable = true;
-
     starship.enable = true;
     fzf = {
       enable = true;

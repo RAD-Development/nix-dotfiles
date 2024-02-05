@@ -52,9 +52,9 @@ in {
       restic.backups =
         let
           commonOpts = {
-            extraBackupArgs = [ "--exclude-file=${pkgs.writeText "restic-exclude-file" (lib.concatMapStrings (x: x + "\n") cfg.exclude)}" ];
-
             initialize = true;
+            extraBackupArgs = [ "--exclude-file=${pkgs.writeText "restic-exclude-file" (lib.concatMapStrings (x: x + "\n") cfg.exclude)}" ];
+            pruneOpts = [ "--group-by host" "--keep-daily 7" "--keep-weekly 4" "--keep-monthly 12" ];
             passwordFile = config.sops.secrets."restic/password".path;
             paths = [
               "/etc/group"
@@ -85,8 +85,6 @@ in {
               "/var/lib/gitea/data/tmp/"
             ];
 
-            pruneOpts = [ "--group-by host" "--keep-daily 7" "--keep-weekly 4" "--keep-monthly 12" ];
-
             timerConfig = {
               OnCalendar = "*-*-* ${lib.fixedWidthString 2 "0" (toString cfg.backup_at)}:30:00";
               RandomizedDelaySec = "5m";
@@ -95,7 +93,6 @@ in {
         in
         lib.mkIf cfg.enable {
           local = commonOpts // { repository = "/var/backup"; };
-
           offsite = lib.mkIf (cfg.offsite != [ ]) commonOpts // { repository = "sftp://offsite/${config.networking.hostName}"; };
         };
     };
@@ -130,12 +127,11 @@ in {
     '';
 
     systemd = lib.mkIf cfg.enable {
+      timers = lib.mkIf config.services.postgresqlBackup.enable { postgresqlBackup.timerConfig.RandomizedDelaySec = "5m"; };
       services = {
         restic-backups-local.serviceConfig.Environment = "RESTIC_PROGRESS_FPS=0.016666";
         restic-backups-offsite.serviceConfig.Environment = lib.mkIf (cfg.offsite != [ ]) "RESTIC_PROGRESS_FPS=0.016666";
       };
-
-      timers = lib.mkIf config.services.postgresqlBackup.enable { postgresqlBackup.timerConfig.RandomizedDelaySec = "5m"; };
     };
   };
 }

@@ -7,7 +7,9 @@
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "en_US.utf8";
   boot.plymouth.enable = true;
-
+  fonts.fontDir.enable = true;
+  console.keyMap = "de";
+  nixpkgs.config.allowUnfree = true;
   networking = {
     nftables.enable = true;
     firewall.allowedTCPPorts = [ 22 ];
@@ -30,7 +32,6 @@
     openssh = {
       enable = true;
       extraConfig = ''StreamLocalBindUnlink yes'';
-      authorizedKeysFiles = [ "../yubikey.pub" ];
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;
@@ -64,10 +65,6 @@
       id = [ "22928767" ];
     };
   };
-
-  fonts.fontDir.enable = true;
-  console.keyMap = "de";
-  nixpkgs.config.allowUnfree = true;
 
   sound = {
     enable = true;
@@ -269,6 +266,4 @@
     hitori # sudoku game
     atomix # puzzle game
   ]);
-
-  system.stateVersion = "22.11";
 }

@@ -58,12 +58,18 @@
       baseIndex = 1;
       clock24 = true;
       keyMode = "vi";
+      shortcut = "Space";
       terminal = ''
         screen-256color"
         set -g mouse on
         # "'';
-      shortcut = "Space";
-      plugins = with pkgs.tmuxPlugins; [ nord vim-tmux-navigator sensible yank ];
+
+      plugins = with pkgs.tmuxPlugins; [
+        nord
+        vim-tmux-navigator
+        sensible
+        yank
+      ];
     };
 
     zsh = {

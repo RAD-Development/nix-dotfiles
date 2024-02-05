@@ -44,7 +44,6 @@ in
     rotateLogsFaster = true;
     setHSTSHeader = true;
     tcpFastOpen = true;
-
     virtualHosts = {
       "default" = {
         default = true;

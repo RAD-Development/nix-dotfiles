@@ -6,6 +6,12 @@
     ../program.nix
   ];
 
+  c3d2.audioStreaming = true;
+  networking = {
+    hostId = "a298ad87";
+    networkmanager.enable = true;
+  };
+
   boot = {
     loader = {
       systemd-boot.enable = true;
@@ -17,13 +23,6 @@
       luks.devices."cryptroot".device = "/dev/disk/by-uuid/4964c656-c64a-490a-a181-ec348874bd7f";
     };
   };
-
-  networking = {
-    hostId = "a298ad87";
-    networkmanager.enable = true;
-  };
-
-  c3d2.audioStreaming = true;
 
   hardware = {
     sensor.iio.enable = true;
@@ -69,6 +68,4 @@
     KICAD7_FOOTPRINT_DIR = "/home/dennis/repos/turag/elektronik/KiCad/kicad-footprints";
     KICAD7_3DMODEL_DIR = "/home/dennis/repos/turag/elektronik/KiCad/kicad-packages3D";
   };
-
-  security.sudo.wheelNeedsPassword = true;
 }

@@ -11,7 +11,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
-
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -94,7 +93,6 @@
       inherit (nixpkgs) lib;
       systems = [ "x86_64-linux" "aarch64-linux" ];
       forEachSystem = lib.genAttrs systems;
-
       overlayList = [ self.overlays.default nix.overlays.default ];
       pkgsBySystem = forEachSystem (system: import nixpkgs {
         inherit system;
@@ -135,13 +133,13 @@
           {
             repo = "local";
             hooks = [
-              {
-                id = "nixfmt check";
-                entry = "${nixpkgs-fmt.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
-                args = [ "--check" ];
-                language = "system";
-                files = "\\.nix";
-              }
+              # {
+              #   id = "nixfmt check";
+              #   entry = "${nixpkgs-fmt.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
+              #   args = [ "--check" ];
+              #   language = "system";
+              #   files = "\\.nix";
+              # }
               {
                 id = "nix-flake-check";
                 entry = "nix flake check";

@@ -7,7 +7,9 @@
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "en_US.utf8";
   boot.plymouth.enable = true;
-
+  fonts.fontDir.enable = true;
+  console.keyMap = "de";
+  nixpkgs.config.allowUnfree = true;
   networking = {
     nftables.enable = true;
     firewall.allowedTCPPorts = [ 22 ];
@@ -64,10 +66,6 @@
       id = [ "22928767" ];
     };
   };
-
-  fonts.fontDir.enable = true;
-  console.keyMap = "de";
-  nixpkgs.config.allowUnfree = true;
 
   sound = {
     enable = true;

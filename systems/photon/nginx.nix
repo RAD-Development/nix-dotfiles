@@ -106,6 +106,7 @@ in
         forceSSL = lib.mkForce true;
         enableACME = lib.mkForce true;
         listen = defaultListen;
+        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.outline.port}";
       };
     };
   };

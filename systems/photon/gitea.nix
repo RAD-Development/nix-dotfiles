@@ -1,6 +1,8 @@
 { config, lib, ... }: {
+  systemd.services.gitea.serviceConfig.ReadWriteDir = [ "/var/lib/postfix/queue/maildrop/" ];
   services.gitea = {
     enable = true;
+    appName = "Wavelens Repository";
     recommendedDefaults = true;
     lfs.enable = true;
     repositoryRoot = "/var/lib/gitea/repositories";
@@ -37,8 +39,11 @@
       };
 
       mailer = {
-        ENABLED = false;
+        ENABLED = true;
         FROM = "git@wavelens.io";
+        PROTOCOL = "sendmail";
+        SENDMAIL_PATH = "/run/wrappers/bin/sendmail";
+        SENDMAIL_ARGS = "--";
       };
 
       other.SHOW_FOOTER_VERSION = false;

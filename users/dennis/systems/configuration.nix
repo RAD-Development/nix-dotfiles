@@ -6,8 +6,12 @@
 
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "en_US.utf8";
-  networking.firewall.allowedTCPPorts = [ 22 ];
   boot.plymouth.enable = true;
+
+  networking = {
+    nftables.enable = true;
+    firewall.allowedTCPPorts = [ 22 ];
+  };
 
   services = {
     udev.packages = with pkgs; [

@@ -70,9 +70,20 @@ in {
               "/etc/subgid"
               "/etc/subuid"
               "/var/lib/nixos/"
-            ] ++ cfg.paths ++ lib.optional config.services.postgresql.enable "/var/backup/postgresql/" ++ lib.optional config.services.mysql.enable "/var/lib/mysql/"
-            ++ lib.optional (config.security.acme.certs != { }) "/var/lib/acme/" ++ lib.optional config.security.dhparams.enable "/var/lib/dhparams/"
+            ] ++ cfg.paths
+            ++ lib.optional config.services.postgresql.enable "/var/backup/postgresql/"
+            ++ lib.optional config.services.mysql.enable "/var/lib/mysql/"
+            ++ lib.optional config.services.gitea.enable "/var/lib/gitea/"
+            ++ lib.optional (config.security.acme.certs != { }) "/var/lib/acme/"
+            ++ lib.optional config.security.dhparams.enable "/var/lib/dhparams/"
             ++ lib.optional config.mailserver.enable config.mailserver.mailDirectory;
+
+            exclude = lib.mkIf config.services.gitea.enable [
+              "/var/lib/gitea/data/indexers/"
+              "/var/lib/gitea/data/repo-archive"
+              "/var/lib/gitea/data/queues"
+              "/var/lib/gitea/data/tmp/"
+            ];
 
             pruneOpts = [ "--group-by host" "--keep-daily 7" "--keep-weekly 4" "--keep-monthly 12" ];
 

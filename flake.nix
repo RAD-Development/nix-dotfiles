@@ -11,7 +11,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
-    mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
 
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
@@ -47,6 +46,16 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
+      };
+    };
+
+    mailserver = {
+      url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-23_05.follows = "nixpkgs";
+        nixpkgs-23_11.follows = "nixpkgs";
+        utils.follows = "flake-utils";
       };
     };
 
@@ -188,17 +197,16 @@
             value = constructSystem ({ hostname = system; } // builtins.removeAttrs (import ./systems/${system} { inherit inputs; }) [ "hostname" "server" "home" ]);
           })
           (lsdir "systems"))) // (builtins.listToAttrs (builtins.concatMap
-          (user:
-            map
-              (system: {
-                name = "${user}.${system}";
-                value = constructSystem ({
-                  hostname = system;
-                  server = false;
-                  users = [ user ];
-                } // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [ "hostname" "server" "users" ]);
-              })
-              (lsdir "users/${user}/systems"))
+          (user: map
+            (system: {
+              name = "${user}.${system}";
+              value = constructSystem ({
+                hostname = system;
+                server = false;
+                users = [ user ];
+              } // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [ "hostname" "server" "users" ]);
+            })
+            (lsdir "users/${user}/systems"))
           (lsdir "users")));
 
       devShell = lib.mapAttrs
@@ -235,7 +243,7 @@
           let
             mkBuild = type:
               let
-                getBuildEntryPoint = name: nixosSystem:
+                getBuildEntryPoint = (name: nixosSystem:
                   if builtins.hasAttr type nixosSystem.config.system.build then
                     let
                       cfg = nixosSystem.config.system.build.${type};
@@ -244,9 +252,9 @@
                       lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
                     else
                       cfg
-                  else { };
+                  else { });
               in
-              lib.filterAttrs (n: v: v != { }) (lib.mapAttrs getBuildEntryPoint self.nixosConfigurations);
+              lib.filterAttrs (n: v: v != { }) (builtins.mapAttrs getBuildEntryPoint self.nixosConfigurations);
           in
           builtins.listToAttrs (map
             (type: {

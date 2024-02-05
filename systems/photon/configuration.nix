@@ -1,5 +1,11 @@
 { config, pkgs, lib, ... }: {
-  imports = [ ./banner.nix ./gitea.nix ./nginx.nix ];
+  imports = [
+    ./banner.nix
+    ./gitea.nix
+    ./nginx.nix
+    ./mailserver.nix
+    ./vaultwarden.nix
+  ];
 
   time.timeZone = "Europe/Berlin";
   console.keyMap = "de";
@@ -11,7 +17,6 @@
     nftables.enable = true;
     firewall = {
       filterForward = true;
-      pingLimit = "1/minute burst 5 packets";
       allowedTCPPorts = [ 25 80 143 443 3306 993 465 ];
     };
 
@@ -28,7 +33,7 @@
     };
   };
 
-  boot = { useSystemdBoot = true; };
+  boot.useSystemdBoot = true;
 
   security.acme = {
     acceptTerms = true;
@@ -62,8 +67,17 @@
 
     backup = {
       enable = true;
-      paths =
-        [ "/var/lib/bookstack/" "/var/lib/dovecot/" "/var/lib/gitea/" "/var/lib/nextcloud/" "/var/lib/portunus/" "/var/lib/postfix/" "/var/lib/private/" "/var/lib/vaultwarden/" "/var/lib/www/" ];
+      paths = [
+        "/var/lib/dovecot/"
+        "/var/lib/nextcloud/"
+        "/var/lib/outline/"
+        "/var/lib/portunus/"
+        "/var/lib/postfix/"
+        "/var/lib/private/"
+        "/var/lib/rspamd/"
+        "/var/lib/vaultwarden/"
+        "/var/lib/www/"
+      ];
     };
 
     postgresql = {
@@ -71,16 +85,16 @@
       enableJIT = true;
       upgrade = {
         enable = true;
-        stopServices = [ "gitea" "nextcloud" "vaultwarden" ];
+        stopServices = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
       };
 
       ensureUsers = map
         (user: {
           name = user;
           ensureDBOwnership = true;
-        }) [ "vaultwarden" "gitea" "nextcloud" ];
+        }) [ "gitea" "nextcloud" "vaultwarden" "outline" ];
 
-      ensureDatabases = [ "vaultwarden" "gitea" "nextcloud" ];
+      ensureDatabases = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
     };
 
     portunus = {
@@ -94,7 +108,7 @@
       seedSettings = {
         groups = [
           {
-            long_name = "Portunus Administrators";
+            long_name = "LDAP Administrators";
             name = "admins";
             members = [ "admin" ];
             permissions.portunus.is_admin = true;
@@ -108,6 +122,10 @@
           {
             long_name = "Vaultwarden Users";
             name = "vaultwarden-users";
+          }
+          {
+            long_name = "Mail Account";
+            name = "mail-account";
           }
         ];
 
@@ -136,89 +154,9 @@
       };
     };
 
-    vaultwarden = {
-      enable = true;
-      dbBackend = "postgresql";
-      config = {
-        DATABASE_URL = lib.mkForce "postgresql:///vaultwarden?host=/run/postgresql";
-        DOMAIN = "https://vault.wavelens.io";
-        DATA_FOLDER = "/var/lib/vaultwarden";
-        PUSH_ENABLED = false;
-        PUSH_IDENTITY_URI = "https://identity.bitwarden.eu";
-        PUSH_RELAY_URI = "https://push.bitwarden.eu";
-        # SMTP_DEBUG = false;
-        # SMTP_HOST = "crux.uberspace.de";
-        # SMTP_PORT = 587;
-        # SMTP_FROM = "vault@wavelens.io";
-        # SMTP_SECURITY = "starttls";
-        # SMTP_USERNAME = "vault@wavelens.io";
-        # SMTP_FROM_NAME = "Wavelens Vault";
-        SHOW_PASSWORD_HINT = false;
-        SIGNUPS_ALLOWED = false;
-        LOG_LEVEL = "warn";
-        PASSWORD_ITERATIONS = 600000;
-        ROCKET_ADDRESS = "127.0.0.1";
-        ROCKET_PORT = 8222;
-        SIGNUPS_VERIFY = false;
-        TRASH_AUTO_DELETE_DAYS = 30;
-        WEBSOCKET_ADDRESS = "127.0.0.1";
-        WEBSOCKET_ENABLED = true;
-        WEBSOCKET_PORT = 8223;
-      };
-    };
-
-    bitwarden-directory-connector-cli = {
-      enable = true;
-      domain = config.services.vaultwarden.config.DOMAIN;
-      ldap = {
-        ad = false;
-        hostname = config.services.portunus.domain;
-        port = 636;
-        rootPath = "dc=wavelens,dc=io";
-        ssl = true;
-        startTls = false;
-        username = "uid=search,ou=users,dc=wavelens,dc=io";
-      };
-
-      secrets = {
-        bitwarden = {
-          client_path_id = config.sops.secrets."vaultwarden-connector/client-id".path;
-          client_path_secret = config.sops.secrets."vaultwarden-connector/client-secret".path;
-        };
-        ldap = config.sops.secrets."vaultwarden/ldap-password".path;
-      };
-
-      sync = {
-        creationDateAttribute = "";
-        groups = true;
-        groupFilter = "(cn=vaultwarden-*)";
-        groupNameAttribute = "cn";
-        groupObjectClass = "groupOfNames";
-        groupPath = "ou=groups";
-        largeImport = false;
-        memberAttribute = "member";
-        overwriteExisting = true;
-        removeDisabled = true;
-        revisionDateAttribute = "";
-        useEmailPrefixSuffix = false;
-        userEmailAttribute = "mail";
-        userFilter = "(isMemberOf=cn=vaultwarden-users,ou=groups,dc=wavelens,dc=io)";
-        userObjectClass = "person";
-        userPath = "ou=users";
-        users = true;
-      };
-    };
-
     mysql = {
       enable = true;
       package = pkgs.mariadb;
-
-      ensureDatabases = [ "bookstack" ];
-
-      ensureUsers = [{
-        name = "bookstack";
-        ensurePermissions = { "bookstack.*" = "ALL PRIVILEGES"; };
-      }];
     };
 
     nextcloud = {
@@ -250,11 +188,6 @@
         enable = true;
         port = 6380;
       };
-
-      "bookstack" = {
-        enable = true;
-        port = 6381;
-      };
     };
 
     staticpage = {
@@ -281,6 +214,13 @@
 
     rspamd = {
       enable = true;
+      postfix.enable = true;
+
+      overrides."password" = {
+        enable = true;
+        source = pkgs.outline + /etc/rspamd/local.d/worker-controller.inc;
+        text = ''password = "$2$kxdcg8hm9kibsh11ach6414mpc13xj8x$6uowb81a7szosq81ay61owwo4jy1magr53rg59qkj34nzxx39kab"'';
+      };
 
       locals = {
         "groups.conf".text = ''
@@ -303,110 +243,47 @@
     #   enable = true;
     # };
 
-    bookstack = {
+    outline = {
+      # LDAP: https://github.com/outline/outline/issues/1881
       enable = true;
-      appKeyFile = config.sops.secrets."bookstack/app-key".path;
-      appURL = "https://${config.services.bookstack.hostname}";
-      hostname = "wiki.wavelens.io";
+      storage.storageType = "local";
+      logo = "https://static.wavelens.io/logo/logo.svg";
+      databaseUrl = "postgresql:///outline?host=/run/postgresql";
 
-      database = {
-        user = "bookstack";
-        passwordFile = config.sops.secrets."bookstack/mysql-password".path;
-      };
-
-      config = {
-        CHACHE_DRIVER = "redis";
-        SESSION_DRIVER = "redis";
-        REDIS_SERVER = "127.0.0.1:${toString config.services.redis.servers."bookstack".port}:0";
-
-        # AUTH_METHOD = "ldap";
-        # LDAP_BASE_DN = "ou=users,dc=wavelens,dc=io";
-        # LDAP_DISPLAY_NAME_ATTRIBUTE = "cn";
-        # LDAP_DN = "uid=search,ou=users,dc=wavelens,dc=io";
-        # LDAP_ID_ATTRIBUT = "uid";
-        # LDAP_MAIL_ATTRIBUTE = "mail";
-        # LDAP_PASS = "${if (lib.pathExists config.sops.secrets."bookstack/ldap-password".path) then (builtins.readFile config.sops.secrets."bookstack/ldap-password".path) else ""}";
-        # LDAP_SERVER = "${config.services.portunus.domain}:636";
-        # LDAP_USER_FILTER = "(isMemberOf=cn=vaultwarden-users,ou=groups,dc=wavelens,dc=io)";
-        # LDAP_VERSION = 3;
+      smtp = {
+        fromEmail = "wiki@wavelens.io";
+        host = "localhost";
+        passwordFile = config.sops.secrets."outline/smtp-password".path;
+        port = 25;
+        replyEmail = "wiki@wavelens.io";
+        username = "wiki@wavelens.io";
       };
     };
-  };
-
-  services.dovecot2.sieve.extensions = [ "fileinto" "copy" ];
-  mailserver = {
-    enable = true;
-    fqdn = "mail.wavelens.io";
-    domains = [ "wavelens.io" ];
-    certificateScheme = "acme-nginx";
-    indexDir = "/var/lib/dovecot/indices";
-    openFirewall = false;
-
-    fullTextSearch = {
-      enable = true;
-      autoIndex = true;
-      indexAttachments = true;
-      enforced = "body";
-    };
-
-    loginAccounts = {
-      "info@wavelens.io" = {
-        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-info".path;
-        aliases = [ "hey@wavelens.io" ];
-      };
-
-      "catch@wavelens.io" = {
-        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-catch".path;
-        catchAll = [ "wavelens.io" ];
-        aliases = [ "security@wavelens.io" ];
-      };
-
-      "noreply@wavelens.io" = {
-        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-noreply".path;
-        sendOnly = true;
-      };
-
-      "dennis.wuitz@wavelens.io" = { hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-dennis".path; };
-    };
-
-    # ldap = {
-    #   enable = true;
-    #   uris = [ "ldaps://${config.services.portunus.domain}" ];
-    #   searchBase = "ou=users,dc=wavelens,dc=io";
-    #   searchScope = "sub";
-    #   # userAttrs = ''
-
-    #   # '';
-
-    #   bind = {
-    #     dn = "uid=${config.services.portunus.ldap.searchUserName},ou=users,dc=wavelens,dc=io";
-    #     passwordFile = config.sops.secrets."mailserver/ldap-password".path;
-    #   };
-    # };
   };
 
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      "bookstack/app-key".owner = "bookstack";
-      "bookstack/mysql-password".owner = "bookstack";
-      "bookstack/ldap-password".owner = "bookstack";
-      "gitea/postgres-password".owner = "gitea";
       "gitea/ldap-password".owner = "gitea";
-      "nextcloud/postgres-password".owner = "nextcloud";
+      "gitea/postgres-password".owner = "gitea";
+      "mailserver/ldap-password".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-catch".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-dennis".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-git".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-info".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-noreply".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-vault".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-wiki".owner = "dovecot2";
       "nextcloud/admin-password".owner = "nextcloud";
       "nextcloud/ldap-password".owner = "nextcloud";
-      "mailserver/ldap-password".owner = "dovecot2";
-      "mailserver/mail-passwords/wavelens-info".owner = "dovecot2";
-      "mailserver/mail-passwords/wavelens-catch".owner = "dovecot2";
-      "mailserver/mail-passwords/wavelens-noreply".owner = "dovecot2";
-      "mailserver/mail-passwords/wavelens-dennis".owner = "dovecot2";
-      "portunus/users/admin-password".owner = "portunus";
+      "nextcloud/postgres-password".owner = "nextcloud";
+      "outline/smtp-password".owner = "outline";
       "portunus/ldap-password".owner = "portunus";
-      "vaultwarden/smtp-password".owner = "vaultwarden";
-      "vaultwarden/ldap-password".owner = "vaultwarden";
+      "portunus/users/admin-password".owner = "portunus";
       "vaultwarden-connector/client-id".owner = "bwdc";
       "vaultwarden-connector/client-secret".owner = "bwdc";
+      "vaultwarden/ldap-password".owner = "vaultwarden";
+      "vaultwarden/smtp-password".owner = "vaultwarden";
     };
   };
 

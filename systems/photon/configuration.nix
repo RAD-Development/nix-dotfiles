@@ -239,6 +239,7 @@
     outline = {
       # LDAP: https://github.com/outline/outline/issues/1881
       enable = true;
+      port = 3120;
       storage.storageType = "local";
       logo = "https://static.wavelens.io/logo/logo.svg";
       databaseUrl = "postgresql:///outline?host=/run/postgresql";

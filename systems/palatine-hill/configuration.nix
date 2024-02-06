@@ -2,6 +2,7 @@
   time.timeZone = "America/New_York";
   console.keyMap = "us";
   systemd.services.hydra-notify.serviceConfig.EnvironmentFile = config.sops.secrets."hydra/environment".path;
+  programs.git.lfs.enable = false;
   networking = {
     hostId = "dc2f9781";
     firewall.enable = false;
@@ -81,8 +82,6 @@
     nfs.server.enable = true;
     openssh.ports = [ 666 ];
     smartd.enable = true;
-    git.lfs.enable = false;
-
     zfs = {
       trim.enable = true;
       autoScrub.enable = true;

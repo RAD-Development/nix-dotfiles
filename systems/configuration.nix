@@ -97,8 +97,8 @@
 
     autopull = {
       enable = true;
-      path = /root/dotfiles;
       ssh-key = "/root/.ssh/id_ed25519_ghdeploy";
+      path = /root/dotfiles;
     };
   };
 
@@ -176,7 +176,7 @@
       enable = true;
       randomizedDelaySec = "1h";
       persistent = true;
-      flake = "git+ssh://git@github.com/RAD-Development/nix-dotfiles";
+      flake = "github:RAD-Development/nix-dotfiles";
     };
   };
 }

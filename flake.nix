@@ -232,7 +232,10 @@
           mkShell {
             sopsPGPKeyDirs = [ "./keys" ];
             nativeBuildInputs = [ apacheHttpd sopsPkgs.sops-import-keys-hook ];
-            packages = [ self.formatter.${system} ];
+            packages = [
+              self.formatter.${system}
+              nixpkgs.legacyPackages.${system}.deadnix
+            ];
             shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
           })
         sops-nix.packages;

@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   eachSite = config.services.staticpage.sites;
-  siteOpts = { lib, name, config, ... }: {
+  siteOpts = { lib, ... }: {
     options = {
       package = lib.mkPackageOption pkgs "page" { };
 

@@ -25,6 +25,7 @@ in {
 
       ssh-key = lib.mkOption {
         type = lib.types.str;
+        default = "";
         description = "ssh-key used to pull the repository";
       };
 
@@ -48,8 +49,6 @@ in {
         WorkingDirectory = cfg.path;
         Environment = lib.mkIf (cfg.ssh-key != "") "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
         ExecStart = "${pkgs.git}/bin/git pull --all";
-        Before = "nixos-upgrade.service";
-        Wants = "nixos-upgrade.service";
       };
     };
 

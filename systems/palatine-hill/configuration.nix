@@ -109,7 +109,6 @@
       smtpHost = "alicehuston.xyz";
       notificationSender = "hydra@alicehuston.xyz";
       gcRootsDir = "/ZFS/ZFS-Primary/hydra";
-      buildMachinesFiles = [ ];
       useSubstitutes = true;
       minimumDiskFree = 50;
       minimumDiskFreeEvaluator = 100;

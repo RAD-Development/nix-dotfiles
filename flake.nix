@@ -172,7 +172,6 @@
           constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
             lib.nixosSystem {
               inherit system;
-
               modules = [
                 nixos-modules.nixosModule
                 sops-nix.nixosModules.sops
@@ -188,24 +187,25 @@
                 ./users/${builtins.head users}/systems/${hostname}/hardware.nix
               ]) ++ fileList "modules"
               ++ modules
-              ++ lib.optional (system != "x86_64-linux") { config.nixpkgs.config.allowUnsupportedSystem = true; }
               ++ lib.optional home home-manager.nixosModules.home-manager
               ++ lib.optional (builtins.elem "minimal" iso) "${toString nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
               ++ lib.optional (builtins.elem "sd" iso) "${toString nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
               ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
-              ++ map
-                (user:
-                  { config, lib, pkgs, ... }@args: {
-                    users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
-                    boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
-                    sops = lib.mkIf sops {
-                      secrets."${user}/user-password" = {
-                        sopsFile = ./users/${user}/secrets.yaml;
-                        neededForUsers = true;
-                      };
-                    };
-                  })
-                users;
+              ++ lib.optional (system != "x86_64-linux") {
+                config.nixpkgs = {
+                  config.allowUnsupportedSystem = true;
+                  buildPlatform = "x86_64-linux";
+                };
+              } ++ map (user: { config, lib, pkgs, ... }@args: {
+                users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
+                boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
+                sops = lib.mkIf sops {
+                  secrets."${user}/user-password" = {
+                    sopsFile = ./users/${user}/secrets.yaml;
+                    neededForUsers = true;
+                  };
+                };
+              }) users;
             };
         in
         (builtins.listToAttrs (map
@@ -277,7 +277,7 @@
             (type: {
               name = type;
               value = mkBuild type;
-            }) [ "toplevel" "isoImage" ])
+            }) [ "toplevel" "isoImage" "sdImage" ])
         );
     };
 }

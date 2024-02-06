@@ -1,6 +1,10 @@
-{ config, lib, libS, ... }:
-
-let cfg = config.boot;
+{
+  config,
+  lib,
+  libS,
+  ...
+}: let
+  cfg = config.boot;
 in {
   options = {
     boot = {
@@ -25,12 +29,12 @@ in {
   };
 
   config.boot = lib.mkIf cfg.default {
-    supportedFilesystems = [ cfg.filesystem ];
+    supportedFilesystems = [cfg.filesystem];
     tmp.useTmpfs = true;
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    kernelParams = [ "nordrand" ] ++ lib.optional (cfg.cpuType == "amd") "kvm-amd" ++ lib.optional cfg.fullDiskEncryption "ip=<ip-addr>::<ip-gateway>:<netmask>";
+    kernelParams = ["nordrand"] ++ lib.optional (cfg.cpuType == "amd") "kvm-amd" ++ lib.optional cfg.fullDiskEncryption "ip=<ip-addr>::<ip-gateway>:<netmask>";
     initrd = {
-      kernelModules = lib.mkIf cfg.amdGPU [ "amdgpu" ];
+      kernelModules = lib.mkIf cfg.amdGPU ["amdgpu"];
       network = lib.mkIf cfg.fullDiskEncryption {
         enable = true;
         ssh = {

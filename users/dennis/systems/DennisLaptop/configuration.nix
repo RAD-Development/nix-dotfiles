@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   imports = [
     ../configuration.nix
     ./program.nix
@@ -19,7 +18,7 @@
     };
 
     initrd = {
-      kernelModules = [ "amdgpu" ];
+      kernelModules = ["amdgpu"];
       luks.devices."cryptroot".device = "/dev/disk/by-uuid/4964c656-c64a-490a-a181-ec348874bd7f";
     };
   };
@@ -53,7 +52,7 @@
 
   services = {
     printing.enable = true;
-    xserver.videoDrivers = [ "amdgpu" ];
+    xserver.videoDrivers = ["amdgpu"];
     udev = {
       extraRules = "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"03e7\", MODE=\"0666\"\n";
       extraHwdb = ''

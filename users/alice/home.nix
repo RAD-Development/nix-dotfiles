@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   home = {
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -61,7 +59,7 @@
 
     topgrade = {
       enable = true;
-      settings = { misc = { disable = [ "system" "nix" "shell" ]; }; };
+      settings = {misc = {disable = ["system" "nix" "shell"];};};
     };
   };
 

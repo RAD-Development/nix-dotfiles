@@ -1,6 +1,9 @@
-{ lib, config, ... }:
 {
-  systemd.services.vaultwarden.serviceConfig.ReadWriteDir = [ "/var/lib/postfix/queue/maildrop/" ];
+  lib,
+  config,
+  ...
+}: {
+  systemd.services.vaultwarden.serviceConfig.ReadWriteDir = ["/var/lib/postfix/queue/maildrop/"];
   services = {
     vaultwarden = {
       enable = true;

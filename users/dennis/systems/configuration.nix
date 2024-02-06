@@ -1,5 +1,8 @@
-{ pkgs, config, ... }:
 {
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ./banner.nix
   ];
@@ -12,7 +15,7 @@
   nixpkgs.config.allowUnfree = true;
   networking = {
     nftables.enable = true;
-    firewall.allowedTCPPorts = [ 22 ];
+    firewall.allowedTCPPorts = [22];
   };
 
   services = {
@@ -62,7 +65,7 @@
       enable = true;
       mode = "challenge-response";
       control = "sufficient";
-      id = [ "22928767" ];
+      id = ["22928767"];
     };
   };
 
@@ -113,13 +116,13 @@
       enableBashCompletion = true;
       autosuggestions = {
         enable = true;
-        strategy = [ "completion" ];
+        strategy = ["completion"];
         async = true;
       };
 
       ohMyZsh = {
         enable = true;
-        plugins = [ "git" "sudo" "docker" "kubectl" "history" "colorize" "direnv" ];
+        plugins = ["git" "sudo" "docker" "kubectl" "history" "colorize" "direnv"];
         theme = "agnoster";
       };
 
@@ -233,7 +236,7 @@
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = ["nix-command" "flakes"];
       keep-outputs = true;
     };
 
@@ -244,28 +247,30 @@
     };
   };
 
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-    gedit
-  ]) ++ (with pkgs.gnome; [
-    cheese # webcam tool
-    gnome-contacts
-    gnome-music
-    gnome-weather
-    gnome-maps
-    gnome-terminal
-    simple-scan # document scanner
-    epiphany # web browser
-    geary # email reader
-    evince # document viewer
-    gnome-characters
-    totem # video player
-    tali # poker game
-    iagno # go game
-    hitori # sudoku game
-    atomix # puzzle game
-  ]);
+  environment.gnome.excludePackages =
+    (with pkgs; [
+      gnome-photos
+      gnome-tour
+      gedit
+    ])
+    ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-contacts
+      gnome-music
+      gnome-weather
+      gnome-maps
+      gnome-terminal
+      simple-scan # document scanner
+      epiphany # web browser
+      geary # email reader
+      evince # document viewer
+      gnome-characters
+      totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
 
   system.stateVersion = "22.11";
 }

@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{inputs, ...}: {
   system = "x86_64-linux";
   home = false;
   sops = false;

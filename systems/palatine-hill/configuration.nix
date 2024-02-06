@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
   systemd.services.hydra-notify.serviceConfig.EnvironmentFile = config.sops.secrets."hydra/environment".path;
@@ -14,11 +18,11 @@
   };
 
   boot = {
-    zfs.extraPools = [ "ZFS-primary" ];
+    zfs.extraPools = ["ZFS-primary"];
     loader.grub.device = "/dev/sda";
     filesystem = "zfs";
     useSystemdBoot = true;
-    kernelParams = [ "i915.force_probe=56a5" "i915.enable_guc=2" ];
+    kernelParams = ["i915.force_probe=56a5" "i915.enable_guc=2"];
   };
 
   nix = {
@@ -26,14 +30,16 @@
       allowed-uris = github: gitlab: git+https:// git+ssh:// https://
     '';
 
-    buildMachines = [{
-      hostName = "localhost";
-      maxJobs = 2;
-      protocol = "ssh-ng";
-      speedFactor = 2;
-      supportedFeatures = [ "kvm" "nixos-test" "big-parallel" "benchmark" ];
-      system = "x86_64-linux";
-    }];
+    buildMachines = [
+      {
+        hostName = "localhost";
+        maxJobs = 2;
+        protocol = "ssh-ng";
+        speedFactor = 2;
+        supportedFeatures = ["kvm" "nixos-test" "big-parallel" "benchmark"];
+        system = "x86_64-linux";
+      }
+    ];
   };
 
   hardware = {
@@ -61,7 +67,7 @@
       daemon."settings" = {
         experimental = true;
         data-root = "/var/lib/docker2";
-        exec-opts = [ "native.cgroupdriver=systemd" ];
+        exec-opts = ["native.cgroupdriver=systemd"];
         log-opts = {
           max-size = "10m";
           max-file = "5";
@@ -78,7 +84,7 @@
   services = {
     samba.enable = true;
     nfs.server.enable = true;
-    openssh.ports = [ 666 ];
+    openssh.ports = [666];
     smartd.enable = true;
 
     zfs = {
@@ -99,7 +105,7 @@
 
       upgrade = {
         enable = true;
-        stopServices = [ "hydra" ];
+        stopServices = ["hydra"];
       };
     };
 
@@ -109,7 +115,7 @@
       smtpHost = "alicehuston.xyz";
       notificationSender = "hydra@alicehuston.xyz";
       gcRootsDir = "/ZFS/ZFS-Primary/hydra";
-      buildMachinesFiles = [ ];
+      buildMachinesFiles = [];
       useSubstitutes = true;
       minimumDiskFree = 50;
       minimumDiskFreeEvaluator = 100;

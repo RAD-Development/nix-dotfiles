@@ -1,6 +1,10 @@
-{ config, lib, libS, ... }:
-
-let cfg = config.services.fail2ban;
+{
+  config,
+  lib,
+  libS,
+  ...
+}: let
+  cfg = config.services.fail2ban;
 in {
   options.services.fail2ban.recommendedDefaults = libS.mkOpinionatedOption "use fail2ban with recommended defaults";
 

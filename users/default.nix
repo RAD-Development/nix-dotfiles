@@ -1,6 +1,11 @@
-{ lib, config, pkgs, name, publicKeys ? [ ], defaultShell ? "zsh", }:
-
 {
+  lib,
+  config,
+  pkgs,
+  name,
+  publicKeys ? [],
+  defaultShell ? "zsh",
+}: {
   inherit name;
   isNormalUser = true;
   shell = lib.mkIf config.programs.${defaultShell}.enable pkgs.${defaultShell};

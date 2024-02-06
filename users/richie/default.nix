@@ -1,4 +1,10 @@
-{ pkgs, lib, config, name, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  name,
+  ...
+}:
 import ../default.nix {
   inherit pkgs lib config name;
   publicKeys = [

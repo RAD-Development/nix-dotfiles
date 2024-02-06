@@ -1,6 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-let cfg = config.services.autopull;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.services.autopull;
 in {
   options = {
     services.autopull = {
@@ -37,10 +41,10 @@ in {
   };
 
   config = lib.mkIf (cfg.enable && !(builtins.isNull cfg.path)) {
-    environment.systemPackages = [ pkgs.openssh pkgs.git ];
+    environment.systemPackages = [pkgs.openssh pkgs.git];
     systemd.services."autopull@${cfg.name}" = {
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
+      wantedBy = ["multi-user.target"];
+      after = ["network.target"];
       description = "Pull the latest data for ${cfg.name}";
       serviceConfig = {
         Type = "oneshot";
@@ -54,7 +58,7 @@ in {
     };
 
     systemd.timers."autopull@${cfg.name}" = {
-      wantedBy = [ "timers.target" ];
+      wantedBy = ["timers.target"];
       timerConfig = {
         OnBootSec = cfg.frequency;
         OnUnitActiveSec = cfg.frequency;

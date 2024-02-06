@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     ./banner.nix
     ./gitea.nix
@@ -9,24 +14,26 @@
 
   time.timeZone = "Europe/Berlin";
   console.keyMap = "de";
-  i18n.supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
+  i18n.supportedLocales = ["de_DE.UTF-8/UTF-8"];
   boot.useSystemdBoot = true;
-  users.users.nginx.extraGroups = [ "acme" ];
-  security.ldap.domainComponent = [ "wavelens" "io" ];
+  users.users.nginx.extraGroups = ["acme"];
+  security.ldap.domainComponent = ["wavelens" "io"];
   networking = {
     hostId = "7d76fab7";
     domain = "wavelens.io";
     nftables.enable = true;
     firewall = {
       filterForward = true;
-      allowedTCPPorts = [ 25 80 143 443 3306 993 465 ];
+      allowedTCPPorts = [25 80 143 443 3306 993 465];
     };
 
     interfaces = {
-      ens3.ipv6.addresses = [{
-        address = "2a03:4000:57:b96::1";
-        prefixLength = 64;
-      }];
+      ens3.ipv6.addresses = [
+        {
+          address = "2a03:4000:57:b96::1";
+          prefixLength = 64;
+        }
+      ];
     };
 
     defaultGateway6 = {
@@ -47,19 +54,19 @@
   };
 
   systemd = {
-    timers.bitwarden-directory-connector-cli.wants = [ "network-online.target" ]; # TODO: TEMPORARY
+    timers.bitwarden-directory-connector-cli.wants = ["network-online.target"]; # TODO: TEMPORARY
     services.vaultwarden = {
-      after = [ "postgresql.service" ];
-      requires = [ "postgresql.service" ];
+      after = ["postgresql.service"];
+      requires = ["postgresql.service"];
       serviceConfig = {
         StateDirectory = lib.mkForce "vaultwarden";
-        EnvironmentFile = [ config.sops.secrets."vaultwarden/smtp-password".path ];
+        EnvironmentFile = [config.sops.secrets."vaultwarden/smtp-password".path];
       };
     };
   };
 
   services = {
-    openssh.ports = [ 12 ];
+    openssh.ports = [12];
     backup = {
       enable = true;
       paths = [
@@ -78,16 +85,17 @@
     postgresql = {
       enable = true;
       enableJIT = true;
-      ensureDatabases = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
-      ensureUsers = map
+      ensureDatabases = ["gitea" "nextcloud" "vaultwarden" "outline"];
+      ensureUsers =
+        map
         (user: {
           name = user;
           ensureDBOwnership = true;
-        }) [ "gitea" "nextcloud" "vaultwarden" "outline" ];
+        }) ["gitea" "nextcloud" "vaultwarden" "outline"];
 
       upgrade = {
         enable = true;
-        stopServices = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
+        stopServices = ["gitea" "nextcloud" "vaultwarden" "outline"];
       };
     };
 
@@ -104,13 +112,13 @@
           {
             long_name = "LDAP Administrators";
             name = "admins";
-            members = [ "admin" ];
+            members = ["admin"];
             permissions.portunus.is_admin = true;
           }
           {
             long_name = "Search";
             name = "search";
-            members = [ "search" ];
+            members = ["search"];
             permissions.ldap.can_read = true;
           }
           {
@@ -129,14 +137,14 @@
             family_name = "Administrator";
             given_name = "Initial";
             login_name = "admin";
-            password.from_command = [ "/usr/bin/env" "cat" "${config.sops.secrets."portunus/users/admin-password".path}" ];
+            password.from_command = ["/usr/bin/env" "cat" "${config.sops.secrets."portunus/users/admin-password".path}"];
           }
           {
             email = "noreply@wavelens.io";
             family_name = "Master";
             given_name = "Search";
             login_name = "search";
-            password.from_command = [ "/usr/bin/env" "cat" "${config.sops.secrets."portunus/ldap-password".path}" ];
+            password.from_command = ["/usr/bin/env" "cat" "${config.sops.secrets."portunus/ldap-password".path}"];
           }
         ];
       };

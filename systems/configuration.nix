@@ -1,14 +1,19 @@
-{ lib, pkgs, config, ... }: {
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}: {
   security.auditd.enable = true;
   nixpkgs.config.allowUnfree = true;
   i18n = {
     defaultLocale = "en_US.utf8";
-    supportedLocales = [ "en_US.UTF-8/UTF-8" ];
+    supportedLocales = ["en_US.UTF-8/UTF-8"];
   };
 
   boot = {
     default = true;
-    kernel.sysctl = { "net.ipv6.conf.ens3.accept_ra" = 1; };
+    kernel.sysctl = {"net.ipv6.conf.ens3.accept_ra" = 1;};
   };
 
   home-manager = {
@@ -24,7 +29,7 @@
   networking = {
     firewall = {
       enable = lib.mkDefault true;
-      allowedTCPPorts = [ ];
+      allowedTCPPorts = [];
     };
   };
 
@@ -138,14 +143,14 @@
       ohMyZsh.enable = true;
       autosuggestions = {
         enable = true;
-        strategy = [ "completion" ];
+        strategy = ["completion"];
         async = true;
       };
     };
 
     nix-ld = {
       enable = true;
-      libraries = with pkgs; [ acl attr bzip2 curl glib libglvnd libmysqlclient libsodium libssh libxml2 openssl stdenv.cc.cc systemd util-linux xz zlib zstd ];
+      libraries = with pkgs; [acl attr bzip2 curl glib libglvnd libmysqlclient libsodium libssh libxml2 openssl stdenv.cc.cc systemd util-linux xz zlib zstd];
     };
   };
 
@@ -158,7 +163,7 @@
   nix = {
     diffSystem = true;
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = ["nix-command" "flakes"];
       keep-outputs = true;
       builders-use-substitutes = true;
       connect-timeout = 20;

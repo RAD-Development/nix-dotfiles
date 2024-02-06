@@ -242,7 +242,6 @@
       port = 3120;
       storage.storageType = "local";
       logo = "https://static.wavelens.io/logo/logo.svg";
-      databaseUrl = "postgresql:///outline?host=/run/postgresql";
       smtp = {
         fromEmail = "wiki@wavelens.io";
         host = "localhost";

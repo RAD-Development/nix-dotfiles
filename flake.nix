@@ -91,13 +91,22 @@
   outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
-      systems = [ "x86_64-linux" "aarch64-linux" ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+
       forEachSystem = lib.genAttrs systems;
       overlayList = [ self.overlays.default nix.overlays.default ];
       pkgsBySystem = forEachSystem (system: import nixpkgs {
         inherit system;
         overlays = overlayList;
-        config.allowUnfree = true;
+        config = {
+          allowUnfree = true;
+          isHydra = true;
+        };
       });
 
       src = builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)) ./.;
@@ -140,13 +149,13 @@
               #   language = "system";
               #   files = "\\.nix";
               # }
-              {
-                id = "nix-flake-check";
-                entry = "nix flake check";
-                language = "system";
-                files = "\\.nix";
-                pass_filenames = false;
-              }
+              # {
+              #   id = "nix-flake-check";
+              #   entry = "nix flake check";
+              #   language = "system";
+              #   files = "\\.nix";
+              #   pass_filenames = false;
+              # }
             ];
           }
         ];
@@ -160,11 +169,14 @@
 
       nixosConfigurations =
         let
-          constructSystem = { hostname, users, home ? true, modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
+          constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
             lib.nixosSystem {
               inherit system;
-
-              modules = [ nixos-modules.nixosModule sops-nix.nixosModules.sops { config.networking.hostName = "${hostname}"; } ] ++ (if server then [
+              modules = [
+                nixos-modules.nixosModule
+                sops-nix.nixosModules.sops
+                { config.networking.hostName = "${hostname}"; }
+              ] ++ (if server then [
                 mailserver.nixosModules.mailserver
                 ./systems/programs.nix
                 ./systems/configuration.nix
@@ -173,21 +185,27 @@
               ] else [
                 ./users/${builtins.head users}/systems/${hostname}/configuration.nix
                 ./users/${builtins.head users}/systems/${hostname}/hardware.nix
-              ]) ++ modules
-              ++ fileList "modules"
+              ]) ++ fileList "modules"
+              ++ modules
               ++ lib.optional home home-manager.nixosModules.home-manager
+              ++ lib.optional (builtins.elem "minimal" iso) "${toString nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+              ++ lib.optional (builtins.elem "sd" iso) "${toString nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
               ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
-              ++ map (user: { config, lib, pkgs, ... }@args: {
-                  users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
-                  boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
-                  sops = lib.mkIf sops {
-                    secrets."${user}/user-password" = {
-                      sopsFile = ./users/${user}/secrets.yaml;
-                      neededForUsers = true;
-                    };
+              ++ lib.optional (system != "x86_64-linux") {
+                config.nixpkgs = {
+                  config.allowUnsupportedSystem = true;
+                  crossSystem = lib.systems.examples.aarch64-multiplatform;
+                };
+              } ++ map (user: { config, lib, pkgs, ... }@args: {
+                users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
+                boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
+                sops = lib.mkIf sops {
+                  secrets."${user}/user-password" = {
+                    sopsFile = ./users/${user}/secrets.yaml;
+                    neededForUsers = true;
                   };
-                })
-                users;
+                };
+              }) users;
             };
         in
         (builtins.listToAttrs (map
@@ -259,7 +277,7 @@
             (type: {
               name = type;
               value = mkBuild type;
-            }) [ "toplevel" "isoImage" ])
+            }) [ "toplevel" "isoImage" "sdImage" ])
         );
     };
 }

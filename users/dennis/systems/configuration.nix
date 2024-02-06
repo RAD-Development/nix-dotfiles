@@ -266,6 +266,4 @@
     hitori # sudoku game
     atomix # puzzle game
   ]);
-
-  system.stateVersion = "22.11";
 }

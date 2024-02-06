@@ -51,7 +51,7 @@ in {
       generationsDir.copyKernels = true;
       systemd-boot.enable = lib.mkIf cfg.useSystemdBoot true;
       grub = lib.mkIf (!cfg.useSystemdBoot) {
-        enable = true;
+        enable = lib.mkForce true;
         copyKernels = true;
         zfsSupport = lib.mkIf (cfg.filesystem == "zfs") true;
         efiSupport = true;

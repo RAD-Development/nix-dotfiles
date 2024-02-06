@@ -68,4 +68,6 @@
     KICAD7_FOOTPRINT_DIR = "/home/dennis/repos/turag/elektronik/KiCad/kicad-footprints";
     KICAD7_3DMODEL_DIR = "/home/dennis/repos/turag/elektronik/KiCad/kicad-packages3D";
   };
+
+  system.stateVersion = "22.11";
 }

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   imports = [
     ../configuration.nix
@@ -31,7 +31,7 @@
       };
 
       grub = {
-        enable = true;
+        enable = lib.mkForce true;
         copyKernels = true;
         zfsSupport = true;
         efiSupport = true;
@@ -95,4 +95,6 @@
       pulse.enable = true;
     };
   };
+
+  system.stateVersion = "23.05";
 }

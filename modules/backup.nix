@@ -97,26 +97,25 @@ in {
         };
     };
 
-    sops.secrets = lib.mkIf (cfg.enable && cfg.offsite != [ ])
-      {
-        "restic/offsite/private" = {
-          owner = "root";
-          path = "/root/.ssh/id_offsite-backup";
-          sopsFile = ./backup.yaml;
-        };
+    sops.secrets = lib.mkIf (cfg.enable && cfg.offsite != [ ]) {
+      "restic/offsite/private" = {
+        owner = "root";
+        path = "/root/.ssh/id_offsite-backup";
+        sopsFile = ./backup.yaml;
+      };
 
-        "restic/offsite/public" = {
-          owner = "root";
-          path = "/root/.ssh/id_offsite-backup.pub";
-          sopsFile = ./backup.yaml;
-        };
+      "restic/offsite/public" = {
+        owner = "root";
+        path = "/root/.ssh/id_offsite-backup.pub";
+        sopsFile = ./backup.yaml;
+      };
 
-        "restic/offsite/ssh-config" = {
-          owner = "root";
-          path = "/root/.ssh/config";
-          sopsFile = ./backup.yaml;
-        };
-      } // lib.mkIf cfg.enable { "restic/password".owner = "root"; };
+      "restic/offsite/ssh-config" = {
+        owner = "root";
+        path = "/root/.ssh/config";
+        sopsFile = ./backup.yaml;
+      };
+    } // lib.mkIf cfg.enable { "restic/password".owner = "root"; };
 
     system.activationScripts.linkResticSSHConfigIntoVirtioFS = lib.mkIf (cfg.enable && cfg.offsite != [ ]) ''
       echo "Linking restic ssh config..."

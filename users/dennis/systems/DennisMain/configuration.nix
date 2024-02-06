@@ -72,11 +72,6 @@
   programs = {
     dconf.enable = true;
     droidcam.enable = true;
-    zsh.shellAliases = {
-      nixedit = "nvim ~/dotfiles/users/dennis/systems/DennisMain/configuration.nix";
-      nixeditp = "nvim ~/dotfiles/users/dennis/systems/DennisMain/program.nix";
-      nixedith = "nvim ~/dotfiles/users/dennis/systems/DennisMain/hardware-configuration.nix";
-    };
   };
 
   services = {

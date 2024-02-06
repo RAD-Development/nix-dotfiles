@@ -43,12 +43,6 @@
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
     };
-
-    zsh.shellAliases = {
-      nixedit = "nvim ~/dotfiles/users/dennis/systems/DennisLaptop/configuration.nix";
-      nixeditp = "nvim ~/dotfiles/users/dennis/systems/DennisLaptop/program.nix";
-      nixedith = "nvim ~/dotfiles/users/dennis/systems/DennisLaptop/hardware-configuration.nix";
-    };
   };
 
   services = {

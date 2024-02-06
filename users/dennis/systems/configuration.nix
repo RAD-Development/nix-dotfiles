@@ -131,9 +131,12 @@
         nixdir = "echo \"use flake\" > .envrc && direnv allow";
         nixeditc = "nvim ~/dotfiles/users/dennis/systems/configuration.nix";
         nixeditpc = "nvim ~/dotfiles/users/dennis/systems/program.nix";
+        nixedit = "nvim ~/dotfiles/users/dennis/systems/${config.networking.hostName}/configuration.nix";
+        nixeditp = "nvim ~/dotfiles/users/dennis/systems/${config.networking.hostName}/program.nix";
+        nixedith = "nvim ~/dotfiles/users/dennis/systems/${config.networking.hostName}/hardware-configuration.nix";
         pypi = "pip install --user";
         qr = "qrencode -m 2 -t utf8 <<< \"$1\"";
-        update = "sudo nixos-rebuild switch --fast --accept-flake-config --flake ~/dotfiles/ -L";
+        update = "sudo nixos-rebuild switch --fast --accept-flake-config --flake ~/dotfiles/#dennis.${config.networking.hostName} -L";
         v = "nvim";
       };
 

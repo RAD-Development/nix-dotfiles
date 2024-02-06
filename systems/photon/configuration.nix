@@ -274,7 +274,7 @@
       "portunus/users/admin-password".owner = "portunus";
       "vaultwarden-connector/client-id".owner = "bwdc";
       "vaultwarden-connector/client-secret".owner = "bwdc";
-      "vaultwarden/ldap-password".owner = "vaultwarden";
+      "vaultwarden-connector/ldap-password".owner = "bwdc";
       "vaultwarden/smtp-password".owner = "vaultwarden";
     };
   };

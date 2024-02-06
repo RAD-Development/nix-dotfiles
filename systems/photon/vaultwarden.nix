@@ -45,7 +45,7 @@
       };
 
       secrets = {
-        ldap = config.sops.secrets."vaultwarden/ldap-password".path;
+        ldap = config.sops.secrets."vaultwarden-connector/ldap-password".path;
         bitwarden = {
           client_path_id = config.sops.secrets."vaultwarden-connector/client-id".path;
           client_path_secret = config.sops.secrets."vaultwarden-connector/client-secret".path;

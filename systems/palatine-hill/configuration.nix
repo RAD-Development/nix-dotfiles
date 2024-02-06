@@ -81,6 +81,7 @@
     nfs.server.enable = true;
     openssh.ports = [ 666 ];
     smartd.enable = true;
+    git.lfs.enable = false;
 
     zfs = {
       trim.enable = true;

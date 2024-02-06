@@ -24,6 +24,7 @@
   nix = {
     extraOptions = ''
       allowed-uris = github: gitlab: git+https:// git+ssh:// https://
+      builders-use-substitutes = true
     '';
 
     buildMachines = [{
@@ -32,7 +33,7 @@
       protocol = "ssh-ng";
       speedFactor = 2;
       supportedFeatures = [ "kvm" "nixos-test" "big-parallel" "benchmark" ];
-      system = "x86_64-linux";
+      systems = [ "x86_64-linux" "x86_64-linux" ];
     }];
   };
 

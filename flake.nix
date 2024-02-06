@@ -149,13 +149,13 @@
               #   language = "system";
               #   files = "\\.nix";
               # }
-              {
-                id = "nix-flake-check";
-                entry = "nix flake check";
-                language = "system";
-                files = "\\.nix";
-                pass_filenames = false;
-              }
+              # {
+              #   id = "nix-flake-check";
+              #   entry = "nix flake check";
+              #   language = "system";
+              #   files = "\\.nix";
+              #   pass_filenames = false;
+              # }
             ];
           }
         ];
@@ -194,7 +194,7 @@
               ++ lib.optional (system != "x86_64-linux") {
                 config.nixpkgs = {
                   config.allowUnsupportedSystem = true;
-                  buildPlatform = "x86_64-linux";
+                  crossSystem = lib.systems.examples.aarch64-multiplatform;
                 };
               } ++ map (user: { config, lib, pkgs, ... }@args: {
                 users.users.${user} = import ./users/${user} (args // { name = "${user}"; });

@@ -31,7 +31,7 @@
       fsType = "ext4";
     };
 
-    "boot" = {
+    "/boot" = {
       device = "/dev/disk/by-uuid/4CBA-2451";
       fsType = "vfat";
     };

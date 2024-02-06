@@ -22,7 +22,7 @@
   };
 
   fileSystems."/" = {
-    device = "/dev/mmcblk0";
+    device = "/dev/disk/by-label/NIXOS_SD";
     fsType = "ext4";
   };
 }

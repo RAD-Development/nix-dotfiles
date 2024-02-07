@@ -41,7 +41,7 @@ in {
     environment.systemPackages = [ pkgs.openssh pkgs.git ];
     systemd.services."autopull@${cfg.name}" = {
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
+      after = [ "network-online.target" ];
       description = "Pull the latest data for ${cfg.name}";
       serviceConfig = {
         Type = "oneshot";

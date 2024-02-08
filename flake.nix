@@ -171,6 +171,7 @@
         let
           constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
             lib.nixosSystem {
+              system = "x86_64-linux";
               modules = [
                 nixos-modules.nixosModule
                 sops-nix.nixosModules.sops

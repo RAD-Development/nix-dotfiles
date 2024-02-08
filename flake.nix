@@ -171,7 +171,6 @@
         let
           constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
             lib.nixosSystem {
-              inherit system;
               modules = [
                 nixos-modules.nixosModule
                 sops-nix.nixosModules.sops
@@ -194,7 +193,7 @@
               ++ lib.optional (system != "x86_64-linux") {
                 config.nixpkgs = {
                   config.allowUnsupportedSystem = true;
-                  crossSystem = lib.systems.examples.aarch64-multiplatform;
+                  buildPlatform = "x86_64-linux";
                 };
               } ++ map (user: { config, lib, pkgs, ... }@args: {
                 users.users.${user} = import ./users/${user} (args // { name = "${user}"; });

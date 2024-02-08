@@ -33,8 +33,17 @@
       maxJobs = 2;
       protocol = "ssh-ng";
       speedFactor = 2;
-      supportedFeatures = [ "kvm" "nixos-test" "big-parallel" "benchmark" ];
-      systems = [ "x86_64-linux" "x86_64-linux" ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+
+      supportedFeatures = [
+        "kvm"
+        "nixos-test"
+        "big-parallel"
+        "benchmark"
+      ];
     }];
   };
 

@@ -242,12 +242,15 @@
       port = 3120;
       storage.storageType = "local";
       logo = "https://static.wavelens.io/logo/logo.svg";
+      publicUrl = "https://wiki.wavelens.io";
       smtp = {
         fromEmail = "wiki@wavelens.io";
-        host = "localhost";
+        host = "mail.wavelens.io";
+        secure = true;
+        tlsCiphers = "SSLv3";
         passwordFile = config.sops.secrets."outline/smtp-password".path;
-        port = 25;
-        replyEmail = "wiki@wavelens.io";
+        port = 465;
+        replyEmail = "info@wavelens.io";
         username = "wiki@wavelens.io";
       };
     };

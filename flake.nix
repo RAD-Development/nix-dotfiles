@@ -197,7 +197,7 @@
               ++ lib.optional (system != "x86_64-linux") {
                 nixpkgs.overlays = [
                   (_self: super: {
-                    pcsclite = patch-pcsclite.legacyPackages.${system}.nixpkgs.pcsclite;
+                    pcsclite = patch-pcsclite.legacyPackages.${system}.pcsclite;
                   })
                 ];
               } ++ lib.optional (system != "x86_64-linux") {

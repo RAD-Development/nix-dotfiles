@@ -9,6 +9,9 @@
   };
 
   inputs = {
+    #pcsc can not cross compile
+    patch-pcsclite.url = "github:nixos/nixpkgs?rev=952bd699447d82d69f4b15d994d5dc232e7addfb";
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     nix-index-database = {
@@ -88,7 +91,7 @@
     };
   };
 
-  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
+  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, patch-pcsclite, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -192,6 +195,12 @@
               ++ lib.optional (builtins.elem "sd" iso) "${toString nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
               ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
               ++ lib.optional (system != "x86_64-linux") {
+                nixpkgs.overlays = [
+                  (_self: super: {
+                    pcsclite = patch-pcsclite.legacyPackages.${system}.nixpkgs.pcsclite;
+                  })
+                ];
+              } ++ lib.optional (system != "x86_64-linux") {
                 config.nixpkgs = {
                   config.allowUnsupportedSystem = true;
                   buildPlatform = "x86_64-linux";

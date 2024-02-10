@@ -118,7 +118,7 @@
       hydraURL = "http://localhost:3000";
       smtpHost = "alicehuston.xyz";
       notificationSender = "hydra@alicehuston.xyz";
-      gcRootsDir = "/ZFS/ZFS-Primary/hydra";
+      gcRootsDir = "/ZFS/ZFS-primary/hydra";
       useSubstitutes = true;
       minimumDiskFree = 50;
       minimumDiskFreeEvaluator = 100;

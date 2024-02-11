@@ -41,7 +41,7 @@ but I cannot be bothered rn
 | main             | protected branch which all machines pull from, do not try to push directly                                                                                                            |
 | feature/\<item\> | \<item\> is a new feature being added to the repo, for personal or common use                                                                                                        |
 | fixup/\<item\>   | \<item\> is a non-urgent bug, PRs merging from these branches should be merged when possible, but are not considered mission-critical                                                |
-| hotfix/\<item\>  | \<item\> is a mission-critical bug, either affecting all users or a breaking change on a user's machines. These PRs should be reviewed ASAP                                          |
+| hotfix/\<item\>  | \<item\> is a mission-critical bug, either affecting all users or a breaking change on a user's machines. These PRs should be reviewed ASAP. This is automatically subject to the [Critical Issues](#critical-issues) process                                          |
 | urgent/\<item\>  | Accepted as an alias for the above, due to dev's coming from multiple standards and the criticality of these issues                                                                  |
 | exp/\<item\>     | \<item\> is a non-critical experiment. This is used for shipping around potential new features or fixes to multiple branches                                                         |
 | merge/\<item\>   | \<item\> is a temporary branch and should never be merged directly to main. This is solely used for addressing merge conflicts which are too complex to be merged directly on branch |

@@ -11,7 +11,7 @@ Mac (althought that hasn't been tested).
 Please see [our setup guide](./docs/setting-up.md) for more information on how
 to onboard a new user or system.
 
-## Interested?
+## For Those Interested
 
 Although we are not actively looking for new members to join in on this repo,
 we are not strictly opposed. Please reach out to @ahuston-0 or @RichieCahill
@@ -21,12 +21,12 @@ for further information.
 
 - `keys/`: PGP public keys, for those who are using `SOPS` for secrets
 - `modules/`: Nix modules created by us for common services or overrides
-(fail2ban, hydra, certain boot params, etc.)
+  (fail2ban, hydra, certain boot params, etc.)
 - `systems/`: config for common *server* components, as well as per-server configurations
 - `users/`: this directory has two major subdirectories, both are critical
-  - `users/<user>`: includes configs for `home-manager`, `SOPS`, and `SSH` keys
-  , for those who use them
-  - `users/<user>/systems`: functions similarly to `systems/`, although for
+    - `users/<user>`: includes configs for `home-manager`, `SOPS`, and `SSH` keys
+       , for those who use them
+    - `users/<user>/systems`: functions similarly to `systems/`, although for
   laptops, desktops, and even a Raspberry Pi now
 
 ## Contributing

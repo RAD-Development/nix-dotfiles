@@ -136,6 +136,30 @@
             }];
           }
           {
+            repo = "https://github.com/pre-commit/pre-commit-hooks";
+            rev = "v4.5.0";
+            hooks = [
+              {
+                id = "check-yaml";
+              }
+              {
+                id = "end-of-file-fixer";
+              }
+              {
+                id = "trailing-whitespace";
+              }
+            ];
+          }
+          {
+            repo = "https://github.com/markdownlint/markdownlint";
+            rev = "v0.13.0";
+            hooks = [
+              {
+                id = "markdownlint";
+              }
+            ];
+          }
+          {
             repo = "local";
             hooks = [
               # {
@@ -242,6 +266,7 @@
             packages = [
               self.formatter.${system}
               nixpkgs.legacyPackages.${system}.deadnix
+              nixpkgs.legacyPackages.${system}.mdl
             ];
             shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
           })

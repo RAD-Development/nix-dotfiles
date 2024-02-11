@@ -269,6 +269,7 @@
               self.formatter.${system}
               nixpkgs.legacyPackages.${system}.deadnix
               nixpkgs.legacyPackages.${system}.mdl
+              nixpkgs.legacyPackages.${system}.pre-commit
             ];
             shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
           })

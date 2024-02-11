@@ -14,7 +14,9 @@ to onboard a new user or system.
 ## For Those Interested
 
 Although we are not actively looking for new members to join in on this repo,
-we are not strictly opposed. Please reach out to @ahuston-0 or @RichieCahill
+we are not strictly opposed. Please reach out to
+[@ahuston-0](https://github.com/ahuston-0) or
+[@RichieCahill](https://github.com/RichieCahill)
 for further information.
 
 ## Repo Structure

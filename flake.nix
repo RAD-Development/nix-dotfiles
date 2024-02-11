@@ -150,9 +150,11 @@
                 id = "check-yaml";
               }
               {
+                # NOTE for PR: this modifies files which do not comply to its spec
                 id = "end-of-file-fixer";
               }
               {
+                # NOTE for PR: this modifies files which do not comply to its spec
                 id = "trailing-whitespace";
               }
             ];

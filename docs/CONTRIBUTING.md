@@ -31,11 +31,6 @@ We use the below guide for creating branches currently. It is not necessarily
 a strict standard, but if not followed will lead to questions from reviewers,
 and will eventually trip a check when merging to main.
 
-<!--
-Need to figure out how to make markdownlint ignore tables. I know its possible
-but I cannot be bothered rn
--->
-
 | Branch Name      | Use Case                                                                                                                                                                             |
 |------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | main             | protected branch which all machines pull from, do not try to push directly                                                                                                            |

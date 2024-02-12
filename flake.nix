@@ -172,7 +172,7 @@
 
       nixosConfigurations =
         let
-          constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
+          constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux", owner ? null }:
             lib.nixosSystem {
               system = "x86_64-linux";
               modules = [
@@ -193,7 +193,10 @@
               ++ lib.optional home home-manager.nixosModules.home-manager
               ++ lib.optional (builtins.elem "minimal" iso) "${toString nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
               ++ lib.optional (builtins.elem "sd" iso) "${toString nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-              ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
+              ++ (if home then (map (user: {
+                home-manager.users.${user} = import ./users/${user}/home.nix;
+                home-manager.users.root = lib.mkIf (owner == user) (import ./users/${user}/home.nix);
+              }) users) else [ ])
               ++ lib.optional (system != "x86_64-linux") {
                 nixpkgs.overlays = [
                   (_self: super: {

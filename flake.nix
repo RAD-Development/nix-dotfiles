@@ -9,8 +9,9 @@
   };
 
   inputs = {
-    #pcsc can not cross compile
+    # pcsc, fido2, systemd can not cross compile
     patch-pcsclite.url = "github:nixos/nixpkgs?rev=952bd699447d82d69f4b15d994d5dc232e7addfb";
+    patch-systemd.url = "github:nixos/nixpkgs?rev=d934204a0f8d9198e1e4515dd6fec76a139c87f0";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
@@ -91,7 +92,7 @@
     };
   };
 
-  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, patch-pcsclite, ... }@inputs:
+  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -197,7 +198,11 @@
               ++ lib.optional (system != "x86_64-linux") {
                 nixpkgs.overlays = [
                   (_self: super: {
-                    pcsclite = patch-pcsclite.legacyPackages.${system}.pcsclite;
+                    pcsclite = inputs.patch-pcsclite.legacyPackages.${system}.pcsclite;
+                    libfido2 = inputs.patch-systemd.legacyPackages.${system}.libfido2;
+                    systemd = inputs.patch-systemd.legacyPackages.${system}.systemd;
+                    util-linux = inputs.patch-systemd.legacyPackages.${system}.util-linux;
+                    glib = inputs.patch-systemd.legacyPackages.${system}.glib;
                   })
                 ];
               } ++ lib.optional (system != "x86_64-linux") {

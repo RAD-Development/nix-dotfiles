@@ -8,7 +8,7 @@
   nixpkgs.config.allowUnfree = true;
   #sound.enable = true;
   networking.hostId = "85d24791";
-  services.udev.enable = false;
+  services.udev.enable = true;
   boot = {
     #supportedFilesystems = [ "zfs" ];
     #tmp.useTmpfs = true;

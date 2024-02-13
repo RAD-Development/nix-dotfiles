@@ -197,13 +197,10 @@
               ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
               ++ lib.optional (system != "x86_64-linux") {
                 nixpkgs.overlays = [
-                  (_self: super: {
-                    pcsclite = inputs.patch-pcsclite.legacyPackages.${system}.pcsclite;
-                    libfido2 = inputs.patch-systemd.legacyPackages.${system}.libfido2;
-                    systemd = inputs.patch-systemd.legacyPackages.${system}.systemd;
-                    util-linux = inputs.patch-systemd.legacyPackages.${system}.util-linux;
-                    glib = inputs.patch-systemd.legacyPackages.${system}.glib;
-                  })
+                  (_self: super: (builtins.listToAttrs (map (name: {
+                    name = name;
+                    value = inputs.patch-systemd.legacyPackages.${system}.${name};
+                  }) (builtins.attrNames inputs.patch-systemd.legacyPackages.${system}))))
                 ];
               } ++ lib.optional (system != "x86_64-linux") {
                 config.nixpkgs = {

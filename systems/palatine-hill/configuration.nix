@@ -159,7 +159,7 @@
     secrets = {
       "hydra/environment".owner = "hydra";
       "nix-serve/secret-key".owner = "root";
-      "upsmon/password".owner = "upsmon";
+      "upsmon/password".owner = "root";
     };
   };
 

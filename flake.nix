@@ -179,6 +179,13 @@
                 nixos-modules.nixosModule
                 sops-nix.nixosModules.sops
                 { config.networking.hostName = "${hostname}"; }
+                {
+                  nixpkgs.overlays = [
+                    (_self: super: {
+                      libgit2 = super.libgit2.override { doCheck = false; };
+                    })
+                  ];
+                }
               ] ++ (if server then [
                 mailserver.nixosModules.mailserver
                 ./systems/programs.nix

@@ -182,7 +182,7 @@
                 {
                   nixpkgs.overlays = [
                     (_self: super: {
-                      libgit2 = super.libgit2.override { doCheck = false; };
+                      libgit2 = super.libgit2.overrideAttrs { doCheck = false; };
                     })
                   ];
                 }

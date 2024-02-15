@@ -66,6 +66,15 @@
 
     sysstat.enable = true;
 
+    prometheus = {
+      enable = true;
+      exporters = {
+        zfs.enable = true;
+        systemd.enable = true;
+        smartctl.enable = true;
+      };
+    };
+
     usbguard = {
       enable = true;
       rules = ''

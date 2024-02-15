@@ -118,6 +118,10 @@
             name = "vaultwarden-users";
           }
           {
+            long_name = "Nextcloud Users";
+            name = "nextcloud-users";
+          }
+          {
             long_name = "Mail Account";
             name = "mail-account";
           }

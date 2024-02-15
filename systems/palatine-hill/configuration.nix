@@ -140,11 +140,26 @@
     };
   };
 
+  power.ups = {
+    enable = true;
+    ups."LX1325GU3" = {
+      driver = "usbhid-ups";
+      port = "auto";
+      description = "CyberPower LX1325GU3";
+    };
+    users.upsmon = {
+      passwordFile = config.sops.secrets."upsmon/password".path;
+      upsmon = "primary";
+    };
+    upsmon.monitor."LX1325GU3".user = "upsmon";
+  };
+
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
       "hydra/environment".owner = "hydra";
       "nix-serve/secret-key".owner = "root";
+      "upsmon/password".owner = "upsmon";
     };
   };
 

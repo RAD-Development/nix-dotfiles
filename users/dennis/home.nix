@@ -11,6 +11,7 @@
 
     git = {
       enable = true;
+      lfs.enable = true;
       aliases = {
         p = "pull";
         r = "reset --hard";
@@ -20,6 +21,15 @@
         st = "status";
         undo = "reset --soft HEAD^";
         kill = "remote prune origin";
+      };    
+
+      extraConfig = {
+        interactive.singlekey = true;
+        pull.rebase = true;
+        rebase.autoStash = true;
+        safe.directory = "/etc/nixos";
+        rerere.enable = true;
+        push.autoSetupRemote = true;
       };
     };
 

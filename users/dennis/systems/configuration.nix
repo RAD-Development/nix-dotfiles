@@ -9,7 +9,7 @@
   boot.plymouth.enable = true;
   fonts.fontDir.enable = true;
   console.keyMap = "de";
-  nixpkgs.config.allowUnfree = true;
+  hardware.pulseaudio.enable = false;
   networking = {
     nftables.enable = true;
     firewall.allowedTCPPorts = [ 22 ];
@@ -71,10 +71,6 @@
     mediaKeys.enable = true;
   };
 
-  hardware = {
-    pulseaudio.enable = false;
-  };
-
   programs = {
     nix-index-database.comma.enable = true;
     command-not-found.enable = false;
@@ -83,22 +79,6 @@
     git = {
       enable = true;
       lfs.enable = true;
-      config = {
-        interactive.singlekey = true;
-        pull.rebase = true;
-        rebase.autoStash = true;
-        safe.directory = "/etc/nixos";
-        alias = {
-          p = "pull";
-          r = "reset --hard";
-          ci = "commit";
-          co = "checkout";
-          lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'";
-          st = "status";
-          kill = "remote prune origin";
-          undo = "reset --soft HEAD^";
-        };
-      };
     };
 
     gnupg.agent = {
@@ -106,99 +86,13 @@
       enableSSHSupport = true;
     };
 
-    zsh = {
-      enable = true;
-      syntaxHighlighting.enable = true;
-      zsh-autoenv.enable = true;
-      enableCompletion = true;
-      enableBashCompletion = true;
-      autosuggestions = {
-        enable = true;
-        strategy = [ "completion" ];
-        async = true;
-      };
-
-      ohMyZsh = {
-        enable = true;
-        plugins = [ "git" "sudo" "docker" "kubectl" "history" "colorize" "direnv" ];
-        theme = "agnoster";
-      };
-
-      shellAliases = {
-        flake = "nvim flake.nix";
-        garbage = "sudo nix-collect-garbage -d";
-        gpw = "git pull | grep \"Already up-to-date\" > /dev/null; while [ $? -gt 1 ]; do sleep 5; git pull | grep \"Already up-to-date\" > /dev/null; done; notify-send Pull f$";
-        l = "ls -lah";
-        nixdir = "echo \"use flake\" > .envrc && direnv allow";
-        nixeditc = "nvim ~/dotfiles/users/dennis/systems/configuration.nix";
-        nixeditpc = "nvim ~/dotfiles/users/dennis/systems/program.nix";
-        nixedit = "nvim ~/dotfiles/users/dennis/systems/${config.networking.hostName}/configuration.nix";
-        nixeditp = "nvim ~/dotfiles/users/dennis/systems/${config.networking.hostName}/program.nix";
-        nixedith = "nvim ~/dotfiles/users/dennis/systems/${config.networking.hostName}/hardware-configuration.nix";
-        pypi = "pip install --user";
-        qr = "qrencode -m 2 -t utf8 <<< \"$1\"";
-        update = "sudo nixos-rebuild switch --fast --accept-flake-config --flake ~/dotfiles/#dennis.${config.networking.hostName} -L";
-        v = "nvim";
-      };
-
-      promptInit = ''
-        command_not_found_handler() {
-          local command="$1"
-          local parameters=("$\{(@)argv[2, -1]}")
-          comma "$command" "$parameters"
-        }
-      '';
-    };
-
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      vimAlias = true;
-      viAlias = true;
-      withPython3 = true;
-      configure = {
-        customRC = ''
-          set undofile         " save undo file after quit
-          set undolevels=1000  " number of steps to save
-          set undoreload=10000 " number of lines to save
-
-          " Save Cursor Position
-          au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-        '';
-
-        packages.myVimPackage.start = with pkgs.vimPlugins; [
-          colorizer
-          copilot-vim
-          csv-vim
-          fugitive
-          fzf-vim
-          nerdtree
-          nvchad
-          nvchad-ui
-          nvim-treesitter-refactor
-          nvim-treesitter.withAllGrammars
-          unicode-vim
-          vim-cpp-enhanced-highlight
-          vim-tmux
-          vim-tmux-navigator
-        ];
-      };
-    };
-
-    tmux = {
-      enable = true;
-      keyMode = "vi";
-      terminal = "screen-256color\"\nset -g mouse on\n# \"";
-      shortcut = "Space";
-      baseIndex = 1;
-      clock24 = true;
-      plugins = with pkgs.tmuxPlugins; [
-        nord
-        vim-tmux-navigator
-        sensible
-        yank
-      ];
-    };
+    zsh.promptInit = ''
+      command_not_found_handler() {
+        local command="$1"
+        local parameters=("$\{(@)argv[2, -1]}")
+        comma "$command" "$parameters"
+      }
+    '';
 
     nix-ld = {
       enable = true;
@@ -229,11 +123,12 @@
     "de_DE.UTF-8/UTF-8"
   ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "adobe-reader-9.5.5"
-    "electron-12.2.3"
-    "electron-19.1.9"
-  ];
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "electron-19.1.9"
+    ];
+  };
 
   nix = {
     settings = {

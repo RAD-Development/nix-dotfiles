@@ -269,6 +269,7 @@
       "mailserver/mail-passwords/wavelens-catch".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-dennis".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-git".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-cloud".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-info".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-noreply".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-vault".owner = "dovecot2";

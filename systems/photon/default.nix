@@ -1,1 +1,4 @@
-{ ... }: { users = [ "alice" "dennis" "richie" ]; }
+{ ... }: {
+  owner = "dennis";
+  users = [ "alice" "dennis" "richie" ];
+}

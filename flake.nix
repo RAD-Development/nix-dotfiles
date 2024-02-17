@@ -2,13 +2,30 @@
   description = "NixOS configuration for RAD-Development Servers";
 
   nixConfig = {
-    substituters = [ "https://cache.alicehuston.xyz" "https://cache.nixos.org" "https://nix-community.cachix.org" ];
-    trusted-substituters = [ "https://cache.alicehuston.xyz" "https://cache.nixos.org" "https://nix-community.cachix.org" ];
-    trusted-public-keys = [ "cache.alicehuston.xyz:SJAm8HJVTWUjwcTTLAoi/5E1gUOJ0GWum2suPPv7CUo=%" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
     trusted-users = [ "root" ];
+    substituters = [
+      "https://cache.nixos.org"
+      "https://cache.alicehuston.xyz"
+      "https://nix-community.cachix.org"
+    ];
+
+    trusted-substituters = [
+      "https://cache.nixos.org"
+      "https://cache.alicehuston.xyz"
+      "https://nix-community.cachix.org"
+    ];
+
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "cache.alicehuston.xyz:SJAm8HJVTWUjwcTTLAoi/5E1gUOJ0GWum2suPPv7CUo=%"
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
 
   inputs = {
+    # pcsc, fido2, systemd can not cross compile
+    patch-systemd.url = "github:nixos/nixpkgs?rev=d934204a0f8d9198e1e4515dd6fec76a139c87f0";
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     nix-index-database = {
@@ -169,13 +186,20 @@
 
       nixosConfigurations =
         let
-          constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux" }:
+          constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux", owner ? null }:
             lib.nixosSystem {
-              inherit system;
+              system = "x86_64-linux";
               modules = [
                 nixos-modules.nixosModule
                 sops-nix.nixosModules.sops
                 { config.networking.hostName = "${hostname}"; }
+                {
+                  nixpkgs.overlays = [
+                    (_self: super: {
+                      libgit2 = super.libgit2.overrideAttrs { doCheck = false; };
+                    })
+                  ];
+                }
               ] ++ (if server then [
                 mailserver.nixosModules.mailserver
                 ./systems/programs.nix
@@ -190,11 +214,21 @@
               ++ lib.optional home home-manager.nixosModules.home-manager
               ++ lib.optional (builtins.elem "minimal" iso) "${toString nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
               ++ lib.optional (builtins.elem "sd" iso) "${toString nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-              ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
+              ++ (if home then (map (user: {
+                home-manager.users.${user} = import ./users/${user}/home.nix;
+                home-manager.users.root = lib.mkIf (owner == user) (import ./users/${user}/home.nix);
+              }) users) else [ ])
               ++ lib.optional (system != "x86_64-linux") {
+                nixpkgs.overlays = [
+                  (_self: super: (builtins.listToAttrs (map (name: {
+                    name = name;
+                    value = inputs.patch-systemd.legacyPackages.${system}.${name};
+                  }) (builtins.attrNames inputs.patch-systemd.legacyPackages.${system}))))
+                ];
+              } ++ lib.optional (system != "x86_64-linux") {
                 config.nixpkgs = {
                   config.allowUnsupportedSystem = true;
-                  crossSystem = lib.systems.examples.aarch64-multiplatform;
+                  buildPlatform = "x86_64-linux";
                 };
               } ++ map (user: { config, lib, pkgs, ... }@args: {
                 users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
@@ -221,7 +255,8 @@
                 hostname = system;
                 server = false;
                 users = [ user ];
-              } // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [ "hostname" "server" "users" ]);
+                owner = user;
+              } // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [ "hostname" "server" "users" "owner" ]);
             })
             (lsdir "users/${user}/systems"))
           (lsdir "users")));

@@ -24,6 +24,7 @@
       "vm.overcommit_memory" = 1;
       "vm.swappiness" = 10;
     };
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   nix = {
@@ -37,8 +38,17 @@
       maxJobs = 2;
       protocol = "ssh-ng";
       speedFactor = 2;
-      supportedFeatures = [ "kvm" "nixos-test" "big-parallel" "benchmark" ];
-      systems = [ "x86_64-linux" "x86_64-linux" ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+
+      supportedFeatures = [
+        "kvm"
+        "nixos-test"
+        "big-parallel"
+        "benchmark"
+      ];
     }];
   };
 
@@ -113,7 +123,7 @@
       hydraURL = "http://localhost:3000";
       smtpHost = "alicehuston.xyz";
       notificationSender = "hydra@alicehuston.xyz";
-      gcRootsDir = "/ZFS/ZFS-Primary/hydra";
+      gcRootsDir = "/ZFS/ZFS-primary/hydra";
       useSubstitutes = true;
       minimumDiskFree = 50;
       minimumDiskFreeEvaluator = 100;

@@ -11,14 +11,26 @@
 
     git = {
       enable = true;
+      lfs.enable = true;
       aliases = {
         p = "pull";
         r = "reset --hard";
+        f = "push --force-with-lease";
         ci = "commit";
         co = "checkout";
         lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'";
         st = "status";
         undo = "reset --soft HEAD^";
+        kill = "remote prune origin";
+      };    
+
+      extraConfig = {
+        interactive.singlekey = true;
+        pull.rebase = true;
+        rebase.autoStash = true;
+        safe.directory = "/etc/nixos";
+        rerere.enable = true;
+        push.autoSetupRemote = true;
       };
     };
 

@@ -1,6 +1,21 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
+let
+  altPath = (path: alt: f: options: (builtins.listToAttrs (if (builtins.pathExists path) then
+    map (option: {
+      name = option.name;
+      value = (f option.value path);
+    }) options
+    else
+    map (option: {
+      name = option.name;
+      value = (f option.value alt);
+    }) options
+  )));
+in {
+  imports = [
+    ./neovim.nix
+  ];
 
-{
   programs = {
     fzf = {
       enable = true;
@@ -20,6 +35,7 @@
         co = "checkout";
         lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'";
         st = "status";
+        addi = "add --intent-to-add";
         undo = "reset --soft HEAD^";
         kill = "remote prune origin";
       };    
@@ -46,20 +62,45 @@
         " Save Cursor Position
         au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
       '';
-
+      
       plugins = with pkgs.vimPlugins; [
-        colorizer
-        copilot-vim
+        alpha-nvim
+        barbar-nvim
+        cmp-tmux
+        copilot-cmp
         csv-vim
+        flash-nvim
         fugitive
         fzf-vim
+        inc-rename-nvim
+        indent-blackline-nvim
+        lsp-colors-nvim
+        lspkind-nvim
+        lualine-nvim
+        markdown-preview-nvim
+        multicursors-nvim
         nerdtree
-        nvchad
-        nvchad-ui
+        nightfox-nvim
+        nvim-cmp
+        nvim-comment
+        nvim-cursorline
+        nvim-dap
+        nvim-lspconfig
+        nvim-nonicons
+        nvim-notify
+        nvim-treesitter
+        nvim-treesitter-context
         nvim-treesitter-refactor
+        nvim-treesitter-textobjects
         nvim-treesitter.withAllGrammars
-        unicode-vim
-        vim-cpp-enhanced-highlight
+        nvim-ufo
+        nvim-web-devicons
+        plenary-nvim
+        ranger-vim
+        smartpairs-nvim
+        todo-comments-nvim
+        trouble-nvim
+        vim-prettier
         vim-tmux
         vim-tmux-navigator
       ];
@@ -91,25 +132,37 @@
       enableCompletion = true;
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "sudo" "docker" "kubectl" "history" "colorize" "direnv" ];
         theme = "agnoster";
+        plugins = [
+          "git"
+          "sudo"
+          "docker"
+          "kubectl"
+          "history"
+          "colorize"
+          "direnv"
+        ];
       };
 
       shellAliases = {
         flake = "nvim flake.nix";
         garbage = "sudo nix-collect-garbage -d";
-        gpw = ''git pull | grep "Already up-to-date" > /dev/null; while [ $? -gt 1 ]; do sleep 5; git pull | grep "Already up-to-date" > /dev/null; done; notify-send Pull f$'';
+        gpw = "git pull | grep \"Already up-to-date\" > /dev/null; while [ $? -gt 1 ]; do sleep 5; git pull | grep \"Already up-to-date\" > /dev/null; done; notify-send Pull f$";
         l = "ls -lah";
-        nixdir = ''echo "use flake" > .envrc && direnv allow'';
-        nixeditc = "nvim ~/dotfiles/system/configuration.nix";
-        nixeditpc = "nvim ~/dotfiles/system/program.nix";
-        pypi = "pip install --user";
-        qr = ''qrencode -m 2 -t utf8 <<< "$1"'';
-        update = "sudo nixos-rebuild switch --fast --flake /root/dotfiles/ -L";
+        nixdir = "echo \"use flake\" > .envrc && direnv allow";
+        nixeditc = "nvim ~/dotfiles/users/dennis/systems/configuration.nix";
+        nixedith = "nvim ~/dotfiles/users/dennis/home.nix";
+        qr = "qrencode -m 2 -t utf8 <<< \"$1\"";
         v = "nvim";
-        jc = "journalctl -xe";
-        sc = "sudo systemctl";
-      };
+        vi = "nvim";
+        vim = "nvim";
+      } // altPath "/home/dennis/dotfiles" "/root/dotfiles"
+      (value: path: "sudo nixos-rebuild switch --fast --accept-flake-config --flake ${path}#/dennis.${builtins.getEnv "HOSTNAME"} -L") [
+        {
+          name = "update";
+          value = "";
+        }
+      ];
     };
   };
 

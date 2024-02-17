@@ -77,18 +77,6 @@
   services = {
     xserver.videoDrivers = [ "nvidia" ];
     udev.extraRules = "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"03e7\", MODE=\"0666\"\n";
-    printing.enable = true;
-    avahi = {
-      enable = true;
-      nssmdns4 = true;
-    };
-
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
   };
 
   system.stateVersion = "23.05";

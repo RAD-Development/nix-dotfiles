@@ -4,9 +4,9 @@
   nixConfig = {
     trusted-users = [ "root" ];
     substituters = [
-      "https://cache.nixos.org"
-      "https://cache.alicehuston.xyz"
-      "https://nix-community.cachix.org"
+      "https://cache.nixos.org/?priority=1&want-mass-query=true"
+      "https://cache.alicehuston.xyz/?priority=5&want-mass-query=true"
+      "https://nix-community.cachix.org/?priority=10&want-mass-query=true"
     ];
 
     trusted-substituters = [
@@ -23,8 +23,8 @@
   };
 
   inputs = {
-    # pcsc, fido2, systemd can not cross compile
-    patch-systemd.url = "github:nixos/nixpkgs?rev=d934204a0f8d9198e1e4515dd6fec76a139c87f0";
+    # can not cross compile all packages
+    patch-aarch64.url = "github:nixos/nixpkgs?rev=1cc67d9bf64b37aed93d7af74d5dfd3b76f665f8";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
@@ -197,6 +197,11 @@
                   nixpkgs.overlays = [
                     (_self: super: {
                       libgit2 = super.libgit2.overrideAttrs { doCheck = false; };
+                      nixos-rebuild = super.nixos-rebuild.overrideAttrs (old: {
+                        patches = (old.patches or []) ++ [
+                          ./modules/nom.patch
+                        ];
+                      });
                     })
                   ];
                 }
@@ -222,7 +227,7 @@
                 nixpkgs.overlays = [
                   (_self: super: (builtins.listToAttrs (map (name: {
                     name = name;
-                    value = inputs.patch-systemd.legacyPackages.${system}.${name};
+                    value = inputs.patch-aarch64.legacyPackages.${system}.${name};
                   }) (builtins.attrNames inputs.patch-systemd.legacyPackages.${system}))))
                 ];
               } ++ lib.optional (system != "x86_64-linux") {

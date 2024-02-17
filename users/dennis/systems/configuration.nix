@@ -6,7 +6,6 @@
 
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "en_US.utf8";
-  boot.plymouth.enable = true;
   fonts.fontDir.enable = true;
   console.keyMap = "de";
   hardware.pulseaudio.enable = false;
@@ -15,10 +14,25 @@
     firewall.allowedTCPPorts = [ 22 ];
   };
 
+  boot.plymouth = {
+    enable = true;
+    theme = "deus_ex";
+    logo = ./plymouth.png;
+    themePackages = with pkgs; [
+      adi1090x-plymouth-themes
+    ];
+  };
+
   services = {
+    printing.enable = true;
     udev.packages = with pkgs; [
       yubikey-personalization
     ];
+
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+    };
 
     pipewire = {
       enable = true;
@@ -76,6 +90,7 @@
     command-not-found.enable = false;
     fzf.keybindings = true;
     ssh.startAgent = false;
+    hyprland.enable = true;
     git = {
       enable = true;
       lfs.enable = true;
@@ -143,26 +158,32 @@
     };
   };
 
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-    gedit
-  ]) ++ (with pkgs.gnome; [
-    cheese # webcam tool
-    gnome-contacts
-    gnome-music
-    gnome-weather
-    gnome-maps
-    gnome-terminal
-    simple-scan # document scanner
-    epiphany # web browser
-    geary # email reader
-    evince # document viewer
-    gnome-characters
-    totem # video player
-    tali # poker game
-    iagno # go game
-    hitori # sudoku game
-    atomix # puzzle game
-  ]);
+  environment = {
+    gnome.excludePackages = (with pkgs; [
+      gnome-photos
+      gnome-tour
+      gedit
+    ]) ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-contacts
+      gnome-music
+      gnome-weather
+      gnome-maps
+      gnome-terminal
+      simple-scan # document scanner
+      epiphany # web browser
+      geary # email reader
+      evince # document viewer
+      gnome-characters
+      totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
+    
+    sessionVariables = {
+      MOZ_USE_XINPUT2 = "1";
+    };
+  };
 }

@@ -13,8 +13,5 @@
 
     # Games
     mindustry-wayland
-
-    # Windows
-    wineWowPackages.waylandFull
   ];
 }

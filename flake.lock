@@ -327,22 +327,6 @@
         "type": "github"
       }
     },
-    "patch-pcsclite": {
-      "locked": {
-        "lastModified": 1707199254,
-        "narHash": "sha256-8jDsoIn5v3JcDXCeGMYA/fUWvrTzTZEg7J4PwcgYX/I=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "952bd699447d82d69f4b15d994d5dc232e7addfb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "952bd699447d82d69f4b15d994d5dc232e7addfb",
-        "type": "github"
-      }
-    },
     "patch-systemd": {
       "locked": {
         "lastModified": 1707546158,
@@ -372,7 +356,6 @@
         "nixos-modules": "nixos-modules",
         "nixpkgs": "nixpkgs",
         "nixpkgs-fmt": "nixpkgs-fmt",
-        "patch-pcsclite": "patch-pcsclite",
         "patch-systemd": "patch-systemd",
         "sops-nix": "sops-nix",
         "systems": "systems"

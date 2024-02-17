@@ -10,7 +10,6 @@
 
   inputs = {
     # pcsc, fido2, systemd can not cross compile
-    patch-pcsclite.url = "github:nixos/nixpkgs?rev=952bd699447d82d69f4b15d994d5dc232e7addfb";
     patch-systemd.url = "github:nixos/nixpkgs?rev=d934204a0f8d9198e1e4515dd6fec76a139c87f0";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";

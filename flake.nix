@@ -2,10 +2,24 @@
   description = "NixOS configuration for RAD-Development Servers";
 
   nixConfig = {
-    substituters = [ "https://cache.alicehuston.xyz" "https://cache.nixos.org" "https://nix-community.cachix.org" ];
-    trusted-substituters = [ "https://cache.alicehuston.xyz" "https://cache.nixos.org" "https://nix-community.cachix.org" ];
-    trusted-public-keys = [ "cache.alicehuston.xyz:SJAm8HJVTWUjwcTTLAoi/5E1gUOJ0GWum2suPPv7CUo=%" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
     trusted-users = [ "root" ];
+    substituters = [
+      "https://cache.nixos.org"
+      "https://cache.alicehuston.xyz"
+      "https://nix-community.cachix.org"
+    ];
+
+    trusted-substituters = [
+      "https://cache.nixos.org"
+      "https://cache.alicehuston.xyz"
+      "https://nix-community.cachix.org"
+    ];
+
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "cache.alicehuston.xyz:SJAm8HJVTWUjwcTTLAoi/5E1gUOJ0GWum2suPPv7CUo=%"
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
 
   inputs = {
@@ -240,7 +254,8 @@
                 hostname = system;
                 server = false;
                 users = [ user ];
-              } // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [ "hostname" "server" "users" ]);
+                owner = user;
+              } // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [ "hostname" "server" "users" "owner" ]);
             })
             (lsdir "users/${user}/systems"))
           (lsdir "users")));

@@ -42,6 +42,7 @@ in {
     systemd.services."autopull@${cfg.name}" = {
       wantedBy = [ "multi-user.target" ];
       after = [ "network-online.target" ];
+      requires = [ "network-online.target" ];
       description = "Pull the latest data for ${cfg.name}";
       serviceConfig = {
         Type = "oneshot";

@@ -53,14 +53,6 @@ in
         locations."/".extraConfig = "return 404;";
       };
 
-      rspamd = {
-        forceSSL = true;
-        enableACME = true;
-        basicAuthFile = "/basic/auth/hashes/file";
-        serverName = "rspamd.wavelens.io";
-        locations."/".proxyPass = "http://unix:/run/rspamd/worker-controller.sock:/";
-      };
-
       "auth.wavelens.io" = {
         forceSSL = true;
         enableACME = true;
@@ -98,7 +90,9 @@ in
       "rspamd.wavelens.io" = {
         forceSSL = true;
         enableACME = true;
+        basicAuthFile = "/basic/auth/hashes/file";
         listen = defaultListen;
+        locations."/".proxyPass = "http://unix:/run/rspamd/worker-controller.sock:/";
       };
 
       "wiki.wavelens.io" = {

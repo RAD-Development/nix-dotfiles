@@ -134,14 +134,11 @@
     atticd = {
       enable = true;
 
-      # Replace with absolute path to your credentials file
       credentialsFile = config.sops.secrets."attic/secret-key".path;
 
       settings = {
         listen = "[::]:8183";
 
-        # Data chunking
-        #
         # Warning: If you change any of the values here, it will be
         # difficult to reuse existing chunks for newly-uploaded NARs
         # since the cutpoints will be different. As a result, the

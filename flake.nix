@@ -167,7 +167,7 @@
               #   files = "\\.nix";
               # }
               # {
-              #   id = "nix-flake-check";
+              #   id = "check";
               #   entry = "nix eval";
               #   language = "system";
               #   files = "\\.nix";
@@ -189,7 +189,7 @@
           constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux", owner ? null }:
             lib.nixosSystem {
               system = "x86_64-linux";
-              pkgs = lib.mkIf (system != "x86_64-linux") inputs.patch-aarch64.legacyPackages.${system};
+              # pkgs = lib.mkIf (system != "x86_64-linux") (import inputs.patch-aarch64 { inherit (nixpkgs) config; inherit system; }).legacyPackages.${system};
               modules = [
                 nixos-modules.nixosModule
                 sops-nix.nixosModules.sops

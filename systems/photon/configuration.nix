@@ -242,6 +242,13 @@
       package = pkgs.papermc;
     };
 
+    factorio = {
+      enable = true;
+      openFirewall = true;
+      package = pkgs.factorio;
+      configFile = /var/lib/${config.services.factorio.stateDirName}/data/server-settings.json;
+    };
+
     outline = {
       # LDAP: https://github.com/outline/outline/issues/1881
       enable = true;

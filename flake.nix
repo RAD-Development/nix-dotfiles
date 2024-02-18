@@ -182,13 +182,13 @@
           {
             repo = "local";
             hooks = [
-              # {
-              #   id = "nixfmt check";
-              #   entry = "${nixpkgs-fmt.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
-              #   args = [ "--check" ];
-              #   language = "system";
-              #   files = "\\.nix";
-              # }
+              {
+                id = "nixfmt check";
+                entry = "${nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style}/bin/nixfmt";
+                args = [ "--check" ];
+                language = "system";
+                files = "\\.nix";
+              }
               # {
               #   id = "check";
               #   entry = "nix eval";
@@ -358,6 +358,7 @@
               packages = [
                 self.formatter.${system}
                 nixpkgs.legacyPackages.${system}.deadnix
+                nixpkgs.legacyPackages.${system}.pre-commit
               ];
               shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
             }

@@ -48,20 +48,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs-fmt = {
-      url = "github:rad-development/nixpkgs-fmt";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-        fenix.follows = "fenix";
-      };
-    };
-
-    nixfmt = {
-     url = "github:serokell/nixfmt/v0.6.0";
-     inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
       inputs = {
@@ -110,7 +96,7 @@
     };
   };
 
-  outputs = { self, nixfmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
+  outputs = { self,  nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -184,10 +170,7 @@
       };
     in
     {
-      formatter = forEachSystem (system: nixfmt.packages.${system}.default);
-      overlays.default = final: prev: {
-        nixfmt = forEachSystem (system: nixfmt.packages.${system}.default);
-      };
+      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations =
         let

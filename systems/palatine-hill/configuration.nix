@@ -110,15 +110,15 @@
            superuser_map      /^(.*)$   \1
       '';
 
-      ensureDatabases = ["atticd"];
-      ensureUsers = [
-        {
-          name = "atticd";
-          ensureDBOwnership = true;
-        }
-      ];
+      # ensureDatabases = ["atticd"];
+      # ensureUsers = [
+      #   {
+      #     name = "atticd";
+      #     ensureDBOwnership = true;
+      #   }
+      # ];
 
-      initialScript = config.sops.secrets."postgres/init".path;
+      # initialScript = config.sops.secrets."postgres/init".path;
 
       upgrade = {
         enable = true;
@@ -129,7 +129,7 @@
           "hydra-queue-runner"
           "hydra-send-stats"
           "hydra-server"
-          "atticd"
+          # "atticd"
         ];
       };
     };

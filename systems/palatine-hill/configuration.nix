@@ -163,6 +163,7 @@
           #url = "postgres://atticd?host=/run/postgresql";
           # disable postgres, using SOPS fails at below :(
           # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix#L57
+          url = "sqlite:///ZFS/ZFS-primary/attic/server.db?mode=rwc";
           heartbeat = true;
         };
         storage = {

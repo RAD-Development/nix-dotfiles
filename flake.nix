@@ -168,7 +168,7 @@
               # }
               # {
               #   id = "nix-flake-check";
-              #   entry = "nix flake check";
+              #   entry = "nix eval";
               #   language = "system";
               #   files = "\\.nix";
               #   pass_filenames = false;
@@ -189,6 +189,7 @@
           constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux", owner ? null }:
             lib.nixosSystem {
               system = "x86_64-linux";
+              pkgs = lib.mkIf (system != "x86_64-linux") inputs.patch-aarch64.legacyPackages.${system};
               modules = [
                 nixos-modules.nixosModule
                 sops-nix.nixosModules.sops
@@ -224,13 +225,6 @@
                 home-manager.users.root = lib.mkIf (owner == user) (import ./users/${user}/home.nix);
               }) users) else [ ])
               ++ lib.optional (system != "x86_64-linux") {
-                nixpkgs.overlays = [
-                  (_self: super: (builtins.listToAttrs (map (name: {
-                    name = name;
-                    value = inputs.patch-aarch64.legacyPackages.${system}.${name};
-                  }) (builtins.attrNames inputs.patch-systemd.legacyPackages.${system}))))
-                ];
-              } ++ lib.optional (system != "x86_64-linux") {
                 config.nixpkgs = {
                   config.allowUnsupportedSystem = true;
                   buildPlatform = "x86_64-linux";

@@ -235,10 +235,12 @@
       '';
     };
 
-    # TODO
-    # rspamd-trainer = {
-    #   enable = true;
-    # };
+    minecraft-server = {
+      enable = true;
+      eula = true;
+      openFirewall = true;
+      package = pkgs.papermc;
+    };
 
     outline = {
       # LDAP: https://github.com/outline/outline/issues/1881

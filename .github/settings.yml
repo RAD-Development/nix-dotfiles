@@ -22,7 +22,7 @@ repository:
 
   # Either `true` to enable projects for this repository, or `false` to disable them.
   # If projects are disabled for the organization, passing `true` will cause an API error.
-  has_projects: false
+  has_projects: true
 
   # Either `true` to enable the wiki for this repository, `false` to disable it.
   has_wiki: false
@@ -61,25 +61,65 @@ repository:
 # Labels: define labels for Issues and Pull Requests
 #
 labels:
-#   - name: bug
-#     color: CC0000
-#     description: An issue with the system 🐛.
-
-#   - name: feature
-#     # If including a `#`, make sure to wrap it with quotes!
-#     color: '#336699'
-#     description: New functionality.
-
-#   - name: Help Wanted
-#     # Provide a new name to rename an existing label
-#     new_name: first-timers-only
+  - name: bug
+    color: '#d73a4a'
+    description: Something isn't working
+  - name: CI/CD
+    # If including a `#`, make sure to wrap it with quotes!
+    color: '#0e8a16'
+    description: Related to GH Actions or Hydra
+  - name: documentation
+    color: '#0075ca'
+    description: Improvements or additions to documentation
+  - name: duplicate
+    color: '#cfd3d7'
+    description: This issue or pull request already exists
+  - name: enhancement
+    color: '#a2eeef'
+    description: New feature or request
+  - name: good first issue
+    color: '#7057ff'
+    description: Good for newcomers
+  - name: help wanted
+    color: '#008672'
+    description: Extra attention is needed
+  - name: high priority
+    color: '#BF480A'
+    description: A major vurnability was detected
+  - name: invalid
+    color: '#e4e669'
+    description: This doesn't seem right
+  - name: new user
+    color: '#C302A1'
+    description: A new user was added to the Flake
+  - name: question
+    color: '#d876e3'
+    description: Further information is requested
+  - name: wontfix
+    color: '#ffffff'
+    description: This will not be worked on
 
 # Milestones: define milestones for Issues and Pull Requests
 milestones:
-#   - title: milestone-title
-#     description: milestone-description
-#     # The state of the milestone. Either `open` or `closed`
-#     state: open
+  - title: Go-Live
+    description: >-
+      All requirements for official go-live:
+      - Automated testing via Hydra/Actions
+      - Automated deployments via Hydra/Actions
+      - 90+% testing coverage
+      - Functional formatter with custom rules
+      - palatine-hill is fully stable, enough so that jeeves can be migrated
+    # The state of the milestone. Either `open` or `closed`
+    state: open
+  - title: Jeeves Migration
+    description: >-
+      Test common use-cases for Jeeves
+      - Quadro GPU support
+      - Multi-GPU support
+      - Plex support
+      - Docker support
+      - ZFS support
+
 
 # Collaborators: give specific users access to this repository.
 # See https://docs.github.com/en/rest/reference/repos#add-a-repository-collaborator for available options

@@ -160,7 +160,7 @@
         api-endpoint = "https://attic.alicehuston.xyz";
         compression.type = "none"; # let ZFS do the compressing
         database = {
-          url.from_command = [ "/usr/bin/env" "cat" "${config.sops.secrets."attic/database-url".path}" ];
+          url = "postgres://atticd?host=/run/postgresql";
           heartbeat = true;
         };
         storage = {

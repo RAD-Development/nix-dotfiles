@@ -84,6 +84,7 @@
 
   environment.systemPackages = with pkgs; [
     attic-client
+    attic
     docker-compose
     jellyfin-ffmpeg
   ];

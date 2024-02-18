@@ -235,10 +235,12 @@
       '';
     };
 
-    # TODO
-    # rspamd-trainer = {
-    #   enable = true;
-    # };
+    minecraft-server = {
+      enable = true;
+      eula = true;
+      openFirewall = true;
+      package = pkgs.papermc;
+    };
 
     outline = {
       # LDAP: https://github.com/outline/outline/issues/1881
@@ -269,6 +271,7 @@
       "mailserver/mail-passwords/wavelens-catch".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-dennis".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-git".owner = "dovecot2";
+      "mailserver/mail-passwords/wavelens-cloud".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-info".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-noreply".owner = "dovecot2";
       "mailserver/mail-passwords/wavelens-vault".owner = "dovecot2";

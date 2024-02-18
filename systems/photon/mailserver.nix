@@ -73,7 +73,7 @@ in
           hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-${name}".path;
           sendOnly = true;
         };
-      }) [ "noreply" "git" "wiki" "vault" ]));
+      }) [ "noreply" "git" "cloud" "wiki" "vault" ]));
 
     ldap = {
       enable = false;

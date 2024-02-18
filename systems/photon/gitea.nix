@@ -1,5 +1,5 @@
 { config, lib, ... }: {
-  systemd.services.gitea.serviceConfig.ReadWriteDir = [ "/var/lib/postfix/queue/maildrop/" ];
+  systemd.services.gitea.serviceConfig.ReadWritePath = [ "/var/lib/postfix/queue/maildrop/" ];
   services.gitea = {
     enable = true;
     appName = "Wavelens Repository";

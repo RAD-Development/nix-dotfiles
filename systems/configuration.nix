@@ -149,12 +149,6 @@
     };
   };
 
-  systemd.watchdog = {
-    device = "/dev/watchdog";
-    runtimeTime = "30s";
-    rebootTime = "5m";
-  };
-
   nix = {
     diffSystem = true;
     settings = {

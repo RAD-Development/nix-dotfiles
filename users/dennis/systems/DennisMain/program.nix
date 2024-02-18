@@ -6,8 +6,6 @@
     nvitop
 
     # Desktop programs
-    bitwarden
-    firefox
     teamspeak5_client
 
     # Python packages

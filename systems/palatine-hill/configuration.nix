@@ -83,6 +83,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    attic-client
     docker-compose
     jellyfin-ffmpeg
   ];
@@ -136,7 +137,7 @@
       credentialsFile = config.sops.secrets."attic/secret-key".path;
 
       settings = {
-        listen = "[::]:8083";
+        listen = "[::]:8183";
 
         # Data chunking
         #

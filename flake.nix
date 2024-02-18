@@ -26,8 +26,8 @@
   };
 
   inputs = {
-    # pcsc, fido2, systemd can not cross compile
-    patch-systemd.url = "github:nixos/nixpkgs?rev=d934204a0f8d9198e1e4515dd6fec76a139c87f0";
+    # can not cross compile all packages
+    patch-aarch64.url = "github:nixos/nixpkgs?rev=1cc67d9bf64b37aed93d7af74d5dfd3b76f665f8";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
@@ -178,8 +178,8 @@
               #   files = "\\.nix";
               # }
               # {
-              #   id = "nix-flake-check";
-              #   entry = "nix flake check";
+              #   id = "check";
+              #   entry = "nix eval";
               #   language = "system";
               #   files = "\\.nix";
               #   pass_filenames = false;
@@ -200,6 +200,7 @@
           constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux", owner ? null }:
             lib.nixosSystem {
               system = "x86_64-linux";
+              # pkgs = lib.mkIf (system != "x86_64-linux") (import inputs.patch-aarch64 { inherit (nixpkgs) config; inherit system; }).legacyPackages.${system};
               modules = [
                 nixos-modules.nixosModule
                 sops-nix.nixosModules.sops
@@ -231,13 +232,6 @@
                 home-manager.users.root = lib.mkIf (owner == user) (import ./users/${user}/home.nix);
               }) users) else [ ])
               ++ lib.optional (system != "x86_64-linux") {
-                nixpkgs.overlays = [
-                  (_self: super: (builtins.listToAttrs (map (name: {
-                    name = name;
-                    value = inputs.patch-systemd.legacyPackages.${system}.${name};
-                  }) (builtins.attrNames inputs.patch-systemd.legacyPackages.${system}))))
-                ];
-              } ++ lib.optional (system != "x86_64-linux") {
                 config.nixpkgs = {
                   config.allowUnsupportedSystem = true;
                   buildPlatform = "x86_64-linux";

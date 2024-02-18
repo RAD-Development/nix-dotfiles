@@ -76,7 +76,6 @@
     discord
     geogebra6
     gimp
-    google-chrome
     gparted
     helvum
     nextcloud-client

@@ -36,15 +36,6 @@
     };
   };
 
-  programs = {
-    hyprland.enable = true;
-    steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-    };
-  };
-
   services = {
     printing.enable = true;
     xserver.videoDrivers = [ "amdgpu" ];

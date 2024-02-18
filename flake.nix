@@ -10,9 +10,9 @@
     ];
 
     trusted-substituters = [
-      "https://cache.nixos.org"
-      "https://cache.alicehuston.xyz"
-      "https://nix-community.cachix.org"
+      "https://cache.nixos.org/?priority=1&want-mass-query=true"
+      "https://cache.alicehuston.xyz/?priority=5&want-mass-query=true"
+      "https://nix-community.cachix.org/?priority=10&want-mass-query=true"
     ];
 
     trusted-public-keys = [
@@ -55,6 +55,11 @@
         flake-utils.follows = "flake-utils";
         fenix.follows = "fenix";
       };
+    };
+
+    nixfmt = {
+     url = "github:serokell/nixfmt/v0.6.0";
+     inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixos-modules = {
@@ -105,7 +110,7 @@
     };
   };
 
-  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
+  outputs = { self, nixfmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -179,9 +184,9 @@
       };
     in
     {
-      formatter = forEachSystem (system: nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt);
+      formatter = forEachSystem (system: nixfmt.packages.${system}.default);
       overlays.default = final: prev: {
-        nixpkgs-fmt = forEachSystem (system: nixpkgs-fmt.legacyPackages.${system}.nixpkgs.fmt);
+        nixfmt = forEachSystem (system: nixfmt.packages.${system}.default);
       };
 
       nixosConfigurations =
@@ -281,11 +286,7 @@
                   } else { }))
                   machine.config.environment.systemPackages)));
               })
-              (builtins.attrValues self.nixosConfigurations)) ++ [
-              (forEachSystem (system: {
-                ${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name} = pkgsBySystem.${system}.${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name};
-              }))
-            ]
+              (builtins.attrValues self.nixosConfigurations))
           ));
       } // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob))
         (

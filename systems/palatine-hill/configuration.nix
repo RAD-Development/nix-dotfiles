@@ -164,19 +164,19 @@
         };
       };
     };
+  };
 
-    # borrowing from https://github.com/Shawn8901/nix-configuration/blob/4b8d1d44f47aec60feb58ca7b7ab5ed000506e90/modules/nixos/private/hydra.nix
-    # configured default webstore for this on root user separately
-    attic-watch-store = {
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network-online.target" ];
-      requires = [ "network-online.target" ];
-      description = "Upload all store content to binary catch";
-      serviceConfig = {
-        User = "root";
-        Restart = "always";
-        ExecStart = "${config.attic.package}/bin/attic watch-store nixos";
-      };
+  # borrowing from https://github.com/Shawn8901/nix-configuration/blob/4b8d1d44f47aec60feb58ca7b7ab5ed000506e90/modules/nixos/private/hydra.nix
+  # configured default webstore for this on root user separately
+  systemd.services.attic-watch-store = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    requires = [ "network-online.target" ];
+    description = "Upload all store content to binary catch";
+    serviceConfig = {
+      User = "root";
+      Restart = "always";
+      ExecStart = "${pkgs.attic}/bin/attic watch-store nixos";
     };
   };
 

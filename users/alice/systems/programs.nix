@@ -36,7 +36,7 @@
     spotify-player
     #swaylock/waylock?
     sweet-nova
-    unipicket
+    unipicker
     ventoy
     visual-studio-code
     watchman

@@ -110,7 +110,11 @@
            superuser_map      /^(.*)$   \1
       '';
 
-      ensureRoles = [ "atticd" ];
+      ensureUsers = [
+        {
+          name = "atticd";
+        }
+      ];
 
       upgrade = {
         enable = true;

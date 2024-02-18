@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   imports = [
     ./banner.nix
     ./gitea.nix
@@ -12,21 +18,34 @@
   i18n.supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
   boot.useSystemdBoot = true;
   users.users.nginx.extraGroups = [ "acme" ];
-  security.ldap.domainComponent = [ "wavelens" "io" ];
+  security.ldap.domainComponent = [
+    "wavelens"
+    "io"
+  ];
   networking = {
     hostId = "7d76fab7";
     domain = "wavelens.io";
     nftables.enable = true;
     firewall = {
       filterForward = true;
-      allowedTCPPorts = [ 25 80 143 443 3306 993 465 ];
+      allowedTCPPorts = [
+        25
+        80
+        143
+        443
+        3306
+        993
+        465
+      ];
     };
 
     interfaces = {
-      ens3.ipv6.addresses = [{
-        address = "2a03:4000:57:b96::1";
-        prefixLength = 64;
-      }];
+      ens3.ipv6.addresses = [
+        {
+          address = "2a03:4000:57:b96::1";
+          prefixLength = 64;
+        }
+      ];
     };
 
     defaultGateway6 = {
@@ -78,16 +97,33 @@
     postgresql = {
       enable = true;
       enableJIT = true;
-      ensureDatabases = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
-      ensureUsers = map
-        (user: {
-          name = user;
-          ensureDBOwnership = true;
-        }) [ "gitea" "nextcloud" "vaultwarden" "outline" ];
+      ensureDatabases = [
+        "gitea"
+        "nextcloud"
+        "vaultwarden"
+        "outline"
+      ];
+      ensureUsers =
+        map
+          (user: {
+            name = user;
+            ensureDBOwnership = true;
+          })
+          [
+            "gitea"
+            "nextcloud"
+            "vaultwarden"
+            "outline"
+          ];
 
       upgrade = {
         enable = true;
-        stopServices = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
+        stopServices = [
+          "gitea"
+          "nextcloud"
+          "vaultwarden"
+          "outline"
+        ];
       };
     };
 
@@ -133,14 +169,22 @@
             family_name = "Administrator";
             given_name = "Initial";
             login_name = "admin";
-            password.from_command = [ "/usr/bin/env" "cat" "${config.sops.secrets."portunus/users/admin-password".path}" ];
+            password.from_command = [
+              "/usr/bin/env"
+              "cat"
+              "${config.sops.secrets."portunus/users/admin-password".path}"
+            ];
           }
           {
             email = "noreply@wavelens.io";
             family_name = "Master";
             given_name = "Search";
             login_name = "search";
-            password.from_command = [ "/usr/bin/env" "cat" "${config.sops.secrets."portunus/ldap-password".path}" ];
+            password.from_command = [
+              "/usr/bin/env"
+              "cat"
+              "${config.sops.secrets."portunus/ldap-password".path}"
+            ];
           }
         ];
       };

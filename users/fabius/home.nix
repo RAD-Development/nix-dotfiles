@@ -79,7 +79,15 @@
       enableCompletion = true;
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "sudo" "docker" "kubectl" "history" "colorize" "direnv" ];
+        plugins = [
+          "git"
+          "sudo"
+          "docker"
+          "kubectl"
+          "history"
+          "colorize"
+          "direnv"
+        ];
         theme = "agnoster";
       };
     };

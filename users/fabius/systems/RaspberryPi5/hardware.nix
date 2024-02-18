@@ -1,10 +1,8 @@
 { lib, modulesPath, ... }:
 {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
   networking.useDHCP = lib.mkDefault true;
   boot = {

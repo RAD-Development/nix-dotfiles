@@ -16,7 +16,10 @@
     supportedFilesystems = [ "zfs" ];
     tmp.useTmpfs = true;
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    kernelParams = [ "kvm-amd" "nordrand" ];
+    kernelParams = [
+      "kvm-amd"
+      "nordrand"
+    ];
     zfs = {
       enableUnstable = true;
       devNodes = "/dev/disk/by-id/";
@@ -44,12 +47,34 @@
   };
 
   fileSystems = {
-    "/".options = [ "X-mount.mkdir" "noatime" ];
-    "/boot".options = [ "X-mount.mkdir" "noatime" ];
-    "/home".options = [ "X-mount.mkdir" "noatime" ];
-    "/var/lib".options = [ "X-mount.mkdir" "noatime" ];
-    "/var/log".options = [ "X-mount.mkdir" "noatime" ];
-    "/boot/efis/nvme-Samsung_SSD_980_PRO_1TB_S5GXNF0W178262L-part1".options = [ "x-systemd.idle_timeout=1min" "x-systemd.automount" "nomount" "nofail" "noatime" "X-mount.mkdir" ];
+    "/".options = [
+      "X-mount.mkdir"
+      "noatime"
+    ];
+    "/boot".options = [
+      "X-mount.mkdir"
+      "noatime"
+    ];
+    "/home".options = [
+      "X-mount.mkdir"
+      "noatime"
+    ];
+    "/var/lib".options = [
+      "X-mount.mkdir"
+      "noatime"
+    ];
+    "/var/log".options = [
+      "X-mount.mkdir"
+      "noatime"
+    ];
+    "/boot/efis/nvme-Samsung_SSD_980_PRO_1TB_S5GXNF0W178262L-part1".options = [
+      "x-systemd.idle_timeout=1min"
+      "x-systemd.automount"
+      "nomount"
+      "nofail"
+      "noatime"
+      "X-mount.mkdir"
+    ];
   };
 
   sound = {
@@ -76,7 +101,9 @@
 
   services = {
     xserver.videoDrivers = [ "nvidia" ];
-    udev.extraRules = "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"03e7\", MODE=\"0666\"\n";
+    udev.extraRules = ''
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="03e7", MODE="0666"
+    '';
   };
 
   system.stateVersion = "23.05";

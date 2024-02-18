@@ -1,12 +1,10 @@
 { lib, modulesPath, ... }:
 {
-  imports = [
-    (modulesPath + "/profiles/qemu-guest.nix")
-  ];
+  imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   networking.useDHCP = lib.mkDefault true;
-  swapDevices = [{ device = "/dev/disk/by-uuid/491bd391-022d-41ee-b85b-a08d23fe6982"; }];
+  swapDevices = [ { device = "/dev/disk/by-uuid/491bd391-022d-41ee-b85b-a08d23fe6982"; } ];
   boot = {
     kernelModules = [ ];
     extraModulePackages = [ ];

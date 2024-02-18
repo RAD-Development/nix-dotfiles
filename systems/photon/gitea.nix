@@ -1,4 +1,5 @@
-{ config, lib, ... }: {
+{ config, lib, ... }:
+{
   systemd.services.gitea.serviceConfig.ReadWritePath = [ "/var/lib/postfix/queue/maildrop/" ];
   services.gitea = {
     enable = true;

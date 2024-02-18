@@ -1,8 +1,6 @@
 { pkgs, config, ... }:
 {
-  imports = [
-    ./banner.nix
-  ];
+  imports = [ ./banner.nix ];
 
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "en_US.utf8";
@@ -17,16 +15,12 @@
   boot.plymouth = {
     enable = true;
     theme = "deus_ex";
-    themePackages = with pkgs; [
-      adi1090x-plymouth-themes
-    ];
+    themePackages = with pkgs; [ adi1090x-plymouth-themes ];
   };
 
   services = {
     printing.enable = true;
-    udev.packages = with pkgs; [
-      yubikey-personalization
-    ];
+    udev.packages = with pkgs; [ yubikey-personalization ];
 
     avahi = {
       enable = true;
@@ -44,7 +38,7 @@
 
     openssh = {
       enable = true;
-      extraConfig = ''StreamLocalBindUnlink yes'';
+      extraConfig = "StreamLocalBindUnlink yes";
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;
@@ -173,14 +167,15 @@
 
   nixpkgs.config = {
     allowUnfree = true;
-    permittedInsecurePackages = [
-      "electron-19.1.9"
-    ];
+    permittedInsecurePackages = [ "electron-19.1.9" ];
   };
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       keep-outputs = true;
     };
 
@@ -192,29 +187,31 @@
   };
 
   environment = {
-    gnome.excludePackages = (with pkgs; [
-      gnome-photos
-      gnome-tour
-      gedit
-    ]) ++ (with pkgs.gnome; [
-      cheese # webcam tool
-      gnome-contacts
-      gnome-music
-      gnome-weather
-      gnome-maps
-      gnome-terminal
-      simple-scan # document scanner
-      epiphany # web browser
-      geary # email reader
-      evince # document viewer
-      gnome-characters
-      totem # video player
-      tali # poker game
-      iagno # go game
-      hitori # sudoku game
-      atomix # puzzle game
-    ]);
-    
+    gnome.excludePackages =
+      (with pkgs; [
+        gnome-photos
+        gnome-tour
+        gedit
+      ])
+      ++ (with pkgs.gnome; [
+        cheese # webcam tool
+        gnome-contacts
+        gnome-music
+        gnome-weather
+        gnome-maps
+        gnome-terminal
+        simple-scan # document scanner
+        epiphany # web browser
+        geary # email reader
+        evince # document viewer
+        gnome-characters
+        totem # video player
+        tali # poker game
+        iagno # go game
+        hitori # sudoku game
+        atomix # puzzle game
+      ]);
+
     sessionVariables = {
       MOZ_USE_XINPUT2 = "1";
     };

@@ -40,7 +40,9 @@
     printing.enable = true;
     xserver.videoDrivers = [ "amdgpu" ];
     udev = {
-      extraRules = "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"03e7\", MODE=\"0666\"\n";
+      extraRules = ''
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="03e7", MODE="0666"
+      '';
       extraHwdb = ''
         sensor:modalias:acpi:INVN6500*:dmi:*svn*ASUSTeK*:*pn*TP300LA*
         ACCEL_MOUNT_MATRIX=0, 1, 0; 1, 0, 0; 0, 0, 1

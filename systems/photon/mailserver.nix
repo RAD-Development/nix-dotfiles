@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   cfg = config.mailserver;
@@ -17,22 +22,27 @@ let
     bind_pw = ${cfg.ldap.bind.password}
   '';
 
-  ldapVirtualMailboxDomains = lib.optionalString (cfg.ldap.enable)
-    (pkgs.writeText "ldap-virtual-mailbox-domains.cf" ''
+  ldapVirtualMailboxDomains = lib.optionalString (cfg.ldap.enable) (
+    pkgs.writeText "ldap-virtual-mailbox-domains.cf" ''
       ${commonLdapConfig}
       query_filter = (&(objectclass=groupOfNames)(entryDN:dn:=cn=maildomains,ou=mail,ou=services,dc=XXX,dc=net)(member=cn=%s))
       result_attribute = cn
-    '');
+    ''
+  );
 
-  ldapVirtualAliasMap = lib.optionalString (cfg.ldap.enable)
-    (pkgs.writeText "ldap-virtual-alias-map.cf" ''
+  ldapVirtualAliasMap = lib.optionalString (cfg.ldap.enable) (
+    pkgs.writeText "ldap-virtual-alias-map.cf" ''
       ${commonLdapConfig}
       query_filter = (&(objectclass=person)(mailLocalAddress=%s))
       result_attribute = mail
-    '');
+    ''
+  );
 in
 {
-  services.dovecot2.sieve.extensions = [ "fileinto" "copy" ];
+  services.dovecot2.sieve.extensions = [
+    "fileinto"
+    "copy"
+  ];
   # TODO: inspect
   # services.postfix.config = {
   #   virtual_mailbox_domains = lib.mkForce "ldap:${ldapVirtualMailboxDomains}";
@@ -53,27 +63,39 @@ in
       enforced = "body";
     };
 
-    loginAccounts = {
-      "info@wavelens.io" = {
-        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-info".path;
-        aliases = [ "hey@wavelens.io" ];
-      };
-
-      "catch@wavelens.io" = {
-        hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-catch".path;
-        catchAll = [ "wavelens.io" ];
-        aliases = [ "security@wavelens.io" ];
-      };
-
-      "dennis.wuitz@wavelens.io".hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-dennis".path;
-    } // (builtins.listToAttrs (map
-      (name: {
-        name = "${name}@wavelens.io";
-        value = {
-          hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-${name}".path;
-          sendOnly = true;
+    loginAccounts =
+      {
+        "info@wavelens.io" = {
+          hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-info".path;
+          aliases = [ "hey@wavelens.io" ];
         };
-      }) [ "noreply" "git" "cloud" "wiki" "vault" ]));
+
+        "catch@wavelens.io" = {
+          hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-catch".path;
+          catchAll = [ "wavelens.io" ];
+          aliases = [ "security@wavelens.io" ];
+        };
+
+        "dennis.wuitz@wavelens.io".hashedPasswordFile =
+          config.sops.secrets."mailserver/mail-passwords/wavelens-dennis".path;
+      }
+      // (builtins.listToAttrs (
+        map
+          (name: {
+            name = "${name}@wavelens.io";
+            value = {
+              hashedPasswordFile = config.sops.secrets."mailserver/mail-passwords/wavelens-${name}".path;
+              sendOnly = true;
+            };
+          })
+          [
+            "noreply"
+            "git"
+            "cloud"
+            "wiki"
+            "vault"
+          ]
+      ));
 
     ldap = {
       enable = false;

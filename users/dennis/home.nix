@@ -1,8 +1,6 @@
 { pkgs, ... }:
 {
-  imports = [
-    ./neovim.nix
-  ];
+  imports = [ ./neovim.nix ];
 
   programs = {
     fzf = {
@@ -26,7 +24,7 @@
         addi = "add --intent-to-add";
         undo = "reset --soft HEAD^";
         kill = "remote prune origin";
-      };    
+      };
 
       extraConfig = {
         interactive.singlekey = true;
@@ -50,7 +48,7 @@
         " Save Cursor Position
         au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
       '';
-      
+
       plugins = with pkgs.vimPlugins; [
         alpha-nvim
         barbar-nvim
@@ -135,12 +133,12 @@
       shellAliases = {
         flake = "nvim flake.nix";
         garbage = "sudo nix-collect-garbage -d";
-        gpw = "git pull | grep \"Already up-to-date\" > /dev/null; while [ $? -gt 1 ]; do sleep 5; git pull | grep \"Already up-to-date\" > /dev/null; done; notify-send Pull f$";
+        gpw = ''git pull | grep "Already up-to-date" > /dev/null; while [ $? -gt 1 ]; do sleep 5; git pull | grep "Already up-to-date" > /dev/null; done; notify-send Pull f$'';
         l = "ls -lah";
-        nixdir = "echo \"use flake\" > .envrc && direnv allow";
+        nixdir = ''echo "use flake" > .envrc && direnv allow'';
         nixeditc = "nvim ~/dotfiles/users/dennis/systems/configuration.nix";
         nixedith = "nvim ~/dotfiles/users/dennis/home.nix";
-        qr = "qrencode -m 2 -t utf8 <<< \"$1\"";
+        qr = ''qrencode -m 2 -t utf8 <<< "$1"'';
         v = "nvim";
         vi = "nvim";
         vim = "nvim";

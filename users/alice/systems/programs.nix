@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
     bfg-repo-cleaner
@@ -40,9 +40,10 @@
     ventoy
     vscode
     watchman
-    wired
     xboxdrv
-    yubico-authenticator-bin
+    yubioath-flutter
     zoom
+  ] ++ [
+      inputs.wired.packages.${system}.wired
   ];
 }

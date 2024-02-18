@@ -9,9 +9,6 @@
   };
 
   inputs = {
-    #pcsc can not cross compile
-    patch-pcsclite.url = "github:nixos/nixpkgs?rev=952bd699447d82d69f4b15d994d5dc232e7addfb";
-
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     nix-index-database = {
@@ -51,16 +48,6 @@
       };
     };
 
-    mailserver = {
-      url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        nixpkgs-23_05.follows = "nixpkgs";
-        nixpkgs-23_11.follows = "nixpkgs";
-        utils.follows = "flake-utils";
-      };
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -82,16 +69,23 @@
       };
     };
 
-    c3d2-user-module = {
-      url = "git+https://gitea.c3d2.de/C3D2/nix-user-module.git";
+    wired = {
+      url = "github:Toqozz/wired-notify";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nixos-modules.follows = "nixos-modules";
+        rust-overlay.follows = "rust-overlay";
+      };
+    };
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
       };
     };
   };
 
-  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, patch-pcsclite, ... }@inputs:
+  outputs = { self, nixpkgs-fmt, nix, home-manager, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, wired, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -180,7 +174,6 @@
                 sops-nix.nixosModules.sops
                 { config.networking.hostName = "${hostname}"; }
               ] ++ (if server then [
-                mailserver.nixosModules.mailserver
                 ./systems/programs.nix
                 ./systems/configuration.nix
                 ./systems/${hostname}/hardware.nix
@@ -195,12 +188,6 @@
               ++ lib.optional (builtins.elem "sd" iso) "${toString nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
               ++ (if home then (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users) else [ ])
               ++ lib.optional (system != "x86_64-linux") {
-                nixpkgs.overlays = [
-                  (_self: super: {
-                    pcsclite = patch-pcsclite.legacyPackages.${system}.pcsclite;
-                  })
-                ];
-              } ++ lib.optional (system != "x86_64-linux") {
                 config.nixpkgs = {
                   config.allowUnsupportedSystem = true;
                   buildPlatform = "x86_64-linux";

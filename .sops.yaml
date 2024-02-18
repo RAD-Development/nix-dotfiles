@@ -1,18 +1,15 @@
 keys:
   # The PGP keys in keys/
   - &admin_alice F63832C3080D6E1AC77EECF80B4245FFE305BC82
-  - &admin_dennis 8F79E6CD6434700615867480D11A514F5095BFA8
   - &admin_richie 29F5017C95D9E60B1B1E8407072B0E0B8312DFE3
 
   # Generate AGE keys from SSH keys with:
   #   nix-shell -p ssh-to-age --run 'ssh some.ssh.wavelens.io cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
   - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
-  - &photon age13aqs2mx66dmnyd74sygnwavufv6a4pwnvcqj4ud4l94jk0tjgu6ss57slw
   - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh
 
 admins: &admins
   - *admin_alice
-  - *admin_dennis
   - *admin_richie
 
 servers: &servers
@@ -37,24 +34,12 @@ creation_rules:
         age:
           - *palatine-hill
 
-  - path_regex: systems/photon/secrets\.yaml$
-    key_groups:
-      - pgp: *admins
-        age:
-          - *photon
-
   - path_regex: users/alice/secrets\.yaml$
     key_groups:
       - pgp:
           - *admin_alice
         age: *servers
     
-  - path_regex: users/dennis/secrets\.yaml$
-    key_groups:
-      - pgp:
-          - *admin_dennis
-        age: *servers
-  
   - path_regex: users/richie/secrets\.yaml$
     key_groups:
       - pgp:

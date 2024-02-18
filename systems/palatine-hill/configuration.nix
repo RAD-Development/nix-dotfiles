@@ -176,7 +176,7 @@
     serviceConfig = {
       User = "root";
       Restart = "always";
-      ExecStart = "${pkgs.attic}/bin/attic watch-store nixos";
+      ExecStart = "${pkgs.attic}/bin/attic watch-store cache-nix-dot";
     };
   };
 

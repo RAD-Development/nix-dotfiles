@@ -38,7 +38,7 @@
     sweet-nova
     unipicker
     ventoy
-    visual-studio-code
+    vscode
     watchman
     wired
     xboxdrv

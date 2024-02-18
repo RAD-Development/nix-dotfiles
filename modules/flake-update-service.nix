@@ -40,9 +40,8 @@ in {
   config = lib.mkIf (cfg.enable && !(builtins.isNull cfg.path)) {
     environment.systemPackages = [ pkgs.openssh pkgs.git ];
     systemd.services."autopull@${cfg.name}" = {
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network-online.target" ];
-      requires = [ "network-online.target" ];
+      after = [ "multi-user.target" ];
+      requires = [ "multi-user.target" ];
       description = "Pull the latest data for ${cfg.name}";
       serviceConfig = {
         Type = "oneshot";

@@ -1,17 +1,5 @@
-{ pkgs, config, ... }:
-let
-  altPath = (path: alt: f: options: (builtins.listToAttrs (if (builtins.pathExists path) then
-    map (option: {
-      name = option.name;
-      value = (f option.value path);
-    }) options
-    else
-    map (option: {
-      name = option.name;
-      value = (f option.value alt);
-    }) options
-  )));
-in {
+{ pkgs, ... }:
+{
   imports = [
     ./neovim.nix
   ];
@@ -156,13 +144,7 @@ in {
         v = "nvim";
         vi = "nvim";
         vim = "nvim";
-      } // altPath "/home/dennis/dotfiles" "/root/dotfiles"
-      (value: path: "sudo nixos-rebuild switch --fast --accept-flake-config --flake ${path}#/dennis.${builtins.getEnv "HOSTNAME"} -L") [
-        {
-          name = "update";
-          value = "";
-        }
-      ];
+      };
     };
   };
 

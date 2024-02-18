@@ -198,11 +198,6 @@
                   nixpkgs.overlays = [
                     (_self: super: {
                       libgit2 = super.libgit2.overrideAttrs { doCheck = false; };
-                      nixos-rebuild = super.nixos-rebuild.overrideAttrs (old: {
-                        patches = (old.patches or []) ++ [
-                          ./modules/nom.patch
-                        ];
-                      });
                     })
                   ];
                 }

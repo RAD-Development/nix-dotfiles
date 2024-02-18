@@ -1,39 +1,69 @@
 { pkgs, ... }:
 
 {
-  home.username = "alice";
-  home.homeDirectory = "/home/alice";
+  home = {
+    # # Adds the 'hello' command to your environment. It prints a friendly
+    # # "Hello, world!" when run.
+    # pkgs.hello
 
-  home.packages = with pkgs; [
-    # Rust packages
-    topgrade
-    trunk
-    wasm-pack
-    cargo-watch
-    #pkgs.cargo-tarpaulin
-    cargo-generate
-    cargo-audit
-    cargo-update
-    diesel-cli
-    # gitoxide currently broke 09182023
-    gitoxide
-    tealdeer
-    helix
+    # # It is sometimes useful to fine-tune packages, for example, by applying
+    # # overrides. You can do that directly here, just don't forget the
+    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+    # # fonts?
+    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-    # nix specific packages
-    nil
-    nixfmt
+    # # You can also create simple shell scripts directly inside your
+    # # configuration. For example, this adds a command 'my-hello' to your
+    # # environment:
+    # (pkgs.writeShellScriptBin "my-hello" ''
+    #   echo "Hello, ${config.home.username}!"
+    # '')
 
-    # markdown
-    nodePackages.markdownlint-cli
+    username = "alice";
+    homeDirectory = "/home/alice";
+    packages = with pkgs; [
+      ncdu
 
-    # doom emacs dependencies
-    fd
-    ripgrep
-    clang
-  ];
+      # Rust packages
+      trunk
+      wasm-pack
+      cargo-watch
+      #pkgs.cargo-tarpaulin
+      cargo-generate
+      cargo-audit
+      cargo-update
+      diesel-cli
+      gitoxide
+      tealdeer
+      helix
 
-  programs.zsh.enable = true;
+      # nix specific packages
+      nil
+      nixfmt
+
+      # markdown
+      nodePackages.markdownlint-cli
+
+      # doom emacs dependencies
+      fd
+      ripgrep
+      clang
+    ];
+  };
+
+  programs = {
+    zsh.enable = true;
+    starship.enable = true;
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    topgrade = {
+      enable = true;
+      settings = { misc = { disable = [ "system" "nix" "shell" ]; }; };
+    };
+  };
 
   home.stateVersion = "23.11";
 }

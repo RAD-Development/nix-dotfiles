@@ -1,14 +1,8 @@
 { config, lib, libS, ... }:
 
-let
-  cfg = config.services.fail2ban;
-in
-{
-  options = {
-    services.fail2ban = {
-      recommendedDefaults = libS.mkOpinionatedOption "use fail2ban with recommended defaults";
-    };
-  };
+let cfg = config.services.fail2ban;
+in {
+  options.services.fail2ban.recommendedDefaults = libS.mkOpinionatedOption "use fail2ban with recommended defaults";
 
   config.services.fail2ban = lib.mkIf cfg.recommendedDefaults {
     maxretry = 5;
@@ -28,11 +22,12 @@ in
         filter = "apache-nohome";
         action = ''iptables-multiport[name=HTTP, port="http,https"]'';
         logpath = "/var/log/httpd/error_log*";
-        backend = "auto";
+        backend = "systemd";
         findtime = 600;
-        bantime  = 600;
+        bantime = 600;
         maxretry = 5;
       };
+
       dovecot = {
         settings = {
           filter = "dovecot[mode=aggressive]";

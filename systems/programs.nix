@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     bat
     btop
@@ -9,9 +8,13 @@
     fd
     file
     htop
+    hwloc
+    iperf3
     jp2a
     jq
     lsof
+    lynis
+    ncdu
     neofetch
     nix-init
     nix-output-monitor
@@ -23,13 +26,14 @@
     python3
     qrencode
     ripgrep
-    speedtest-cli
+    smartmontools
     tig
     tokei
     tree
     unzip
     ventoy
     wget
+    zip
     zoxide
     zsh-nix-shell
   ];

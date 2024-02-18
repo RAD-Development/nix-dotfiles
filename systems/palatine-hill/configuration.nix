@@ -156,7 +156,7 @@
 
       settings = {
         listen = "[::]:8183";
-        allowed-hosts = ["alicehuston.xyz"];
+        allowed-hosts = ["attic.alicehuston.xyz"];
         api-endpoint = "https://attic.alicehuston.xyz";
         compression.type = "none"; # let ZFS do the compressing
         database = {

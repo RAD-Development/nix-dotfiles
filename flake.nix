@@ -4,15 +4,15 @@
   nixConfig = {
     trusted-users = [ "root" ];
     substituters = [
-      "https://attic.alicehuston.xyz/cache-nix-dot"
       "https://cache.nixos.org"
+      "https://attic.alicehuston.xyz/cache-nix-dot"
       "https://cache.alicehuston.xyz"
       "https://nix-community.cachix.org"
     ];
 
     trusted-substituters = [
-      "https://attic.alicehuston.xyz/cache-nix-dot"
       "https://cache.nixos.org"
+      "https://attic.alicehuston.xyz/cache-nix-dot"
       "https://cache.alicehuston.xyz"
       "https://nix-community.cachix.org"
     ];

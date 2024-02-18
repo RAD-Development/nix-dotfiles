@@ -1,15 +1,11 @@
-{ lib
-, config
-, pkgs
-, name
-, publicKeys ? [ ]
-, defaultShell ? "zsh"
-,
-}:
+{ lib, config, pkgs, name, publicKeys ? [ ], defaultShell ? "zsh", }:
 
 {
   inherit name;
   isNormalUser = true;
+  shell = lib.mkIf config.programs.${defaultShell}.enable pkgs.${defaultShell};
+  hashedPasswordFile = config.sops.secrets."${name}/user-password".path or null;
+  openssh.authorizedKeys.keys = publicKeys;
   extraGroups = [
     "wheel"
     "media"
@@ -22,7 +18,4 @@
     "plugdev"
     "uaccess"
   ];
-  shell = pkgs.${defaultShell};
-  hashedPasswordFile = config.sops.secrets."${name}/user-password".path;
-  openssh.authorizedKeys.keys = publicKeys;
 }

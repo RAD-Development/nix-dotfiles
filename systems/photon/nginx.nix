@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   httpListen =
     let
@@ -15,8 +15,8 @@ let
       ];
     in
     map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
-      
-  httpsListen = 
+
+  httpsListen =
     let
       listen = [
         {
@@ -33,7 +33,7 @@ let
       ];
     in
     map (x: (x // { addr = "0.0.0.0"; })) listen ++ listen;
-  
+
   defaultListen = httpListen ++ httpsListen;
 in
 {
@@ -41,46 +41,43 @@ in
     enable = true;
     allRecommendOptions = true;
     generateDhparams = true;
-    openFirewall = true;
     rotateLogsFaster = true;
     setHSTSHeader = true;
     tcpFastOpen = true;
-
     virtualHosts = {
       "default" = {
         default = true;
         addSSL = true;
-        useACMEHost = "git.wavelens.io";
+        useACMEHost = "wavelens.io";
         listen = defaultListen;
-        locations = {
-          "/".extraConfig = "return 404;";
-        };
+        locations."/".extraConfig = "return 404;";
       };
 
       "auth.wavelens.io" = {
         forceSSL = true;
         enableACME = true;
         listen = defaultListen;
-        locations = {
-          "/".proxyPass = "http://127.0.0.1:${toString config.services.portunus.port}";
-        };
+        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.portunus.port}";
       };
 
       "vault.wavelens.io" = {
         forceSSL = true;
         enableACME = true;
         listen = defaultListen;
-        locations = {
-          "/".proxyPass = "http://127.0.0.1:${toString config.services.vaultwarden.config.ROCKET_PORT}";
-        };
+        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.vaultwarden.config.ROCKET_PORT}";
       };
 
       "git.wavelens.io" = {
         forceSSL = true;
         enableACME = true;
         listen = defaultListen;
-        locations = {
-          "/".proxyPass = "http://127.0.0.1:${toString config.services.gitea.settings.server.HTTP_PORT}";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.gitea.settings.server.HTTP_PORT}";
+          extraConfig = ''
+            client_max_body_size 1G;
+            proxy_set_header Connection $http_connection;
+            proxy_set_header Upgrade $http_upgrade;
+          '';
         };
       };
 
@@ -90,20 +87,19 @@ in
         listen = defaultListen;
       };
 
-      "hostoguest.ai" = {
+      "rspamd.wavelens.io" = {
         forceSSL = true;
         enableACME = true;
+        basicAuthFile = "/basic/auth/hashes/file";
         listen = defaultListen;
-        serverAliases = [ "www.hostoguest.ai" ];
+        locations."/".proxyPass = "http://unix:/run/rspamd/worker-controller.sock:/";
       };
 
-      "app.hostoguest.ai" = {
-        forceSSL = true;
-        enableACME = true;
+      "wiki.wavelens.io" = {
+        forceSSL = lib.mkForce true;
+        enableACME = lib.mkForce true;
         listen = defaultListen;
-        locations = {
-          "/".proxyPass = "http://127.0.0.1:8000";
-        };
+        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.outline.port}";
       };
     };
   };

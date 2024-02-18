@@ -1,44 +1,5 @@
 {
   "nodes": {
-    "blobs": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1604995301,
-        "narHash": "sha256-wcLzgLec6SGJA8fx1OEN1yV/Py5b+U5iyYpksUY/yLw=",
-        "owner": "simple-nixos-mailserver",
-        "repo": "blobs",
-        "rev": "2cccdf1ca48316f2cfd1c9a0017e8de5a7156265",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "simple-nixos-mailserver",
-        "repo": "blobs",
-        "type": "gitlab"
-      }
-    },
-    "c3d2-user-module": {
-      "inputs": {
-        "nixos-modules": [
-          "nixos-modules"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1706398214,
-        "narHash": "sha256-7Lk8sFyEkYGdwinhmgarUrC1niN0iyYm4sQpllxmXq4=",
-        "ref": "refs/heads/master",
-        "rev": "6d50ac7797380dde3ada60ceb1aeecf9148cdfb6",
-        "revCount": 56,
-        "type": "git",
-        "url": "https://gitea.c3d2.de/C3D2/nix-user-module.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://gitea.c3d2.de/C3D2/nix-user-module.git"
-      }
-    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -61,22 +22,6 @@
       }
     },
     "flake-compat": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1668681692,
-        "narHash": "sha256-Ht91NGdewz8IQLtWZ9LCeNXMSXHUss+9COoqu6JLmXU=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "009399224d5e398d03b22badca40a37ac85412a1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
-    "flake-compat_2": {
       "flake": false,
       "locked": {
         "lastModified": 1673956053,
@@ -148,40 +93,9 @@
         "type": "github"
       }
     },
-    "mailserver": {
-      "inputs": {
-        "blobs": "blobs",
-        "flake-compat": "flake-compat",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "nixpkgs-23_05": [
-          "nixpkgs"
-        ],
-        "nixpkgs-23_11": [
-          "nixpkgs"
-        ],
-        "utils": [
-          "flake-utils"
-        ]
-      },
-      "locked": {
-        "lastModified": 1706742486,
-        "narHash": "sha256-sv/MISTeD0rqeVivpZJpynboMWJp6i62OmrZX1rGl38=",
-        "owner": "simple-nixos-mailserver",
-        "repo": "nixos-mailserver",
-        "rev": "9e36323ae3dde787f761420465c3ae560f3dbf29",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "simple-nixos-mailserver",
-        "repo": "nixos-mailserver",
-        "type": "gitlab"
-      }
-    },
     "nix": {
       "inputs": {
-        "flake-compat": "flake-compat_2",
+        "flake-compat": "flake-compat",
         "libgit2": "libgit2",
         "nixpkgs": [
           "nixpkgs"
@@ -327,36 +241,17 @@
         "type": "github"
       }
     },
-    "patch-systemd": {
-      "locked": {
-        "lastModified": 1707546158,
-        "narHash": "sha256-nYYJTpzfPMDxI8mzhQsYjIUX+grorqjKEU9Np6Xwy/0=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "d934204a0f8d9198e1e4515dd6fec76a139c87f0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "d934204a0f8d9198e1e4515dd6fec76a139c87f0",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
-        "c3d2-user-module": "c3d2-user-module",
         "fenix": "fenix",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
-        "mailserver": "mailserver",
         "nix": "nix",
         "nix-index-database": "nix-index-database",
         "nix-pre-commit": "nix-pre-commit",
         "nixos-modules": "nixos-modules",
         "nixpkgs": "nixpkgs",
         "nixpkgs-fmt": "nixpkgs-fmt",
-        "patch-systemd": "patch-systemd",
         "sops-nix": "sops-nix",
         "systems": "systems"
       }

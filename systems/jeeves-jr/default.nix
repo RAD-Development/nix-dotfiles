@@ -1,1 +1,1 @@
-{...}: {users = ["alice" "dennis" "richie"];}
+{...}: {users = ["alice" "richie"];}

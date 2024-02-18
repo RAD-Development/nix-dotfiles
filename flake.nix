@@ -23,9 +23,6 @@
   };
 
   inputs = {
-    # pcsc, fido2, systemd can not cross compile
-    patch-systemd.url = "github:nixos/nixpkgs?rev=d934204a0f8d9198e1e4515dd6fec76a139c87f0";
-
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     nix-index-database = {
@@ -65,16 +62,6 @@
       };
     };
 
-    mailserver = {
-      url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        nixpkgs-23_05.follows = "nixpkgs";
-        nixpkgs-23_11.follows = "nixpkgs";
-        utils.follows = "flake-utils";
-      };
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -95,17 +82,9 @@
         flake-utils.follows = "flake-utils";
       };
     };
-
-    c3d2-user-module = {
-      url = "git+https://gitea.c3d2.de/C3D2/nix-user-module.git";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        nixos-modules.follows = "nixos-modules";
-      };
-    };
   };
 
-  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
+  outputs = { self, nixpkgs-fmt, nix, home-manager, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -201,7 +180,6 @@
                   ];
                 }
               ] ++ (if server then [
-                mailserver.nixosModules.mailserver
                 ./systems/programs.nix
                 ./systems/configuration.nix
                 ./systems/${hostname}/hardware.nix
@@ -219,13 +197,6 @@
                 home-manager.users.root = lib.mkIf (owner == user) (import ./users/${user}/home.nix);
               }) users) else [ ])
               ++ lib.optional (system != "x86_64-linux") {
-                nixpkgs.overlays = [
-                  (_self: super: (builtins.listToAttrs (map (name: {
-                    name = name;
-                    value = inputs.patch-systemd.legacyPackages.${system}.${name};
-                  }) (builtins.attrNames inputs.patch-systemd.legacyPackages.${system}))))
-                ];
-              } ++ lib.optional (system != "x86_64-linux") {
                 config.nixpkgs = {
                   config.allowUnsupportedSystem = true;
                   buildPlatform = "x86_64-linux";

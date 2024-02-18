@@ -103,9 +103,17 @@
         nixos-modules.follows = "nixos-modules";
       };
     };
+
+    attic = {
+      url = "github:zhaofengli/attic";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
 
-  outputs = { self, nixpkgs-fmt, nix, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
+  outputs = { self, nixpkgs-fmt, nix, attic, home-manager, mailserver, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -201,6 +209,7 @@
                   ];
                 }
               ] ++ (if server then [
+                attic.nixosModules.atticd
                 mailserver.nixosModules.mailserver
                 ./systems/programs.nix
                 ./systems/configuration.nix

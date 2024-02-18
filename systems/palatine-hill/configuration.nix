@@ -110,11 +110,15 @@
            superuser_map      /^(.*)$   \1
       '';
 
+      ensureDatabases = ["atticd"];
       ensureUsers = [
         {
           name = "atticd";
+          ensureDBOwnership = true;
         }
       ];
+
+      initialScript = config.sops.secrets."postgres/init".path;
 
       upgrade = {
         enable = true;
@@ -156,7 +160,7 @@
         api-endpoint = "https://attic.alicehuston.xyz";
         compression.type = "none"; # let ZFS do the compressing
         database = {
-          url = "postgresql://127.0.0.1";
+          url.from_command = [ "/usr/bin/env" "cat" "${config.sops.secrets."attic/database-url".path}" ];
           heartbeat = true;
         };
         storage = {
@@ -208,6 +212,8 @@
       "hydra/environment".owner = "hydra";
       "nix-serve/secret-key".owner = "root";
       "attic/secret-key".owner = "root";
+      "attic/database-url".owner = "root";
+      "postgres/init".owner = "postgres";
     };
   };
 

@@ -160,7 +160,9 @@
         api-endpoint = "https://attic.alicehuston.xyz";
         compression.type = "none"; # let ZFS do the compressing
         database = {
-          url = "postgres://atticd?host=/run/postgresql";
+          #url = "postgres://atticd?host=/run/postgresql";
+          # disable postgres, using SOPS fails at below :(
+          # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix#L57
           heartbeat = true;
         };
         storage = {

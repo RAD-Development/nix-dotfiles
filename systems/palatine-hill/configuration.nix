@@ -23,6 +23,11 @@
       "i915.force_probe=56a5"
       "i915.enable_guc=2"
     ];
+    kernelParams = [ "i915.force_probe=56a5" "i915.enable_guc=2" ];
+    kernel.sysctl = {
+      "vm.overcommit_memory" = 1;
+      "vm.swappiness" = 10;
+    };
     binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 

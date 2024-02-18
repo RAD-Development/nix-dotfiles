@@ -30,7 +30,7 @@
     # signal in tray?
     siji
     simple-mtpfs
-    slack-desktop
+    slack
     snyk
     spotify
     spotify-player

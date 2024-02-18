@@ -112,7 +112,15 @@
 
       upgrade = {
         enable = true;
-        stopServices = [ "hydra" ];
+        stopServices = [
+          "hydra-evaluator"
+          "hydra-init"
+          "hydra-notify"
+          "hydra-queue-runner"
+          "hydra-send-stats"
+          "hydra-server"
+          "atticd"
+        ];
       };
     };
 
@@ -138,6 +146,16 @@
 
       settings = {
         listen = "[::]:8183";
+        allowed-hosts = ["alicehuston.xyz"];
+        compression.type = "none"; # let ZFS do the compressing
+        database = {
+          url = "postgresql://127.0.0.1";
+          heartbeat = true;
+        };
+        storage = {
+          type = "local";
+          path = "/ZFS/ZFS-primary/attic/storage";
+        };
 
         # Warning: If you change any of the values here, it will be
         # difficult to reuse existing chunks for newly-uploaded NARs

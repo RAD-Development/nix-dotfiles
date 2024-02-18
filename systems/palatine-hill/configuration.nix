@@ -110,6 +110,8 @@
            superuser_map      /^(.*)$   \1
       '';
 
+      ensureRoles = [ "atticd" ];
+
       upgrade = {
         enable = true;
         stopServices = [
@@ -147,6 +149,7 @@
       settings = {
         listen = "[::]:8183";
         allowed-hosts = ["alicehuston.xyz"];
+        api-endpoint = "https://attic.alicehuston.xyz";
         compression.type = "none"; # let ZFS do the compressing
         database = {
           url = "postgresql://127.0.0.1";

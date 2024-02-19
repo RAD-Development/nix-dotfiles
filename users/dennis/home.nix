@@ -149,9 +149,8 @@
 
     zoxide = {
       enable = true;
-      enableCompletion = true;
-      enableBashCompletion = true;
-      enableZshCompletion = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
     };
   };
 

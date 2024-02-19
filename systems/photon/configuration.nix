@@ -245,8 +245,8 @@
     factorio = {
       enable = true;
       openFirewall = true;
-      package = pkgs.factorio;
-      configFile = /var/lib/${config.services.factorio.stateDirName}/data/server-settings.json;
+      package = pkgs.factorio-headless;
+      extraSettingsFile = /var/lib/${config.services.factorio.stateDirName}/server-settings.json;
     };
 
     outline = {

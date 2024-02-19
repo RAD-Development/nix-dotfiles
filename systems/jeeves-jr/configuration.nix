@@ -51,16 +51,20 @@
       enable = true;
       exporters.node = {
         enable = true;
-        enabledCollectors = ["systemd" "zfs" "smartctl"];
+        enabledCollectors = ["systemd"];
         port = 9002;
       };
       scrapeConfigs = [
         {
-          job_name = "main";
+          job_name = "node";
           static_configs = [
-            {
-              targets = ["127.0.0.1:9002"];
-            }
+            {targets = ["127.0.0.1:9100"];}
+          ];
+        }
+        {
+          job_name = "zfs";
+          static_configs = [
+            {targets = ["127.0.0.1:9134"];}
           ];
         }
       ];

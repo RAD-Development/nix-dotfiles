@@ -50,19 +50,28 @@
     prometheus = {
       enable = true;
       exporters = {
-        node = {
-          enable = true;
-          enabledCollectors = ["systemd"];
-          port = 9002;
-        };
+        zfs.enable = true;
+        systemd.enable = true;
+        smartctl.enable = true;
       };
-
       scrapeConfigs = [
         {
-          job_name = "chrysalis";
+          job_name = "zfs";
           static_configs = [
             {
-              targets = ["127.0.0.1:9002"];
+              targets = ["127.0.0.1:9134"];
+            }
+          ];
+          job_name = "systemd";
+          static_configs = [
+            {
+              targets = ["127.0.0.1:9558"];
+            }
+          ];
+          job_name = "systemd";
+          static_configs = [
+            {
+              targets = ["127.0.0.1:9633"];
             }
           ];
         }

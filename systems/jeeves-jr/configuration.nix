@@ -49,10 +49,10 @@
 
     prometheus = {
       enable = true;
-      exporters = {
-        zfs.enable = true;
-        systemd.enable = true;
-        smartctl.enable = true;
+      exporters.node = {
+        enable = true;
+        enabledCollectors = ["systemd" "zfs" "smartctl"];
+        port = prometheusNodePort;
       };
       scrapeConfigs = [
         {

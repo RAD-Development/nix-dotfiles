@@ -11,15 +11,33 @@
   console.keyMap = "de";
   i18n.supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
   boot.useSystemdBoot = true;
-  users.users.nginx.extraGroups = [ "acme" ];
   security.ldap.domainComponent = [ "wavelens" "io" ];
+  users.users = {
+    nginx.extraGroups = [ "acme" ];
+    itmg = {
+      name = "itmg";
+      isNormalUser = true;
+      extraGroups = [ "minecraft" ];
+      shell = pkgs.zsh;
+      openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJqVYP7+FeVaUG0T35Lw0Ttb3k1RVl7Ld4PUHfZuXEQa lcia@DESKTOP-7ROLD21" ];
+    };
+  };
+
   networking = {
     hostId = "7d76fab7";
     domain = "wavelens.io";
     nftables.enable = true;
     firewall = {
       filterForward = true;
-      allowedTCPPorts = [ 25 80 143 443 3306 993 465 ];
+      allowedTCPPorts = [
+        25
+        80
+        143
+        443
+        3306
+        993
+        465
+      ];
     };
 
     interfaces = {
@@ -72,6 +90,7 @@
         "/var/lib/rspamd/"
         "/var/lib/vaultwarden/"
         "/var/lib/www/"
+        "/var/lib/minecraft/"
       ];
     };
 
@@ -79,11 +98,10 @@
       enable = true;
       enableJIT = true;
       ensureDatabases = [ "gitea" "nextcloud" "vaultwarden" "outline" ];
-      ensureUsers = map
-        (user: {
-          name = user;
-          ensureDBOwnership = true;
-        }) [ "gitea" "nextcloud" "vaultwarden" "outline" ];
+      ensureUsers = map (user: {
+        name = user;
+        ensureDBOwnership = true;
+      }) [ "gitea" "nextcloud" "vaultwarden" "outline" ];
 
       upgrade = {
         enable = true;

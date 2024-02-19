@@ -52,14 +52,14 @@
       exporters.node = {
         enable = true;
         enabledCollectors = ["systemd" "zfs" "smartctl"];
-        port = prometheusNodePort;
+        port = 9002;
       };
       scrapeConfigs = [
         {
-          job_name = "zfs";
+          job_name = "main";
           static_configs = [
             {
-              targets = ["127.0.0.1:9134"];
+              targets = ["127.0.0.1:9002"];
             }
           ];
         }

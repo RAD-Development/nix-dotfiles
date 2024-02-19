@@ -8,7 +8,6 @@
     fzf = {
       enable = true;
       enableBashIntegration = true;
-      enableFishIntegration = true;
       enableZshIntegration = true;
     };
 
@@ -91,6 +90,7 @@
         vim-prettier
         vim-tmux
         vim-tmux-navigator
+        zoxide-vim
       ];
     };
 
@@ -145,6 +145,13 @@
         vi = "nvim";
         vim = "nvim";
       };
+    };
+
+    zoxide = {
+      enable = true;
+      enableCompletion = true;
+      enableBashCompletion = true;
+      enableZshCompletion = true;
     };
   };
 

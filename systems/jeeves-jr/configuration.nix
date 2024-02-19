@@ -50,9 +50,11 @@
     prometheus = {
       enable = true;
       exporters = {
-        zfs.enable = true;
-        systemd.enable = true;
-        smartctl.enable = true;
+        node = {
+          enable = true;
+          enabledCollectors = [ "systemd" ];
+          port = 9002;
+        };
       };
     };
 

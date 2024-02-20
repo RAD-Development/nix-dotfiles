@@ -35,12 +35,19 @@
 
     nix = {
       url = "github:NixOS/nix/latest-release";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+      };
     };
 
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
+    };
+
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
     };
 
     fenix = {
@@ -68,9 +75,10 @@
     mailserver = {
       url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
         nixpkgs-23_05.follows = "nixpkgs";
         nixpkgs-23_11.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs";
         utils.follows = "flake-utils";
       };
     };
@@ -101,6 +109,14 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         nixos-modules.follows = "nixos-modules";
+      };
+    };
+
+    polymc = {
+      url = "github:PolyMC/PolyMC";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
       };
     };
   };
@@ -186,7 +202,7 @@
 
       nixosConfigurations =
         let
-          constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], server ? true, sops ? true, system ? "x86_64-linux", owner ? null }:
+          constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], overlays ? [ ], server ? true, sops ? true, system ? "x86_64-linux", owner ? null }:
             lib.nixosSystem {
               system = "x86_64-linux";
               # pkgs = lib.mkIf (system != "x86_64-linux") (import inputs.patch-aarch64 { inherit (nixpkgs) config; inherit system; }).legacyPackages.${system};
@@ -199,7 +215,7 @@
                     (_self: super: {
                       libgit2 = super.libgit2.overrideAttrs { doCheck = false; };
                     })
-                  ];
+                  ] ++ overlays;
                 }
               ] ++ (if server then [
                 mailserver.nixosModules.mailserver

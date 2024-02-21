@@ -237,6 +237,13 @@
                   buildPlatform = "x86_64-linux";
                   hostPlatform = "aarch64-linux";
                 };
+              } ++ lib.optional (system != "x86_64-linux") {
+                nixpkgs.overlays = [
+                  (_self: super:
+                    (builtins.mapAttrs (name: value:
+                      super.${name}.overrideAttrs { doCheck = false; }
+                    ) super))
+                ];
               } ++ map (user: { config, lib, pkgs, ... }@args: {
                 users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
                 boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;

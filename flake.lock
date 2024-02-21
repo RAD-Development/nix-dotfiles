@@ -330,22 +330,6 @@
         "type": "github"
       }
     },
-    "patch-aarch64": {
-      "locked": {
-        "lastModified": 1708156783,
-        "narHash": "sha256-Jx7kpeyDvHNXFITE0NTwh/5RjqefhUcQ8cQdtJ3/XXs=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "1cc67d9bf64b37aed93d7af74d5dfd3b76f665f8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "1cc67d9bf64b37aed93d7af74d5dfd3b76f665f8",
-        "type": "github"
-      }
-    },
     "polymc": {
       "inputs": {
         "flake-compat": [
@@ -385,7 +369,6 @@
         "nixos-modules": "nixos-modules",
         "nixpkgs": "nixpkgs",
         "nixpkgs-fmt": "nixpkgs-fmt",
-        "patch-aarch64": "patch-aarch64",
         "polymc": "polymc",
         "sops-nix": "sops-nix",
         "systems": "systems"

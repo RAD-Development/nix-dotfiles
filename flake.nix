@@ -23,9 +23,6 @@
   };
 
   inputs = {
-    # can not cross compile all packages
-    patch-aarch64.url = "github:nixos/nixpkgs?rev=1cc67d9bf64b37aed93d7af74d5dfd3b76f665f8";
-
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     nix-index-database = {
@@ -205,7 +202,6 @@
           constructSystem = { hostname, users, home ? true, iso ? [ ], modules ? [ ], overlays ? [ ], server ? true, sops ? true, system ? "x86_64-linux", owner ? null }:
             lib.nixosSystem {
               system = "x86_64-linux";
-              # pkgs = lib.mkIf (system != "x86_64-linux") (import inputs.patch-aarch64 { inherit (nixpkgs) config; inherit system; }).legacyPackages.${system};
               modules = [
                 nixos-modules.nixosModule
                 sops-nix.nixosModules.sops
@@ -239,6 +235,7 @@
                 config.nixpkgs = {
                   config.allowUnsupportedSystem = true;
                   buildPlatform = "x86_64-linux";
+                  hostPlatform = "aarch64-linux";
                 };
               } ++ map (user: { config, lib, pkgs, ... }@args: {
                 users.users.${user} = import ./users/${user} (args // { name = "${user}"; });

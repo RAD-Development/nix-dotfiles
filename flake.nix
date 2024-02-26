@@ -163,7 +163,7 @@
         repos = [
           {
             repo = "https://gitlab.com/vojko.pribudic/pre-commit-update";
-            rev = "bbd69145df8741f4f470b8f1cf2867121be52121";
+            rev = "cb28c41ee1c116bf0fb5affff96487a2ddf7c7c5";
             hooks = [{
               id = "pre-commit-update";
               args = [ "--dry-run" ];

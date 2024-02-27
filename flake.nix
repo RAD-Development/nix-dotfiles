@@ -287,7 +287,7 @@
           (lsdir "systems"))) // (builtins.listToAttrs (builtins.concatMap
           (user: map
             (system: {
-              name = "${user}.${system}";
+              name = "${user}-${system}";
               value = constructSystem ({
                 hostname = system;
                 server = false;
@@ -330,29 +330,26 @@
               }))
             ]
           ));
-      } // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob))
-        (
-          let
-            mkBuild = type:
+      } // (
+        let
+          mkBuild = (type: nixosSystem:
+            if builtins.hasAttr type nixosSystem.config.system.build then
               let
-                getBuildEntryPoint = (name: nixosSystem:
-                  if builtins.hasAttr type nixosSystem.config.system.build then
-                    let
-                      cfg = nixosSystem.config.system.build.${type};
-                    in
-                    if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
-                      lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
-                    else
-                      cfg
-                  else { });
+                cfg = nixosSystem.config.system.build.${type};
               in
-              lib.filterAttrs (n: v: v != { }) (builtins.mapAttrs getBuildEntryPoint self.nixosConfigurations);
-          in
-          builtins.listToAttrs (map
-            (type: {
-              name = type;
-              value = mkBuild type;
-            }) [ "toplevel" "isoImage" "sdImage" ])
-        );
+              if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
+                lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
+              else
+                cfg
+            else { });
+        in
+        builtins.listToAttrs (builtins.concatMap (type:
+          builtins.filter (l: l.value != { }) (
+            builtins.map (n: {
+              name = n;
+              value.${type} = mkBuild type self.nixosConfigurations.${n};
+            }) (builtins.attrNames self.nixosConfigurations))
+            ) [ "toplevel" "isoImage" "sdImage" ])
+      );
     };
 }

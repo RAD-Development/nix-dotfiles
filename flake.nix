@@ -75,17 +75,7 @@
     };
   };
 
-  outputs =
-    {
-      self,
-      nix,
-      home-manager,
-      nix-pre-commit,
-      nixos-modules,
-      nixpkgs,
-      sops-nix,
-      ...
-    }@inputs:
+  outputs = { self, nixpkgs-fmt, nix, home-manager, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -202,56 +192,46 @@
             lib.nixosSystem {
               system = "x86_64-linux";
               # pkgs = lib.mkIf (system != "x86_64-linux") (import inputs.patch-aarch64 { inherit (nixpkgs) config; inherit system; }).legacyPackages.${system};
-              modules =
-                [
-                  nixos-modules.nixosModule
-                  sops-nix.nixosModules.sops
-                  { config.networking.hostName = "${hostname}"; }
-                  {
-                    nixpkgs.overlays = [
-                      (_self: super: { libgit2 = super.libgit2.overrideAttrs { doCheck = false; }; })
-                    ];
-                  }
-                ]
-                ++ (
-                  if server then
-                    [
-                      ./systems/programs.nix
-                      ./systems/configuration.nix
-                      ./systems/${hostname}/hardware.nix
-                      ./systems/${hostname}/configuration.nix
-                    ]
-                  else
-                    [
-                      ./users/${builtins.head users}/systems/${hostname}/configuration.nix
-                      ./users/${builtins.head users}/systems/${hostname}/hardware.nix
-                    ]
-                )
-                ++ fileList "modules"
-                ++ modules
-                ++ lib.optional home home-manager.nixosModules.home-manager
-                ++
-                  lib.optional (builtins.elem "minimal" iso)
-                    "${toString nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-                ++
-                  lib.optional (builtins.elem "sd" iso)
-                    "${toString nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-                ++ (
-                  if home then
-                    (map
-                      (user: {
-                        home-manager.users.${user} = import ./users/${user}/home.nix;
-                        home-manager.users.root = lib.mkIf (owner == user) (import ./users/${user}/home.nix);
-                      })
-                      users
-                    )
-                  else
-                    [ ]
-                )
-                ++ lib.optional (system != "x86_64-linux") {
-                  config.nixpkgs = {
-                    config.allowUnsupportedSystem = true;
-                    buildPlatform = "x86_64-linux";
+              modules = [
+                nixos-modules.nixosModule
+                sops-nix.nixosModules.sops
+                { config.networking.hostName = "${hostname}"; }
+                {
+                  nixpkgs.overlays = [
+                    (_self: super: {
+                      libgit2 = super.libgit2.overrideAttrs { doCheck = false; };
+                    })
+                  ];
+                }
+              ] ++ (if server then [
+                ./systems/programs.nix
+                ./systems/configuration.nix
+                ./systems/${hostname}/hardware.nix
+                ./systems/${hostname}/configuration.nix
+              ] else [
+                ./users/${builtins.head users}/systems/${hostname}/configuration.nix
+                ./users/${builtins.head users}/systems/${hostname}/hardware.nix
+              ]) ++ fileList "modules"
+              ++ modules
+              ++ lib.optional home home-manager.nixosModules.home-manager
+              ++ lib.optional (builtins.elem "minimal" iso) "${toString nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+              ++ lib.optional (builtins.elem "sd" iso) "${toString nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+              ++ (if home then (map (user: {
+                home-manager.users.${user} = import ./users/${user}/home.nix;
+                home-manager.users.root = lib.mkIf (owner == user) (import ./users/${user}/home.nix);
+              }) users) else [ ])
+              ++ lib.optional (system != "x86_64-linux") {
+                config.nixpkgs = {
+                  config.allowUnsupportedSystem = true;
+                  buildPlatform = "x86_64-linux";
+                };
+              } ++ map (user: { config, lib, pkgs, ... }@args: {
+                users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
+                boot.initrd.network.ssh.authorizedKeys = lib.mkIf server config.users.users.${user}.openssh.authorizedKeys.keys;
+                sops = lib.mkIf sops {
+                  secrets."${user}/user-password" = {
+                    sopsFile = ./users/${user}/secrets.yaml;
+                    neededForUsers = true;
                   };
                 }
                 ++

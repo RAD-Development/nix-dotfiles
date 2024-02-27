@@ -1,1 +1,4 @@
-{...}: {users = ["alice" "dennis" "richie"];}
+{...}: {
+  iso = [ "minimal" ];
+  users = ["alice" "dennis" "richie"];
+}

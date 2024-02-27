@@ -225,6 +225,7 @@
         "nix-pre-commit": "nix-pre-commit",
         "nixos-modules": "nixos-modules",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-fmt": "nixpkgs-fmt",
         "sops-nix": "sops-nix",
         "systems": "systems"
       }

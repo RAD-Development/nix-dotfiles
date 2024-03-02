@@ -7,6 +7,7 @@ keys:
   #   ssh-keygen -A
   #   nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
   - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
+  - &jeeves age128ehc0ssgwnuv4r8ayfyu7r80e82xrkmv63g7h9y9q4mhk4w9dyqfymc2w
   - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh
 
 admins: &admins
@@ -14,6 +15,7 @@ admins: &admins
   - *admin_richie
 
 servers: &servers
+  - *jeeves
   - *jeeves-jr
   - *palatine-hill
 
@@ -22,6 +24,12 @@ servers: &servers
 #
 # update keys by executing: sops updatekeys secrets.yaml
 creation_rules:
+  - path_regex: systems/jeeves/secrets\.yaml$
+    key_groups:
+      - pgp: *admins
+        age:
+          - *jeeves
+
   - path_regex: systems/jeeves-jr/secrets\.yaml$
     key_groups:
       - pgp: *admins

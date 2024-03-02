@@ -81,7 +81,7 @@
 
     zerotierone = {
       enable = true;
-      joinNetworks = ["e4da7455b2ae64ca"];
+      joinNetworks = ["e4da7455b2ae64ca" "52b337794f23c1d4"];
     };
   };
 

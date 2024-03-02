@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, lib, ...}: {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
   networking = {
@@ -10,6 +10,7 @@
     zfs.extraPools = ["Media" "Storage" "Torenting"];
     filesystem = "zfs";
     useSystemdBoot = true;
+    loader.efi.canTouchEfiVariables = lib.mkForce true;
   };
 
   virtualisation = {
@@ -96,5 +97,5 @@
   #  isNormalUser = true;
   #};
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "23.11";
 }

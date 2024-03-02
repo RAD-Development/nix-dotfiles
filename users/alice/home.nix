@@ -60,7 +60,7 @@
     };
 
     topgrade = {
-      enable = false;
+      enable = true;
       settings = { misc = { disable = [ "system" "nix" "shell" ]; }; };
     };
   };

@@ -10,7 +10,6 @@
     zfs.extraPools = ["Media" "Storage" "Torenting"];
     filesystem = "zfs";
     useSystemdBoot = true;
-    loader.efi.canTouchEfiVariables = lib.mkForce true;
   };
 
   virtualisation = {

@@ -68,7 +68,7 @@
     sysstat.enable = true;
 
     usbguard = {
-      enable = true;
+      enable = false;
       rules = ''
         allow id 1532:0241
       '';

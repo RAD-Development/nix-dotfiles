@@ -45,6 +45,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixpkgs-fmt = {
+      url = "github:nix-community/nixpkgs-fmt";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+        fenix.follows = "fenix";
+      };
+    };
+
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
       inputs = {

@@ -25,29 +25,29 @@
       ncdu
 
       # Rust packages
-      trunk
-      wasm-pack
-      cargo-watch
-      #pkgs.cargo-tarpaulin
-      cargo-generate
-      cargo-audit
-      cargo-update
-      diesel-cli
-      gitoxide
-      tealdeer
-      helix
+      # trunk
+      # wasm-pack
+      # cargo-watch
+      # #pkgs.cargo-tarpaulin
+      # cargo-generate
+      # cargo-audit
+      # cargo-update
+      # diesel-cli
+      # gitoxide
+      # tealdeer
+      # helix
 
       # nix specific packages
-      nil
-      nixfmt
+      # nil
+      # nixfmt
 
-      # markdown
-      nodePackages.markdownlint-cli
+      # # markdown
+      # nodePackages.markdownlint-cli
 
-      # doom emacs dependencies
-      fd
-      ripgrep
-      clang
+      # # doom emacs dependencies
+      # fd
+      # ripgrep
+      # clang
     ];
   };
 
@@ -60,16 +60,8 @@
     };
 
     topgrade = {
-      enable = true;
-      settings = {
-        misc = {
-          disable = [
-            "system"
-            "nix"
-            "shell"
-          ];
-        };
-      };
+      enable = false;
+      settings = { misc = { disable = [ "system" "nix" "shell" ]; }; };
     };
   };
 

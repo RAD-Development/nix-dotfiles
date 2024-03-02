@@ -4,6 +4,7 @@ keys:
   - &admin_richie 29F5017C95D9E60B1B1E8407072B0E0B8312DFE3
 
   # Generate AGE keys from SSH keys with:
+  #   ssh-keygen -A
   #   nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
   - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
   - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh

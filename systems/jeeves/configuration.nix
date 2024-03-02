@@ -84,5 +84,17 @@
     };
   };
 
+  # leaving this because i needed a test user to get in since SOPS isn't
+  # setup
+  #users.users.dummy = {
+  #  createHome = true;
+  #  extraGroups = [
+  #    "wheel"
+  #  ];
+  #  group = "users";
+  #  home = "/home/dummy";
+  #  isNormalUser = true;
+  #};
+
   system.stateVersion = "23.05";
 }

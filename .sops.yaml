@@ -14,7 +14,6 @@ admins: &admins
 
 servers: &servers
   - *palatine-hill
-  - *photon
   - *jeeves-jr
 
 # add new users by executing: sops users/<user>/secrets.yaml

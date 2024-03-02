@@ -37,7 +37,7 @@
       tealdeer
       helix
 
-      nix specific packages
+      # nix specific packages
       nil
       nixfmt
 

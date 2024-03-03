@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.services.autopull;
-in {
+let
+  cfg = config.services.autopull;
+in
+{
   options = {
     services.autopull = {
       enable = lib.mkEnableOption "autopull";
@@ -38,7 +45,10 @@ in {
   };
 
   config = lib.mkIf (cfg.enable && !(builtins.isNull cfg.path)) {
-    environment.systemPackages = [ pkgs.openssh pkgs.git ];
+    environment.systemPackages = [
+      pkgs.openssh
+      pkgs.git
+    ];
     systemd.services."autopull@${cfg.name}" = {
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
@@ -47,7 +57,9 @@ in {
         Type = "oneshot";
         User = "root";
         WorkingDirectory = cfg.path;
-        Environment = lib.mkIf (cfg.ssh-key != "") "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
+        Environment =
+          lib.mkIf (cfg.ssh-key != "")
+            "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
         ExecStart = "${pkgs.git}/bin/git pull --all";
       };
     };

@@ -1,5 +1,10 @@
-{ pkgs, ... }: {
-  imports = [ ../configuration.nix ../programs.nix ./programs.nix ];
+{ pkgs, ... }:
+{
+  imports = [
+    ../configuration.nix
+    ../programs.nix
+    ./programs.nix
+  ];
 
   time.timeZone = "America/New_York";
   console.keyMap = "us";
@@ -13,7 +18,6 @@
     useSystemdBoot = true;
     default = true;
   };
-
 
   i18n = {
     defaultLocale = "en_US.utf8";
@@ -36,9 +40,7 @@
         };
       };
     };
-
   };
-
 
   system.stateVersion = "24.05";
 }

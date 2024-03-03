@@ -101,8 +101,7 @@ rules.
 We allow secrets to be embedded in the repository using `sops-nix`. As part of
 the process everything is encrypted, however adding a new user is a change
 that every existing SOPS user needs to participate in. Please reach out to
-[@ahuston-0](https://github.com/ahuston-0),
-[@DerDennisOP](https://github.com/DerDennisOp),or
+[@ahuston-0](https://github.com/ahuston-0) or
 [@RichieCahill](https://github.com/RichieCahill) if you are interested
 in using secrets on your machines.
 

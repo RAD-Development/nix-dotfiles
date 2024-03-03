@@ -2,8 +2,6 @@ name: "Update flakes"
 on:
   repository_dispatch:
   workflow_dispatch:
-  pull_request:
-    branches: ["main"]
   schedule:
     - cron: "51 2 * * 1,4"
 jobs:
@@ -19,4 +17,9 @@ jobs:
             experimental-features = nix-command flakes
       - name: Update flake.lock
         id: update
-        uses: DeterminateSystems/update-flake-lock@v20
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "Update flake.lock" # Title of PR to be created
+          # pr-labels: |                  # Labels to be set on the PR
+          #   dependencies
+          #   automated

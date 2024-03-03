@@ -1,7 +1,9 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   time.timeZone = "America/New_York";
   console.keyMap = "us";
-  systemd.services.hydra-notify.serviceConfig.EnvironmentFile = config.sops.secrets."hydra/environment".path;
+  systemd.services.hydra-notify.serviceConfig.EnvironmentFile =
+    config.sops.secrets."hydra/environment".path;
   programs.git.lfs.enable = false;
   networking = {
     hostId = "dc2f9781";
@@ -9,9 +11,7 @@
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override {
-      enableHybridCodec = true;
-    };
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
 
   boot = {
@@ -19,7 +19,10 @@
     loader.grub.device = "/dev/sda";
     filesystem = "zfs";
     useSystemdBoot = true;
-    kernelParams = [ "i915.force_probe=56a5" "i915.enable_guc=2" ];
+    kernelParams = [
+      "i915.force_probe=56a5"
+      "i915.enable_guc=2"
+    ];
     kernel.sysctl = {
       "vm.overcommit_memory" = 1;
       "vm.swappiness" = 10;
@@ -33,23 +36,25 @@
       builders-use-substitutes = true
     '';
 
-    buildMachines = [{
-      hostName = "localhost";
-      maxJobs = 2;
-      protocol = "ssh-ng";
-      speedFactor = 2;
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
+    buildMachines = [
+      {
+        hostName = "localhost";
+        maxJobs = 2;
+        protocol = "ssh-ng";
+        speedFactor = 2;
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
 
-      supportedFeatures = [
-        "kvm"
-        "nixos-test"
-        "big-parallel"
-        "benchmark"
-      ];
-    }];
+        supportedFeatures = [
+          "kvm"
+          "nixos-test"
+          "big-parallel"
+          "benchmark"
+        ];
+      }
+    ];
   };
 
   hardware = {

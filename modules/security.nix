@@ -1,5 +1,6 @@
 # BIASED
-{ config, lib, ... }: {
+{ config, lib, ... }:
+{
   config = {
     services = {
       openssh = lib.mkIf config.services.gitea.enable {

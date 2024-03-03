@@ -1,4 +1,10 @@
-{ lib, pkgs, config, ... }: {
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+{
   security.auditd.enable = true;
   nixpkgs.config.allowUnfree = true;
   i18n = {
@@ -8,7 +14,9 @@
 
   boot = {
     default = true;
-    kernel.sysctl = { "net.ipv6.conf.ens3.accept_ra" = 1; };
+    kernel.sysctl = {
+      "net.ipv6.conf.ens3.accept_ra" = 1;
+    };
   };
 
   home-manager = {
@@ -146,14 +154,35 @@
 
     nix-ld = {
       enable = true;
-      libraries = with pkgs; [ acl attr bzip2 curl glib libglvnd libmysqlclient libsodium libssh libxml2 openssl stdenv.cc.cc systemd util-linux xz zlib zstd ];
+      libraries = with pkgs; [
+        acl
+        attr
+        bzip2
+        curl
+        glib
+        libglvnd
+        libmysqlclient
+        libsodium
+        libssh
+        libxml2
+        openssl
+        stdenv.cc.cc
+        systemd
+        util-linux
+        xz
+        zlib
+        zstd
+      ];
     };
   };
 
   nix = {
     diffSystem = true;
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       keep-outputs = true;
       builders-use-substitutes = true;
       connect-timeout = 20;

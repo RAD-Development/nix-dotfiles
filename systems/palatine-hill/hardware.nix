@@ -1,13 +1,16 @@
-{ config, lib, modulesPath, ... }:
 {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
+{
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   networking.useDHCP = lib.mkDefault true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  swapDevices = [{ device = "/dev/disk/by-uuid/2b01e592-2297-4eb1-854b-17a63f1d4cf6"; }];
+  swapDevices = [ { device = "/dev/disk/by-uuid/2b01e592-2297-4eb1-854b-17a63f1d4cf6"; } ];
   boot = {
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];

@@ -45,15 +45,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs-fmt = {
-      url = "github:nix-community/nixpkgs-fmt";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-        fenix.follows = "fenix";
-      };
-    };
-
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
       inputs = {
@@ -84,7 +75,7 @@
     };
   };
 
-  outputs = { self, nixpkgs-fmt, nix, home-manager, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
+  outputs = { self, nix, home-manager, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -316,62 +307,24 @@
       devShell =
         lib.mapAttrs
           (
-            system: sopsPkgs:
-            with nixpkgs.legacyPackages.${system};
-            mkShell {
-              sopsPGPKeyDirs = [ "./keys" ];
-              nativeBuildInputs = [
-                apacheHttpd
-                sopsPkgs.sops-import-keys-hook
-              ];
-              packages = [
-                self.formatter.${system}
-                nixpkgs.legacyPackages.${system}.deadnix
-              ];
-              shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
-            }
-          )
-          sops-nix.packages;
-
-      hydraJobs =
-        {
-          build = (
-            recursiveMerge (
-              (map
-                (machine: {
-                  ${machine.pkgs.system} = (
-                    builtins.listToAttrs (
-                      builtins.filter (v: v != { }) (
-                        map
-                          (
-                            pkg:
-                            (
-                              if (builtins.hasAttr pkg.name pkgsBySystem.${machine.pkgs.system}) then
-                                {
-                                  name = pkg.name;
-                                  value = pkgsBySystem.${machine.pkgs.system}.${pkg.name};
-                                }
-                              else
-                                { }
-                            )
-                          )
-                          machine.config.environment.systemPackages
-                      )
-                    )
-                  );
-                })
-                (builtins.attrValues self.nixosConfigurations)
-              )
-              ++ [
-                # not fully sure what this is for but it breaks with nixfmt
-                # (forEachSystem (system: {
-                #   ${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name} = pkgsBySystem.${system}.${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name};
-                # }))
-              ]
-            )
-          );
-        }
-        // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob)) (
+            (map
+              (machine: {
+                ${machine.pkgs.system} = (builtins.listToAttrs (builtins.filter (v: v != { }) (map
+                  (pkg: (if (builtins.hasAttr pkg.name pkgsBySystem.${machine.pkgs.system}) then {
+                    name = pkg.name;
+                    value = pkgsBySystem.${machine.pkgs.system}.${pkg.name};
+                  } else { }))
+                  machine.config.environment.systemPackages)));
+              })
+              (builtins.attrValues self.nixosConfigurations)) ++ [
+              # not fully sure what this is for but it breaks with nixfmt
+              # (forEachSystem (system: {
+              #   ${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name} = pkgsBySystem.${system}.${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name};
+              # }))
+            ]
+          ));
+      } // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob))
+        (
           let
             mkBuild =
               type:

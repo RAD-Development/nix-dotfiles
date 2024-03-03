@@ -1,4 +1,8 @@
-{pkgs, lib, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
   networking = {
@@ -61,6 +65,11 @@
     nfs.server.enable = true;
 
     openssh.ports = [629];
+
+    plex = {
+      enable = true;
+      dataDir = "/ZFS/Media/Plex/";
+    };
 
     smartd.enable = true;
 

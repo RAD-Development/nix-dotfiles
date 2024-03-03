@@ -31,15 +31,19 @@ DRIVE="sda"
 MACHINENAME="machine"
 SWAPSIZE="0"
 
+# Feature toggles (must be Y to be enabled)
 CREATEPARTS="N"
 SOPS="Y"
 
+# SOPS owner
 OWNERORADMINS="admins"
 
+# Partition planning
 ROOTPATH="/dev/$VOLGROUP/root"
 SWAPPATH="/dev/$VOLGROUP/swap"
 BOOTPART="/dev/${DRIVE}1"
 
+# git vars
 GITBASE="systems"
 FEATUREBRANCH="feature/adding-$MACHINENAME"
 

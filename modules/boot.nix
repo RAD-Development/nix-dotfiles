@@ -1,7 +1,14 @@
-{ config, lib, libS, ... }:
+{
+  config,
+  lib,
+  libS,
+  ...
+}:
 
-let cfg = config.boot;
-in {
+let
+  cfg = config.boot;
+in
+{
   options = {
     boot = {
       default = libS.mkOpinionatedOption "enable the boot builder";
@@ -28,7 +35,10 @@ in {
     supportedFilesystems = [ cfg.filesystem ];
     tmp.useTmpfs = true;
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    kernelParams = [ "nordrand" ] ++ lib.optional (cfg.cpuType == "amd") "kvm-amd" ++ lib.optional cfg.fullDiskEncryption "ip=<ip-addr>::<ip-gateway>:<netmask>";
+    kernelParams =
+      [ "nordrand" ]
+      ++ lib.optional (cfg.cpuType == "amd") "kvm-amd"
+      ++ lib.optional cfg.fullDiskEncryption "ip=<ip-addr>::<ip-gateway>:<netmask>";
     initrd = {
       kernelModules = lib.mkIf cfg.amdGPU [ "amdgpu" ];
       network = lib.mkIf cfg.fullDiskEncryption {

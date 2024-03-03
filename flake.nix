@@ -4,9 +4,9 @@
   nixConfig = {
     trusted-users = [ "root" ];
     substituters = [
-      "https://cache.nixos.org"
-      "https://cache.alicehuston.xyz"
-      "https://nix-community.cachix.org"
+      "https://cache.nixos.org/?priority=1&want-mass-query=true"
+      "https://cache.alicehuston.xyz/?priority=5&want-mass-query=true"
+      "https://nix-community.cachix.org/?priority=10&want-mass-query=true"
     ];
 
     trusted-substituters = [
@@ -168,8 +168,8 @@
               #   files = "\\.nix";
               # }
               # {
-              #   id = "nix-flake-check";
-              #   entry = "nix flake check";
+              #   id = "check";
+              #   entry = "nix eval";
               #   language = "system";
               #   files = "\\.nix";
               #   pass_filenames = false;
@@ -201,6 +201,7 @@
             }:
             lib.nixosSystem {
               system = "x86_64-linux";
+              # pkgs = lib.mkIf (system != "x86_64-linux") (import inputs.patch-aarch64 { inherit (nixpkgs) config; inherit system; }).legacyPackages.${system};
               modules =
                 [
                   nixos-modules.nixosModule

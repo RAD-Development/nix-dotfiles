@@ -1,6 +1,10 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p bash git
 
+set -o errexit   # abort on nonzero exitstatus
+set -o nounset   # abort on unbound variable
+set -o pipefail  # don't hide errors within pipes
+
 PROCEED="N"
 
 ################################################################################
@@ -96,7 +100,9 @@ sudo "$GC" clone https://github.com/RAD-Development/nix-dotfiles.git .
 sudo "$GC" checkout "$FEATUREBRANCH"
 
 # Create ssh keys
-ssh-keygen -t ed25519 -o -a 100 -f "$DOTS/id_ed25519_ghdeploy" -q -N "" -C "$MACHINENAME"
+sudo mkdir /root/.ssh
+sudo chmod 700 /root/.ssh
+ssh-keygen -t ed25519 -o -a 100 -f "/root/.ssh/id_ed25519_ghdeploy" -q -N "" -C "$MACHINENAME"
 
 echo "get this into github so you can check everything in :)"
 cat "$DOTS/id_ed25519_ghdeploy.pub"
@@ -138,3 +144,14 @@ sudo mv "$DOTS/$GITBASE/$MACHINENAME/hardware{-configuration,}.nix"
 # from https://nixos.org/manual/nixos/unstable
 
 sudo nixos-install --flake "$DOTS#$MACHINENAME"
+
+# add ssh config for root and reset git repo url
+read -r -d '' SSHCONFIG <<-EOF
+Host github.com
+        User git
+        Hostname github.com
+        PreferredAuthentications publickey
+        IdentityFile /root/.ssh/id_ed25519_ghdeploy
+EOF
+printf "%s" "$SSHCONFIG" | sudo tee /root/.ssh/config
+sudo "$GC" remote set-url origin 'git@github.com:RAD-Development/nix-dotfiles.git'

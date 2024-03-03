@@ -7,7 +7,7 @@ on:
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # ensure workflow_dispatch only runs on main
+    if: github.ref == 'refs/heads/feature/actions' # ensure workflow_dispatch only runs on main
     steps:
       - uses: actions/checkout@v4
       - name: Install Nix

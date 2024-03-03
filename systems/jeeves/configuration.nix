@@ -1,8 +1,5 @@
+{ pkgs, lib, ... }:
 {
-  pkgs,
-  lib,
-  ...
-}: {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
   networking = {
@@ -11,7 +8,11 @@
   };
 
   boot = {
-    zfs.extraPools = ["Media" "Storage" "Torenting"];
+    zfs.extraPools = [
+      "Media"
+      "Storage"
+      "Torenting"
+    ];
     filesystem = "zfs";
     useSystemdBoot = true;
   };
@@ -25,7 +26,7 @@
       daemon."settings" = {
         experimental = true;
         data-root = "/var/lib/docker";
-        exec-opts = ["native.cgroupdriver=systemd"];
+        exec-opts = [ "native.cgroupdriver=systemd" ];
         log-opts = {
           max-size = "10m";
           max-file = "5";
@@ -40,7 +41,7 @@
   };
 
   environment = {
-    systemPackages = with pkgs; [docker-compose];
+    systemPackages = with pkgs; [ docker-compose ];
     etc = {
       # Creates /etc/lynis/custom.prf
       "lynis/custom.prf" = {
@@ -64,7 +65,7 @@
   services = {
     nfs.server.enable = true;
 
-    openssh.ports = [629];
+    openssh.ports = [ 629 ];
 
     plex = {
       enable = true;
@@ -89,7 +90,10 @@
 
     zerotierone = {
       enable = true;
-      joinNetworks = ["e4da7455b2ae64ca" "52b337794f23c1d4"];
+      joinNetworks = [
+        "e4da7455b2ae64ca"
+        "52b337794f23c1d4"
+      ];
     };
   };
 

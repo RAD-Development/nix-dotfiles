@@ -31,15 +31,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs-fmt = {
-      url = "github:rad-development/nixpkgs-fmt";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-        fenix.follows = "fenix";
-      };
-    };
-
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
       inputs = {
@@ -85,7 +76,7 @@
     };
   };
 
-  outputs = { self, nixpkgs-fmt, nix, home-manager, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, wired, ... }@inputs:
+  outputs = { self, nix, home-manager, nix-pre-commit, nixos-modules, nixpkgs, sops-nix, wired, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       systems = [
@@ -141,7 +132,7 @@
             hooks = [
               # {
               #   id = "nixfmt check";
-              #   entry = "${nixpkgs-fmt.legacyPackages.x86_64-linux.nixpkgs-fmt}/bin/nixpkgs-fmt";
+              #   entry = "${nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style}/bin/nixfmt";
               #   args = [ "--check" ];
               #   language = "system";
               #   files = "\\.nix";
@@ -159,9 +150,9 @@
       };
     in
     {
-      formatter = forEachSystem (system: nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt);
+      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
       overlays.default = final: prev: {
-        nixpkgs-fmt = forEachSystem (system: nixpkgs-fmt.legacyPackages.${system}.nixpkgs.fmt);
+        nixpkgs-fmt = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
       };
 
       nixosConfigurations =
@@ -249,9 +240,10 @@
                   machine.config.environment.systemPackages)));
               })
               (builtins.attrValues self.nixosConfigurations)) ++ [
-              (forEachSystem (system: {
-                ${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name} = pkgsBySystem.${system}.${nixpkgs-fmt.legacyPackages.${system}.nixpkgs-fmt.name};
-              }))
+              # not fully sure what this is for but it breaks with nixfmt
+              # (forEachSystem (system: {
+              #   ${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name} = pkgsBySystem.${system}.${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name};
+              # }))
             ]
           ));
       } // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob))

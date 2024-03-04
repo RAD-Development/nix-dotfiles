@@ -60,7 +60,7 @@ in
         Type = "oneshot";
         User = "root";
         WorkingDirectory = cfg.path;
-        ExecStart = "${pkgs.git}/bin/git pull --all ";
+        ExecStart = "${pkgs.git}/bin/git pull --all";
       };
     };
 

@@ -17,7 +17,7 @@ PROCEED="N"
 #    this is a server (change GITBASE to reflect path to machine config)
 #    this machine is called "machine"
 #    this machine will have all partitions on /dev/sda
-#    there will be no swap partition (set SWIPSZIE to non-zero)
+#    there will be no swap partition (set SWAPSIZE to non-zero)
 #
 # Please check the below variables and make changes as appropriate
 #

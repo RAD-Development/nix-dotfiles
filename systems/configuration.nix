@@ -75,7 +75,7 @@
         MaxSessions = lib.mkDefault 2;
         PasswordAuthentication = false;
         PermitEmptyPasswords = "no";
-        PermitRootLogin = lib.mkDefault "no";
+        PermitRootLogin = "no";
         TcpKeepAlive = "no";
         X11Forwarding = lib.mkDefault false;
         KexAlgorithms = [

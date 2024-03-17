@@ -163,7 +163,7 @@
         repos = [
           {
             repo = "https://gitlab.com/vojko.pribudic/pre-commit-update";
-            rev = "bbd69145df8741f4f470b8f1cf2867121be52121";
+            rev = "47c88d5b5fa4e486427e595a9f57a9a80577ede2";
             hooks = [
               {
                 id = "pre-commit-update";
@@ -343,77 +343,77 @@
           )
           sops-nix.packages;
 
-      hydraJobs =
-        {
-          build = (
-            recursiveMerge (
-              (map
-                (machine: {
-                  ${machine.pkgs.system} = (
-                    builtins.listToAttrs (
-                      builtins.filter (v: v != { }) (
-                        map
-                          (
-                            pkg:
-                            (
-                              if (builtins.hasAttr pkg.name pkgsBySystem.${machine.pkgs.system}) then
-                                {
-                                  name = pkg.name;
-                                  value = pkgsBySystem.${machine.pkgs.system}.${pkg.name};
-                                }
-                              else
-                                { }
-                            )
-                          )
-                          machine.config.environment.systemPackages
-                      )
-                    )
-                  );
-                })
-                (builtins.attrValues self.nixosConfigurations)
-              )
-              ++ [
-                # not fully sure what this is for but it breaks with nixfmt
-                # (forEachSystem (system: {
-                #   ${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name} = pkgsBySystem.${system}.${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name};
-                # }))
-              ]
-            )
-          );
-        }
-        // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob)) (
-          let
-            mkBuild =
-              type:
-              let
-                getBuildEntryPoint = (
-                  name: nixosSystem:
-                  if builtins.hasAttr type nixosSystem.config.system.build then
-                    let
-                      cfg = nixosSystem.config.system.build.${type};
-                    in
-                    if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
-                      lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
-                    else
-                      cfg
-                  else
-                    { }
-                );
-              in
-              lib.filterAttrs (n: v: v != { }) (builtins.mapAttrs getBuildEntryPoint self.nixosConfigurations);
-          in
-          builtins.listToAttrs (
-            map
-              (type: {
-                name = type;
-                value = mkBuild type;
-              })
-              [
-                "toplevel"
-                "isoImage"
-                "sdImage"
-              ]
-          )
-        );
+    #   hydraJobs =
+    #     {
+    #       build = (
+    #         recursiveMerge (
+    #           (map
+    #             (machine: {
+    #               ${machine.pkgs.system} = (
+    #                 builtins.listToAttrs (
+    #                   builtins.filter (v: v != { }) (
+    #                     map
+    #                       (
+    #                         pkg:
+    #                         (
+    #                           if (builtins.hasAttr pkg.name pkgsBySystem.${machine.pkgs.system}) then
+    #                             {
+    #                               name = pkg.name;
+    #                               value = pkgsBySystem.${machine.pkgs.system}.${pkg.name};
+    #                             }
+    #                           else
+    #                             { }
+    #                         )
+    #                       )
+    #                       machine.config.environment.systemPackages
+    #                   )
+    #                 )
+    #               );
+    #             })
+    #             (builtins.attrValues self.nixosConfigurations)
+    #           )
+    #           ++ [
+    #             # not fully sure what this is for but it breaks with nixfmt
+    #             # (forEachSystem (system: {
+    #             #   ${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name} = pkgsBySystem.${system}.${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name};
+    #             # }))
+    #           ]
+    #         )
+    #       );
+    #     }
+    #     // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob)) (
+    #       let
+    #         mkBuild =
+    #           type:
+    #           let
+    #             getBuildEntryPoint = (
+    #               name: nixosSystem:
+    #               if builtins.hasAttr type nixosSystem.config.system.build then
+    #                 let
+    #                   cfg = nixosSystem.config.system.build.${type};
+    #                 in
+    #                 if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
+    #                   lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
+    #                 else
+    #                   cfg
+    #               else
+    #                 { }
+    #             );
+    #           in
+    #           lib.filterAttrs (n: v: v != { }) (builtins.mapAttrs getBuildEntryPoint self.nixosConfigurations);
+    #       in
+    #       builtins.listToAttrs (
+    #         map
+    #           (type: {
+    #             name = type;
+    #             value = mkBuild type;
+    #           })
+    #           [
+    #             "toplevel"
+    #             "isoImage"
+    #             "sdImage"
+    #           ]
+    #       )
+    #     );
     };
 }

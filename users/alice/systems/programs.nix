@@ -50,6 +50,6 @@
       xboxdrv
       yubioath-flutter
       zoom
-    ]
-    ++ [ inputs.wired.packages.${system}.wired ];
+    ];
+    # ++ [ inputs.wired.packages.${system}.wired ];
 }

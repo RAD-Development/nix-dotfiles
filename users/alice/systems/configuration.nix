@@ -6,4 +6,7 @@
 }:
 
 {
+  imports = [
+    ./non-server.nix
+  ];
 }

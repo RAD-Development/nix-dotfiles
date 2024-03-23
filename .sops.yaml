@@ -14,7 +14,6 @@ admins: &admins
   - *admin_richie
 
 servers: &servers
-  - *artemision
   - *palatine-hill
   - *jeeves-jr
 
@@ -39,7 +38,10 @@ creation_rules:
     key_groups:
       - pgp:
           - *admin_alice
-        age: *servers
+        age:
+          - *palatine-hill
+          - *jeeves-jr
+          - *artemision
 
   - path_regex: users/alice/systems/artemision/secrets\.yaml$
     key_groups:
@@ -52,4 +54,4 @@ creation_rules:
     key_groups:
       - pgp:
           - *admin_richie
-        age: *servers
+        age: *servers 

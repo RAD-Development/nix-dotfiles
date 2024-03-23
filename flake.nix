@@ -3,14 +3,14 @@
 
   nixConfig = {
     substituters = [
-      "https://cache.alicehuston.xyz"
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
+      "https://cache.alicehuston.xyz"
     ];
     trusted-substituters = [
-      "https://cache.alicehuston.xyz"
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
+      "https://cache.alicehuston.xyz"
     ];
     trusted-public-keys = [
       "cache.alicehuston.xyz:SJAm8HJVTWUjwcTTLAoi/5E1gUOJ0GWum2suPPv7CUo=%"

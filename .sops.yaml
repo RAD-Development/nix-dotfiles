@@ -5,6 +5,7 @@ keys:
 
   # Generate AGE keys from SSH keys with:
   #   nix-shell -p ssh-to-age --run 'ssh some.ssh.wavelens.io cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
+  - &artemision age1jd2dcpykagz20kpk2kkchte3augqncwfn6nywursx0dkfyze6feqdzxkq2
   - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
   - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh
 
@@ -13,8 +14,8 @@ admins: &admins
   - *admin_richie
 
 servers: &servers
+  - *artemision
   - *palatine-hill
-  - *photon
   - *jeeves-jr
 
 # add new users by executing: sops users/<user>/secrets.yaml
@@ -39,6 +40,12 @@ creation_rules:
       - pgp:
           - *admin_alice
         age: *servers
+
+  - path_regex: users/alice/artemision/secrets\.yaml$
+    key_groups:
+      - pgp:
+          - *admin_alice
+        age: *artemision
     
   - path_regex: users/richie/secrets\.yaml$
     key_groups:

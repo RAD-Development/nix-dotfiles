@@ -13,7 +13,6 @@
       calibre
       # calibre dedrm?
       discord-canary
-      etcher
       fanficfare
       ferium
       # gestures replacement

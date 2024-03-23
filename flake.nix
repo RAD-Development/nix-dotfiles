@@ -86,6 +86,10 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+    };
   };
 
   outputs =
@@ -94,6 +98,7 @@
       nix,
       home-manager,
       nix-pre-commit,
+      nixos-hardware,
       nixos-modules,
       nixpkgs,
       sops-nix,
@@ -310,6 +315,7 @@
                       hostname = system;
                       server = false;
                       users = [ user ];
+                      modules = if system == "artemision" then [ nixos-hardware.nixosModules.framework-13-7040-amd  ] else [];
                     }
                     // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [
                       "hostname"

@@ -6,9 +6,7 @@
 }:
 
 {
-  imports = [
-    ./non-server.nix
-  ];
+  imports = [ ./non-server.nix ];
 
   services.fwupd.enable = true;
 }

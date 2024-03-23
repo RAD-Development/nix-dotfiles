@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   # Adds some items from the server config without importing everything
@@ -39,19 +44,19 @@
     };
   };
 
-    programs.zsh = {
+  programs.zsh = {
+    enable = true;
+    syntaxHighlighting.enable = true;
+    zsh-autoenv.enable = true;
+    enableCompletion = true;
+    enableBashCompletion = true;
+    ohMyZsh.enable = true;
+    autosuggestions = {
       enable = true;
-      syntaxHighlighting.enable = true;
-      zsh-autoenv.enable = true;
-      enableCompletion = true;
-      enableBashCompletion = true;
-      ohMyZsh.enable = true;
-      autosuggestions = {
-        enable = true;
-        strategy = [ "completion" ];
-        async = true;
-      };
+      strategy = [ "completion" ];
+      async = true;
     };
+  };
 
   nix = {
     diffSystem = true;

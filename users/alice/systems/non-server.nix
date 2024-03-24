@@ -26,7 +26,7 @@
 
   users = {
     defaultUserShell = pkgs.zsh;
-    mutableUsers = true;
+    mutableUsers = false;
   };
 
   networking = {

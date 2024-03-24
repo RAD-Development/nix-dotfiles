@@ -25,3 +25,4 @@ jobs:
             automated
 permissions:
   pull-requests: write
+  contents: write

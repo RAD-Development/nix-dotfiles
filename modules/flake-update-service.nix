@@ -50,8 +50,8 @@ in
       pkgs.git
     ];
     systemd.services."autopull@${cfg.name}" = {
-      after = [ "multi-user.target" ];
-      requires = [ "multi-user.target" ];
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
       description = "Pull the latest data for ${cfg.name}";
       environment = lib.mkIf (cfg.ssh-key != "") {
         GIT_SSH_COMMAND = "${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";

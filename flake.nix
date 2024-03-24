@@ -98,6 +98,14 @@
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware";
     };
+
+    attic = {
+      url = "github:zhaofengli/attic";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
 
   outputs =

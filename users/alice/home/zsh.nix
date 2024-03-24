@@ -4,6 +4,7 @@
   zsh = {
 
     enable = true;
+    autosuggestions.enable = true;
     oh-my-zsh = {
       enable = true;
       plugins = [
@@ -18,7 +19,6 @@
         "ufw"
         "z"
         "fzf"
-        "zsh-autosuggestions"
       ];
     };
     initExtra = ''
@@ -27,7 +27,7 @@
           if [[ -f /home/alice/backup/.noconnection ]]; then
       	sshfs -p 10934 lily@192.168.1.154:/mnt/backup/data/ ~/backup -C
           else
-      	echo "Connection to backup server already open.
+      	echo "Connection to backup server already open."
           fi
       }
 

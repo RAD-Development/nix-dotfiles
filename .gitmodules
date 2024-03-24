@@ -1,0 +1,3 @@
+[submodule "users/alice/home/doom"]
+	path = users/alice/home/doom
+	url = https://github.com/ahuston-0/Doom-Emacs-config.git

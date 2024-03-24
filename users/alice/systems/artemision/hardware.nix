@@ -60,6 +60,11 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/5AD7-6005";
     fsType = "vfat";
+    options = [
+      "noatime"
+      "nodiratime"
+      "discard"
+    ];
   };
 
   swapDevices = [ { device = "/dev/disk/by-uuid/7f0dba0f-d04e-4c94-9fba-1d0811673df1"; } ];

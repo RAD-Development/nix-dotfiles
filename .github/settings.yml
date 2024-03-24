@@ -98,6 +98,12 @@ labels:
   - name: wontfix
     color: '#ffffff'
     description: This will not be worked on
+  - name: dependencies
+    color: '#cb4ed5'
+    description: Used for PR's related to flake.lock updates
+  - name: automated
+    color: '#42b528'
+    description: PR was automatically generated (through a bot or CI/CD)
 
 # Milestones: define milestones for Issues and Pull Requests
 milestones:

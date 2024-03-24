@@ -71,7 +71,7 @@
       };
     };
 
-  };# ++ import ./home/zsh.nix;
+  }; ++ import ./home/zsh.nix;
 
   services.ssh-agent.enable = true;
 

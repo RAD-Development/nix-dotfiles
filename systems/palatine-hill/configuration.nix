@@ -138,7 +138,7 @@
           "hydra-queue-runner"
           "hydra-send-stats"
           "hydra-server"
-          # "atticd"
+          "atticd"
         ];
       };
     };

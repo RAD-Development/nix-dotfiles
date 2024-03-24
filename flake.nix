@@ -22,6 +22,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     systems.url = "github:nix-systems/default";
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
@@ -60,7 +61,7 @@
       url = "github:Mic92/sops-nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nixpkgs-stable.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs-stable";
       };
     };
 
@@ -72,7 +73,7 @@
       };
     };
 
-    wired = {
+    wired-notify = {
       url = "github:Toqozz/wired-notify";
       inputs = {
         nixpkgs.follows = "nixpkgs";
@@ -102,7 +103,7 @@
       nixos-modules,
       nixpkgs,
       sops-nix,
-      wired,
+      wired-notify,
       ...
     }@inputs:
     let
@@ -304,8 +305,7 @@
                   hostname = system;
                   server = false;
                   users = [ user ];
-                  modules =
-                    if system == "artemision" then [ nixos-hardware.nixosModules.framework-13-7040-amd ] else [ ];
+                  modules = [ ];
                 }
                 // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [
                   "hostname"

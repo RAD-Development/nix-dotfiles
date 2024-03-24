@@ -1,14 +1,18 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   time.timeZone = "America/New_York";
   console.keyMap = "us";
   networking = {
-    hostId = "1beb3026";
+    hostId = "1beb3027";
     firewall.enable = false;
   };
 
   boot = {
-    zfs.extraPools = [ "Main" ];
+    zfs.extraPools = [
+      "Media"
+      "Storage"
+      "Torenting"
+    ];
     filesystem = "zfs";
     useSystemdBoot = true;
   };
@@ -61,14 +65,19 @@
   services = {
     nfs.server.enable = true;
 
-    openssh.ports = [ 352 ];
+    openssh.ports = [ 629 ];
+
+    plex = {
+      enable = true;
+      dataDir = "/ZFS/Media/Plex/";
+    };
 
     smartd.enable = true;
 
     sysstat.enable = true;
 
     usbguard = {
-      enable = true;
+      enable = false;
       rules = ''
         allow id 1532:0241
       '';
@@ -81,9 +90,12 @@
 
     zerotierone = {
       enable = true;
-      joinNetworks = [ "e4da7455b2ae64ca" ];
+      joinNetworks = [
+        "e4da7455b2ae64ca"
+        "52b337794f23c1d4"
+      ];
     };
   };
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "23.11";
 }

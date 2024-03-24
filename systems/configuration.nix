@@ -144,6 +144,7 @@
       enableCompletion = true;
       enableBashCompletion = true;
       ohMyZsh.enable = true;
+      shellAliases.update = "sudo nixos-rebuild switch --fast --accept-flake-config --flake /root/dotfiles#${config.networking.hostName} -L |& nom";
       autosuggestions = {
         enable = true;
         strategy = [ "completion" ];
@@ -173,12 +174,6 @@
         zstd
       ];
     };
-  };
-
-  systemd.watchdog = {
-    device = "/dev/watchdog";
-    runtimeTime = "30s";
-    rebootTime = "5m";
   };
 
   nix = {

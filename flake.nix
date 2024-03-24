@@ -21,6 +21,7 @@
       "cache-nix-dot:0hp/F6mUJXNyZeLBPNBjmyEh8gWsNVH+zkuwlWMmwXg="
     ];
     trusted-users = [ "root" "@wheel" ];
+    ];
   };
 
   inputs = {
@@ -76,7 +77,7 @@
       };
     };
 
-    wired-notify = {
+wired-notify = {
       url = "github:Toqozz/wired-notify";
       inputs = {
         nixpkgs.follows = "nixpkgs";
@@ -95,6 +96,7 @@
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware";
     };
+
   };
 
   outputs =
@@ -136,9 +138,9 @@
         }
       );
 
-      src = builtins.filterSource (
-        path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)
-      ) ./.;
+      src =
+        builtins.filterSource (path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path))
+          ./.;
       ls = dir: lib.attrNames (builtins.readDir (src + "/${dir}"));
       lsdir =
         dir:
@@ -192,8 +194,8 @@
               #   files = "\\.nix";
               # }
               # {
-              #   id = "nix-flake-check";
-              #   entry = "nix flake check";
+              #   id = "check";
+              #   entry = "nix eval";
               #   language = "system";
               #   files = "\\.nix";
               #   pass_filenames = false;
@@ -261,154 +263,167 @@
                     buildPlatform = "x86_64-linux";
                   };
                 }
-                ++ map (
-                  user:
-                  {
-                    config,
-                    lib,
-                    pkgs,
-                    ...
-                  }@args:
-                  {
-                    users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
-                    boot.initrd.network.ssh.authorizedKeys =
-                      lib.mkIf server
-                        config.users.users.${user}.openssh.authorizedKeys.keys;
-                    sops = lib.mkIf sops {
-                      secrets."${user}/user-password" = {
-                        sopsFile = ./users/${user}/secrets.yaml;
-                        neededForUsers = true;
-                      };
-                    };
-                  }
-                ) users;
+                ++
+                  map
+                    (
+                      user:
+                      {
+                        config,
+                        lib,
+                        pkgs,
+                        ...
+                      }@args:
+                      {
+                        users.users.${user} = import ./users/${user} (args // { name = "${user}"; });
+                        boot.initrd.network.ssh.authorizedKeys =
+                          lib.mkIf server
+                            config.users.users.${user}.openssh.authorizedKeys.keys;
+                        sops = lib.mkIf sops {
+                          secrets."${user}/user-password" = {
+                            sopsFile = ./users/${user}/secrets.yaml;
+                            neededForUsers = true;
+                          };
+                        };
+                      }
+                    )
+                    users;
             };
         in
         (builtins.listToAttrs (
-          map (system: {
-            name = system;
-            value = constructSystem (
-              {
-                hostname = system;
-              }
-              // builtins.removeAttrs (import ./systems/${system} { inherit inputs; }) [
-                "hostname"
-                "server"
-                "home"
-              ]
-            );
-          }) (lsdir "systems")
-        ))
-        // (builtins.listToAttrs (
-          builtins.concatMap (
-            user:
-            map (system: {
-              name = "${user}.${system}";
+          map
+            (system: {
+              name = system;
               value = constructSystem (
                 {
                   hostname = system;
-                  server = false;
-                  users = [ user ];
-                  modules = [ ];
                 }
-                // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [
+                // builtins.removeAttrs (import ./systems/${system} { inherit inputs; }) [
                   "hostname"
                   "server"
-                  "users"
+                  "home"
                 ]
               );
-            }) (lsdir "users/${user}/systems")
-          ) (lsdir "users")
+            })
+            (lsdir "systems")
+        ))
+        // (builtins.listToAttrs (
+          builtins.concatMap
+            (
+              user:
+              map
+                (system: {
+                  name = "${user}.${system}";
+                  value = constructSystem (
+                    {
+                      hostname = system;
+                      server = false;
+                      users = [ user ];
+                      owner = user;
+                    }
+                    // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [
+                      "hostname"
+                      "server"
+                      "users"
+                      "owner"
+                    ]
+                  );
+                })
+                (lsdir "users/${user}/systems")
+            )
+            (lsdir "users")
         ));
 
-      devShell = lib.mapAttrs (
-        system: sopsPkgs:
-        with nixpkgs.legacyPackages.${system};
-        mkShell {
-          sopsPGPKeyDirs = [ "./keys" ];
-          nativeBuildInputs = [
-            apacheHttpd
-            sopsPkgs.sops-import-keys-hook
-          ];
-          packages = [
-            self.formatter.${system}
-            nixpkgs.legacyPackages.${system}.deadnix
-          ];
-          shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
-        }
-      ) sops-nix.packages;
+      devShell =
+        lib.mapAttrs
+          (
+            system: sopsPkgs:
+            with nixpkgs.legacyPackages.${system};
+            mkShell {
+              sopsPGPKeyDirs = [ "./keys" ];
+              nativeBuildInputs = [
+                apacheHttpd
+                sopsPkgs.sops-import-keys-hook
+              ];
+              packages = [
+                self.formatter.${system}
+                nixpkgs.legacyPackages.${system}.deadnix
+              ];
+              shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
+            }
+          )
+          sops-nix.packages;
 
-      #   hydraJobs =
-      #     {
-      #       build = (
-      #         recursiveMerge (
-      #           (map
-      #             (machine: {
-      #               ${machine.pkgs.system} = (
-      #                 builtins.listToAttrs (
-      #                   builtins.filter (v: v != { }) (
-      #                     map
-      #                       (
-      #                         pkg:
-      #                         (
-      #                           if (builtins.hasAttr pkg.name pkgsBySystem.${machine.pkgs.system}) then
-      #                             {
-      #                               name = pkg.name;
-      #                               value = pkgsBySystem.${machine.pkgs.system}.${pkg.name};
-      #                             }
-      #                           else
-      #                             { }
-      #                         )
-      #                       )
-      #                       machine.config.environment.systemPackages
-      #                   )
-      #                 )
-      #               );
-      #             })
-      #             (builtins.attrValues self.nixosConfigurations)
-      #           )
-      #           ++ [
-      #             # not fully sure what this is for but it breaks with nixfmt
-      #             # (forEachSystem (system: {
-      #             #   ${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name} = pkgsBySystem.${system}.${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name};
-      #             # }))
-      #           ]
-      #         )
-      #       );
-      #     }
-      #     // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob)) (
-      #       let
-      #         mkBuild =
-      #           type:
-      #           let
-      #             getBuildEntryPoint = (
-      #               name: nixosSystem:
-      #               if builtins.hasAttr type nixosSystem.config.system.build then
-      #                 let
-      #                   cfg = nixosSystem.config.system.build.${type};
-      #                 in
-      #                 if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
-      #                   lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
-      #                 else
-      #                   cfg
-      #               else
-      #                 { }
-      #             );
-      #           in
-      #           lib.filterAttrs (n: v: v != { }) (builtins.mapAttrs getBuildEntryPoint self.nixosConfigurations);
-      #       in
-      #       builtins.listToAttrs (
-      #         map
-      #           (type: {
-      #             name = type;
-      #             value = mkBuild type;
-      #           })
-      #           [
-      #             "toplevel"
-      #             "isoImage"
-      #             "sdImage"
-      #           ]
-      #       )
-      #     );
+      hydraJobs =
+        {
+          build = (
+            recursiveMerge (
+              (map
+                (machine: {
+                  ${machine.pkgs.system} = (
+                    builtins.listToAttrs (
+                      builtins.filter (v: v != { }) (
+                        map
+                          (
+                            pkg:
+                            (
+                              if (builtins.hasAttr pkg.name pkgsBySystem.${machine.pkgs.system}) then
+                                {
+                                  name = pkg.name;
+                                  value = pkgsBySystem.${machine.pkgs.system}.${pkg.name};
+                                }
+                              else
+                                { }
+                            )
+                          )
+                          machine.config.environment.systemPackages
+                      )
+                    )
+                  );
+                })
+                (builtins.attrValues self.nixosConfigurations)
+              )
+              ++ [
+                # not fully sure what this is for but it breaks with nixfmt
+                # (forEachSystem (system: {
+                #   ${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name} = pkgsBySystem.${system}.${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name};
+                # }))
+              ]
+            )
+          );
+        }
+        // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob)) (
+          let
+            mkBuild =
+              type:
+              let
+                getBuildEntryPoint = (
+                  name: nixosSystem:
+                  if builtins.hasAttr type nixosSystem.config.system.build then
+                    let
+                      cfg = nixosSystem.config.system.build.${type};
+                    in
+                    if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
+                      lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
+                    else
+                      cfg
+                  else
+                    { }
+                );
+              in
+              lib.filterAttrs (n: v: v != { }) (builtins.mapAttrs getBuildEntryPoint self.nixosConfigurations);
+          in
+          builtins.listToAttrs (
+            map
+              (type: {
+                name = type;
+                value = mkBuild type;
+              })
+              [
+                "toplevel"
+                "isoImage"
+                "sdImage"
+              ]
+          )
+        );
     };
 }

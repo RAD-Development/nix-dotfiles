@@ -58,6 +58,11 @@
       enableZshIntegration = true;
     };
 
+    nix-index = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
     topgrade = {
       enable = true;
       settings = {

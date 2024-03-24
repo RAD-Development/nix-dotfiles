@@ -4,7 +4,7 @@
   zsh = {
 
     enable = true;
-    autosuggestions.enable = true;
+    autosuggestion.enable = true;
     oh-my-zsh = {
       enable = true;
       plugins = [
@@ -12,7 +12,6 @@
         "docker"
         "docker-compose"
         "colored-man-pages"
-        "command-not-found"
         "rust"
         "systemd"
         "tmux"
@@ -48,7 +47,7 @@
       }
     '';
     shellAliases = {
-      "gc" = "sudo git -C /root/dotfiles";
+      "sgc" = "sudo git -C /root/dotfiles";
       ## SSH
       "ssh-init" = "ssh-add -t 24h ~/.ssh/id_ed25519_janus ~/.ssh/id_ed25519_dennis ~/.ssh/id_ed25519_hetzner ~/.ssh/id_rsa_tails ~/.ssh/id_ed25519_tails ~/.ssh/id_ed25519_gl ~/.ssh/id_ed25519_jeeves2 ~/.ssh/id_ed25519_jeeves ~/.ssh/id_rsa_palatine ~/.ssh/id_ed25519_palatine";
 

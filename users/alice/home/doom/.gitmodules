@@ -1,0 +1,3 @@
+[submodule "snippets/cc-mode"]
+	path = snippets/cc-mode
+	url = https://github.com/insertProfessionalUsernameHere/cc-doxy.git

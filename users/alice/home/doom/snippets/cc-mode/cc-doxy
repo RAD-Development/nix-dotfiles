@@ -1,0 +1,36 @@
+# -*- mode: snippet -*-
+# name: cc-doxy
+# key: cc-doxy
+# type: command
+# contributors: Alex Murray <github.com/alexmurray>, Thomas Cushman <tcushman369@gmail.com>
+# --
+(unless (and (fboundp 'semantic-current-tag)
+             semantic-mode)
+  (error "Semantic required to use dox snippet"))
+(let ((tag (senator-next-tag)))
+  (while (or (null tag)
+             (not (semantic-tag-of-class-p tag 'function)))
+    (setq tag (senator-next-tag)))
+  (let* ((name (semantic-tag-name tag))
+         (attrs (semantic-tag-attributes tag))
+         (args (plist-get attrs :arguments))
+         (return-name (plist-get attrs :type))
+         (idx 1))
+    (if (listp return-name)
+      (setq return-name (car return-name)))
+    (yas/expand-snippet
+     (format
+      "/**
+* @brief %s - $1%s%s
+**/
+"
+      name
+      (mapconcat
+       (lambda (x)
+         (format "\n* @param %s - ${%d:Description of %s}"
+                 (car x) (incf idx) (car x)))
+       args
+       "\n")
+      (if (and return-name (not (string-equal "void" return-name)))
+          (format "\n* @return ${%d:%s}" (incf idx) return-name)
+        "")))))

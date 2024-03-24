@@ -21,6 +21,7 @@
     masterpdfeditor4
     mons
     # nbt explorer?
+    neovim
     noisetorch
     ocrmypdf
     pinentry-rofi

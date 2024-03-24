@@ -57,6 +57,11 @@
   };
 
   programs = {
+    emacs = {
+      enable = true;
+      package = pkgs.emacs29-pgtk;
+    };
+
     starship.enable = true;
     fzf = {
       enable = true;

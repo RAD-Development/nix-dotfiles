@@ -10,6 +10,9 @@
   time.timeZone = "America/New_York";
   console.keyMap = "us";
 
+  # temp workaround for building while in nixos-enter
+  services.logrotate.checkConfig = false;
+
   networking = {
     hostId = "58f50a15";
     firewall.enable = true;
@@ -42,7 +45,9 @@
       };
     };
   };
-
+  
+  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  
   services.fwupd.package =
     (import (builtins.fetchTarball {
       url = "https://github.com/NixOS/nixpkgs/archive/bb2009ca185d97813e75736c2b8d1d8bb81bde05.tar.gz";

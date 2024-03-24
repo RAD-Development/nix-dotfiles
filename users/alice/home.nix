@@ -52,7 +52,6 @@
   };
 
   programs = {
-    zsh.enable = true;
     starship.enable = true;
     fzf = {
       enable = true;
@@ -71,7 +70,11 @@
         };
       };
     };
-  };
+
+  };# ++ import ./home/zsh.nix;
+
+  services.ssh-agent.enable = true;
+
 
   home.stateVersion = "23.11";
 }

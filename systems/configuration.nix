@@ -200,7 +200,7 @@
       options = "--delete-older-than 30d";
     };
 
-    optimize = {
+    optimise = {
       automatic = true;
       dates = [ "01:00" ];
     };

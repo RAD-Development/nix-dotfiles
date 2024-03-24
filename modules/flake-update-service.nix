@@ -57,9 +57,9 @@ in
         Type = "oneshot";
         User = "root";
         WorkingDirectory = cfg.path;
-        Environment =
-          lib.mkIf (cfg.ssh-key != "")
-            "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
+        Environment = lib.mkIf (
+          cfg.ssh-key != ""
+        ) "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
         ExecStart = "${pkgs.git}/bin/git pull --all";
       };
     };

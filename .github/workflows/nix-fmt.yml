@@ -1,0 +1,19 @@
+name: "Check Nix formatting"
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - '**.nix'
+  pull_request:
+    branches: ["main"]
+    paths:
+      - '**.nix'
+jobs:
+  health-check:
+    name: "Perform Nix format checks"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: actions/checkout@v4
+      - run: nix fmt -- --check .

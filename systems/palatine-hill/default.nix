@@ -1,8 +1,8 @@
-{ input, ... }:
+{ inputs, ... }:
 {
   users = [
     "alice"
     "richie"
   ];
-  modules = [ input.attic.nixosModules.atticd ];
+  modules = [ inputs.attic.nixosModules.atticd ];
 }

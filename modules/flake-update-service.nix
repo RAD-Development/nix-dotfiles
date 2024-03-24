@@ -53,13 +53,13 @@ in
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
       description = "Pull the latest data for ${cfg.name}";
+      environment = lib.mkIf (cfg.ssh-key != "") {
+        GIT_SSH_COMMAND = "${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
+      };
       serviceConfig = {
         Type = "oneshot";
         User = "root";
         WorkingDirectory = cfg.path;
-        Environment =
-          lib.mkIf (cfg.ssh-key != "")
-            "GIT_SSH_COMMAND=${pkgs.openssh}/bin/ssh -i ${cfg.ssh-key} -o IdentitiesOnly=yes";
         ExecStart = "${pkgs.git}/bin/git pull --all";
       };
     };

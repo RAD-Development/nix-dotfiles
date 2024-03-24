@@ -1,0 +1,25 @@
+name: "Update flakes"
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "51 2 * * 1,4"
+jobs:
+  createPullRequest:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' # ensure workflow_dispatch only runs on main
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Nix
+        uses: cachix/install-nix-action@v24
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: Update flake.lock
+        id: update
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "Update flake.lock" # Title of PR to be created
+          pr-labels: |                  # Labels to be set on the PR
+            dependencies
+            automated

@@ -1,0 +1,198 @@
+# Have borrowed this config from nix-community/infra
+repository:
+  # See https://developer.github.com/v3/repos/#edit for all available settings.
+
+  # The name of the repository. Changing this will rename the repository
+  name: nix-dotfiles
+
+  # A short description of the repository that will show up on GitHub
+  description: RAD-Dev Infra
+
+  # A URL with more information about the repository
+  # homepage: "https://nix-community.org"
+
+  # A comma-separated list of topics to set on the repository
+  topics: "nixos"
+
+  # Either `true` to make the repository private, or `false` to make it public.
+  private: false
+
+  # Either `true` to enable issues for this repository, `false` to disable them.
+  has_issues: true
+
+  # Either `true` to enable projects for this repository, or `false` to disable them.
+  # If projects are disabled for the organization, passing `true` will cause an API error.
+  has_projects: true
+
+  # Either `true` to enable the wiki for this repository, `false` to disable it.
+  has_wiki: false
+
+  # Either `true` to enable downloads for this repository, `false` to disable them.
+  has_downloads: false
+
+  # Updates the default branch for this repository.
+  default_branch: main
+
+  # Either `true` to allow squash-merging pull requests, or `false` to prevent
+  # squash-merging.
+  allow_squash_merge: true
+
+  # Either `true` to allow merging pull requests with a merge commit, or `false`
+  # to prevent merging pull requests with merge commits.
+  allow_merge_commit: false
+
+  # Either `true` to allow rebase-merging pull requests, or `false` to prevent
+  # rebase-merging.
+  allow_rebase_merge: true
+
+  # Either `true` to enable automatic deletion of branches on merge, or `false` to disable
+  delete_branch_on_merge: true
+
+  # Either `true` to enable automated security fixes, or `false` to disable
+  # automated security fixes.
+  enable_automated_security_fixes: true
+
+  # Either `true` to enable vulnerability alerts, or `false` to disable
+  # vulnerability alerts.
+  enable_vulnerability_alerts: true
+
+  allow_auto_merge: true
+
+# Labels: define labels for Issues and Pull Requests
+#
+labels:
+  - name: bug
+    color: '#d73a4a'
+    description: Something isn't working
+  - name: CI/CD
+    # If including a `#`, make sure to wrap it with quotes!
+    color: '#0e8a16'
+    description: Related to GH Actions or Hydra
+  - name: documentation
+    color: '#0075ca'
+    description: Improvements or additions to documentation
+  - name: duplicate
+    color: '#cfd3d7'
+    description: This issue or pull request already exists
+  - name: enhancement
+    color: '#a2eeef'
+    description: New feature or request
+  - name: good first issue
+    color: '#7057ff'
+    description: Good for newcomers
+  - name: help wanted
+    color: '#008672'
+    description: Extra attention is needed
+  - name: high priority
+    color: '#BF480A'
+    description: A major vurnability was detected
+  - name: invalid
+    color: '#e4e669'
+    description: This doesn't seem right
+  - name: new user
+    color: '#C302A1'
+    description: A new user was added to the Flake
+  - name: question
+    color: '#d876e3'
+    description: Further information is requested
+  - name: wontfix
+    color: '#ffffff'
+    description: This will not be worked on
+
+# Milestones: define milestones for Issues and Pull Requests
+milestones:
+  - title: Go-Live
+    description: >-
+      All requirements for official go-live:
+      - Automated testing via Hydra/Actions
+      - Automated deployments via Hydra/Actions
+      - 90+% testing coverage
+      - Functional formatter with custom rules
+      - palatine-hill is fully stable, enough so that jeeves can be migrated
+    # The state of the milestone. Either `open` or `closed`
+    state: open
+  - title: Jeeves Migration
+    description: >-
+      Test common use-cases for Jeeves
+      - Quadro GPU support
+      - Multi-GPU support
+      - Plex support
+      - Docker support
+      - ZFS support
+
+
+# Collaborators: give specific users access to this repository.
+# See https://docs.github.com/en/rest/reference/repos#add-a-repository-collaborator for available options
+collaborators:
+  # - username: numtide-bot
+  # Note: `permission` is only valid on organization-owned repositories.
+  # The permission to grant the collaborator. Can be one of:
+  # * `pull` - can pull, but not push to or administer this repository.
+  # * `push` - can pull and push, but not administer this repository.
+  # * `admin` - can pull, push and administer this repository.
+  # * `maintain` - Recommended for project managers who need to manage the repository without access to sensitive or destructive actions.
+  # * `triage` - Recommended for contributors who need to proactively manage issues and pull requests without write access.
+  # permission: push
+
+# See https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions for available options
+teams:
+  # - name: admin
+    # The permission to grant the team. Can be one of:
+    # * `pull` - can pull, but not push to or administer this repository.
+    # * `push` - can pull and push, but not administer this repository.
+    # * `admin` - can pull, push and administer this repository.
+    # * `maintain` - Recommended for project managers who need to manage the repository without access to sensitive or destructive actions.
+    # * `triage` - Recommended for contributors who need to proactively manage issues and pull requests without write access.
+    # permission: admin
+
+branches:
+  # gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/nix-community/infra/branches/master/protection
+
+  # not available in the api yet
+  # `Require merge queue`: true
+  # `Merge method`: Rebase and merge
+  # `Maximum pull requests to build`: 1
+  # `Maximum pull requests to merge`: 1
+  # defaults:
+  # `Maximum pull requests to build`: 5
+  # `Minimum pull requests to merge`: 1 or 5 minutes
+  # `Maximum pull requests to merge`: 5
+  # `Only merge non-failing pull requests`: true
+  # `Consider check failed after`: 60 minutes
+
+  - name: main
+    # https://docs.github.com/en/rest/reference/repos#update-branch-protection
+    # Branch Protection settings. Set to null to disable
+    protection:
+      # Required. Require at least one approving review on a pull request, before merging. Set to null to disable.
+
+      # these settings are the same as manually enabling "Require a pull request before merging" but not setting any other restrictions
+      required_pull_request_reviews:
+        # # The number of approvals required. (1-6)
+        required_approving_review_count: 1
+        # # Dismiss approved reviews automatically when a new commit is pushed.
+        dismiss_stale_reviews: true
+        # # Blocks merge until code owners have reviewed.
+        require_code_owner_reviews: false
+        # # Specify which users and teams can dismiss pull request reviews. Pass an empty dismissal_restrictions object to disable. User and team dismissal_restrictions are only available for organization-owned repositories. Omit this parameter for personal repositories.
+        # dismissal_restrictions:
+        #   users: []
+        #   teams: []
+        require_last_push_approval: false
+      # Required. Require status checks to pass before merging. Set to null to disable
+      # required_status_checks:
+        # Required. Require branches to be up to date before merging.
+        # strict: false
+        # Required. The list of status checks to require in order to merge into this branch
+        # contexts:
+        #   - buildbot/nix-eval
+      # Required. Enforce all configured restrictions for administrators. Set to true to enforce required status checks for repository administrators. Set to null to disable.
+      enforce_admins: true
+      # Disabled for bors to work
+      required_linear_history: true
+      # Required. Restrict who can push to this branch. Team and user restrictions are only available for organization-owned repositories. Set to null to disable.
+      restrictions:
+        apps: []
+        # TODO: make a buildbot instance
+        # users: ["nix-infra-bot"]
+        teams: []

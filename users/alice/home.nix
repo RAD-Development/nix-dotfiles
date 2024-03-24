@@ -1,7 +1,10 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./home/zsh.nix ];
+  imports = [
+    ./home/zsh.nix
+    ./home/doom
+  ];
 
   home = {
     # # Adds the 'hello' command to your environment. It prints a friendly

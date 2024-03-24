@@ -51,8 +51,6 @@ in
     };
 
     zfs = lib.mkIf (cfg.filesystem == "zfs") {
-      # alternatively we can enable boot.zfs.package = pkgs.zfs_unstable; but do we even want to allow unstable zfs?
-      # enableUnstable = true;
       devNodes = "/dev/disk/by-id/";
       forceImportRoot = true;
     };

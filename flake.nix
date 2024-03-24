@@ -312,13 +312,11 @@
                   hostname = system;
                   server = false;
                   users = [ user ];
-                  owner = user;
                 }
                 // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [
                   "hostname"
                   "server"
                   "users"
-                  "owner"
                 ]
               );
             }) (lsdir "users/${user}/systems")

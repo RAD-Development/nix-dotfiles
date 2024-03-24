@@ -119,7 +119,7 @@
            superuser_map      /^(.*)$   \1
       '';
 
-      ensureDatabases = ["atticd"];
+      ensureDatabases = [ "atticd" ];
       ensureUsers = [
         {
           name = "atticd";

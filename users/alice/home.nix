@@ -75,11 +75,9 @@
         };
       };
     };
-
   } // import ./home/zsh.nix;
 
   services.ssh-agent.enable = true;
-
 
   home.stateVersion = "23.11";
 }

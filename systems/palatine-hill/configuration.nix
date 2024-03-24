@@ -115,13 +115,13 @@
            superuser_map      /^(.*)$   \1
       '';
 
-      # ensureDatabases = ["atticd"];
-      # ensureUsers = [
-      #   {
-      #     name = "atticd";
-      #     ensureDBOwnership = true;
-      #   }
-      # ];
+      ensureDatabases = ["atticd"];
+      ensureUsers = [
+        {
+          name = "atticd";
+          ensureDBOwnership = true;
+        }
+      ];
 
       # initialScript = config.sops.secrets."postgres/init".path;
 
@@ -165,10 +165,10 @@
         api-endpoint = "https://attic.alicehuston.xyz";
         compression.type = "none"; # let ZFS do the compressing
         database = {
-          #url = "postgres://atticd?host=/run/postgresql";
+          url = "postgres://atticd?host=/run/postgresql";
           # disable postgres, using SOPS fails at below :(
           # https://github.com/zhaofengli/attic/blob/main/nixos/atticd.nix#L57
-          url = "sqlite:///ZFS/ZFS-primary/attic/server.db?mode=rwc";
+          # url = "sqlite:///ZFS/ZFS-primary/attic/server.db?mode=rwc";
           heartbeat = true;
         };
         storage = {

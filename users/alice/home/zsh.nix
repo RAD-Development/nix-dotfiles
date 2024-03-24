@@ -1,8 +1,7 @@
-{ ... }:
 
 {
 
-  home.programs.zsh = {
+  zsh = {
 
     enable = true;
     oh-my-zsh = {

@@ -42,9 +42,7 @@
     };
   };
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-19.1.9"
-  ];
+  nixpkgs.config.permittedInsecurePackages = [ "electron-19.1.9" ];
 
   system.stateVersion = "24.05";
 }

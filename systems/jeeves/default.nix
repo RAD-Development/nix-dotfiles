@@ -1,0 +1,7 @@
+{ ... }:
+{
+  users = [
+    "alice"
+    "richie"
+  ];
+}

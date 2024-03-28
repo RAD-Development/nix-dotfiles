@@ -94,6 +94,4 @@
       "hx" = "helix";
     };
   };
-
-  # TODO: add environment bs
 }

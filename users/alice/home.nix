@@ -68,11 +68,25 @@
       enableZshIntegration = true;
     };
 
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      extraConfig = ''
+        set bg=dark
+              set tabstop=2
+        	set shiftwidth=2
+        	set expandtab
+        	set smartindent
+      '';
+    };
     nix-index = {
       enable = true;
       enableZshIntegration = true;
     };
 
+    tmux.enable = true;
     topgrade = {
       enable = true;
       settings = {
@@ -88,6 +102,11 @@
   };
 
   services.ssh-agent.enable = true;
+
+  # TODO: add environment bs
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
 
   home.stateVersion = "23.11";
 }

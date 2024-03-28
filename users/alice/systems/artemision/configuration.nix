@@ -1,10 +1,11 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   imports = [
     ../configuration.nix
     ../programs.nix
     ./programs.nix
     ./desktop.nix
+    ./wifi.nix
   ];
 
   time.timeZone = "America/New_York";
@@ -55,5 +56,27 @@
 
   services.fprintd.enable = false;
 
+  services.spotifyd = {
+    enable = true;
+    settings = {
+      global = {
+        username = "snowinginwonderland@gmail.com";
+        password_cmd = "cat ${config.sops.secrets."apps/spotify".path}";
+      };
+    };
+    #systemd.services.spotifyd.serviceConfig = systemd.services.spotifyd.
+  };
+
   system.stateVersion = "24.05";
+
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      "apps/spotify" = {
+        group = "audio";
+        restartUnits = [ "spotifyd.service" ];
+        mode = "0440";
+      };
+    };
+  };
 }

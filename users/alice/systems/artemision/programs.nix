@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    alacritty
     bat
     btop
     croc
@@ -27,7 +28,9 @@
     python3
     qrencode
     ripgrep
+    signal-desktop
     smartmontools
+    telegram-desktop
     tig
     tokei
     tree

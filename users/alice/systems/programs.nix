@@ -7,28 +7,33 @@
 {
   environment.systemPackages = with pkgs; [
     bfg-repo-cleaner
+    bitwarden-cli
     candy-icons
     calibre
     # calibre dedrm?
+    cinnamon.nemo
     discord-canary
+    eza
     fanficfare
     ferium
+    firefox
     # gestures replacement
     gpu-viewer
     headsetcontrol
     ipmiview
     ipscan
+    kitty
     masterpdfeditor4
     mons
     # nbt explorer?
     neovim
     noisetorch
     ocrmypdf
-    pinentry-rofi
     playonlinux
     protonmail-bridge
     protontricks
     redshift
+    restic
     ripgrep
     rpi-imager
     rofi-wayland
@@ -37,6 +42,7 @@
     simple-mtpfs
     slack
     snyk
+    sops
     spotify
     spotify-player
     #swaylock/waylock?

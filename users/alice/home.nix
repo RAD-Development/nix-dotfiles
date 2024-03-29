@@ -27,6 +27,17 @@
     username = "alice";
     homeDirectory = "/home/alice";
     packages = with pkgs; [
+      cmake
+      shellcheck
+      glslang
+      gnumake
+      pipenv
+      python312
+      python312Packages.isort
+      python312Packages.pynose
+      python312Packages.pytest
+      shellcheck
+
       ncdu
 
       # Rust packages

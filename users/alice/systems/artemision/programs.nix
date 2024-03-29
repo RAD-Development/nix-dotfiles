@@ -17,6 +17,7 @@
     lsof
     lynis
     ncdu
+    nerdfonts
     neofetch
     nix-init
     nix-output-monitor
@@ -25,12 +26,12 @@
     nixpkgs-fmt
     nmap
     pciutils
-    python3
     qrencode
     ripgrep
     signal-desktop
     smartmontools
     telegram-desktop
+    terraform
     tig
     tokei
     tree
@@ -39,5 +40,5 @@
     wget
     zoxide
     zsh-nix-shell
-  ];
+  ];  
 }

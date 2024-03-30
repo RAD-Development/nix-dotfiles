@@ -5,6 +5,8 @@
     environmentFile = config.sops.secrets."wifi-env".path;
     networks = {
       "taetaethegae-2.0".psk = "@PASS_taetaethegae_20@";
+      "k".psk = "@PASS_k@";
+      "Bloomfield".psk = "@PASS_bloomfield@";
     };
   };
 

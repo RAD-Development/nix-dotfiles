@@ -36,12 +36,10 @@
     };
   };
 
-  services = {
-    autopull = {
-      enable = true;
-      ssh-key = "/root/.ssh/id_ed25519_ghdeploy";
-      path = /root/dotfiles;
-    };
+  services.autopull = {
+    enable = false;
+    ssh-key = "/root/.ssh/id_ed25519_ghdeploy";
+    path = /root/dotfiles;
   };
 
   programs.zsh = {

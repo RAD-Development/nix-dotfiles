@@ -18,6 +18,7 @@
     ferium
     firefox
     # gestures replacement
+    git
     gpu-viewer
     headsetcontrol
     ipmiview

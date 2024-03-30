@@ -40,5 +40,5 @@
     wget
     zoxide
     zsh-nix-shell
-  ];  
+  ];
 }

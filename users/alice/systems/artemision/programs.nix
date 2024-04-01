@@ -17,7 +17,6 @@
     lsof
     lynis
     ncdu
-    nerdfonts
     neofetch
     nix-init
     nix-output-monitor
@@ -36,6 +35,7 @@
     tokei
     tree
     unzip
+    uutils-coreutils-noprefix
     ventoy
     wget
     zoxide

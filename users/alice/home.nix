@@ -4,6 +4,7 @@
   imports = [
     ./home/zsh.nix
     ./home/doom
+    ./home/gammastep.nix
   ];
 
   home = {

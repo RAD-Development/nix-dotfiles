@@ -6,6 +6,10 @@
     ./programs.nix
     ./desktop.nix
     ./wifi.nix
+    ./zerotier.nix
+    ./fonts.nix
+    ./polkit.nix
+    ./pipewire.nix
   ];
 
   time.timeZone = "America/New_York";
@@ -62,6 +66,7 @@
       global = {
         username = "snowinginwonderland@gmail.com";
         password_cmd = "cat ${config.sops.secrets."apps/spotify".path}";
+        use_mpris = false;
       };
     };
     #systemd.services.spotifyd.serviceConfig = systemd.services.spotifyd.

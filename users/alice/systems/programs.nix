@@ -24,6 +24,7 @@
     ipmiview
     ipscan
     kitty
+    libtool
     masterpdfeditor4
     mons
     # nbt explorer?

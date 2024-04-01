@@ -7,6 +7,10 @@
       "taetaethegae-2.0".psk = "@PASS_taetaethegae_20@";
       "k".psk = "@PASS_k@";
       "Bloomfield".psk = "@PASS_bloomfield@";
+      "9872441500".psk = "@PASS_longboat_home@";
+      "9872441561".psk = "@PASS_longboat_home@";
+      "5HuFios".psk = "@PASS_longboat_home@";
+      "24HuFios".psk = "@PASS_longboat_home@";
     };
   };
 
@@ -15,7 +19,6 @@
     "9.9.9.9"
   ];
 
-  #pinentryPackage = pkgs.pinentry-rofi;
   services.resolved = {
     enable = true;
     dnssec = "true";

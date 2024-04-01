@@ -38,6 +38,7 @@
     uutils-coreutils-noprefix
     ventoy
     wget
+    zoom-us
     zoxide
     zsh-nix-shell
   ];

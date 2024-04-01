@@ -10,6 +10,8 @@
     ./fonts.nix
     ./polkit.nix
     ./pipewire.nix
+    ./fingerprint.nix
+    ./nix-doc.nix
   ];
 
   time.timeZone = "America/New_York";

@@ -39,6 +39,8 @@
         "format" = "{name} {icon}";
         "format-icons" = {
           "locked" = "";
+        };
+      };
     };
   };
 }

@@ -15,7 +15,7 @@
   time.timeZone = "America/New_York";
 
   # temp workaround for building while in nixos-enter
-  services.logrotate.checkConfig = false;
+  #services.logrotate.checkConfig = false;
 
   networking = {
     hostId = "58f50a15";

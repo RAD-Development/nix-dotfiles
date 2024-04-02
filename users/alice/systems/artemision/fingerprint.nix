@@ -13,7 +13,7 @@
   };
 
   # to auto-flip to password when the laptop lid is closed (ie. docked)
-   services.acpid = {
+  services.acpid = {
     enable = true;
     lidEventCommands = ''
       export PATH=$PATH:/run/current-system/sw/bin
@@ -29,5 +29,4 @@
       fi
     '';
   };
-
 }

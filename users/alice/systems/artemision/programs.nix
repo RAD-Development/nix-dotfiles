@@ -2,6 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     alacritty
+    amdgpu_top
     bat
     btop
     croc

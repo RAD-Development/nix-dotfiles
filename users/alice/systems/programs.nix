@@ -19,6 +19,7 @@
     firefox
     # gestures replacement
     git
+    glances
     gpu-viewer
     headsetcontrol
     ipmiview

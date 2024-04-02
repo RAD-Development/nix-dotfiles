@@ -26,6 +26,21 @@
   ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.kernelParams = [
+    "amdgpu.sg_display=0"
+    "amdgpu.graphics_sg=0"
+    "amdgpu.abmlevel=3"
+  ];
+  boot.kernelPatches = lib.mkIf (lib.versionOlder pkgs.linux.version "6.9") [
+    {
+      name = "add panel_power_savings sysfs entry to eDP connectors";
+      patch = ./kernel-patches/panel_power_savings.patch;
+    }
+    {
+      name = "respect the abmlevel module parameter value if it is set";
+      patch = ./kernel-patches/respect_abmlevel.patch;
+    }
+  ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/f3c11d62-37f4-495e-b668-1ff49e0d3a47";

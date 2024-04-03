@@ -67,5 +67,7 @@ creation_rules:
       - pgp:
           - *admin_richie
         age:
-          *servers 
+          - *palatine-hill
+          - *jeeves
+          - *jeeves-jr
           - *rhapsody_in_green

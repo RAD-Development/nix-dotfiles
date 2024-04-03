@@ -11,5 +11,10 @@
     sweet-nova
     vscode
     yubioath-flutter
+    beeper
+    git
   ];
 }
+
+git config --global user.email "Richie@tmmworkshop.com"
+git config --global user.name "Richie Cahill"

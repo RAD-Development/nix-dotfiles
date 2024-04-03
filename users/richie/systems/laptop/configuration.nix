@@ -13,9 +13,7 @@
   };
 
   networking = {
-    hostName = "laptop";
     networkmanager.enable = true;
-    # wireless.enable = true;
   };
 
   time.timeZone = "America/New_York";

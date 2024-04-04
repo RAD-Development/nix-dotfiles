@@ -52,12 +52,13 @@
   #   };
   # };
 
-  system = {
-    autoUpgrade = {
-      enable = true;
-      randomizedDelaySec = "1h";
-      persistent = true;
-      flake = "github:RAD-Development/nix-dotfiles";
+  nix = {
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
     };
+
   };
 }

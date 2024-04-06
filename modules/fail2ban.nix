@@ -20,6 +20,5 @@ in
       maxtime = "168h";
       overalljails = true;
     };
-
   };
 }

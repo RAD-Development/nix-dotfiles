@@ -10,7 +10,7 @@ keys:
   - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
   - &jeeves age128ehc0ssgwnuv4r8ayfyu7r80e82xrkmv63g7h9y9q4mhk4w9dyqfymc2w
   - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh
-  - &rhapsody_in_green age1c7adjulcrma0m7l5ur8efxdjzyskrqcwssfkt77a9rmma7gzss5q02pgmy
+  - &rhapsody-in-green age1c7adjulcrma0m7l5ur8efxdjzyskrqcwssfkt77a9rmma7gzss5q02pgmy
 
 admins: &admins
   - *admin_alice
@@ -70,4 +70,4 @@ creation_rules:
           - *palatine-hill
           - *jeeves
           - *jeeves-jr
-          - *rhapsody_in_green
+          - *rhapsody-in-green

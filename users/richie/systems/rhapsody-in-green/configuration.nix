@@ -3,7 +3,7 @@
 {
   imports = [
     ../programs.nix
-    ../us_ny.nix
+    ../locale.nix
     ./hardware.nix
   ];
   nixpkgs.config.allowUnfree = true;

@@ -4,6 +4,7 @@
     alacritty
     amdgpu_top
     bat
+    brightnessctl
     btop
     croc
     deadnix

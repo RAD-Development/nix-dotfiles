@@ -1,7 +1,10 @@
 { pkgs, ... }:
 # home manager
 {
-  imports = [ ./home/sshconfig.nix ];
+  imports = [
+    ./home/sshconfig.nix
+    ./home/git.nix
+  ];
 
   programs.zsh.enable = true;
   home = {

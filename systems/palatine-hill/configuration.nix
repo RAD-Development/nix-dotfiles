@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-  
+
   console.keyMap = "us";
   systemd.services.hydra-notify.serviceConfig.EnvironmentFile =
     config.sops.secrets."hydra/environment".path;

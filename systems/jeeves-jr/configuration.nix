@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  
+
   console.keyMap = "us";
   networking = {
     hostId = "1beb3026";

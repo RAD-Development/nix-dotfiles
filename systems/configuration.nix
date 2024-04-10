@@ -4,10 +4,8 @@
   config,
   ...
 }:
-{  
-  imports = [
-    ../base/locale.nix
-  ];
+{
+  imports = [ ../base/locale.nix ];
   security.auditd.enable = true;
   nixpkgs.config.allowUnfree = true;
 

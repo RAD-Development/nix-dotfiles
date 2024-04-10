@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 {
-  time.timeZone = "America/New_York";
+  
   console.keyMap = "us";
   networking = {
     hostId = "1beb3027";

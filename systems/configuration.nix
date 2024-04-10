@@ -4,13 +4,12 @@
   config,
   ...
 }:
-{
+{  
+  imports = [
+    ../base/locale.nix
+  ];
   security.auditd.enable = true;
   nixpkgs.config.allowUnfree = true;
-  i18n = {
-    defaultLocale = "en_US.utf8";
-    supportedLocales = [ "en_US.UTF-8/UTF-8" ];
-  };
 
   boot = {
     default = true;

@@ -8,7 +8,6 @@
   ];
 
   time.timeZone = "America/New_York";
-  console.keyMap = "us";
 
   # temp workaround for building while in nixos-enter
   services.logrotate.checkConfig = false;

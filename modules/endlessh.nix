@@ -8,8 +8,6 @@
       };
     };
 
-    networking.firewall = lib.mkIf config.services.endlessh-go.enable {
-      allowedTCPPorts = 22;
-    };
+    networking.firewall = lib.mkIf config.services.endlessh-go.enable { allowedTCPPorts = [ 22 ]; };
   };
 }

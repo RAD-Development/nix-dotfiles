@@ -15,6 +15,7 @@
 
   networking = {
     networkmanager.enable = true;
+    hostId = "9b68eb32";
   };
 
   hardware.pulseaudio.enable = false;
@@ -41,6 +42,11 @@
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
+    };
+
+    zerotierone = {
+      enable = true;
+      joinNetworks = [ "e4da7455b2ae64ca" ];
     };
   };
 

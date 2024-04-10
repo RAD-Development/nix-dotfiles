@@ -1,6 +1,8 @@
 { pkgs, ... }:
 # home manager
 {
+  imports = [ ./home/sshconfig.nix ];
+
   programs.zsh.enable = true;
   home = {
     username = "richie";

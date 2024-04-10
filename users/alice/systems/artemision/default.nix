@@ -4,7 +4,7 @@
   home = true;
   sops = true;
   modules = [
-    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+    inputs.nixos-hardware-fw16.nixosModules.framework-16-7040-amd
     #({ pkgs, ... }: {
     #  nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
     #  environment.systemPackages = [ rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {

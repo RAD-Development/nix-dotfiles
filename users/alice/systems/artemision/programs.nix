@@ -11,6 +11,7 @@
     direnv
     fd
     file
+    grim
     htop
     hwloc
     iperf3
@@ -30,6 +31,7 @@
     qrencode
     ripgrep
     signal-desktop
+    slurp
     smartmontools
     telegram-desktop
     terraform
@@ -40,6 +42,7 @@
     uutils-coreutils-noprefix
     ventoy
     wget
+    wl-clipboard
     zoom-us
     zoxide
     zsh-nix-shell

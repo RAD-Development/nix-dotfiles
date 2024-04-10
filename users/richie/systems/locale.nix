@@ -1,11 +1,12 @@
+{ lib, ... }:
 {
-  time.timeZone = "America/New_York";
-  console.keyMap = "us";
+  time.timeZone = lib.mkDefault "America/New_York";
+  console.keyMap = lib.mkDefault "us";
 
   i18n = {
-    defaultLocale = "en_US.utf8";
-    supportedLocales = [ "en_US.UTF-8/UTF-8" ];
-    extraLocaleSettings = {
+    defaultLocale = lib.mkDefault "en_US.utf8";
+    supportedLocales = lib.mkDefault [ "en_US.UTF-8/UTF-8" ];
+    extraLocaleSettings = lib.mkDefault {
       LC_ADDRESS = "en_US.UTF-8";
       LC_IDENTIFICATION = "en_US.UTF-8";
       LC_MEASUREMENT = "en_US.UTF-8";

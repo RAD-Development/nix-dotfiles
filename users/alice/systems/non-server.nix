@@ -57,32 +57,4 @@
       async = true;
     };
   };
-
-  nix = {
-    diffSystem = true;
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      keep-outputs = true;
-      builders-use-substitutes = true;
-      connect-timeout = 20;
-    };
-
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-  };
-
-  system = {
-    autoUpgrade = {
-      enable = true;
-      randomizedDelaySec = "1h";
-      persistent = true;
-      flake = "github:RAD-Development/nix-dotfiles";
-    };
-  };
 }

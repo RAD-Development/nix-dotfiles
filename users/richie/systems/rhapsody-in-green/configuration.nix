@@ -22,14 +22,16 @@
   sound.enable = true;
 
   services = {
-    xserver.enable = true;
 
-    xserver.displayManager.sddm.enable = true;
-    xserver.desktopManager.plasma5.enable = true;
+    displayManager.sddm.enable = true;
 
-    xserver.xkb = {
-      layout = "us";
-      variant = "";
+    xserver = {
+      enable = true;
+      desktopManager.plasma5.enable = true;
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
     };
 
     openssh.enable = true;

@@ -51,19 +51,6 @@
     };
   };
 
-  users.users.richie = {
-    isNormalUser = true;
-    description = "richie";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-    packages = with pkgs; [
-      firefox
-      kate
-    ];
-  };
-
   virtualisation = {
     docker = {
       enable = true;

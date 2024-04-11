@@ -258,11 +258,11 @@
     },
     "nixos-hardware-fw16": {
       "locked": {
-        "lastModified": 1711646850,
-        "narHash": "sha256-obXZfJVIPJl7wfO1WrcHqcIGLm7mSsQ4MjcUu9PqIPM=",
+        "lastModified": 1712366063,
+        "narHash": "sha256-+FmHqn5hvRZBEelZfWL5FQkcX03VfjjQ47e8PAhohxI=",
         "ref": "add-framework-16",
-        "rev": "cf73a64b8cb9f0a4c86b53a645a8d35f1b7bc246",
-        "revCount": 1603,
+        "rev": "99795538043cf25163e4f8ea1e44afa74ddb28b0",
+        "revCount": 1611,
         "type": "git",
         "url": "https://github.com/jkoking/nixos-hardware"
       },

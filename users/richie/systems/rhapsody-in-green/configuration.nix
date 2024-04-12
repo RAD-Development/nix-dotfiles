@@ -89,6 +89,21 @@
             ];
             fsWatcherEnabled = true;
           };
+          "music" = {
+            id = "vprc5-3azqc";
+            path = "/home/richie/music";
+            devices = [
+              "Phone"
+              "jeeves"
+            ];
+            "projects" = {
+              id = "vyma6-lqqrz";
+              path = "/ZFS/Storage/Syncthing/projects";
+              devices = [ "jeeves" ];
+              fsWatcherEnabled = true;
+            };
+            fsWatcherEnabled = true;
+          };
         };
       };
     };

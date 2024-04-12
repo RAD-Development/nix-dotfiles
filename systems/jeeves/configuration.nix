@@ -120,6 +120,21 @@
             ];
             fsWatcherEnabled = true;
           };
+          "music" = {
+            id = "vprc5-3azqc";
+            path = "/ZFS/Storage/Syncthing/music";
+            devices = [
+              "Phone"
+              "rhapsody-in-green"
+            ];
+            fsWatcherEnabled = true;
+          };
+          "projects" = {
+            id = "vyma6-lqqrz";
+            path = "/ZFS/Storage/Syncthing/projects";
+            devices = [ "rhapsody-in-green" ];
+            fsWatcherEnabled = true;
+          };
         };
       };
     };

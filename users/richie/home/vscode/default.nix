@@ -11,22 +11,9 @@ in
 
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode-fhs;
+    package = pkgs.vscode;
     mutableExtensionsDir = true;
     extensions = with pkgs.vscode-extensions; [
-      # MD
-      yzhang.markdown-all-in-one
-      # rust
-      rust-lang.rust-analyzer
-      # python
-      ms-python.vscode-pylance
-      charliermarsh.ruff
-      # congigs
-      tamasfe.even-better-toml
-      redhat.vscode-yaml
-      # git
-      eamodio.gitlens
-      codezombiech.gitignore
       # vscode
       ms-vscode-remote.remote-ssh
       ms-vscode-remote.remote-containers
@@ -36,6 +23,19 @@ in
       oderwat.indent-rainbow
       usernamehw.errorlens
       streetsidesoftware.code-spell-checker
+      # git
+      eamodio.gitlens
+      codezombiech.gitignore
+      # python
+      ms-python.vscode-pylance
+      charliermarsh.ruff
+      # rust
+      rust-lang.rust-analyzer
+      # MD
+      yzhang.markdown-all-in-one
+      # congigs
+      tamasfe.even-better-toml
+      redhat.vscode-yaml
       # shell
       timonwong.shellcheck
       foxundermoon.shell-format

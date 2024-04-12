@@ -82,6 +82,7 @@
       overrideFolders = true;
       dataDir = "/home/richie/Syncthing";
       configDir = "/home/richie/.config/syncthing";
+      guiAddress = "192.168.90.40:8384";
       settings = {
         devices = {
           "Phone" = {

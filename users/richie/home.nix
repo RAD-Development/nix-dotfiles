@@ -4,13 +4,21 @@
   imports = [
     ./home/sshconfig.nix
     ./home/git.nix
+    ./home/vscode
   ];
+
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+    };
+  };
 
   programs.zsh.enable = true;
   home = {
     username = "richie";
     homeDirectory = "/home/richie";
     packages = with pkgs; [
+      firefox
       # Rust packages
       topgrade
       trunk

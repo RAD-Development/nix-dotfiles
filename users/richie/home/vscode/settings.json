@@ -1,0 +1,30 @@
+{
+  "workbench.colorTheme": "Default Dark+",
+  "explorer.confirmDragAndDrop": false,
+  "files.autoSave": "afterDelay",
+  "explorer.confirmDelete": false,
+  "git.confirmSync": false,
+  "git.pruneOnFetch": true,
+  "git.fetchOnPull": true,
+  "git.autofetch": true,
+  "keyboard.dispatch": "keyCode",
+
+  "editor.formatOnSave": true,
+  "editor.fontFamily": "'IntoneMono Nerd Font', 'Droid Sans Mono', 'monospace', monospace",
+
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil",
+
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "python.analysis.typeCheckingMode": "basic",
+  "update.mode": "none",
+  "redhat.telemetry.enabled": true,
+  // force the use of rust-analyzer from dev shell
+  "rust-analyzer.server.path": "rust-analyzer"
+}

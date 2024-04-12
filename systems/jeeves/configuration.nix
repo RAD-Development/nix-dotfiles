@@ -107,7 +107,7 @@
             path = "/ZFS/Storage/Syncthing/books";
             devices = [
               "Phone"
-              "jeeves"
+              "rhapsody-in-green"
             ];
             fsWatcherEnabled = true;
           };
@@ -116,7 +116,7 @@
             path = "/ZFS/Storage/Syncthing/important";
             devices = [
               "Phone"
-              "jeeves"
+              "rhapsody-in-green"
             ];
             fsWatcherEnabled = true;
           };

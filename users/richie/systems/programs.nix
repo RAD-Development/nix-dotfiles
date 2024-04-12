@@ -1,9 +1,4 @@
-{
-  pkgs,
-  config,
-  inputs,
-  ...
-}:
+{ pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
     bat
@@ -12,6 +7,7 @@
     candy-icons
     discord-canary
     git
+    gnupg
     htop
     hwloc
     iperf3
@@ -28,6 +24,7 @@
     python3
     ripgrep
     smartmontools
+    sops
     starship
     sweet-nova
     usbutils

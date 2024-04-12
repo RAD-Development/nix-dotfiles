@@ -57,14 +57,35 @@
           "Phone" = {
             id = "LTGPLAE-M4ZDJTM-TZ3DJGY-SLLAVWF-CQDVEVS-RGCS75T-GAPZYK3-KUM6LA5";
           };
+          "jeeves" = {
+            id = "7YQ4UEW-OPQEBH4-6YKJH4B-ZCE3SAX-5EIK5JL-WJDIWUA-WA2N3D5-MNK6GAV";
+          };
         };
         folders = {
-          "Notes" = {
+          "notes" = {
             id = "l62ul-lpweo";
-            path = "/home/richie/Notes";
+            path = "/home/richie/notes";
             devices = [
               "Phone"
-              "rhapsody-in-green"
+              "jeeves"
+            ];
+            fsWatcherEnabled = true;
+          };
+          "books" = {
+            id = "6uppx-vadmy";
+            path = "/home/richie/books";
+            devices = [
+              "Phone"
+              "jeeves"
+            ];
+            fsWatcherEnabled = true;
+          };
+          "important" = {
+            id = "4ckma-gtshs";
+            path = "/home/richie/important";
+            devices = [
+              "Phone"
+              "jeeves"
             ];
             fsWatcherEnabled = true;
           };

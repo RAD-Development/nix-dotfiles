@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
 
   networking = {
@@ -93,12 +93,30 @@
           };
         };
         folders = {
-          "Notes" = {
+          "notes" = {
             id = "l62ul-lpweo";
             path = "/ZFS/Media/Notes";
             devices = [
               "Phone"
               "rhapsody-in-green"
+            ];
+            fsWatcherEnabled = true;
+          };
+          "books" = {
+            id = "6uppx-vadmy";
+            path = "/ZFS/Storage/Syncthing/books";
+            devices = [
+              "Phone"
+              "jeeves"
+            ];
+            fsWatcherEnabled = true;
+          };
+          "important" = {
+            id = "4ckma-gtshs";
+            path = "/ZFS/Storage/Syncthing/important";
+            devices = [
+              "Phone"
+              "jeeves"
             ];
             fsWatcherEnabled = true;
           };

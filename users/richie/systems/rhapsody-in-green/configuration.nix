@@ -45,6 +45,33 @@
       pulse.enable = true;
     };
 
+    syncthing = {
+      enable = true;
+      user = "richie";
+      overrideDevices = true;
+      overrideFolders = true;
+      dataDir = "/home/richie/Syncthing";
+      configDir = "/home/richie/.config/syncthing";
+      settings = {
+        devices = {
+          "Phone" = {
+            id = "LTGPLAE-M4ZDJTM-TZ3DJGY-SLLAVWF-CQDVEVS-RGCS75T-GAPZYK3-KUM6LA5";
+          };
+        };
+        folders = {
+          "Notes" = {
+            id = "l62ul-lpweo";
+            path = "/home/richie/Notes";
+            devices = [
+              "Phone"
+              "rhapsody-in-green"
+            ];
+            fsWatcherEnabled = true;
+          };
+        };
+      };
+    };
+
     zerotierone = {
       enable = true;
       joinNetworks = [ "e4da7455b2ae64ca" ];

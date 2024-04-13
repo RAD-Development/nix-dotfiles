@@ -1,0 +1,26 @@
+{
+	"data": "ENC[AES256_GCM,data:yV9jh7yJlXhPApTiY6ktREqVUebyYuQiVWkzf3J/Oww=,iv:U1DM2CTxjV4h31BdXpTKyFnY5bepqsCYzUDGW8k/G8s=,tag:MZQzI5Acy8XGTIyCrUwtCA==,type:str]",
+	"sops": {
+		"kms": null,
+		"gcp_kms": null,
+		"azure_kv": null,
+		"hc_vault": null,
+		"age": [
+			{
+				"recipient": "age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej",
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBrVmZFUVRqYlAvZWRuWGxn\nM1JsU3dBVUJGNE00K1Q4SjNQdTEwWmpVeEMwCklxSjNwT2ZLY1h1YTRUSlBFYTI5\nQUh4UVhHZ0MxTlVDdUJPV0dESTkvM2MKLS0tIEt4UDQ0RXQwVkJvNjU1WVdVL2xR\nVERseGk5R1ZiMzUvZWFCN1dxY2tqTUUK6nkJ+P+dA494PYODJbbgwAJGe+zhPsI1\nfNpijsiAY3wxEoAG+0FO6puMw6eGv8qOxzN+Ri/sHu/mwok8+iP1lQ==\n-----END AGE ENCRYPTED FILE-----\n"
+			}
+		],
+		"lastmodified": "2024-04-13T21:15:26Z",
+		"mac": "ENC[AES256_GCM,data:Dq+wdw3yP7dnvNJz+JfwqZosfRpKrfuWF/q6EdTsGeVsM+zPI/6Snl/sV6N8oShv5nDKWFV/My+WJiOW4CwdsSwvXOKtBfB3P7tAPfDI8Snba2v2hGyaxg7PVVLb6G7M+PXY9UNmIM1MyHcce9Bk2i++7fP8cGdx0szggeTduNo=,iv:qIoZBHm3WPn7Q0S4uE9a7+AI0kKLc54yig4++srb7UI=,tag:UpeF3yToPj5Yu1sQ6i3Waw==,type:str]",
+		"pgp": [
+			{
+				"created_at": "2024-04-13T21:15:26Z",
+				"enc": "-----BEGIN PGP MESSAGE-----\n\nhQIMA84hNUGIgI/nAQ//TwsqiWnCu1W6FZ/LD6uUJsCEhMhyaqv7faD1RVE5ShRN\nPpBnVhnL5W/xTHybkrIvRS1xc09spioVntT6m3TuoeldpvCpFnURLj5pl0lvHjIb\nfIgu8gZsNU60SNSsxerEIj6bF/yLYre1DeEUta/ti2U6mNLWA0AgudJ2yE7aX9TZ\nUj/5Ka9MF/LpkHQyJOWSHk3oQvtrAP3fU8z/k4a9wuCvx9Eb4xq9+CU1xvLS39ps\ngLJmuPiA42Dla3/NvR4XSc8vZmhhhtlgd+j/QDiURjNx+sOh44QtVVykV/WfAhmR\nQR/Bus5w25EIqbsm5YOgiCuU/WPpk7rzxQcVAyoziEbu5xCs8O9K8EM0ioSF3QEg\ndO/Dg9wsAVMl/3Em0hVCkKDHYQTLqS08j872iHvIaMA6lG4FnPW/9rlSEEa5S9EB\n5t68lxSOEOhIjm/mKAGbaIEL/MEkF1ad+/XdYbKM656ffOirpO54r9BgusrOmRUo\nrj0UwmY1YY5WBm9A4ITkymL+YGKZax2Dfy9hytOvpb8wh6U1OvDu10eR2KJX6nPg\nDdqcsvT4UWyrkblIZcNKIf77yN0F8PZKV3ApDtokBnYQ6Dzl9vi+If+n+Ev07/RA\nar8acsuAwnI4Ol5Q3fFpcC7PIcWJojaWVi+A/7BcuzXxmG77t0E0K/MOV15mPSfS\nUQG48apih3+3qv99LlhZOgzSJQCZZle0gjyxhmEW59ESf8FnIZhLnPXuI7NgroAX\nFomG6wasxUEk+OmOHjIjMM9FTxEaquBJoCHbYPh0IoKB9w==\n=BKCl\n-----END PGP MESSAGE-----",
+				"fp": "F63832C3080D6E1AC77EECF80B4245FFE305BC82"
+			}
+		],
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.8.1"
+	}
+}

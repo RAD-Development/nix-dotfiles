@@ -58,7 +58,7 @@
 
       # nix specific packages
       nil
-      nixfmt
+      nixfmt-rfc-style
 
       # markdown
       nodePackages.markdownlint-cli

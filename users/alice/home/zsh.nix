@@ -17,7 +17,7 @@
         "tmux"
         "ufw"
         "z"
-        "fzf"
+        #"fzf"
       ];
     };
     initExtra = ''

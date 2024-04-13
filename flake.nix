@@ -133,7 +133,7 @@
 
       forEachSystem = lib.genAttrs systems;
       overlayList = [
-        self.overlays.default
+        #self.overlays.default
         nix.overlays.default
       ];
       pkgsBySystem = forEachSystem (
@@ -185,7 +185,7 @@
         repos = [
           {
             repo = "https://gitlab.com/vojko.pribudic/pre-commit-update";
-            rev = "bd6e40ff90e582fcb7b81ffafdf41f9d6cac7131";
+            rev = "b7da6528a10087d485530e3f335bb2914b05c13e";
             hooks = [
               {
                 id = "pre-commit-update";
@@ -217,9 +217,6 @@
     in
     {
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
-      overlays.default = final: prev: {
-        nixpkgs-fmt = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
-      };
 
       nixosConfigurations =
         let
@@ -373,12 +370,7 @@
                   )
                 );
               }) (builtins.attrValues self.nixosConfigurations))
-              ++ [
-                # not fully sure what this is for but it breaks with nixfmt
-                # (forEachSystem (system: {
-                #   ${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name} = pkgsBySystem.${system}.${nixpkgs.legacyPackages.${system}.nixfmt-rfc-style.name};
-                # }))
-              ]
+              ++ [self.formatter]
             )
           );
         }

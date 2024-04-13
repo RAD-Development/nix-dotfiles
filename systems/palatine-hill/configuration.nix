@@ -5,6 +5,7 @@ let
         format = "binary";
         sopsFile = ./keys/${key};
         mode = "0400";
+        path = "/crypto/keys/${key}";
       };
   };
     in

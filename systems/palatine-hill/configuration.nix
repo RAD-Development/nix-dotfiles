@@ -1,4 +1,13 @@
 { config, pkgs, ... }:
+let
+  keygen = key: {
+    "${key}" = {
+        format = "binary";
+        sopsFile = ./keys/${key};
+        mode = "0400";
+      };
+  };
+    in
 {
 
   systemd.services.hydra-notify.serviceConfig.EnvironmentFile =
@@ -225,11 +234,19 @@
       "attic/secret-key".owner = "root";
       "attic/database-url".owner = "root";
       "postgres/init".owner = "postgres";
-      "zfs-attic-key" = {
-        format = "binary";
-        sopsFile = ./keys/zfs-attic-key;
-      };
-    };
+    }
+    // keygen "zfs-attic-key"
+    // keygen "zfs-backup-key"
+    // keygen "zfs-calibre-key"
+    // keygen "zfs-db-key"
+    // keygen "zfs-docker-key"
+    // keygen "zfs-games-key"
+    // keygen "zfs-hydra-key"
+    // keygen "zfs-libvirt-key"
+    // keygen "zfs-main-key"
+    // keygen "zfs-nxtcld-key"
+    // keygen "zfs-torr-key"
+    // keygen "zfs-var-docker-key";
   };
 
   system.stateVersion = "23.05";

@@ -5,6 +5,7 @@
     ./home/zsh.nix
     ./home/doom
     ./home/gammastep.nix
+    ./home/git.nix
   ];
 
   home = {

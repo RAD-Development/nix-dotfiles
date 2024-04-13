@@ -14,11 +14,15 @@
     };
     userEmail = "aliceghuston@gmail.com";
     userName = "ahuston-0";
-    includes.config.contents = {
-      alias = {
-        gone =
-          !"git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D";
-      };
+    aliases = {
+      gone = ''
+        !git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | # dump all branches
+                        awk '$2 == "[gone]" {print $1}' | # get nuked branches
+                        sed 's/\\x27/\\x5C\\x27/' | # remove single quotes, for xargs reasons
+                        xargs -r git branch -D # nuke the branches
+      '';
+    };
+    extraConfig = {
       push.autosetupremote = true;
       pull.rebase = true;
       color.ui = true;

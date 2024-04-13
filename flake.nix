@@ -370,7 +370,7 @@
                   )
                 );
               }) (builtins.attrValues self.nixosConfigurations))
-              ++ [self.formatter]
+              ++ [ self.formatter ]
             )
           );
         }

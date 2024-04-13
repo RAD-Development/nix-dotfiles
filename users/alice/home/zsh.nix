@@ -62,13 +62,13 @@
       "pfSense-vpn-all" = "sudo openvpn --config /etc/openvpn/client/pfSense-TCP4-1195-alice-config.ovpn";
 
       ## Utilities
-      "lrt" = "exa --icons -lsnew";
+      "lrt" = "eza --icons -lsnew";
       "lynis-grep" = ''sudo lynis audit system 2&>1 | grep -v "egrep"'';
       "egrep" = "grep -E";
       "htgp" = "history | grep";
       "gen_walpaper" = "wal -i '/home/alice/Pictures/Wallpapers/1440pdump'";
       "vlgdf" = "valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes";
-      "ls" = "exa --icons";
+      "ls" = "eza --icons";
       "libreoffice-writer" = "libreoffice --writer";
       "libreoffice-calc" = "libreoffice --calc";
       "notes" = "code /home/alice/Scripts/Notes/dendron.code-workspace";

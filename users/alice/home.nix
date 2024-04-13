@@ -54,6 +54,7 @@
       gitoxide
       tealdeer
       helix
+      eza
 
       # nix specific packages
       nil

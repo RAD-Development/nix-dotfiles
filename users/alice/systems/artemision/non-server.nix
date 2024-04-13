@@ -8,7 +8,6 @@
 {
   # Adds some items from the server config without importing everything
   security.auditd.enable = true;
-  nixpkgs.config.allowUnfree = true;
 
   i18n = {
     defaultLocale = "en_US.utf8";
@@ -19,14 +18,8 @@
     default = true;
   };
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
-
   users = {
     defaultUserShell = pkgs.zsh;
-    mutableUsers = false;
   };
 
   networking = {

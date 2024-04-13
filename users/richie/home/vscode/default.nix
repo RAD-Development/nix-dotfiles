@@ -23,6 +23,7 @@ in
       oderwat.indent-rainbow
       usernamehw.errorlens
       streetsidesoftware.code-spell-checker
+      github.copilot
       # git
       eamodio.gitlens
       codezombiech.gitignore

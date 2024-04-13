@@ -4,7 +4,6 @@
     ./hardware.nix
     ../../syncthing_base.nix
   ];
-  nixpkgs.config.allowUnfree = true;
 
   boot = {
     useSystemdBoot = true;

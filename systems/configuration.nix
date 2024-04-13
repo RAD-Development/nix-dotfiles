@@ -6,23 +6,12 @@
 }:
 {
   security.auditd.enable = true;
-  nixpkgs.config.allowUnfree = true;
 
   boot = {
     default = true;
     kernel.sysctl = {
       "net.ipv6.conf.ens3.accept_ra" = 1;
     };
-  };
-
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
-
-  users = {
-    defaultUserShell = pkgs.zsh;
-    mutableUsers = false;
   };
 
   networking = {
@@ -115,21 +104,6 @@
         pull.rebase = true;
         rebase.autoStash = true;
         safe.directory = "/etc/nixos";
-      };
-    };
-
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      configure = {
-        customRC = ''
-          set undofile         " save undo file after quit
-          set undolevels=1000  " number of steps to save
-          set undoreload=10000 " number of lines to save
-
-          " Save Cursor Position
-          au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-        '';
       };
     };
 

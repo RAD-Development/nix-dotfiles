@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  imports = [ ../../users/richie/syncthing_base.nix ];
 
   networking = {
     hostId = "1beb3027";
@@ -75,67 +76,49 @@
 
     sysstat.enable = true;
 
-    syncthing = {
-      enable = true;
-      user = "richie";
-      overrideDevices = true;
-      overrideFolders = true;
-      dataDir = "/home/richie/Syncthing";
-      configDir = "/home/richie/.config/syncthing";
-      guiAddress = "192.168.90.40:8384";
-      settings = {
-        devices = {
-          "Phone" = {
-            id = "LTGPLAE-M4ZDJTM-TZ3DJGY-SLLAVWF-CQDVEVS-RGCS75T-GAPZYK3-KUM6LA5";
-          };
-          "rhapsody-in-green" = {
-            id = "INKUNKN-KILXGL5-2TQ5JTH-ORJOLOM-WYD2PYO-YRDLQIX-3AKZFWT-ZN7OJAE";
-          };
-        };
-        folders = {
-          "notes" = {
-            id = "l62ul-lpweo";
-            path = "/ZFS/Media/Notes";
-            devices = [
-              "Phone"
-              "rhapsody-in-green"
-            ];
-            fsWatcherEnabled = true;
-          };
-          "books" = {
-            id = "6uppx-vadmy";
-            path = "/ZFS/Storage/Syncthing/books";
-            devices = [
-              "Phone"
-              "rhapsody-in-green"
-            ];
-            fsWatcherEnabled = true;
-          };
-          "important" = {
-            id = "4ckma-gtshs";
-            path = "/ZFS/Storage/Syncthing/important";
-            devices = [
-              "Phone"
-              "rhapsody-in-green"
-            ];
-            fsWatcherEnabled = true;
-          };
-          "music" = {
-            id = "vprc5-3azqc";
-            path = "/ZFS/Storage/Syncthing/music";
-            devices = [
-              "Phone"
-              "rhapsody-in-green"
-            ];
-            fsWatcherEnabled = true;
-          };
-          "projects" = {
-            id = "vyma6-lqqrz";
-            path = "/ZFS/Storage/Syncthing/projects";
-            devices = [ "rhapsody-in-green" ];
-            fsWatcherEnabled = true;
-          };
-        };
+    syncthing.guiAddress = "192.168.90.40:8384";
+    syncthing.folders = {
+      "notes" = {
+        id = "l62ul-lpweo";
+        path = "/ZFS/Media/Notes";
+        devices = [
+          "phone"
+          "rhapsody-in-green"
+        ];
+        fsWatcherEnabled = true;
+      };
+      "books" = {
+        id = "6uppx-vadmy";
+        path = "/ZFS/Storage/Syncthing/books";
+        devices = [
+          "phone"
+          "rhapsody-in-green"
+        ];
+        fsWatcherEnabled = true;
+      };
+      "important" = {
+        id = "4ckma-gtshs";
+        path = "/ZFS/Storage/Syncthing/important";
+        devices = [
+          "phone"
+          "rhapsody-in-green"
+        ];
+        fsWatcherEnabled = true;
+      };
+      "music" = {
+        id = "vprc5-3azqc";
+        path = "/ZFS/Storage/Syncthing/music";
+        devices = [
+          "phone"
+          "rhapsody-in-green"
+        ];
+        fsWatcherEnabled = true;
+      };
+      "projects" = {
+        id = "vyma6-lqqrz";
+        path = "/ZFS/Storage/Syncthing/projects";
+        devices = [ "rhapsody-in-green" ];
+        fsWatcherEnabled = true;
       };
     };
 

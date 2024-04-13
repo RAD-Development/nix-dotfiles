@@ -1,9 +1,8 @@
-{ config, pkgs, ... }:
-
 {
   imports = [
     ../programs.nix
     ./hardware.nix
+    ../../syncthing_base.nix
   ];
   nixpkgs.config.allowUnfree = true;
 
@@ -45,66 +44,48 @@
       pulse.enable = true;
     };
 
-    syncthing = {
-      enable = true;
-      user = "richie";
-      overrideDevices = true;
-      overrideFolders = true;
-      dataDir = "/home/richie/Syncthing";
-      configDir = "/home/richie/.config/syncthing";
-      settings = {
-        devices = {
-          "Phone" = {
-            id = "LTGPLAE-M4ZDJTM-TZ3DJGY-SLLAVWF-CQDVEVS-RGCS75T-GAPZYK3-KUM6LA5";
-          };
-          "jeeves" = {
-            id = "7YQ4UEW-OPQEBH4-6YKJH4B-ZCE3SAX-5EIK5JL-WJDIWUA-WA2N3D5-MNK6GAV";
-          };
+    syncthing.settings.folders = {
+      "notes" = {
+        id = "l62ul-lpweo";
+        path = "/home/richie/notes";
+        devices = [
+          "phone"
+          "jeeves"
+        ];
+        fsWatcherEnabled = true;
+      };
+      "books" = {
+        id = "6uppx-vadmy";
+        path = "/home/richie/books";
+        devices = [
+          "phone"
+          "jeeves"
+        ];
+        fsWatcherEnabled = true;
+      };
+      "important" = {
+        id = "4ckma-gtshs";
+        path = "/home/richie/important";
+        devices = [
+          "phone"
+          "jeeves"
+        ];
+        fsWatcherEnabled = true;
+      };
+      "music" = {
+        id = "vprc5-3azqc";
+        path = "/home/richie/music";
+        devices = [
+          "phone"
+          "jeeves"
+        ];
+        "projects" = {
+          id = "vyma6-lqqrz";
+          path = "/ZFS/Storage/Syncthing/projects";
+          devices = [ "jeeves" ];
+          fsWatcherEnabled = true;
         };
-        folders = {
-          "notes" = {
-            id = "l62ul-lpweo";
-            path = "/home/richie/notes";
-            devices = [
-              "Phone"
-              "jeeves"
-            ];
-            fsWatcherEnabled = true;
-          };
-          "books" = {
-            id = "6uppx-vadmy";
-            path = "/home/richie/books";
-            devices = [
-              "Phone"
-              "jeeves"
-            ];
-            fsWatcherEnabled = true;
-          };
-          "important" = {
-            id = "4ckma-gtshs";
-            path = "/home/richie/important";
-            devices = [
-              "Phone"
-              "jeeves"
-            ];
-            fsWatcherEnabled = true;
-          };
-          "music" = {
-            id = "vprc5-3azqc";
-            path = "/home/richie/music";
-            devices = [
-              "Phone"
-              "jeeves"
-            ];
-            "projects" = {
-              id = "vyma6-lqqrz";
-              path = "/ZFS/Storage/Syncthing/projects";
-              devices = [ "jeeves" ];
-              fsWatcherEnabled = true;
-            };
-            fsWatcherEnabled = true;
-          };
-        };
+        fsWatcherEnabled = true;
       };
     };
 

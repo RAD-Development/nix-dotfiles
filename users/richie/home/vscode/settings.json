@@ -26,5 +26,6 @@
   "update.mode": "none",
   "redhat.telemetry.enabled": true,
   // force the use of rust-analyzer from dev shell
-  "rust-analyzer.server.path": "rust-analyzer"
+  "rust-analyzer.server.path": "rust-analyzer",
+  "cSpell.userWords": ["syncthing"]
 }

@@ -225,6 +225,10 @@
       "attic/secret-key".owner = "root";
       "attic/database-url".owner = "root";
       "postgres/init".owner = "postgres";
+      "zfs-attic-key" = {
+        format = "binary";
+        sopsFile = "./keys/zfs-attic-key";
+      };
     };
   };
 

@@ -227,7 +227,7 @@
       "postgres/init".owner = "postgres";
       "zfs-attic-key" = {
         format = "binary";
-        sopsFile = "./keys/zfs-attic-key";
+        sopsFile = ./keys/zfs-attic-key;
       };
     };
   };

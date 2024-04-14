@@ -12,6 +12,7 @@
     ./pipewire.nix
     ./fingerprint.nix
     ./steam.nix
+    ./graphics.nix
   ];
 
   time.timeZone = "America/New_York";

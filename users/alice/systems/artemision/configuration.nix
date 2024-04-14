@@ -11,6 +11,7 @@
     ./polkit.nix
     ./pipewire.nix
     ./fingerprint.nix
+    ./steam.nix
   ];
 
   time.timeZone = "America/New_York";

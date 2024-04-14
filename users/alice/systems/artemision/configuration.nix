@@ -9,7 +9,7 @@
     ./zerotier.nix
     ./fonts.nix
     ./polkit.nix
-    ./pipewire.nix
+    ./audio.nix
     ./fingerprint.nix
     ./steam.nix
     ./graphics.nix
@@ -74,6 +74,7 @@
     };
     #systemd.services.spotifyd.serviceConfig = systemd.services.spotifyd.
   };
+
 
   system.stateVersion = "24.05";
 

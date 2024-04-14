@@ -13,10 +13,3 @@ command = "nixfmt"
 # Glob pattern of files to include
 includes = [ "*.nix" ]
 
-[formatter.deadnix]
-# Formatter to run
-command = "deadnix"
-# Command-line arguments for the command
-#options = []
-# Glob pattern of files to include
-includes = [ "*.nix" ]

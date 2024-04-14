@@ -75,7 +75,6 @@
     #systemd.services.spotifyd.serviceConfig = systemd.services.spotifyd.
   };
 
-
   system.stateVersion = "24.05";
 
   sops = {

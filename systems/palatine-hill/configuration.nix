@@ -64,6 +64,7 @@ in
         ];
       }
     ];
+    distributedBuilds = true;
   };
 
   hardware = {

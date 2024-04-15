@@ -242,7 +242,6 @@
                 ++ (
                   if server then
                     [
-                      ./systems/programs.nix
                       ./systems/configuration.nix
                       ./systems/${hostname}/hardware.nix
                       ./systems/${hostname}/configuration.nix

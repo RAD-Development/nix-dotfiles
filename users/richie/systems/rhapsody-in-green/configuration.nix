@@ -1,6 +1,5 @@
 {
   imports = [
-    ../programs.nix
     ./hardware.nix
     ../../syncthing_base.nix
   ];

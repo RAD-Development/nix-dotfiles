@@ -80,7 +80,7 @@
         ];
         "projects" = {
           id = "vyma6-lqqrz";
-          path = "/ZFS/Storage/Syncthing/projects";
+          path = "/home/richie/projects";
           devices = [ "jeeves" ];
           fsWatcherEnabled = true;
         };

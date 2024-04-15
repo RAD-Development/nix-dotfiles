@@ -1,37 +1,7 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    bat
-    beeper
-    btop
-    candy-icons
-    discord-canary
     git
-    gnupg
-    htop
-    hwloc
-    iperf3
-    lynis
-    ncdu
-    neofetch
-    nix-init
-    nix-output-monitor
-    nix-prefetch
-    nix-tree
-    nixpkgs-fmt
-    nmap
-    pciutils
     python3
-    ripgrep
-    smartmontools
-    sops
-    starship
-    sweet-nova
-    usbutils
-    vscode
-    wget
-    yubioath-flutter
-    zoxide
-    zsh-nix-shell
   ];
 }

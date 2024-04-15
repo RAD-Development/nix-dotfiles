@@ -1,17 +1,7 @@
+{ config, lib, ... }:
 {
-  config,
-  lib,
-  libS,
-  ...
-}:
-
-let
-  cfg = config.services.fail2ban;
-in
-{
-  options.services.fail2ban.recommendedDefaults = libS.mkOpinionatedOption "use fail2ban with recommended defaults";
-
-  config.services.fail2ban = lib.mkIf cfg.recommendedDefaults {
+  services.fail2ban = {
+    enable = lib.mkIf config.networking.firewall.enable (lib.mkDefault true);
     maxretry = 5;
     bantime = "24h";
     bantime-increment = {

@@ -22,10 +22,6 @@
   };
 
   services = {
-    fail2ban = {
-      enable = lib.mkIf config.networking.firewall.enable (lib.mkDefault true);
-      recommendedDefaults = true;
-    };
 
     openssh = {
       enable = true;

@@ -95,56 +95,6 @@
     };
   };
 
-  programs = {
-    git = {
-      enable = true;
-      lfs.enable = lib.mkDefault true;
-      config = {
-        interactive.singlekey = true;
-        pull.rebase = true;
-        rebase.autoStash = true;
-        safe.directory = "/etc/nixos";
-      };
-    };
-
-    zsh = {
-      enable = true;
-      syntaxHighlighting.enable = true;
-      zsh-autoenv.enable = true;
-      enableCompletion = true;
-      enableBashCompletion = true;
-      ohMyZsh.enable = true;
-      autosuggestions = {
-        enable = true;
-        strategy = [ "completion" ];
-        async = true;
-      };
-    };
-
-    nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        acl
-        attr
-        bzip2
-        curl
-        glib
-        libglvnd
-        libmysqlclient
-        libsodium
-        libssh
-        libxml2
-        openssl
-        stdenv.cc.cc
-        systemd
-        util-linux
-        xz
-        zlib
-        zstd
-      ];
-    };
-  };
-
   system = {
     autoUpgrade = {
       enable = true;

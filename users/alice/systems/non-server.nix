@@ -29,6 +29,7 @@
     };
   };
 
+  services.openssh.enable = false;
   services.autopull = {
     enable = false;
     ssh-key = "/root/.ssh/id_ed25519_ghdeploy";

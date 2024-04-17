@@ -7,7 +7,9 @@
 in {
   imports = [
     ./git.nix
-    ./starship.nix
     ./zsh.nix
   ];
+
+  programs.starship.enable = true;
+
 }

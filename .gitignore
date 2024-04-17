@@ -9,7 +9,7 @@ result
 result-*
 
 # If you run nix develop it will generate pre-commit hooks using the python library precommit (see https://github.com/RAD-Development/nix-dotfiles/blob/main/flake.nix#L65)
-/.pre-commit-config.yaml
+.pre-commit-config.yaml
 
 # allows test file in reopsitory
 test.*

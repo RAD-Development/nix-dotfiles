@@ -2,12 +2,9 @@ name: "Check flake.lock"
 on:
   push:
     branches: ["main"]
-    paths:
-      - '**.nix'
   pull_request:
     branches: ["main"]
-    paths:
-      - '**.nix'
+
 jobs:
   health-check:
     name: "Check health of `flake.lock`"

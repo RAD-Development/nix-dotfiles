@@ -2,12 +2,9 @@ name: "Check Nix flake"
 on:
   push:
     branches: ["main"]
-    paths:
-      - '**.nix'
   pull_request:
     branches: ["main"]
-    paths:
-      - '**.nix'
+
 jobs:
   health-check:
     name: "Perform Nix flake checks"

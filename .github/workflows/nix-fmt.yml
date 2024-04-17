@@ -2,12 +2,9 @@ name: "Check Nix formatting"
 on:
   push:
     branches: ["main"]
-    paths:
-      - '**.nix'
   pull_request:
     branches: ["main"]
-    paths:
-      - '**.nix'
+
 jobs:
   health-check:
     name: "Perform Nix format checks"

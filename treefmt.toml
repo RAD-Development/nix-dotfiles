@@ -12,4 +12,3 @@ command = "nixfmt"
 #options = []
 # Glob pattern of files to include
 includes = [ "*.nix" ]
-

@@ -4,6 +4,7 @@
     # cli
     bat
     btop
+    eza
     git
     gnupg
     ncdu
@@ -11,6 +12,7 @@
     ripgrep
     sops
     starship
+    tmux
     zoxide
     zsh-nix-shell
     # system info

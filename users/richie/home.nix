@@ -1,8 +1,8 @@
 {
   imports = [
-    ./home/git.nix
     ./home/programs.nix
     ./home/sshconfig.nix
+    ./home/cli
     ./home/vscode
   ];
 
@@ -12,7 +12,6 @@
     };
   };
 
-  programs.zsh.enable = true;
   home = {
     username = "richie";
     homeDirectory = "/home/richie";

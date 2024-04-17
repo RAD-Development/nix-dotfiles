@@ -11,6 +11,11 @@
     #    extensions = [ "rust-src" "miri" "rust-analyzer" ];
     #  }) ];
     #})
-    { environment.systemPackages = [ inputs.wired-notify.packages.x86_64-linux.default ]; }
+    {
+      environment.systemPackages = [
+        inputs.wired-notify.packages.x86_64-linux.default
+        inputs.hyprland-contrib.packages.x86_64-linux.grimblast
+      ];
+    }
   ];
 }

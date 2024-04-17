@@ -107,6 +107,11 @@
         flake-utils.follows = "flake-utils";
       };
     };
+
+    hyprland-contrib = {
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

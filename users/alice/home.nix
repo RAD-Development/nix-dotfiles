@@ -77,6 +77,7 @@
       fd
       ripgrep
       clang
+      yaml-language-server
 
       # audit
       lynis

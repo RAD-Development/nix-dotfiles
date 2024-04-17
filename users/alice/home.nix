@@ -40,9 +40,15 @@
       python312Packages.pytest
       shellcheck
 
+      # useful tools
       ncdu
+      neofetch
+      smartmontools
+      wget
+      zsh-nix-shell
 
       # Rust packages
+      bat
       trunk
       wasm-pack
       cargo-watch
@@ -59,6 +65,10 @@
       # nix specific packages
       nil
       nixfmt-rfc-style
+      nix-init
+      nix-output-monitor
+      nix-prefetch
+      nix-tree
 
       # markdown
       nodePackages.markdownlint-cli
@@ -67,6 +77,9 @@
       fd
       ripgrep
       clang
+
+      # audit
+      lynis
     ];
   };
 

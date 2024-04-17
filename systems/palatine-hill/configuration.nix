@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   keygen = key: {
     "${key}" = {
@@ -54,6 +59,7 @@ in
         systems = [
           "x86_64-linux"
           "aarch64-linux"
+          "i686-linux"
         ];
 
         supportedFeatures = [
@@ -64,7 +70,6 @@ in
         ];
       }
     ];
-    distributedBuilds = true;
   };
 
   hardware = {
@@ -160,6 +165,7 @@ in
       notificationSender = "hydra@alicehuston.xyz";
       gcRootsDir = "/ZFS/ZFS-primary/hydra";
       useSubstitutes = true;
+      buildMachinesFiles = [ ];
       minimumDiskFree = 50;
       minimumDiskFreeEvaluator = 100;
     };

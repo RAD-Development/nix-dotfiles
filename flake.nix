@@ -204,7 +204,7 @@
     in
     {
       inherit (self) outputs;
-      hydraJobs = import ./hydra.nix { inherit inputs outputs; };
+      hydraJobs = import ./hydra/jobs.nix { inherit inputs outputs; };
 
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 

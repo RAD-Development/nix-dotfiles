@@ -28,13 +28,16 @@ let
     flake = "github:ahuston-0/nix-dotfiles-hydra/${branch}";
   };
 
-  desc = prJobsets // { "main" = mkFlakeJobset "main"; };
+  desc = prJobsets // {
+    "main" = mkFlakeJobset "main";
+  };
 
   log = {
     pulls = prs;
     jobsets = desc;
   };
-in {
+in
+{
   jobsets = pkgs.runCommand "spec-jobsets.json" { } ''
     cat >$out <<EOF
     ${builtins.toJSON desc}

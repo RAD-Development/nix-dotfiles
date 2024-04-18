@@ -128,12 +128,12 @@
       ...
     }@inputs:
     let
+
       inherit (nixpkgs) lib;
+      inherit (self) outputs;
       systems = [
         "x86_64-linux"
         "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
       ];
 
       forEachSystem = lib.genAttrs systems;
@@ -167,24 +167,6 @@
           [ ];
       fileList = dir: map (file: ./. + "/${dir}/${file}") (ls dir);
 
-      recursiveMerge =
-        attrList:
-        let
-          f =
-            attrPath:
-            builtins.zipAttrsWith (
-              n: values:
-              if builtins.tail values == [ ] then
-                builtins.head values
-              else if builtins.all builtins.isList values then
-                lib.unique (builtins.concatLists values)
-              else if builtins.all builtins.isAttrs values then
-                f (attrPath ++ [ n ]) values
-              else
-                lib.last values
-            );
-        in
-        f [ ] attrList;
 
       config = {
         repos = [
@@ -221,6 +203,9 @@
       };
     in
     {
+      inherit (self) outputs;
+      hydraJobs = import ./hydra.nix { inherit inputs outputs; };
+
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations =
@@ -355,4 +340,5 @@
         }
       ) sops-nix.packages;
     };
+
 }

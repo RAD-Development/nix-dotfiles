@@ -330,11 +330,8 @@
           packages = [
             self.formatter.${system}
             nixpkgs.legacyPackages.${system}.deadnix
-<<<<<<< HEAD
             nixpkgs.legacyPackages.${system}.treefmt
             nixpkgs.legacyPackages.${system}.pre-commit
-=======
->>>>>>> 7502153 (fixes :))
           ];
           shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
         }

@@ -6,4 +6,5 @@ let
 in
 {
   hosts = mapAttrs getCfg outputs.nixosConfigurations;
+  formatter = outputs.formatter;
 }

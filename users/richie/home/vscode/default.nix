@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  vscode_dir = "/home/richie/nix-dotfiles/users/richie/home/vscode";
+  vscode_dir = "/home/richie/projects/nix-dotfiles/users/richie/home/vscode";
 in
 {
   # mutable symlinks to keybinds and settings

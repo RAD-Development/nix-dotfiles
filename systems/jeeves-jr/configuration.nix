@@ -12,29 +12,6 @@
     useSystemdBoot = true;
   };
 
-  virtualisation = {
-    docker = {
-      enable = true;
-      recommendedDefaults = true;
-      logDriver = "local";
-      storageDriver = "overlay2";
-      daemon."settings" = {
-        experimental = true;
-        data-root = "/var/lib/docker";
-        exec-opts = [ "native.cgroupdriver=systemd" ];
-        log-opts = {
-          max-size = "10m";
-          max-file = "5";
-        };
-      };
-    };
-
-    podman = {
-      enable = true;
-      recommendedDefaults = true;
-    };
-  };
-
   environment = {
     systemPackages = with pkgs; [ docker-compose ];
     etc = {

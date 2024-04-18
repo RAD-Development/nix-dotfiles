@@ -190,7 +190,7 @@
         repos = [
           {
             repo = "https://gitlab.com/vojko.pribudic/pre-commit-update";
-            rev = "b7da6528a10087d485530e3f335bb2914b05c13e";
+            rev = "d068467ebed445e110f4012204bfd2816c3c01ee";
             hooks = [
               {
                 id = "pre-commit-update";
@@ -351,68 +351,5 @@
           shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
         }
       ) sops-nix.packages;
-
-      hydraJobs =
-        {
-          build = (
-            recursiveMerge (
-              (map (machine: {
-                ${machine.pkgs.system} = (
-                  builtins.listToAttrs (
-                    builtins.filter (v: v != { }) (
-                      map (
-                        pkg:
-                        (
-                          if (builtins.hasAttr pkg.name pkgsBySystem.${machine.pkgs.system}) then
-                            {
-                              name = pkg.name;
-                              value = pkgsBySystem.${machine.pkgs.system}.${pkg.name};
-                            }
-                          else
-                            { }
-                        )
-                      ) machine.config.environment.systemPackages
-                    )
-                  )
-                );
-              }) (builtins.attrValues self.nixosConfigurations))
-              ++ [ self.formatter ]
-            )
-          );
-        }
-        // lib.mapAttrs (__: lib.mapAttrs (_: lib.hydraJob)) (
-          let
-            mkBuild =
-              type:
-              let
-                getBuildEntryPoint = (
-                  name: nixosSystem:
-                  if builtins.hasAttr type nixosSystem.config.system.build then
-                    let
-                      cfg = nixosSystem.config.system.build.${type};
-                    in
-                    if nixosSystem.config.nixpkgs.system == "aarch64-linux" then
-                      lib.recursiveUpdate cfg { meta.timeout = 24 * 60 * 60; }
-                    else
-                      cfg
-                  else
-                    { }
-                );
-              in
-              lib.filterAttrs (n: v: v != { }) (builtins.mapAttrs getBuildEntryPoint self.nixosConfigurations);
-          in
-          builtins.listToAttrs (
-            map
-              (type: {
-                name = type;
-                value = mkBuild type;
-              })
-              [
-                "toplevel"
-                "isoImage"
-                "sdImage"
-              ]
-          )
-        );
     };
 }

@@ -1,9 +1,4 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 let
   keygen = key: {
     "${key}" = {
@@ -87,24 +82,7 @@ in
     };
   };
 
-  virtualisation = {
-    # Disabling Podman as topgrade apparently prefers podman over docker and now I cant update anything :(
-    docker = {
-      enable = true;
-      recommendedDefaults = true;
-      logDriver = "local";
-      storageDriver = "overlay2";
-      daemon."settings" = {
-        experimental = true;
-        data-root = "/var/lib/docker2";
-        exec-opts = [ "native.cgroupdriver=systemd" ];
-        log-opts = {
-          max-size = "10m";
-          max-file = "5";
-        };
-      };
-    };
-  };
+  virtualisation.docker.daemon.settings.data-root = "/var/lib/docker2";
 
   environment.systemPackages = with pkgs; [
     attic-client

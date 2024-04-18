@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 {
   imports = [
     ../configuration.nix
@@ -33,24 +33,6 @@
   i18n = {
     defaultLocale = "en_US.utf8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" ];
-  };
-
-  virtualisation = {
-    docker = {
-      enable = true;
-      recommendedDefaults = true;
-      logDriver = "local";
-      storageDriver = "overlay2";
-      daemon."settings" = {
-        experimental = true;
-        data-root = "/var/lib/docker";
-        exec-opts = [ "native.cgroupdriver=systemd" ];
-        log-opts = {
-          max-size = "10m";
-          max-file = "5";
-        };
-      };
-    };
   };
 
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];

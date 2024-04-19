@@ -28,7 +28,6 @@ in
       codezombiech.gitignore
       # python
       charliermarsh.ruff
-      ms-python.debugpy
       ms-python.python
       ms-python.vscode-pylance
       # rust

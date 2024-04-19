@@ -19,6 +19,7 @@
   sound.enable = true;
 
   services = {
+    autopull.enable = false;
 
     displayManager.sddm.enable = true;
 
@@ -91,5 +92,6 @@
     };
   };
 
+  system.autoUpgrade.enable = false;
   system.stateVersion = "23.11";
 }

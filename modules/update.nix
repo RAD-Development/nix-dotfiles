@@ -1,5 +1,6 @@
 { lib, ... }:
-{  services.autopull = {
+{
+  services.autopull = {
     enable = lib.mkDefault true;
     ssh-key = lib.mkDefau "/root/.ssh/id_ed25519_ghdeploy";
     path = lib.mkDefau /root/dotfiles;

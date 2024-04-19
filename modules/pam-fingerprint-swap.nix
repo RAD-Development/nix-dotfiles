@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 
 # borrowed from https://github.com/NixOS/nixpkgs/issues/171136
 # and https://wiki.archlinux.org/title/fprint#Login_configuration

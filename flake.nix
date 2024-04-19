@@ -247,7 +247,6 @@
                 ++ (
                   if server then
                     [
-                      ./systems/configuration.nix
                       ./systems/${hostname}/hardware.nix
                       ./systems/${hostname}/configuration.nix
                     ]

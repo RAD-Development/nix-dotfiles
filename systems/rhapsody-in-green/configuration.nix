@@ -1,7 +1,7 @@
 {
   imports = [
     ./hardware.nix
-    ../../users/richie/syncthing_base.nix
+    ./syncthing_base.nix
   ];
 
   boot = {

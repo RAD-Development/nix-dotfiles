@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  imports = [ ../../users/richie/syncthing_base.nix ];
+  imports = [ ../rhapsody-in-green/syncthing_base.nix ];
 
   networking = {
     hostId = "1beb3027";

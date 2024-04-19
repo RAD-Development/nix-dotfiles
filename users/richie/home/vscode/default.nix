@@ -12,7 +12,6 @@ in
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
-    mutableExtensionsDir = true;
     extensions = with pkgs.vscode-extensions; [
       # vscode
       ms-vscode-remote.remote-ssh
@@ -28,8 +27,10 @@ in
       eamodio.gitlens
       codezombiech.gitignore
       # python
-      ms-python.vscode-pylance
       charliermarsh.ruff
+      ms-python.debugpy
+      ms-python.python
+      ms-python.vscode-pylance
       # rust
       rust-lang.rust-analyzer
       # MD

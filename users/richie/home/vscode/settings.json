@@ -10,7 +10,7 @@
   "keyboard.dispatch": "keyCode",
 
   "editor.formatOnSave": true,
-  "editor.fontFamily": "'IntoneMono Nerd Font', 'Droid Sans Mono', 'monospace', monospace",
+  "editor.fontFamily": "'IntoneMono Nerd Font', 'Droid Sans Mono', 'monospace'",
 
   "nix.enableLanguageServer": true,
   "nix.serverPath": "nil",

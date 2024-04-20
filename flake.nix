@@ -96,10 +96,6 @@
       url = "github:NixOS/nixos-hardware";
     };
 
-    nixos-hardware-fw16 = {
-      url = "git+https://github.com/jkoking/nixos-hardware?ref=add-framework-16";
-    };
-
     attic = {
       url = "github:zhaofengli/attic";
       inputs = {

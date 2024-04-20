@@ -276,6 +276,7 @@
         "type": "github"
       }
     },
+<<<<<<< Updated upstream
     "nixos-hardware-fw16": {
       "locked": {
         "lastModified": 1713209644,
@@ -292,6 +293,8 @@
         "url": "https://github.com/jkoking/nixos-hardware"
       }
     },
+=======
+>>>>>>> Stashed changes
     "nixos-modules": {
       "inputs": {
         "flake-utils": [
@@ -408,7 +411,6 @@
         "nix-index-database": "nix-index-database",
         "nix-pre-commit": "nix-pre-commit",
         "nixos-hardware": "nixos-hardware",
-        "nixos-hardware-fw16": "nixos-hardware-fw16",
         "nixos-modules": "nixos-modules",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable_2",

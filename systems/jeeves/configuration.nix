@@ -56,7 +56,7 @@
     syncthing.guiAddress = "192.168.90.40:8384";
     syncthing.folders = {
       "notes" = {
-        id = "l62ul-lpweo";
+        id = "l62ul-lpweo"; # cspell:disable-line
         path = "/ZFS/Media/Notes";
         devices = [
           "phone"
@@ -65,7 +65,7 @@
         fsWatcherEnabled = true;
       };
       "books" = {
-        id = "6uppx-vadmy";
+        id = "6uppx-vadmy"; # cspell:disable-line
         path = "/ZFS/Storage/Syncthing/books";
         devices = [
           "phone"
@@ -74,7 +74,7 @@
         fsWatcherEnabled = true;
       };
       "important" = {
-        id = "4ckma-gtshs";
+        id = "4ckma-gtshs"; # cspell:disable-line
         path = "/ZFS/Storage/Syncthing/important";
         devices = [
           "phone"
@@ -83,7 +83,7 @@
         fsWatcherEnabled = true;
       };
       "music" = {
-        id = "vprc5-3azqc";
+        id = "vprc5-3azqc"; # cspell:disable-line
         path = "/ZFS/Storage/Syncthing/music";
         devices = [
           "phone"
@@ -92,7 +92,7 @@
         fsWatcherEnabled = true;
       };
       "projects" = {
-        id = "vyma6-lqqrz";
+        id = "vyma6-lqqrz"; # cspell:disable-line
         path = "/ZFS/Storage/Syncthing/projects";
         devices = [ "rhapsody-in-green" ];
         fsWatcherEnabled = true;

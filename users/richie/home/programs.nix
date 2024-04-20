@@ -21,7 +21,7 @@
     pciutils
     smartmontools
     usbutils
-    # netowking
+    # networking
     iperf3
     nmap
     wget

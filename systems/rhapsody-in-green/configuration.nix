@@ -43,7 +43,7 @@
 
     syncthing.settings.folders = {
       "notes" = {
-        id = "l62ul-lpweo";
+        id = "l62ul-lpweo"; # cspell:disable-line
         path = "/home/richie/notes";
         devices = [
           "phone"
@@ -52,7 +52,7 @@
         fsWatcherEnabled = true;
       };
       "books" = {
-        id = "6uppx-vadmy";
+        id = "6uppx-vadmy"; # cspell:disable-line
         path = "/home/richie/books";
         devices = [
           "phone"
@@ -61,7 +61,7 @@
         fsWatcherEnabled = true;
       };
       "important" = {
-        id = "4ckma-gtshs";
+        id = "4ckma-gtshs"; # cspell:disable-line
         path = "/home/richie/important";
         devices = [
           "phone"
@@ -70,14 +70,14 @@
         fsWatcherEnabled = true;
       };
       "music" = {
-        id = "vprc5-3azqc";
+        id = "vprc5-3azqc"; # cspell:disable-line
         path = "/home/richie/music";
         devices = [
           "phone"
           "jeeves"
         ];
         "projects" = {
-          id = "vyma6-lqqrz";
+          id = "vyma6-lqqrz"; # cspell:disable-line
           path = "/home/richie/projects";
           devices = [ "jeeves" ];
           fsWatcherEnabled = true;

@@ -89,16 +89,15 @@ let
   };
 in
 {
-  jobsets =
-    jobs
-    // pkgs.runCommand "spec-jobsets.json" { } ''
-      cat >$out <<EOF
-      ${jobs}
-      EOF
-      # This is to get nice .jobsets build logs on Hydra
-      cat >tmp <<EOF
-      ${builtins.toJSON log}
-      EOF
-      ${pkgs.jq}/bin/jq . tmp
-    '';
+  jobsets = jobs;
+  # // pkgs.runCommand "spec-jobsets.json" { } ''
+  #   cat >$out <<EOF
+  #   ${jobs}
+  #   EOF
+  #   # This is to get nice .jobsets build logs on Hydra
+  #   cat >tmp <<EOF
+  #   ${builtins.toJSON log}
+  #   EOF
+  #   ${pkgs.jq}/bin/jq . tmp
+  # '';
 }

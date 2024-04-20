@@ -79,7 +79,7 @@
       ripgrep
       clang
       yaml-language-server
-      typescript-language-server
+      nodePackages.typescript-language-server
 
       # audit
       lynis

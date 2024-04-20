@@ -2,12 +2,12 @@
   nixpkgs,
   pulls,
   branches,
-
   ...
 }:
 let
   pkgs = import nixpkgs { };
 
+  # create the json spec for the jobset
   makeSpec =
     contents:
     builtins.derivation {
@@ -26,8 +26,9 @@ let
 
   prs = readJSONFile pulls;
   refs = readJSONFile branches;
-  repo = "ahuston-0/nix-dotfiles-hydra";
+  repo = "RAD-development/nix-dotfiles";
 
+  # template for creating a job
   makeJob =
     {
       schedulingshares ? 10,
@@ -49,6 +50,8 @@ let
       enableemail = false;
       emailoverride = "";
     };
+
+  # Create a hydra job for a branch
   jobOfRef =
     name:
     { ref, ... }:
@@ -62,6 +65,8 @@ let
           flake = "git+ssh://git@github.com/${repo}?ref=${ref}";
         };
       };
+
+  # Create a hydra job for a PR
   jobOfPR = id: info: {
     name = "pr-${id}";
     value = makeJob {
@@ -69,35 +74,21 @@ let
       flake = "git+ssh://git@github.com/${info.head.repo.full_name}?ref=${info.head.ref}";
     };
   };
+
+  # some utility functions
+  # converts json to name/value dicts
   attrsToList = l: builtins.attrValues (builtins.mapAttrs (name: value: { inherit name value; }) l);
+  # wrapper function for reading json from file
   readJSONFile = f: builtins.fromJSON (builtins.readFile f);
+  # remove null values from a set, in-case of branches that don't exist
   mapFilter = f: l: builtins.filter (x: !(isNull x)) (map f l);
+
+  # Create job set from PRs and branches
   jobs = makeSpec (
     builtins.listToAttrs (map ({ name, value }: jobOfPR name value) (attrsToList prs))
     // builtins.listToAttrs (mapFilter ({ name, value }: jobOfRef name value) (attrsToList refs))
-    // {
-      main = makeJob {
-        description = "main";
-        flake = "github:${repo}";
-        keepnr = 10;
-        schedulingshares = 100;
-      };
-    }
   );
-  log = {
-    jobsets = jobs;
-  };
 in
 {
   jobsets = jobs;
-  # // pkgs.runCommand "spec-jobsets.json" { } ''
-  #   cat >$out <<EOF
-  #   ${jobs}
-  #   EOF
-  #   # This is to get nice .jobsets build logs on Hydra
-  #   cat >tmp <<EOF
-  #   ${builtins.toJSON log}
-  #   EOF
-  #   ${pkgs.jq}/bin/jq . tmp
-  # '';
 }

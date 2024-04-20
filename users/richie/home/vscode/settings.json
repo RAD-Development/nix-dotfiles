@@ -27,5 +27,11 @@
   "redhat.telemetry.enabled": true,
   // force the use of rust-analyzer from dev shell
   "rust-analyzer.server.path": "rust-analyzer",
-  "cSpell.userWords": ["syncthing"]
+  "cSpell.userWords": ["Cahill", "syncthing"],
+  "gitlens.plusFeatures.enabled": false,
+  "cSpell.enableFiletypes": ["nix"],
+  "cSpell.enabled": true,
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  }
 }

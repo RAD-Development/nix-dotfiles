@@ -102,9 +102,12 @@
     elasticsearch = {
       enable = true;
     };
-    # greylog = {
-    #   enable = true;
-    # };
+    graylog = {
+      enable = true;
+      passwordSecret = "LfjRKrrbONYDCvfD8gCNYqMzVAPHrxVBaw1oR3zIE73cF0EUaj8yEU4DsY8ADbwlGKCt0f2Q9Di8CN6JCYqGug2cfUwE9oNG";
+      rootPasswordSha2 = "e3c652f0ba0b4801205814f8b6bc49672c4c74e25b497770bb89b22cdeb4e951";
+      elasticsearchHosts = [ "http://localhost:9200" ];
+    };
   };
   system.autoUpgrade.enable = false;
   system.stateVersion = "23.11";

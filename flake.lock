@@ -276,25 +276,6 @@
         "type": "github"
       }
     },
-<<<<<<< Updated upstream
-    "nixos-hardware-fw16": {
-      "locked": {
-        "lastModified": 1713209644,
-        "narHash": "sha256-+LMAIXHprR9wPIf2DW/XfsX79tj92YzqbgMxTXDamOc=",
-        "ref": "add-framework-16",
-        "rev": "88d782d03bb4e1c09544aed82f56f4fca6fc6abc",
-        "revCount": 1614,
-        "type": "git",
-        "url": "https://github.com/jkoking/nixos-hardware"
-      },
-      "original": {
-        "ref": "add-framework-16",
-        "type": "git",
-        "url": "https://github.com/jkoking/nixos-hardware"
-      }
-    },
-=======
->>>>>>> Stashed changes
     "nixos-modules": {
       "inputs": {
         "flake-utils": [

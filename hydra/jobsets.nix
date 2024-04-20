@@ -93,8 +93,6 @@ in
     jobs
     // pkgs.runCommand "spec-jobsets.json" { } ''
       cat >$out <<EOF
-      ${prs}
-      ${refs}
       ${jobs}
       EOF
       # This is to get nice .jobsets build logs on Hydra

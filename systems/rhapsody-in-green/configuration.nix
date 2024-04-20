@@ -96,6 +96,17 @@
     };
   };
 
+  services = {
+    mongodb = {
+      enable = true;
+    };
+    elasticsearch = {
+      enable = true;
+    };
+    # greylog = {
+    #   enable = true;
+    # };
+  };
   system.autoUpgrade.enable = false;
   system.stateVersion = "23.11";
 }

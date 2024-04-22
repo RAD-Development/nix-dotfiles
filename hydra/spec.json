@@ -12,7 +12,7 @@
   "type": 0,
   "inputs": {
     "nixexpr": {
-      "value": "https://github.com/RAD-development/nix-dotfiles main",
+      "value": "https://github.com/RAD-Development/nix-dotfiles main",
       "type": "git",
       "emailresponsible": false
     },
@@ -23,12 +23,12 @@
     },
     "pulls": {
       "type": "githubpulls",
-      "value": "RAD-development nix-dotfiles",
+      "value": "RAD-Development nix-dotfiles",
       "emailresponsible": false
     },
     "branches": {
       "type": "github_refs",
-      "value": "RAD-development nix-dotfiles heads -",
+      "value": "RAD-Development nix-dotfiles heads -",
       "emailresponsible": false
     }
   }

@@ -26,7 +26,7 @@ let
 
   prs = readJSONFile pulls;
   refs = readJSONFile branches;
-  repo = "RAD-development/nix-dotfiles";
+  repo = "RAD-Development/nix-dotfiles";
 
   # template for creating a job
   makeJob =

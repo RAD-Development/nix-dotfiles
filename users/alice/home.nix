@@ -83,6 +83,11 @@
 
       # audit
       lynis
+
+      # dependencies for nix-dotfiles/hydra-check-action
+      nodejs_20
+      nodePackages.prettier
+      treefmt
     ];
   };
 

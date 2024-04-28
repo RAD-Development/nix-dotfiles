@@ -27,6 +27,7 @@ servers: &servers
 # then have someone already in the repo run the below
 #
 # update keys by executing: sops updatekeys secrets.yaml
+# note: add .* before \.yaml if you'd like to use the mergetool config
 creation_rules:
   - path_regex: systems/jeeves/secrets\.yaml$
     key_groups:
@@ -40,7 +41,7 @@ creation_rules:
         age:
           - *jeeves-jr
 
-  - path_regex: users/alice/secrets\.yaml$ 
+  - path_regex: users/alice/secrets.*\.yaml$ 
     key_groups:
       - pgp:
           - *admin_alice
@@ -50,7 +51,7 @@ creation_rules:
           - *jeeves-jr
           - *artemision
 
-  - path_regex: systems/palatine-hill/secrets\.yaml$
+  - path_regex: systems/palatine-hill/secrets.*\.yaml$
     key_groups:
       - pgp:
           - *admin_alice
@@ -64,7 +65,7 @@ creation_rules:
         age:
           - *palatine-hill
 
-  - path_regex: users/alice/systems/artemision/secrets\.yaml$
+  - path_regex: users/alice/systems/artemision/secrets.*\.yaml$
     key_groups:
       - pgp:
           - *admin_alice

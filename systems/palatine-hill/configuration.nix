@@ -237,6 +237,20 @@ in
 
   nix.gc.options = "--delete-older-than 150d";
 
+  power.ups = {
+    enable = true;
+    ups."LX1325GU3" = {
+      driver = "usbhid-ups";
+      port = "auto";
+      description = "CyberPower LX1325GU3";
+    };
+    users.upsmon = {
+      passwordFile = config.sops.secrets."upsmon/password".path;
+      upsmon = "primary";
+    };
+    upsmon.monitor."LX1325GU3".user = "upsmon";
+  };
+
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets =
@@ -252,6 +266,7 @@ in
           group = "hydra";
           mode = "440";
         };
+        "upsmon/password".owner = "upsmon";
       }
       // keygen "zfs-attic-key"
       // keygen "zfs-backup-key"

@@ -1,4 +1,5 @@
 # run `grep -Pv "^#" .gitconfig >> .git/config` to append the merge config to your repo file :)
+# run `git mergetool --tool=sops-mergetool <path to secret>/secrets.yaml` to use this once configured
 [mergetool "sops-mergetool"]
         cmd = bash -c "$(git --exec-path)/sops-mergetool.sh \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
 [merge]

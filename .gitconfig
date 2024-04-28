@@ -1,9 +1,7 @@
 [mergetool "sops-mergetool"]
-        cmd = ./sops-mergetool.sh "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+        cmd = bash -c "$(git --exec-path)/sops-mergetool.sh \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
 [merge]
-	tool = nvimdiff
-[merge "nvimdiff"]
-	layout = "LOCAL,BASE,REMOTE / MERGED + BASE,LOCAL + BASE,REMOTE + (LOCAL/BASE/REMOTE),MERGED"
+	tool = nvimdiff3
 [push]
 	autoSetupRemote = true
 [core]
@@ -17,3 +15,8 @@
 [branch "main"]
 	remote = origin
 	merge = refs/heads/main
+	pushRemote = origin
+[branch "feature/palatine-hill-nut-2.0"]
+	pushRemote = origin
+	remote = origin
+	merge = refs/heads/feature/palatine-hill-nut-2.0

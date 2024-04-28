@@ -1,0 +1,19 @@
+[mergetool "sops-mergetool"]
+        cmd = ./sops-mergetool.sh "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+[merge]
+	tool = nvimdiff
+[merge "nvimdiff"]
+	layout = "LOCAL,BASE,REMOTE / MERGED + BASE,LOCAL + BASE,REMOTE + (LOCAL/BASE/REMOTE),MERGED"
+[push]
+	autoSetupRemote = true
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = git@github.com:RAD-Development/nix-dotfiles.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main

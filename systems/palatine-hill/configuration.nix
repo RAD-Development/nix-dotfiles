@@ -266,7 +266,7 @@ in
           group = "hydra";
           mode = "440";
         };
-        "upsmon/password".owner = "upsmon";
+        "upsmon/password".owner = "root";
       }
       // keygen "zfs-attic-key"
       // keygen "zfs-backup-key"

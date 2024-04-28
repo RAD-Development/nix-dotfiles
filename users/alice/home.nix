@@ -80,6 +80,11 @@
       clang
       yaml-language-server
       nodePackages.typescript-language-server
+      nodePackages.bash-language-server
+      multimarkdown
+      rustc
+      cargo
+      rust-analyzer
 
       # audit
       lynis

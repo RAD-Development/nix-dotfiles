@@ -1,13 +1,32 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   keygen = key: {
-    "${key}" = {
-      format = "binary";
-      sopsFile = ./keys/${key};
-      mode = "0400";
-      path = "/crypto/keys/${key}";
-    };
+    format = "binary";
+    sopsFile = ./keys/${key};
+    mode = "0400";
+    path = "/crypto/keys/${key}";
   };
+  bootkey = key: { "/crypto/keys/${key}" = /crypto/keys/${key}; };
+  zfskeys = [
+    "zfs-attic-key"
+    "zfs-backup-key"
+    "zfs-calibre-key"
+    "zfs-db-key"
+    "zfs-docker-key"
+    "zfs-games-key"
+    "zfs-hydra-key"
+    "zfs-libvirt-key"
+    "zfs-main-key"
+    "zfs-nxtcld-key"
+    "zfs-torr-key"
+    "zfs-var-docker-key"
+    "zfs-nix-store-key"
+  ];
 in
 {
 
@@ -37,6 +56,7 @@ in
       "vm.swappiness" = 10;
     };
     binfmt.emulatedSystems = [ "aarch64-linux" ];
+    initrd.secrets = lib.mergeAttrsList (map bootkey zfskeys);
   };
 
   nix = {
@@ -253,33 +273,20 @@ in
 
   sops = {
     defaultSopsFile = ./secrets.yaml;
-    secrets =
-      {
-        "hydra/environment".owner = "hydra";
-        "nix-serve/secret-key".owner = "root";
-        "attic/secret-key".owner = "root";
-        "attic/database-url".owner = "root";
-        "postgres/init".owner = "postgres";
-        "alice/gha-hydra-token" = {
-          sopsFile = ../../users/alice/secrets.yaml;
-          owner = "hydra";
-          group = "hydra";
-          mode = "440";
-        };
-        "upsmon/password".owner = "root";
-      }
-      // keygen "zfs-attic-key"
-      // keygen "zfs-backup-key"
-      // keygen "zfs-calibre-key"
-      // keygen "zfs-db-key"
-      // keygen "zfs-docker-key"
-      // keygen "zfs-games-key"
-      // keygen "zfs-hydra-key"
-      // keygen "zfs-libvirt-key"
-      // keygen "zfs-main-key"
-      // keygen "zfs-nxtcld-key"
-      // keygen "zfs-torr-key"
-      // keygen "zfs-var-docker-key";
+    secrets = {
+      "hydra/environment".owner = "hydra";
+      "nix-serve/secret-key".owner = "root";
+      "attic/secret-key".owner = "root";
+      "attic/database-url".owner = "root";
+      "postgres/init".owner = "postgres";
+      "alice/gha-hydra-token" = {
+        sopsFile = ../../users/alice/secrets.yaml;
+        owner = "hydra";
+        group = "hydra";
+        mode = "440";
+      };
+      "upsmon/password".owner = "root";
+    };
   };
 
   system.stateVersion = "23.05";

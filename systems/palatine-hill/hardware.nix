@@ -38,5 +38,10 @@
       device = "/dev/disk/by-uuid/4CBA-2451";
       fsType = "vfat";
     };
+    "/nix" = {
+      device = "ZFS-primary/nix";
+      fsType = "zfs";
+      depends = [ "/crypto/keys" ];
+    };
   };
 }

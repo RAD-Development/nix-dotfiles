@@ -42,6 +42,8 @@
       device = "ZFS-primary/nix";
       fsType = "zfs";
       depends = [ "/crypto/keys" ];
+      neededForBoot = true;
+      options = [ "noatime" ];
     };
   };
 }

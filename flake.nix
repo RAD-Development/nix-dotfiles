@@ -4,14 +4,14 @@
   nixConfig = {
     substituters = [
       "https://cache.nixos.org/?priority=1&want-mass-query=true"
-      "https://attic.alicehuston.xyz/cache-nix-dot?priority=4&want-mass-query=true"
-      "https://cache.alicehuston.xyz/?priority=5&want-mass-query=true"
+      # "https://attic.alicehuston.xyz/cache-nix-dot?priority=4&want-mass-query=true"
+      # "https://cache.alicehuston.xyz/?priority=5&want-mass-query=true"
       "https://nix-community.cachix.org/?priority=10&want-mass-query=true"
     ];
     trusted-substituters = [
       "https://cache.nixos.org"
-      "https://attic.alicehuston.xyz/cache-nix-dot"
-      "https://cache.alicehuston.xyz"
+      # "https://attic.alicehuston.xyz/cache-nix-dot"
+      # "https://cache.alicehuston.xyz"
       "https://nix-community.cachix.org"
     ];
     trusted-public-keys = [

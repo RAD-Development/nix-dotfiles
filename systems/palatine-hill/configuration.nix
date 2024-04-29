@@ -257,7 +257,9 @@ in
 
   nix.gc.options = "--delete-older-than 150d";
 
-  # TODO: revert this before merging
+  # TODO: revert this once UPS is plugged in
+  # Not reverting this before the merge as the UPS not being plugged in is
+  # causing upgrades to fail
   power.ups = {
     enable = false;
     ups."LX1325GU3" = {

@@ -257,8 +257,9 @@ in
 
   nix.gc.options = "--delete-older-than 150d";
 
+  # TODO: revert this before merging
   power.ups = {
-    enable = true;
+    enable = false;
     ups."LX1325GU3" = {
       driver = "usbhid-ups";
       port = "auto";

@@ -55,6 +55,10 @@ in
       "vm.overcommit_memory" = 1;
       "vm.swappiness" = 10;
     };
+    extraModprobeConfig = ''
+      options zfs zfs_arc_min=82463372083
+      options zfs zfs_arc_max=192414534860
+    '';
     binfmt.emulatedSystems = [ "aarch64-linux" ];
     initrd.secrets = lib.mergeAttrsList (map bootkey zfskeys);
   };

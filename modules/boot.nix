@@ -12,7 +12,7 @@ in
   options = {
     boot = {
       default = libS.mkOpinionatedOption "enable the boot builder";
-      fullDiskEncryption = libS.mkOpinionatedOption "use luks full disk encrytion";
+      fullDiskEncryption = libS.mkOpinionatedOption "use luks full disk encryption";
       useSystemdBoot = libS.mkOpinionatedOption "use systemd boot";
       cpuType = lib.mkOption {
         type = lib.types.str;
@@ -58,7 +58,10 @@ in
     loader = {
       efi.canTouchEfiVariables = false;
       generationsDir.copyKernels = true;
-      systemd-boot.enable = lib.mkIf cfg.useSystemdBoot true;
+      systemd-boot = lib.mkIf cfg.useSystemdBoot {
+        enable = true;
+        configurationLimit = 10;
+      };
       grub = lib.mkIf (!cfg.useSystemdBoot) {
         enable = lib.mkForce true;
         copyKernels = true;

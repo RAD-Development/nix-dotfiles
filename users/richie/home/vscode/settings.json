@@ -29,9 +29,18 @@
   "rust-analyzer.server.path": "rust-analyzer",
   "cSpell.userWords": ["Cahill", "syncthing"],
   "gitlens.plusFeatures.enabled": false,
-  "cSpell.enableFiletypes": ["nix"],
+  "cSpell.enableFiletypes": ["bat", "csv", "nix", "toml"],
+  "cSpell.language": "en,en-US",
   "cSpell.enabled": true,
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
-  }
+  },
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[nix]": {
+    "editor.defaultFormatter": "jnoortheen.nix-ide"
+  },
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.showSlider": "always"
 }

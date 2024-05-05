@@ -32,6 +32,8 @@
     firefox
     obsidian
     sweet-nova
+    cinnamon.nemo
+    cinnamon.nemo-fileroller
     # python
     python3
     ruff

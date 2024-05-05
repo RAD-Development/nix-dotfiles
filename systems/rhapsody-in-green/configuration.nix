@@ -102,21 +102,21 @@
       dbpath = "/home/richie/mongodb";
       user = "richie";
     };
-    # opensearch = {
-    #   enable = true;
-    #   user = "richie";
-    #   group = "users";
-    #   dataDir = "/home/richie/opensearch";
-    #   settings ={
-    #     "plugins.security.disabled"=true;
-    #     "plugins.security.ssl.http.enabled"=false;
-    #     "action.auto_create_index"=false;
-    #     "bootstrap.memory_lock"=true;
-    #   };
-    # }; 
-    elasticsearch = {
+    opensearch = {
       enable = true;
+      user = "richie";
+      group = "users";
+      dataDir = "/home/richie/opensearch";
+      settings = {
+        "plugins.security.disabled" = true;
+        "plugins.security.ssl.http.enabled" = false;
+        "action.auto_create_index" = false;
+        "bootstrap.memory_lock" = true;
+      };
     };
+    # elasticsearch = {
+    #   enable = true;
+    # };
     graylog = {
       enable = true;
       passwordSecret = "LfjRKrrbONYDCvfD8gCNYqMzVAPHrxVBaw1oR3zIE73cF0EUaj8yEU4DsY8ADbwlGKCt0f2Q9Di8CN6JCYqGug2cfUwE9oNG";

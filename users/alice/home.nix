@@ -45,7 +45,6 @@
       neofetch
       smartmontools
       wget
-      zsh-nix-shell
       glances
 
       # Rust packages

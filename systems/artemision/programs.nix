@@ -1,62 +1,98 @@
-{
-  pkgs,
-  config,
-  inputs,
-  ...
-}:
+{ pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    bfg-repo-cleaner
+    alacritty
+    amdgpu_top
+    bat
     bitwarden-cli
-    candy-icons
+    bfg-repo-cleaner
+    brightnessctl
+    btop
     calibre
     # calibre dedrm?
+    candy-icons
     cinnamon.nemo
+    croc
+    deadnix
+    direnv
     discord-canary
     eza
     fanficfare
     ferium
+    fd
+    file
     firefox
     # gestures replacement
     git
     glances
     gpu-viewer
+    grim
     headsetcontrol
+    htop
+    hwloc
     ipmiview
+    iperf3
     ipscan
+    jp2a
+    jq
     kitty
     libtool
+    lsof
+    lynis
     masterpdfeditor4
     mons
     # nbt explorer?
+    ncdu
+    neofetch
     neovim
+    nix-init
+    nix-output-monitor
+    nix-prefetch
+    nix-tree
+    nixpkgs-fmt
+    nmap
     noisetorch
     ocrmypdf
+    pciutils
     playonlinux
     protonmail-bridge
     protontricks
+    qrencode
     redshift
     restic
     ripgrep
     rpi-imager
     rofi-wayland
+    signal-desktop
     # signal in tray?
     siji
     simple-mtpfs
     slack
+    slurp
+    smartmontools
     snyk
     sops
     spotify
     spotify-player
     #swaylock/waylock?
     sweet-nova
+    telegram-desktop
+    terraform
+    tig
+    tokei
+    tree
+    unzip
     unipicker
+    uutils-coreutils-noprefix
     ventoy
     vscode
     watchman
+    wget
+    wl-clipboard
     xboxdrv
     yubioath-flutter
+    zoom-us
+    zoxide
     zoom
   ];
-  # ++ [ inputs.wired.packages.${system}.wired ];
 }

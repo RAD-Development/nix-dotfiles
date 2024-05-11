@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ../configuration.nix
-    ../programs.nix
     ./programs.nix
     ./desktop.nix
     ./wifi.nix
@@ -44,6 +42,7 @@
     }) { inherit (pkgs) system; }).fwupd;
 
   services.fprintd.enable = true;
+  services.openssh.enable = false;
 
   services.spotifyd = {
     enable = true;

@@ -13,6 +13,21 @@
   "git.pruneOnFetch": true,
   "update.mode": "none",
   "workbench.colorTheme": "Default Dark+",
+  
+  // turns off all sounds and announcements
+  "accessibility.signals.terminalCommandFailed": {
+    "sound": "off",
+    "announcement": "off"
+  },
+  "accessibility.signals.terminalQuickFix": {
+    "sound": "off",
+    "announcement": "off"
+  },
+  "accessibility.signals.terminalBell": {
+    "sound": "off",
+    "announcement": "off"
+  }
+  ,
 
   // formatters
   "[jsonc]": {

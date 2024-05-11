@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  imports = [ ../../users/richie/global/zerotier.nix ];
 
   networking = {
     hostId = "1beb3026";
@@ -53,11 +54,6 @@
     zfs = {
       trim.enable = true;
       autoScrub.enable = true;
-    };
-
-    zerotierone = {
-      enable = true;
-      joinNetworks = [ "e4da7455b2ae64ca" ];
     };
   };
 

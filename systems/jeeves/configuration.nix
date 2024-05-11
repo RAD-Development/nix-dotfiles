@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
-  imports = [ ../rhapsody-in-green/syncthing_base.nix ];
+  imports = [
+    ../../users/richie/global/syncthing_base.nix
+    ../../users/richie/global/zerotier.nix
+  ];
 
   networking = {
     hostId = "1beb3027";
@@ -109,14 +112,6 @@
     zfs = {
       trim.enable = true;
       autoScrub.enable = true;
-    };
-
-    zerotierone = {
-      enable = true;
-      joinNetworks = [
-        "e4da7455b2ae64ca"
-        "52b337794f23c1d4"
-      ];
     };
   };
 

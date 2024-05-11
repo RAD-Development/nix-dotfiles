@@ -1,37 +1,26 @@
 {
-  "workbench.colorTheme": "Default Dark+",
+  // vscode settings
+  "editor.formatOnSave": true,
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.showSlider": "always",
+  "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?_",
+  "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "files.autoSave": "afterDelay",
-  "explorer.confirmDelete": false,
-  "git.confirmSync": false,
-  "git.pruneOnFetch": true,
-  "git.fetchOnPull": true,
   "git.autofetch": true,
-  "keyboard.dispatch": "keyCode",
+  "git.confirmSync": false,
+  "git.fetchOnPull": true,
+  "git.pruneOnFetch": true,
+  "update.mode": "none",
+  "workbench.colorTheme": "Default Dark+",
 
-  "editor.formatOnSave": true,
-  "editor.fontFamily": "'IntoneMono Nerd Font', 'Droid Sans Mono', 'monospace'",
-
-  "nix.enableLanguageServer": true,
-  "nix.serverPath": "nil",
-
+  // formatters
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
-  "python.analysis.typeCheckingMode": "basic",
-  "update.mode": "none",
-  "redhat.telemetry.enabled": true,
-  // force the use of rust-analyzer from dev shell
-  "rust-analyzer.server.path": "rust-analyzer",
-  "cSpell.userWords": ["Cahill", "syncthing"],
-  "gitlens.plusFeatures.enabled": false,
-  "cSpell.enableFiletypes": ["bat", "csv", "nix", "toml"],
-  "cSpell.language": "en,en-US",
-  "cSpell.enabled": true,
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
@@ -41,6 +30,22 @@
   "[nix]": {
     "editor.defaultFormatter": "jnoortheen.nix-ide"
   },
-  "editor.minimap.renderCharacters": false,
-  "editor.minimap.showSlider": "always"
+
+  // spell check
+  "cSpell.enabled": true,
+  "cSpell.language": "en,en-US",
+  "cSpell.enableFiletypes": ["bat", "csv", "nix", "toml"],
+  "cSpell.userWords": ["Cahill", "syncthing"],
+
+  // nix
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil",
+
+  // force the use of rust-analyzer from dev shell
+  "rust-analyzer.server.path": "rust-analyzer",
+
+  // other
+  "python.analysis.typeCheckingMode": "basic",
+  "redhat.telemetry.enabled": true,
+  "gitlens.plusFeatures.enabled": false
 }

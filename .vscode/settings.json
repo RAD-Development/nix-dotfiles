@@ -21,6 +21,8 @@
     "concatLists",
     "Cryptodisk",
     "dialout",
+    "direnv",
+    "disren",
     "dotfiles",
     "eamodio",
     "errorlens",
@@ -90,6 +92,7 @@
     "wireshark",
     "xhci",
     "yzhang",
+    "zerotier",
     "zerotierone",
     "zhaofengli",
     "zoxide"

@@ -14,7 +14,6 @@
     starship
     tmux
     zoxide
-    zsh-nix-shell
     # system info
     hwloc
     lynis
@@ -34,6 +33,7 @@
     sweet-nova
     cinnamon.nemo
     cinnamon.nemo-fileroller
+    gimp
     # python
     python3
     ruff

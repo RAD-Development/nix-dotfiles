@@ -206,24 +206,12 @@
                   nixos-modules.nixosModule
                   sops-nix.nixosModules.sops
                   { config.networking.hostName = "${hostname}"; }
+                  ./systems/${hostname}/hardware.nix
+                  ./systems/${hostname}/configuration.nix
                 ]
-                ++ (
-                  if server then
-                    [
-                      ./systems/${hostname}/hardware.nix
-                      ./systems/${hostname}/configuration.nix
-                    ]
-                  else
-                    [
-                      ./users/${builtins.head users}/systems/${hostname}/configuration.nix
-                      ./users/${builtins.head users}/systems/${hostname}/hardware.nix
-                    ]
-                )
                 ++ fileList "modules"
                 ++ modules
                 ++ lib.optional home home-manager.nixosModules.home-manager
-                ++ lib.optional (builtins.elem "minimal" iso) "${toString nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-                ++ lib.optional (builtins.elem "sd" iso) "${toString nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
                 ++ (
                   if home then
                     (map (user: { home-manager.users.${user} = import ./users/${user}/home.nix; }) users)
@@ -273,26 +261,6 @@
               ]
             );
           }) (lsdir "systems")
-        ))
-        // (builtins.listToAttrs (
-          builtins.concatMap (
-            user:
-            map (system: {
-              name = "${user}.${system}";
-              value = constructSystem (
-                {
-                  hostname = system;
-                  server = false;
-                  users = [ user ];
-                }
-                // builtins.removeAttrs (import ./users/${user}/systems/${system} { inherit inputs; }) [
-                  "hostname"
-                  "server"
-                  "users"
-                ]
-              );
-            }) (lsdir "users/${user}/systems")
-          ) (lsdir "users")
         ));
 
       devShell = lib.mapAttrs (

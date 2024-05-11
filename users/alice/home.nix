@@ -76,14 +76,17 @@
       # doom emacs dependencies
       fd
       ripgrep
-      clang
       yaml-language-server
       nodePackages.typescript-language-server
       nodePackages.bash-language-server
+      pyright
+      cmake-language-server
       multimarkdown
       rustc
       cargo
       rust-analyzer
+      clang
+      clang-tools
 
       # audit
       lynis

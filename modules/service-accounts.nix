@@ -11,8 +11,12 @@ let
     options = {
       enable = lib.mkEnableOption "service account ${cfg.account-name}";
 
+      # default value gets pulled from the submodule name
+      # ie. rad-dot.service-accounts.docker-deploy will set an
+      # account-name of docker-deploy
       account-name = lib.mkOption {
         type = lib.types.str;
+        default = config.module._args.name;
         description = "account name to be used for the service account";
       };
 

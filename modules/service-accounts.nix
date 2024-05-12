@@ -69,13 +69,18 @@ in
     docker/podman functionality
   */
 
-  options.rad-dot.service-accounts = lib.mkOption { type = lib.types.attrsOf service-account-type; };
+  options.rad-dot.service-accounts = {
+    enable = lib.mkEnableOption "service accounts";
+
+    accounts = lib.mkOption { type = lib.types.attrsOf service-account-type; };
+  };
 
   config =
     let
+      acc = cfg.accounts;
       # get all zerotier networks that are required
       zerotier-networks = lib.flatten (
-        lib.mapAttrsToList (_: { zerotier-networks, ... }: zerotier-networks) cfg
+        lib.mapAttrsToList (_: { zerotier-networks, ... }: zerotier-networks) acc
       );
 
       # any(), but checks if any value in the list is true
@@ -88,11 +93,10 @@ in
       # mapGetAttr :: String -> Attrset -> [Any]
       mapGetAttr = (attr: set: lib.mapAttrsToList (_: attrset: lib.getAttr attr attrset) set);
 
-      enable-docker = anyBool (mapGetAttr "enable-docker" cfg);
-      enable-podman = anyBool (mapGetAttr "enable-podman" cfg);
+      enable-docker = anyBool (mapGetAttr "enable-docker" acc);
+      enable-podman = anyBool (mapGetAttr "enable-podman" acc);
     in
-
-    {
+    lib.mkIf cfg.enable {
       # creates each user
       users.users = lib.mapAttrs (
         account-name:
@@ -109,7 +113,7 @@ in
           extraGroups = groups ++ lib.optionals enable-docker [ "docker" ];
           home = lib.mkIf (home-directory != null) home-directory;
         }
-      ) cfg;
+      ) acc;
 
       # declare the service-accounts group exists
       users.groups.service-accounts = { };

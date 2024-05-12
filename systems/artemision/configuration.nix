@@ -11,6 +11,7 @@
     ./fingerprint.nix
     ./steam.nix
     ./graphics.nix
+    ./service-account.nix
   ];
 
   time.timeZone = "America/New_York";

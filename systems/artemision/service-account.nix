@@ -10,9 +10,9 @@
     enable = true;
     accounts = {
       docker-deploy = {
-        enable = true;
+        enable = false;
         enable-docker = true;
-        zerotier-networks = [ "e4da7455b2ae64ca" ];
+        enable-podman = false;
       };
     };
   };

@@ -77,12 +77,6 @@ in
 
   config =
     let
-      acc = cfg.accounts;
-      # get all zerotier networks that are required
-      zerotier-networks = lib.flatten (
-        lib.mapAttrsToList (_: { zerotier-networks, ... }: zerotier-networks) acc
-      );
-
       # any(), but checks if any value in the list is true
       # type:
       # anyBool:: [bool] -> bool
@@ -93,6 +87,10 @@ in
       # mapGetAttr :: String -> Attrset -> [Any]
       mapGetAttr = (attr: set: lib.mapAttrsToList (_: attrset: lib.getAttr attr attrset) set);
 
+      # filters for all accounts which are currently enabled
+      acc = lib.filterAttrs (_: { enable, ... }: enable == true) cfg.accounts;
+
+      # check if any accounts need docker or podman
       enable-docker = anyBool (mapGetAttr "enable-docker" acc);
       enable-podman = anyBool (mapGetAttr "enable-podman" acc);
     in
@@ -117,12 +115,6 @@ in
 
       # declare the service-accounts group exists
       users.groups.service-accounts = { };
-
-      # adds all zerotier networks for service accounts
-      services.zerotierone = lib.mkIf (zerotier-networks != [ ]) {
-        enable = true;
-        joinNetworks = zerotier-networks;
-      };
 
       # enables docker if any requires it
       virtualisation.docker = lib.mkIf enable-docker { enable = true; };

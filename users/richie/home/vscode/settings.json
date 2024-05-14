@@ -3,7 +3,6 @@
   "editor.formatOnSave": true,
   "editor.minimap.renderCharacters": false,
   "editor.minimap.showSlider": "always",
-  "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?_",
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "files.autoSave": "afterDelay",
@@ -13,7 +12,7 @@
   "git.pruneOnFetch": true,
   "update.mode": "none",
   "workbench.colorTheme": "Default Dark+",
-  
+
   // turns off all sounds and announcements
   "accessibility.signals.terminalCommandFailed": {
     "sound": "off",
@@ -26,8 +25,7 @@
   "accessibility.signals.terminalBell": {
     "sound": "off",
     "announcement": "off"
-  }
-  ,
+  },
 
   // formatters
   "[jsonc]": {

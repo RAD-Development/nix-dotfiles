@@ -52,6 +52,7 @@
       smartmontools
       wget
       glances
+      plocate
 
       # Rust packages
       bat

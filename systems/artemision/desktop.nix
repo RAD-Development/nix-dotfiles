@@ -10,8 +10,10 @@
   # Optional, hint electron apps to use wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  services.xserver.displayManager.gdm = {
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm = {
     enable = true;
+    wayland.enable = true;
   };
 
   services.dbus = {

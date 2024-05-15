@@ -186,6 +186,16 @@
 
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
+      # adds our lib functions to lib namespace
+      lib = nixpkgs.lib.extend (
+        self: super: {
+          my = import ./lib {
+            inherit nixpkgs inputs;
+            lib = self;
+          };
+        }
+      );
+
       nixosConfigurations =
         let
           constructSystem =

@@ -9,35 +9,37 @@ let
   cfg = config.services.autopull;
 
   autopull-type = lib.types.submodule {
-    enable = lib.mkEnableOption "autopull for ${cfg.name}";
+    options = {
+      enable = lib.mkEnableOption "autopull repo";
 
-    name = lib.mkOption {
-      type = lib.types.str;
-      default = config.module._args.name;
-      description = "A name for the service which needs to be pulled";
-    };
+      name = lib.mkOption {
+        type = lib.types.str;
+        default = config.module._args.name;
+        description = "A name for the service which needs to be pulled";
+      };
 
-    path = lib.mkOption {
-      type = lib.types.path;
-      description = "Path that needs to be updated via git pull";
-    };
+      path = lib.mkOption {
+        type = lib.types.path;
+        description = "Path that needs to be updated via git pull";
+      };
 
-    frequency = lib.mkOption {
-      type = lib.types.str;
-      description = "systemd-timer compatible time between pulls";
-      default = "1h";
-    };
+      frequency = lib.mkOption {
+        type = lib.types.str;
+        description = "systemd-timer compatible time between pulls";
+        default = "1h";
+      };
 
-    ssh-key = lib.mkOption {
-      type = lib.types.str;
-      default = "";
-      description = "ssh-key used to pull the repository";
-    };
+      ssh-key = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        description = "ssh-key used to pull the repository";
+      };
 
-    triggers-rebuild = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Whether or not the rebuild service should be triggered after pulling. Note that system.autoUpgrade must be pointed at the same directory as this service if you'd like to use this option.";
+      triggers-rebuild = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether or not the rebuild service should be triggered after pulling. Note that system.autoUpgrade must be pointed at the same directory as this service if you'd like to use this option.";
+      };
     };
   };
 in
@@ -55,10 +57,12 @@ in
       repos = lib.filterAttrs (_: { enable, ... }: enable == true) cfg.repo;
     in
     lib.mkIf cfg.enable {
-      environment.systemPackages = [
-        pkgs.openssh
-        pkgs.git
-      ];
+      environment.systemPackages =
+        [ pkgs.git ]
+        ++ lib.optionals (lib.any (ssh-key: ssh-key != "") (lib.mapGetAttr "ssh-key" repos)) [
+          pkgs.openssh
+        ];
+
       systemd.services = lib.mapAttrs' (
         repo:
         {

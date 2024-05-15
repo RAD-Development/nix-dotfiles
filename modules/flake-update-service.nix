@@ -9,7 +9,7 @@ let
   cfg = config.services.autopull;
 
   autopull-type = lib.types.submodule {
-    enable = lib.mkEnableOption "autopull for ${cfg.account-name}";
+    enable = lib.mkEnableOption "autopull for ${cfg.name}";
 
     name = lib.mkOption {
       type = lib.types.str;

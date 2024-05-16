@@ -125,7 +125,6 @@
     }@inputs:
     let
 
-      inherit (nixpkgs) lib;
       inherit (self) outputs;
       systems = [
         "x86_64-linux"
@@ -133,35 +132,14 @@
       ];
 
       forEachSystem = lib.genAttrs systems;
-      overlayList = [
-        #self.overlays.default
-        nix.overlays.default
-      ];
-      pkgsBySystem = forEachSystem (
-        system:
-        import nixpkgs {
-          inherit system;
-          overlays = overlayList;
-          config = {
-            allowUnfree = true;
-            isHydra = true;
-          };
-        }
-      );
 
+      # filter out all non-nix files and returns the nix-store path
+      # (ie. git configs, git refs, etc)
+      #
+      # used for module imports and system search
       src = builtins.filterSource (
         path: type: type == "directory" || lib.hasSuffix ".nix" (baseNameOf path)
       ) ./.;
-      ls = dir: lib.attrNames (builtins.readDir (src + "/${dir}"));
-      lsdir =
-        dir:
-        if (builtins.pathExists (src + "/${dir}")) then
-          (lib.attrNames (
-            lib.filterAttrs (path: type: type == "directory") (builtins.readDir (src + "/${dir}"))
-          ))
-        else
-          [ ];
-      fileList = dir: map (file: ./. + "/${dir}/${file}") (ls dir);
 
       config = {
         repos = [
@@ -179,22 +157,21 @@
           }
         ];
       };
-    in
-    {
-      inherit (self) outputs;
-      hydraJobs = import ./hydra/jobs.nix { inherit inputs outputs; };
-
-      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       # adds our lib functions to lib namespace
       lib = nixpkgs.lib.extend (
-        self: super: {
-          my = import ./lib {
-            inherit nixpkgs inputs;
-            lib = self;
-          };
+        self: super:
+        import ./lib {
+          inherit nixpkgs inputs;
+          lib = self;
         }
       );
+    in
+    {
+      inherit (self) outputs;
+
+      hydraJobs = import ./hydra/jobs.nix { inherit inputs outputs; };
+      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations =
         let
@@ -220,7 +197,7 @@
                   ./systems/${hostname}/hardware.nix
                   ./systems/${hostname}/configuration.nix
                 ]
-                ++ fileList "modules"
+                ++ (lib.rad-dev.fileList src "modules")
                 ++ modules
                 ++ lib.optional home home-manager.nixosModules.home-manager
                 ++ (
@@ -271,7 +248,8 @@
                 "home"
               ]
             );
-          }) (lsdir "systems")
+          }) (lib.rad-dev.lsdir src "systems")
+
         ));
 
       devShell = lib.mapAttrs (

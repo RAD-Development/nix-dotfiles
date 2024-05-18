@@ -67,7 +67,6 @@
       gitoxide
       tealdeer
       helix
-      eza
 
       # nix specific packages
       nil
@@ -109,14 +108,22 @@
   programs = {
 
     starship.enable = true;
+
     fzf = {
       enable = true;
       enableZshIntegration = true;
     };
+
     direnv = {
       enable = true;
       enableZshIntegration = true;
       nix-direnv.enable = true;
+    };
+
+    eza = {
+      enable = true;
+      icons = true;
+      git = true;
     };
 
     neovim = {

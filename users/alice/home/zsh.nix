@@ -67,7 +67,6 @@
       "htgp" = "history | grep";
       "gen_walpaper" = "wal -i '/home/alice/Pictures/Wallpapers/1440pdump'";
       "vlgdf" = "valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes";
-      "ls" = "eza --icons";
       "libreoffice-writer" = "libreoffice --writer";
       "libreoffice-calc" = "libreoffice --calc";
       "notes" = "code /home/alice/Scripts/Notes/dendron.code-workspace";

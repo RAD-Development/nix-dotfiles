@@ -51,7 +51,6 @@
     nix-tree
     nixpkgs-fmt
     nmap
-    noisetorch
     ocrmypdf
     pciutils
     playonlinux

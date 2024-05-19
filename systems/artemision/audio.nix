@@ -30,4 +30,6 @@
   hardware.bluetooth.powerOnBoot = true;
 
   environment.systemPackages = with pkgs; [ pavucontrol ];
+
+  programs.noisetorch.enable = true;
 }

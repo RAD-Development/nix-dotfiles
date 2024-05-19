@@ -164,6 +164,7 @@
           lib = self;
         }
       );
+      inherit (lib.rad-dev.systems) genSystems;
     in
     {
       inherit (self) outputs; # for hydra
@@ -172,11 +173,7 @@
       hydraJobs = import ./hydra/jobs.nix { inherit inputs outputs; };
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
-      nixosConfigurations =
-        let
-          genSystems = lib.rad-dev.systems.genSystems;
-        in
-        genSystems inputs src (src + "/systems");
+      nixosConfigurations = genSystems inputs src (src + "/systems");
 
       devShell = lib.mapAttrs (
         system: sopsPkgs:

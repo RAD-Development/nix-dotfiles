@@ -2,8 +2,11 @@
 {
   services.autopull = {
     enable = lib.mkDefault true;
-    ssh-key = lib.mkDefault "/root/.ssh/id_ed25519_ghdeploy";
-    path = lib.mkDefault /root/dotfiles;
+    repo.dotfiles = {
+      enable = lib.mkDefault true;
+      ssh-key = lib.mkDefault "/root/.ssh/id_ed25519_ghdeploy";
+      path = lib.mkDefault /root/dotfiles;
+    };
   };
 
   system.autoUpgrade = {

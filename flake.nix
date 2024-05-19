@@ -136,17 +136,8 @@
 
       forEachSystem = lib.genAttrs systems;
 
-      # filter out all non-nix files and returns the nix-store path
-      # (ie. git configs, git refs, etc)
-      #
-      # used for module imports and system search
-      src = builtins.filterSource (
-        path: type:
-        type == "directory"
-        || lib.hasSuffix ".nix"
-        || lib.hasSuffix ".yaml"
-        || lib.hasSuffix ".yml" (baseNameOf path)
-      ) ./.;
+      # gets the base path of the repo
+      src = builtins.path { path = ./.; };
 
       config = {
         repos = [

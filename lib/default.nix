@@ -20,7 +20,7 @@
     # set: attrset to search
     #
     # type:
-    # mapGetAttr :: String -> Attrset -> [Any]
+    # mapGetAttr :: String -> AttrSet -> [Any]
     mapGetAttr = (attr: set: lib.mapAttrsToList (_: attrset: lib.getAttr attr attrset) set);
 
     # gets list of files and directories inside of a directory

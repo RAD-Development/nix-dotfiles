@@ -166,32 +166,17 @@
       );
     in
     {
-      inherit (self) outputs;
+      inherit (self) outputs; # for hydra
+      inherit lib; # for allowing use of custom functions in nix repl
 
       hydraJobs = import ./hydra/jobs.nix { inherit inputs outputs; };
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations =
         let
-          constructSystem = lib.rad-dev.systems.constructSystem;
+          genSystems = lib.rad-dev.systems.genSystems;
         in
-        (builtins.listToAttrs (
-          map (system: {
-            name = system;
-            value = constructSystem (
-              {
-                inherit inputs src;
-                hostname = system;
-              }
-              // builtins.removeAttrs (import ./systems/${system} { inherit inputs; }) [
-                "hostname"
-                "server"
-                "home"
-              ]
-            );
-          }) (lib.rad-dev.lsdir src "systems")
-
-        ));
+        genSystems inputs src (src + "/systems");
 
       devShell = lib.mapAttrs (
         system: sopsPkgs:

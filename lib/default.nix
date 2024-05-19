@@ -31,7 +31,7 @@
     #
     # type:
     # ls :: Path -> String -> [String]
-    ls = base: dir: lib.attrNames (builtins.readDir (base + "/${dir}"));
+    ls = dir: lib.attrNames (builtins.readDir dir);
 
     # gets list of directories inside of a given directory
     #
@@ -42,11 +42,9 @@
     # type:
     # lsdir :: Path -> String -> [String]
     lsdir =
-      base: dir:
-      if (builtins.pathExists (base + "/${dir}")) then
-        (lib.attrNames (
-          lib.filterAttrs (path: type: type == "directory") (builtins.readDir (base + "/${dir}"))
-        ))
+      dir:
+      if (builtins.pathExists (dir)) then
+        (lib.attrNames (lib.filterAttrs (path: type: type == "directory") (builtins.readDir (dir))))
       else
         [ ];
 
@@ -58,6 +56,6 @@
     #
     # type:
     # fileList :: Path -> String -> [Path]
-    fileList = base: dir: map (file: base + "/${dir}/${file}") (ls base dir);
+    fileList = dir: map (file: dir + "/${file}") (ls dir);
   };
 }

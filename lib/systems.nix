@@ -28,31 +28,32 @@ rec {
       };
     }) users);
 
-  genUsers =
-    { users, src, ... }:
-    (map (
-      user:
-      {
-        config,
-        lib,
-        pkgs,
-        ...
-      }@args:
-      {
-        users.users.${user} = import (src + "/users/${user}") (args // { name = user; });
-      }
-    ) users);
+  importUser =
+    user: src:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }@args:
+    {
+      users.users.${user} = import (src + "/users/${user}") (args // { name = user; });
+    };
+
+  genUsers = { users, src, ... }: (map (user: importUser user src) users);
+
+  genNonX86 =
+    { ... }:
+    {
+      config.nixpkgs = {
+        config.allowUnsupportedSystem = true;
+        buildPlatform = "x86_64-linux";
+      };
+    };
 
   genWrapper =
     var: func: args:
     lib.optionals var (func args);
-
-  nonX86 = {
-    config.nixpkgs = {
-      config.allowUnsupportedSystem = true;
-      buildPlatform = "x86_64-linux";
-    };
-  };
 
   constructSystem =
     {
@@ -80,9 +81,25 @@ rec {
           (src + "/systems/${hostname}/configuration.nix")
         ]
         ++ modules
-        ++ (lib.rad-dev.fileList src "modules")
+        ++ (lib.rad-dev.fileList (src + "/modules"))
         ++ genWrapper sops genSops args
         ++ genWrapper home genHome args
-        ++ genWrapper true genUsers args;
+        ++ genWrapper true genUsers args
+        ++ genWrapper (system != "x86_64-linux") genNonX86 args;
     };
+
+  genSystems =
+    inputs: src: path:
+    builtins.listToAttrs (
+      map (name: {
+        inherit name;
+        value = constructSystem (
+          {
+            inherit inputs src;
+            hostname = name;
+          }
+          // import (path + "/${name}") { inherit inputs; }
+        );
+      }) (lib.rad-dev.lsdir path)
+    );
 }

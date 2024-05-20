@@ -164,13 +164,6 @@
 
       nixosConfigurations = genSystems inputs src (src + "/systems");
       checks = import ./checks.nix { inherit inputs forEachSystem formatter; };
-      devShells = import ./shell.nix {
-        inherit
-          forEachSystem
-          nixpkgs
-          checks
-          sops-nix
-          ;
-      };
+      devShells = import ./shell.nix { inherit inputs forEachSystem checks; };
     };
 }

@@ -1,14 +1,14 @@
 {
+  inputs,
   forEachSystem,
-  nixpkgs,
   checks,
-  sops-nix,
   ...
 }:
 
 forEachSystem (
   system:
   let
+    inherit (inputs) nixpkgs sops-nix;
     pkgs = nixpkgs.legacyPackages.${system};
     pre-commit = pkgs.mkShell {
       inherit (checks.${system}.pre-commit-check) shellHook;

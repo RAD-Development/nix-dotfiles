@@ -172,20 +172,5 @@
           sops-nix
           ;
       };
-      # devShell = lib.mapAttrs (
-      #   system: sopsPkgs:
-      #   with nixpkgs.legacyPackages.${system};
-      #   mkShell {
-      #     sopsPGPKeyDirs = [ "./keys" ];
-      #     nativeBuildInputs = [ sopsPkgs.sops-import-keys-hook ];
-      #     packages = [
-      #       self.formatter.${system}
-      #       nixpkgs.legacyPackages.${system}.deadnix
-      #       nixpkgs.legacyPackages.${system}.treefmt
-      #       nixpkgs.legacyPackages.${system}.pre-commit
-      #     ];
-      #     shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
-      #   }
-      # ) sops-nix.packages;
     };
 }

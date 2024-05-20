@@ -26,16 +26,22 @@
   inputs =
 
     {
+      nixos-hardware.url = "github:NixOS/nixos-hardware";
       nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
       nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
       systems.url = "github:nix-systems/default";
-      nix-index-database = {
-        url = "github:Mic92/nix-index-database";
-        inputs.nixpkgs.follows = "nixpkgs";
+
+      attic = {
+        url = "github:zhaofengli/attic";
+        inputs = {
+          nixpkgs.follows = "nixpkgs";
+          nixpkgs-stable.follows = "nixpkgs-stable";
+          flake-utils.follows = "flake-utils";
+        };
       };
 
-      nix = {
-        url = "github:NixOS/nix/latest-release";
+      fenix = {
+        url = "github:nix-community/fenix";
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
@@ -44,34 +50,36 @@
         inputs.systems.follows = "systems";
       };
 
-      fenix = {
-        url = "github:nix-community/fenix";
+      home-manager = {
+        url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
-      nixos-modules = {
-        url = "github:SuperSandro2000/nixos-modules";
+      hyprland-contrib = {
+        url = "github:hyprwm/contrib";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
+      nix = {
+        url = "github:NixOS/nix/latest-release";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
+      nix-index-database = {
+        url = "github:Mic92/nix-index-database";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
+      nix-pre-commit = {
+        url = "github:jmgilman/nix-pre-commit";
         inputs = {
           nixpkgs.follows = "nixpkgs";
           flake-utils.follows = "flake-utils";
         };
       };
 
-      home-manager = {
-        url = "github:nix-community/home-manager";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-
-      sops-nix = {
-        url = "github:Mic92/sops-nix";
-        inputs = {
-          nixpkgs.follows = "nixpkgs";
-          nixpkgs-stable.follows = "nixpkgs-stable";
-        };
-      };
-
-      nix-pre-commit = {
-        url = "github:jmgilman/nix-pre-commit";
+      nixos-modules = {
+        url = "github:SuperSandro2000/nixos-modules";
         inputs = {
           nixpkgs.follows = "nixpkgs";
           flake-utils.follows = "flake-utils";
@@ -86,14 +94,6 @@
         };
       };
 
-      wired-notify = {
-        url = "github:Toqozz/wired-notify";
-        inputs = {
-          nixpkgs.follows = "nixpkgs";
-          rust-overlay.follows = "rust-overlay";
-        };
-      };
-
       rust-overlay = {
         url = "github:oxalica/rust-overlay";
         inputs = {
@@ -102,22 +102,20 @@
         };
       };
 
-      nixos-hardware = {
-        url = "github:NixOS/nixos-hardware";
-      };
-
-      attic = {
-        url = "github:zhaofengli/attic";
+      sops-nix = {
+        url = "github:Mic92/sops-nix";
         inputs = {
           nixpkgs.follows = "nixpkgs";
           nixpkgs-stable.follows = "nixpkgs-stable";
-          flake-utils.follows = "flake-utils";
         };
       };
 
-      hyprland-contrib = {
-        url = "github:hyprwm/contrib";
-        inputs.nixpkgs.follows = "nixpkgs";
+      wired-notify = {
+        url = "github:Toqozz/wired-notify";
+        inputs = {
+          nixpkgs.follows = "nixpkgs";
+          rust-overlay.follows = "rust-overlay";
+        };
       };
     };
 

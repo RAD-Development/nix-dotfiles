@@ -9,7 +9,7 @@ forEachSystem (system: {
     src = ./.;
     hooks = {
       # nix checks
-      # Example custom hook for nix formatting:
+      # Example custom hook for nix formatting
       fmt-check = {
         enable = true;
 
@@ -20,6 +20,7 @@ forEachSystem (system: {
         # see also https://pre-commit.com/#hooks-files
         files = "\\.nix$";
       };
+      ## static analysis checks for nix
       nil.enable = true;
       statix.enable = false;
 
@@ -32,10 +33,12 @@ forEachSystem (system: {
 
       # git hooks
       check-merge-conflicts.enable = true;
+      ## prevents committing to main
       no-commit-to-branch.enable = true;
 
       # misc hooks
       check-added-large-files.enable = true;
+      ## prevents two similarly named files for case sensitive systems
       check-case-conflicts.enable = true;
       detect-private-keys.enable = true;
     };

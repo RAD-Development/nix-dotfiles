@@ -25,6 +25,9 @@ forEachSystem (
       packages = with pkgs; [
         deadnix
         pre-commit
+        treefmt
+        statix
+        nixfmt-rfc-style
       ];
     };
   in

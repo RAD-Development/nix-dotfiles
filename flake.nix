@@ -133,7 +133,8 @@
     let
       systems = [
         "x86_64-linux"
-        "aarch64-linux"
+        # disable arm for now as hydra isn't set up for it
+        # "aarch64-linux"
       ];
 
       forEachSystem = lib.genAttrs systems;

@@ -154,9 +154,9 @@
         }
       );
       inherit (lib.rad-dev.systems) genSystems;
+      inherit (self) outputs; # for hydra
     in
     rec {
-      inherit (self) outputs; # for hydra
       inherit lib; # for allowing use of custom functions in nix repl
 
       hydraJobs = import ./hydra/jobs.nix { inherit inputs outputs; };

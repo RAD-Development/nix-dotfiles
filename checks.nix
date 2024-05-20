@@ -24,7 +24,11 @@ forEachSystem (system: {
       statix.enable = false;
 
       # json hooks
-      check-json.enable = true;
+      check-json = {
+        enable = true;
+        # exclude vscode json files as they allow comments and check-json doesn't
+        excludes = [ "settings.json$" ];
+      };
 
       # git hooks
       check-merge-conflicts.enable = true;

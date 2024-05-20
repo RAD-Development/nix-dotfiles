@@ -78,6 +78,14 @@
         };
       };
 
+      pre-commit-hooks = {
+        url = "github:cachix/pre-commit-hooks.nix";
+        inputs = {
+          nixpkgs.follows = "nixpkgs";
+          nixpkgs-stable.follows = "nixpkgs-stable";
+        };
+      };
+
       wired-notify = {
         url = "github:Toqozz/wired-notify";
         inputs = {
@@ -127,8 +135,6 @@
       ...
     }@inputs:
     let
-
-      inherit (self) outputs;
       systems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -138,23 +144,6 @@
 
       # gets the base path of the repo
       src = builtins.path { path = ./.; };
-
-      config = {
-        repos = [
-          {
-            repo = "local";
-            hooks = [
-              {
-                id = "nix fmt check";
-                entry = "${outputs.formatter.x86_64-linux}/bin/nixfmt";
-                args = [ "--check" ];
-                language = "system";
-                files = "\\.nix";
-              }
-            ];
-          }
-        ];
-      };
 
       # adds our lib functions to lib namespace
       lib = nixpkgs.lib.extend (
@@ -166,7 +155,7 @@
       );
       inherit (lib.rad-dev.systems) genSystems;
     in
-    {
+    rec {
       inherit (self) outputs; # for hydra
       inherit lib; # for allowing use of custom functions in nix repl
 
@@ -174,21 +163,29 @@
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations = genSystems inputs src (src + "/systems");
-
-      devShell = lib.mapAttrs (
-        system: sopsPkgs:
-        with nixpkgs.legacyPackages.${system};
-        mkShell {
-          sopsPGPKeyDirs = [ "./keys" ];
-          nativeBuildInputs = [ sopsPkgs.sops-import-keys-hook ];
-          packages = [
-            self.formatter.${system}
-            nixpkgs.legacyPackages.${system}.deadnix
-            nixpkgs.legacyPackages.${system}.treefmt
-            nixpkgs.legacyPackages.${system}.pre-commit
-          ];
-          shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
-        }
-      ) sops-nix.packages;
+      checks = import ./checks.nix { inherit inputs forEachSystem formatter; };
+      devShells = import ./shell.nix {
+        inherit
+          forEachSystem
+          nixpkgs
+          checks
+          sops-nix
+          ;
+      };
+      # devShell = lib.mapAttrs (
+      #   system: sopsPkgs:
+      #   with nixpkgs.legacyPackages.${system};
+      #   mkShell {
+      #     sopsPGPKeyDirs = [ "./keys" ];
+      #     nativeBuildInputs = [ sopsPkgs.sops-import-keys-hook ];
+      #     packages = [
+      #       self.formatter.${system}
+      #       nixpkgs.legacyPackages.${system}.deadnix
+      #       nixpkgs.legacyPackages.${system}.treefmt
+      #       nixpkgs.legacyPackages.${system}.pre-commit
+      #     ];
+      #     shellHook = (nix-pre-commit.lib.${system}.mkConfig { inherit pkgs config; }).shellHook;
+      #   }
+      # ) sops-nix.packages;
     };
 }

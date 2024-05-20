@@ -97,7 +97,7 @@ rec {
   # type:
   # genNonX86 :: AttrSet -> [AttrSet]
   genNonX86 =
-    { _ }:
+    { ... }:
     [
       {
         config.nixpkgs = {

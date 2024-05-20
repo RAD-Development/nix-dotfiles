@@ -31,6 +31,9 @@ forEachSystem (system: {
         excludes = [ "settings.json$" ];
       };
 
+      # toml hooks
+      check-toml.enable = true;
+
       # git hooks
       check-merge-conflicts.enable = true;
       ## prevents committing to main

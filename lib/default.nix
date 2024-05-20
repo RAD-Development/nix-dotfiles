@@ -43,10 +43,9 @@
     # lsdir :: Path -> String -> [String]
     lsdir =
       dir:
-      if (builtins.pathExists (dir)) then
-        (lib.attrNames (lib.filterAttrs (path: type: type == "directory") (builtins.readDir (dir))))
-      else
-        [ ];
+      lib.optionals (builtins.pathExists dir) (
+        lib.attrNames (lib.filterAttrs (path: type: type == "directory") (builtins.readDir (dir)))
+      );
 
     # return full paths of all files in a directory
     #

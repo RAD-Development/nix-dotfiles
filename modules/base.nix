@@ -1,4 +1,9 @@
-{ lib, sops-nix, ... }:
+{
+  lib,
+  inputs,
+  server,
+  ...
+}:
 {
   boot.default = lib.mkDefault true;
 
@@ -18,6 +23,11 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    sharedModules = [ sops-nix.homeManagerModules.sops ];
+    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+    extraSpecialArgs = {
+      machineConfig = {
+        inherit server;
+      };
+    };
   };
 }

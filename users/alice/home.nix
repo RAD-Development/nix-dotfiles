@@ -1,4 +1,10 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  machineConfig,
+  ...
+}:
 
 {
   imports = [
@@ -6,7 +12,7 @@
     ./home/doom
     ./home/gammastep.nix
     ./home/git.nix
-  ];
+  ] ++ lib.optionals (!machineConfig.server) [ ./non-server.nix ];
 
   home = {
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -100,10 +106,6 @@
   };
 
   programs = {
-    emacs = {
-      enable = true;
-      package = pkgs.emacs29-pgtk;
-    };
 
     starship.enable = true;
     fzf = {

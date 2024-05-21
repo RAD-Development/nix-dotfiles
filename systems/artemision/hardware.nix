@@ -12,74 +12,79 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [
-    "nvme"
-    "xhci_pci"
-    "thunderbolt"
-    "usb_storage"
-    "usbhid"
-    "sd_mod"
-  ];
-  boot.initrd.kernelModules = [
-    "dm-snapshot"
-    "r8152"
-  ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
-  boot.kernelParams = [
-    "amdgpu.sg_display=0"
-    "amdgpu.graphics_sg=0"
-    "amdgpu.abmlevel=3"
-  ];
-  boot.kernelPatches = lib.mkIf (lib.versionOlder pkgs.linux.version "6.9") [
-    {
-      name = "add panel_power_savings sysfs entry to eDP connectors";
-      patch = ./kernel-patches/panel_power_savings.patch;
-    }
-    {
-      name = "respect the abmlevel module parameter value if it is set";
-      patch = ./kernel-patches/respect_abmlevel.patch;
-    }
-  ];
-
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/f3c11d62-37f4-495e-b668-1ff49e0d3a47";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "nodiratime"
-      "discard"
+  boot = {
+    initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "thunderbolt"
+      "usb_storage"
+      "usbhid"
+      "sd_mod"
+    ];
+    initrd.kernelModules = [
+      "dm-snapshot"
+      "r8152"
+    ];
+    kernelModules = [ "kvm-amd" ];
+    extraModulePackages = [ ];
+    kernelParams = [
+      "amdgpu.sg_display=0"
+      "amdgpu.graphics_sg=0"
+      "amdgpu.abmlevel=3"
+    ];
+    kernelPatches = lib.mkIf (lib.versionOlder pkgs.linux.version "6.9") [
+      {
+        name = "add panel_power_savings sysfs entry to eDP connectors";
+        patch = ./kernel-patches/panel_power_savings.patch;
+      }
+      {
+        name = "respect the abmlevel module parameter value if it is set";
+        patch = ./kernel-patches/respect_abmlevel.patch;
+      }
     ];
   };
 
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/720af942-464c-4c1e-be41-0438936264f0";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "nodiratime"
-      "discard"
-    ];
-  };
+  fileSystems = {
 
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/035f23f8-d895-4b0c-bcf5-45885a5dbbd9";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "nodiratime"
-      "discard"
-    ];
-  };
+    "/" = {
+      device = "/dev/disk/by-uuid/f3c11d62-37f4-495e-b668-1ff49e0d3a47";
+      fsType = "ext4";
+      options = [
+        "noatime"
+        "nodiratime"
+        "discard"
+      ];
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/5AD7-6005";
-    fsType = "vfat";
-    options = [
-      "noatime"
-      "nodiratime"
-      "discard"
-    ];
+    "/home" = {
+      device = "/dev/disk/by-uuid/720af942-464c-4c1e-be41-0438936264f0";
+      fsType = "ext4";
+      options = [
+        "noatime"
+        "nodiratime"
+        "discard"
+      ];
+    };
+
+    "/nix" = {
+      device = "/dev/disk/by-uuid/035f23f8-d895-4b0c-bcf5-45885a5dbbd9";
+      fsType = "ext4";
+      options = [
+        "noatime"
+        "nodiratime"
+        "discard"
+      ];
+    };
+
+    "/boot" = {
+      device = "/dev/disk/by-uuid/5AD7-6005";
+      fsType = "vfat";
+      options = [
+        "noatime"
+        "nodiratime"
+        "discard"
+      ];
+    };
   };
 
   swapDevices = [ { device = "/dev/disk/by-uuid/7f0dba0f-d04e-4c94-9fba-1d0811673df1"; } ];

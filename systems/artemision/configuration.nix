@@ -35,25 +35,28 @@
 
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
-  services.fwupd.package =
-    (import (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/bb2009ca185d97813e75736c2b8d1d8bb81bde05.tar.gz";
-      sha256 = "sha256:003qcrsq5g5lggfrpq31gcvj82lb065xvr7bpfa8ddsw8x4dnysk";
-    }) { inherit (pkgs) system; }).fwupd;
+  services = {
 
-  services.fprintd.enable = true;
-  services.openssh.enable = false;
+    fwupd.package =
+      (import (builtins.fetchTarball {
+        url = "https://github.com/NixOS/nixpkgs/archive/bb2009ca185d97813e75736c2b8d1d8bb81bde05.tar.gz";
+        sha256 = "sha256:003qcrsq5g5lggfrpq31gcvj82lb065xvr7bpfa8ddsw8x4dnysk";
+      }) { inherit (pkgs) system; }).fwupd;
 
-  services.spotifyd = {
-    enable = true;
-    settings = {
-      global = {
-        username = "snowinginwonderland@gmail.com";
-        password_cmd = "cat ${config.sops.secrets."apps/spotify".path}";
-        use_mpris = false;
+    fprintd.enable = true;
+    openssh.enable = false;
+
+    spotifyd = {
+      enable = true;
+      settings = {
+        global = {
+          username = "snowinginwonderland@gmail.com";
+          password_cmd = "cat ${config.sops.secrets."apps/spotify".path}";
+          use_mpris = false;
+        };
       };
+      #systemd.services.spotifyd.serviceConfig = systemd.services.spotifyd.
     };
-    #systemd.services.spotifyd.serviceConfig = systemd.services.spotifyd.
   };
 
   system.autoUpgrade.enable = false;

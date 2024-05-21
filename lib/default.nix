@@ -21,7 +21,7 @@
     #
     # type:
     # mapGetAttr :: String -> AttrSet -> [Any]
-    mapGetAttr = (attr: set: lib.mapAttrsToList (_: attrset: lib.getAttr attr attrset) set);
+    mapGetAttr = attr: set: lib.mapAttrsToList (_: attrset: lib.getAttr attr attrset) set;
 
     # gets list of files and directories inside of a directory
     #
@@ -44,7 +44,7 @@
     lsdir =
       dir:
       lib.optionals (builtins.pathExists dir) (
-        lib.attrNames (lib.filterAttrs (path: type: type == "directory") (builtins.readDir (dir)))
+        lib.attrNames (lib.filterAttrs (path: type: type == "directory") (builtins.readDir dir))
       );
 
     # return full paths of all files in a directory

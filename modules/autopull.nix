@@ -56,7 +56,7 @@ in
 
   config =
     let
-      repos = lib.filterAttrs (_: { enable, ... }: enable == true) cfg.repo;
+      repos = lib.filterAttrs (_: { enable, ... }: enable) cfg.repo;
     in
     lib.mkIf cfg.enable {
       environment.systemPackages =

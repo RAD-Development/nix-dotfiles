@@ -22,7 +22,7 @@ forEachSystem (system: {
       };
       ## static analysis checks for nix
       nil.enable = true;
-      statix.enable = false;
+      statix.enable = true;
 
       # json hooks
       check-json = {

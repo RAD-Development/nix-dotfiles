@@ -55,11 +55,11 @@ let
   jobOfRef =
     name:
     { ref, ... }:
-    if isNull (builtins.match "^refs/heads/(.*)$" ref) then
+    if ((builtins.match "^refs/heads/(.*)$" ref) == null) then
       null
     else
       {
-        name = (builtins.replaceStrings [ "/" ] [ "-" ] "branch-${name}");
+        name = builtins.replaceStrings [ "/" ] [ "-" ] "branch-${name}";
         value = makeJob {
           description = "Branch ${name}";
           flake = "git+ssh://git@github.com/${repo}?ref=${ref}";
@@ -81,7 +81,7 @@ let
   # wrapper function for reading json from file
   readJSONFile = f: builtins.fromJSON (builtins.readFile f);
   # remove null values from a set, in-case of branches that don't exist
-  mapFilter = f: l: builtins.filter (x: !(isNull x)) (map f l);
+  mapFilter = f: l: builtins.filter (x: (x != null)) (map f l);
 
   # Create job set from PRs and branches
   jobs = makeSpec (

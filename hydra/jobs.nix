@@ -5,6 +5,6 @@ let
   getCfg = _: cfg: cfg.config.system.build.toplevel;
 in
 {
+  inherit (outputs) formatter devShells;
   hosts = mapAttrs getCfg outputs.nixosConfigurations;
-  formatter = outputs.formatter;
 }

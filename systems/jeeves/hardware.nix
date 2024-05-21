@@ -12,20 +12,22 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [
-    "mpt3sas"
-    "nvme"
-    "xhci_pci"
-    "ahci"
-    "uas"
-    "usb_storage"
-    "usbhid"
-    "sd_mod"
-    "sr_mod"
-  ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot = {
+    initrd.availableKernelModules = [
+      "mpt3sas"
+      "nvme"
+      "xhci_pci"
+      "ahci"
+      "uas"
+      "usb_storage"
+      "usbhid"
+      "sd_mod"
+      "sr_mod"
+    ];
+    initrd.kernelModules = [ "dm-snapshot" ];
+    kernelModules = [ "kvm-amd" ];
+    extraModulePackages = [ ];
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/0f78fa87-30be-4173-b0fa-eaa956cf83aa";

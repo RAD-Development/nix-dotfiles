@@ -27,13 +27,14 @@
     # GUI
     beeper
     candy-icons
-    discord-canary
-    firefox
-    obsidian
-    sweet-nova
     cinnamon.nemo
     cinnamon.nemo-fileroller
+    discord-canary
+    firefox
     gimp
+    obs-studio
+    obsidian
+    sweet-nova
     # python
     python3
     ruff

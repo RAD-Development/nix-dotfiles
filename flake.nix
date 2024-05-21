@@ -110,17 +110,7 @@
   };
 
   outputs =
-    {
-      self,
-      nix,
-      home-manager,
-      nixos-hardware,
-      nixos-modules,
-      nixpkgs,
-      sops-nix,
-      wired-notify,
-      ...
-    }@inputs:
+    { self, nixpkgs, ... }@inputs:
     let
       systems = [
         "x86_64-linux"
@@ -135,7 +125,7 @@
 
       # adds our lib functions to lib namespace
       lib = nixpkgs.lib.extend (
-        self: super:
+        self: _:
         import ./lib {
           inherit nixpkgs inputs;
           lib = self;

@@ -1,12 +1,5 @@
-{
-  nixpkgs,
-  pulls,
-  branches,
-  ...
-}:
+{ pulls, branches, ... }:
 let
-  pkgs = import nixpkgs { };
-
   # create the json spec for the jobset
   makeSpec =
     contents:

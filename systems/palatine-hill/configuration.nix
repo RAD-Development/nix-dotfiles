@@ -5,12 +5,6 @@
   ...
 }:
 let
-  keygen = key: {
-    format = "binary";
-    sopsFile = ./keys/${key};
-    mode = "0400";
-    path = "/crypto/keys/${key}";
-  };
   bootkey = key: { "/crypto/keys/${key}" = /crypto/keys/${key}; };
   zfskeys = [
     "zfs-attic-key"

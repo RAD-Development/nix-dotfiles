@@ -44,7 +44,7 @@
     lsdir =
       dir:
       lib.optionals (builtins.pathExists dir) (
-        lib.attrNames (lib.filterAttrs (path: type: type == "directory") (builtins.readDir dir))
+        lib.attrNames (lib.filterAttrs (_: type: type == "directory") (builtins.readDir dir))
       );
 
     # return full paths of all files in a directory

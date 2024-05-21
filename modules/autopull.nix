@@ -66,7 +66,7 @@ in
         ];
 
       systemd.services = lib.mapAttrs' (
-        repo:
+        _:
         {
           repo-name,
           ssh-key,
@@ -90,7 +90,7 @@ in
       ) repos;
 
       systemd.timers = lib.mapAttrs' (
-        repo:
+        _:
         { repo-name, frequency, ... }:
         lib.nameValuePair "autopull@${repo-name}" {
           wantedBy = [ "timers.target" ];

@@ -23,6 +23,15 @@ forEachSystem (system: {
       ## static analysis checks for nix
       nil.enable = true;
       statix.enable = true;
+      deadnix = {
+        enable = true;
+        settings = {
+          noUnderscore = true; # ignore variables starting with underscore
+          # ignore lambda patterns (useful for passing args from ({}@args)
+          # to other functions)
+          noLambdaPatternNames = true;
+        };
+      };
 
       # json hooks
       check-json = {

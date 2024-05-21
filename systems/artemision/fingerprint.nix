@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 {
   # custom module from modules/pam-fingerprint-swap.nix
   # swaps password and fingerprint in pam ordering

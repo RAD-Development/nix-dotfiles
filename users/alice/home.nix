@@ -166,5 +166,11 @@
     };
   };
 
+  sops = {
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    defaultSopsFile = ./secrets.yaml;
+    secrets."alice/wakatime-api-key".path = "/home/alice/.config/doom/wakatime";
+  };
+
   home.stateVersion = "23.11";
 }

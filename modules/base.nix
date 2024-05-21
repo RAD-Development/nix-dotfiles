@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, sops-nix, ... }:
 {
   boot.default = lib.mkDefault true;
 
@@ -18,5 +18,6 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    sharedModules = [ sops-nix.homeManagerModules.sops ];
   };
 }

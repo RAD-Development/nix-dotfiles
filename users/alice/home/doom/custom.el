@@ -11,3 +11,7 @@
  ;; If there is more than one, they won't work right.
  '(font-lock-comment-face ((t (:slant italic))))
  '(font-lock-keyword-face ((t (:slant italic)))))
+
+ ;; insert wakatime-api-key from sops file
+(setq! wakatime-api-key
+   (shell-command-to-string "cat /home/alice/.config/doom/wakatime"))

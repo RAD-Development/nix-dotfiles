@@ -315,29 +315,6 @@
         "type": "github"
       }
     },
-    "nix-pre-commit": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1653259102,
-        "narHash": "sha256-XfCEu4zur/N2Dk4v8wFiQAgJ7bgNqPqwWp1vBXkeczM=",
-        "owner": "jmgilman",
-        "repo": "nix-pre-commit",
-        "rev": "6a99b2711c7eac9960939d8eb91e84322b22d50c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jmgilman",
-        "repo": "nix-pre-commit",
-        "type": "github"
-      }
-    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1716034089,
@@ -502,7 +479,6 @@
         "hyprland-contrib": "hyprland-contrib",
         "nix": "nix",
         "nix-index-database": "nix-index-database",
-        "nix-pre-commit": "nix-pre-commit",
         "nixos-hardware": "nixos-hardware",
         "nixos-modules": "nixos-modules",
         "nixpkgs": "nixpkgs",

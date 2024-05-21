@@ -68,14 +68,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-pre-commit = {
-      url = "github:jmgilman/nix-pre-commit";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-      };
-    };
-
     nixos-modules = {
       url = "github:SuperSandro2000/nixos-modules";
       inputs = {
@@ -122,7 +114,6 @@
       self,
       nix,
       home-manager,
-      nix-pre-commit,
       nixos-hardware,
       nixos-modules,
       nixpkgs,

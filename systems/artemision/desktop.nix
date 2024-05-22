@@ -10,25 +10,27 @@
   # Optional, hint electron apps to use wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.session = [
-    {
-      manage = "desktop";
-      name = "hyprland";
-      start = ''
-        bash ${./hypr/wrappedhl} &
-        waitPID=$!
-      '';
-    }
-  ];
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
+  services = {
+    xserver.enable = true;
+    xserver.displayManager.session = [
+      {
+        manage = "desktop";
+        name = "hyprland";
+        start = ''
+          bash ${./hypr/wrappedhl} &
+          waitPID=$!
+        '';
+      }
+    ];
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
 
-  services.dbus = {
-    enable = true;
-    implementation = "broker";
+    dbus = {
+      enable = true;
+      implementation = "broker";
+    };
   };
 
   programs.gnupg.agent = {

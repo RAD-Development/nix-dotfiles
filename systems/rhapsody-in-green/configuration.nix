@@ -16,7 +16,14 @@
     hostId = "9b68eb32";
   };
 
-  hardware.pulseaudio.enable = false;
+  hardware = {
+    pulseaudio.enable = false;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+  };
+
   security.rtkit.enable = true;
   sound.enable = true;
 

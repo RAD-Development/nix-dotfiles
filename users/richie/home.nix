@@ -1,10 +1,10 @@
+{ lib, machineConfig, ... }:
 {
   imports = [
     ./home/programs.nix
     ./home/sshconfig.nix
     ./home/cli
-    ./home/vscode
-  ];
+  ] ++ lib.optionals (!machineConfig.server) [ ./home/gui.nix ];
 
   nixpkgs.config.allowUnfree = true;
 

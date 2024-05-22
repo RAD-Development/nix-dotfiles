@@ -153,7 +153,7 @@ rec {
       users,
       home ? true,
       modules ? [ ],
-      # server ? true,
+      server ? true,
       sops ? true,
       system ? "x86_64-linux",
     }@args:

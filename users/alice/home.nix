@@ -87,6 +87,7 @@
       rust-analyzer
       clang
       clang-tools
+      wakatime
 
       # audit
       lynis

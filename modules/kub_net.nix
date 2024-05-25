@@ -13,18 +13,7 @@
     bridges.brkubnet.interfaces = [ "ztkubnet" ];
     interfaces.brkubnet.ipv4.addresses = [
       {
-        address = "192.168.192.2";
-        prefixLength = 24;
-      }
-    ];
-
-    vlans.vlan100 = {
-      id = 100;
-      interface = "brkubnet";
-    };
-    interfaces.vlan100.ipv4.addresses = [
-      {
-        address = "10.10.10.4";
+        address = "192.168.69.0";
         prefixLength = 24;
       }
     ];

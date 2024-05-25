@@ -1,34 +1,28 @@
 { lib, ... }:
 rec {
-  genK3SFromList =
-    server-config: agent-config:
-    {
-      host,
-      ipv4,
-      server ? false,
-    }@args:
+  genK3SVM =
+    server-config: agent-config: vms:
     lib.mapAttrs (
-      args:
-      lib.rad-dev.microvms.genMicroVM args.host args.ipv4 "x86_64-linux" (
-        if server then import server-config else import agent-config
+      host: {ipv4,server ? false}:
+      genMicroVM host ipv4 "x86_64-linux" (
+        if server then (import server-config) else (import agent-config)
       )
-    ) args;
+    ) vms;
 
   genMicroVM =
     hostName: ipv4: system: vm-config:
     # microvm refers to microvm.nixosModules
 
+    # {
+    #   config,
+    #   pkgs,
+    #   lib,
+    #   ...
+    # }:
     {
-      config,
-      pkgs,
-      lib,
-      ...
-    }:
-    {
-      ${hostName} = {
         # The package set to use for the microvm. This also determines the microvm's architecture.
         # Defaults to the host system's package set if not given.
-        pkgs = import pkgs { inherit system; };
+        # pkgs = import pkgs { inherit system; };
 
         # (Optional) A set of special arguments to be passed to the MicroVM's NixOS modules.
         #specialArgs = {};
@@ -51,13 +45,12 @@ rec {
             inherit hostName;
             interfaces.ether.ipv4.addreses = {
               address = ipv4;
-              prefixLength = 24;
+              prefixLength = 32;
             };
           };
 
           # Any other configuration for your MicroVM
           # [...]
         } // vm-config;
-      };
     };
 }

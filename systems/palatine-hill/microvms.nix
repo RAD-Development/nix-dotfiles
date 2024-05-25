@@ -16,6 +16,7 @@ in
       {
         "ph-server-1" = {
           ipv4 = "192.168.69.10";
+          machine-id = "d694ad1e88b356887bb204ac665263f7";
           server = true;
         };
         # "ph-agent-1" = {

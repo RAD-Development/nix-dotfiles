@@ -10,15 +10,21 @@
   };
 
   networking = {
-    vlans = {
-      vlan100 = {
-        id = 100;
-        interface = "ztkubnet";
-      };
+    bridges.brkubnet.interfaces = [ "ztkubnet" ];
+    interfaces.brkubnet.ipv4.addresses = [
+      {
+        address = "192.168.192.2";
+        prefixLength = 24;
+      }
+    ];
+
+    vlans.vlan100 = {
+      id = 100;
+      interface = "brkubnet";
     };
     interfaces.vlan100.ipv4.addresses = [
       {
-        address = "10.10.10.3";
+        address = "10.10.10.4";
         prefixLength = 24;
       }
     ];

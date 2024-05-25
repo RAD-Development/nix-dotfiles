@@ -22,13 +22,13 @@ in
     microvm.vms = cfg.vms;
 
     # TODO: deprecate this once we have syslog forwarders
-    systemd.tmpfiles.rules = map (
-      vmHost:
-      let
-        machineId = lib.addresses.machineId.${vmHost};
-      in
-      # creates a symlink of each MicroVM's journal under the host's /var/log/journal
-      "L+ /var/log/journal/${machineId} - - - - /var/lib/microvms/${vmHost}/journal/${machineId}"
-    ) (builtins.attrNames lib.addresses.machineId);
+    # systemd.tmpfiles.rules = map (
+    #   vmHost:
+    #   let
+    #     machineId = lib.addresses.machineId.${vmHost};
+    #   in
+    #   # creates a symlink of each MicroVM's journal under the host's /var/log/journal
+    #   "L+ /var/log/journal/${machineId} - - - - /var/lib/microvms/${vmHost}/journal/${machineId}"
+    # ) (builtins.attrNames lib.addresses.machineId);
   };
 }

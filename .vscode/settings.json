@@ -21,6 +21,7 @@
     "Compat",
     "concatLists",
     "Cryptodisk",
+    "devicemap",
     "dialout",
     "direnv",
     "disren",
@@ -98,6 +99,7 @@
     "zerotier",
     "zerotierone",
     "zhaofengli",
-    "zoxide"
+    "zoxide",
+    "ztkubnet"
   ]
 }

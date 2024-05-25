@@ -12,7 +12,7 @@ in
   imports = [ microvm.host ];
   options.rad-dev.microvm-host = {
     vms = lib.mkOption {
-      type = lib.types.attrset;
+      type = lib.types.attrs;
       default = { };
       description = "A list of VMs to construct on the host";
     };
@@ -20,13 +20,6 @@ in
   config = {
     networking.useNetworkd = true;
     microvm.vms = cfg.vms;
-    microvm.shares = [
-      {
-        tag = "ro-store";
-        source = "/nix/store";
-        mountPoint = "/nix/.ro-store";
-      }
-    ];
 
     # TODO: deprecate this once we have syslog forwarders
     systemd.tmpfiles.rules = map (

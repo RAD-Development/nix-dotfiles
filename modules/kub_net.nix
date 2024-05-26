@@ -8,14 +8,28 @@
     enable = true;
     joinNetworks = [ "ebe7fbd44565ba9d" ];
   };
-
-  networking = {
-    bridges.brkubnet.interfaces = [ "ztkubnet" ];
-    interfaces.brkubnet.ipv4.addresses = [
-      {
-        address = "192.168.69.0";
-        prefixLength = 24;
-      }
-    ];
+  systemd.network = {
+    enable = true;
+    wait-online.anyInterface = true;
+    netdevs = {
+      "20-brkubnet" = {
+        netdevConfig = {
+          Kind = "bridge";
+          Name = "brkubnet";
+        };
+      };
+    };
+    networks = {
+      "30-ztkubnet" = {
+        matchConfig.Name = "ztkubnet";
+        networkConfig.Bridge = "brkubnet";
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "40-brkubnet" = {
+        matchConfig.Name = "brkubnet";
+        bridgeConfig = { };
+        linkConfig.RequiredForOnline = "no";
+      };
+    };
   };
 }

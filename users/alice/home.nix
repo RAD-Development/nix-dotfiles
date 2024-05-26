@@ -177,7 +177,7 @@
   };
 
   sops = {
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age.sshKeyPaths = [ "/home/alice/.ssh/id_ed25519_sops" ];
     defaultSopsFile = ./secrets.yaml;
     secrets."alice/wakatime-api-key".path = "/home/alice/.config/doom/wakatime";
   };

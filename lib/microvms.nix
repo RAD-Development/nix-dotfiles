@@ -37,6 +37,8 @@ rec {
         # It is highly recommended to share the host's nix-store
         # with the VMs to prevent building huge images.
 
+        system.stateVersion = "24.05";
+
         environment.etc."machine-id" = {
           mode = "0644";
           text = machine-id + "\n";

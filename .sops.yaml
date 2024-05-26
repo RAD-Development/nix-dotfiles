@@ -8,6 +8,7 @@ keys:
   #   nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
   # cspell:disable
   - &artemision age1jd2dcpykagz20kpk2kkchte3augqncwfn6nywursx0dkfyze6feqdzxkq2
+  - &artemision-home age1t29a6z6cfy8m3cnc8uva0ey833vhcppue8psyumts7mtyf0zufcqvfshuc
   - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
   - &jeeves age128ehc0ssgwnuv4r8ayfyu7r80e82xrkmv63g7h9y9q4mhk4w9dyqfymc2w
   - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh
@@ -41,7 +42,7 @@ creation_rules:
         age:
           - *jeeves-jr
 
-  - path_regex: users/alice/secrets.*\.yaml$ 
+  - path_regex: users/alice/secrets\.yaml$
     key_groups:
       - pgp:
           - *admin_alice
@@ -50,6 +51,7 @@ creation_rules:
           - *jeeves
           - *jeeves-jr
           - *artemision
+          - *artemision-home
 
   - path_regex: systems/palatine-hill/secrets.*\.yaml$
     key_groups:

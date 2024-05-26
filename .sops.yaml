@@ -42,7 +42,7 @@ creation_rules:
         age:
           - *jeeves-jr
 
-  - path_regex: users/alice/secrets\.yaml$
+  - path_regex: users/alice/secrets.*\.yaml$
     key_groups:
       - pgp:
           - *admin_alice

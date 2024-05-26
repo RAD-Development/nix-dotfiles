@@ -18,7 +18,6 @@
       # enable DHCP for primary ethernet adapter
       "10-lan" = {
         matchConfig.Name = "eno1";
-        networkConfig.DHCP = "ipv4";
         address = [ "192.168.76.2/32" ];
         routes = [ { routeConfig.Gateway = "192.168.76.1"; } ];
         linkConfig.RequiredForOnline = "routable";

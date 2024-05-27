@@ -8,6 +8,7 @@
     enable = true;
     joinNetworks = [ "ebe7fbd44565ba9d" ];
   };
+
   systemd.network = {
     enable = true;
     wait-online.anyInterface = true;
@@ -32,4 +33,7 @@
       };
     };
   };
+
+  # enable experimental networkd backend so networking doesnt break on hybrid systems
+  networking.useNetworkd = true;
 }

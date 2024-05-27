@@ -58,7 +58,7 @@
     sysstat.enable = true;
 
     syncthing.guiAddress = "192.168.90.40:8384";
-    syncthing.folders = {
+    syncthing.settings.folders = {
       "notes" = {
         id = "l62ul-lpweo"; # cspell:disable-line
         path = "/ZFS/Media/Notes";

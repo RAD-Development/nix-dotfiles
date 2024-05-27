@@ -3,6 +3,7 @@
   imports = [
     ../../users/richie/global/syncthing_base.nix
     ../../users/richie/global/zerotier.nix
+    ./docker.nix
   ];
 
   networking = {

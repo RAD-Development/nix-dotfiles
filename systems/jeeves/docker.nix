@@ -8,7 +8,9 @@
         "/DATA_DIR:/ZFS"
         "/CONFIG_DIR:/ZFS/Media/Docker/filebrowser"
       ];
-      environment = [ "FB_BASEURL=/filebrowser" ];
+      environment = {
+        FB_BASEURL = "/filebrowser";
+      };
       autoStart = true;
       user = "richie:users";
     };

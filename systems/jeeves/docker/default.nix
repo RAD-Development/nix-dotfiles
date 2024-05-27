@@ -14,6 +14,6 @@
       dockerBin = "${pkgs.${docker}}/bin/${docker}";
     in
     ''
-      ${dockerBin} network inspect web >/dev/null 2>&1 || ${dockerBin} network create web --subnet 172.20.0.0/16
+      ${dockerBin} network inspect web >/dev/null 2>&1 || ${dockerBin} network create web --subnet 172.100.5.0/16
     '';
 }

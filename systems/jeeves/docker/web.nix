@@ -63,7 +63,10 @@
     };
     cloud_flare_tunnel = {
       image = "cloudflare/cloudflared:latest";
-      cmd = "tunnel run";
+      cmd = [
+        "tunnel"
+        "run"
+      ];
       environmentFiles = [ "/ZFS/Media/Docker/Docker/jeeves/web/cloudflare_tunnel.env" ];
       dependsOn = [ "haproxy" ];
       autoStart = true;

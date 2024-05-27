@@ -47,9 +47,9 @@
         DEBUG = "false";
         DELUGE_DAEMON_LOG_LEVEL = "debug";
         DELUGE_WEB_LOG_LEVEL = "debug";
-        environmentFiles = [ "/ZFS/Media/Docker/Docker/jeeves/internal/qbitvpn.env" ];
-        autoStart = true;
       };
+      environmentFiles = [ "/ZFS/Media/Docker/Docker/jeeves/internal/qbitvpn.env" ];
+      autoStart = true;
     };
     prowlarr = {
       image = "ghcr.io/linuxserver/prowlarr";

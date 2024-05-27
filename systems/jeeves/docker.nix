@@ -12,7 +12,7 @@
         FB_BASEURL = "/filebrowser";
       };
       autoStart = true;
-      user = "richie:users";
+      user = "nobody:users";
     };
   };
 }

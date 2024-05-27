@@ -23,6 +23,8 @@
       ## Utilities
       "lrt" = "eza --icons -lsnew";
       "ls" = "eza";
+      "ll" = "eza --long --group";
+      "la" = "exa --all";
     };
   };
 }

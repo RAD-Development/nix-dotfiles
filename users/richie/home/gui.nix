@@ -10,6 +10,7 @@
     discord-canary
     firefox
     gimp
+    gparted
     obs-studio
     obsidian
     sweet-nova

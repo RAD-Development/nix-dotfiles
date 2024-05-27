@@ -25,6 +25,7 @@
     nmap
     wget
     # python
+    poetry
     python3
     ruff
     # Rust packages

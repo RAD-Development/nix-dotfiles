@@ -3,10 +3,10 @@
     backend = "docker";
     containers.filebrowser = {
       image = "hurlenko/filebrowser";
-      ports = [ "443:8080" ];
+      ports = [ "8080:8080" ];
       volumes = [
-        "/DATA_DIR:/ZFS"
-        "/CONFIG_DIR:/ZFS/Media/Docker/filebrowser"
+        "/ZFS:/data"
+        "/ZFS/Media/Docker/filebrowser:/config"
       ];
       environment = {
         FB_BASEURL = "/filebrowser";

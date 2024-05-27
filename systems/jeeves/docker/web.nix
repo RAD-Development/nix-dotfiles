@@ -1,29 +1,10 @@
 {
   virtualisation.oci-containers.containers = {
-    qbit = {
-      image = "ghcr.io/linuxserver/qbittorrent";
-      ports = [
-        "6881:6881"
-        "6881:6881/udp"
-        "8082:8082"
-        "29432:29432"
-      ];
-      volumes = [
-        "/ZFS/Media/Docker/Docker/Storage/qbit:/config"
-        "/ZFS/Torenting/Qbit/:/data"
-      ];
-      environment = {
-        PUID = "998";
-        PGID = "100";
-        TZ = "America/New_York";
-        WEBUI_PORT = "8082";
-      };
-      autoStart = true;
-    };
     grafana = {
       image = "grafana/grafana-enterprise";
       volumes = [ "/ZFS/Media/Docker/Docker/Storage/grafana:/var/lib/grafana" ];
       user = "998:998";
+      extraOptions = [ "--network=web" ];
       autoStart = true;
     };
     dnd_file_server = {
@@ -32,6 +13,7 @@
         "/ZFS/Media/Docker/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/"
         "/ZFS/Storage/Main/Table_Top/:/data"
       ];
+      extraOptions = [ "--network=web" ];
       autoStart = true;
     };
     arch_mirror = {
@@ -41,6 +23,7 @@
         "/ZFS/Media/Mirror/:/data"
       ];
       ports = [ "800:80" ];
+      extraOptions = [ "--network=web" ];
       autoStart = true;
     };
     haproxy = {
@@ -59,6 +42,7 @@
         "arch_mirror"
         "dnd_file_server"
       ];
+      extraOptions = [ "--network=web" ];
       autoStart = true;
     };
     cloud_flare_tunnel = {
@@ -69,6 +53,7 @@
       ];
       environmentFiles = [ "/ZFS/Media/Docker/Docker/jeeves/web/cloudflare_tunnel.env" ];
       dependsOn = [ "haproxy" ];
+      extraOptions = [ "--network=web" ];
       autoStart = true;
     };
   };

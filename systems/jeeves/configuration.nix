@@ -126,8 +126,7 @@
       };
     };
     timers."snapshot_manager" = {
-      description = "ZFS Snapshot Manager";
-      service = "snapshot_manager";
+      wantedBy = [ "timers.target" ];
       timerConfig = {
         OnBootSec = "15m";
         OnUnitActiveSec = "15m";

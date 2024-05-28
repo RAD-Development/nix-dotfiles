@@ -181,4 +181,4 @@ Host github.com
         IdentityFile /root/.ssh/id_ed25519_ghdeploy
 EOF
 printf "%s" "$SSHCONFIG" | sudo tee /root/.ssh/config
-sudo $GC remote set-url origin 'git@github.com:RAD-Development/nix-dotfiles.git'
+sudo "$GC" remote set-url origin 'git@github.com:RAD-Development/nix-dotfiles.git'

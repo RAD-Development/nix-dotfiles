@@ -11,20 +11,22 @@
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   services = {
-    xserver.enable = true;
-    xserver.displayManager.session = [
-      {
-        manage = "desktop";
-        name = "hyprland";
-        start = ''
-          bash ${./hypr/wrappedhl} &
-          waitPID=$!
-        '';
-      }
-    ];
-    displayManager.sddm = {
+    xserver = {
       enable = true;
-      wayland.enable = true;
+      displayManager.session = [
+        {
+          manage = "desktop";
+          name = "hyprland";
+          start = ''
+            bash ${./hypr/wrappedhl} &
+            waitPID=$!
+          '';
+        }
+      ];
+      displayManager.gdm = {
+        enable = true;
+        wayland = true;
+      };
     };
 
     dbus = {

@@ -114,9 +114,54 @@ in
     zfs = {
       trim.enable = true;
       autoScrub.enable = true;
-      autoSnapshot = {
-        enable = true;
-        frequent = 8;
+    };
+
+    sanoid = {
+      enable = true;
+
+      datasets = {
+        "ZFS-primary/attic".useTemplate = "nix-prod";
+        "ZFS-primary/backups".useTemplate = "production";
+        "ZFS-primary/calibre".useTemplate = "production";
+        "ZFS-primary/db".useTemplate = "production";
+        "ZFS-primary/docker".useTemplate = "production";
+        "ZFS-primary/hydra".useTemplate = "nix-prod";
+        "ZFS-primary/nextcloud".useTemplate = "production";
+        "ZFS-primary/vardocker".useTemplate = "production";
+        "ZFS-primary/games" = {
+          useTemplate = "games";
+          recursive = true;
+          processChildrenOnly = true;
+        };
+      };
+
+      templates = {
+        # full resiliency
+        production = {
+          frequently = 0;
+          hourly = 36;
+          daily = 30;
+          monthly = 6;
+          yearly = 3;
+          autosnap = true;
+          autoprune = true;
+        };
+        # some resiliency, but not much
+        # common option for things like nix store and attic where there is
+        # already a lot of resiliency built in
+        nix-prod = {
+          frequently = 4;
+          hourly = 24;
+          daily = 7;
+        };
+        # much shorter lived than others
+        games = {
+          frequently = 6;
+          hourly = 36;
+          daily = 3;
+          autosnap = true;
+          autoprune = true;
+        };
       };
     };
 

@@ -20,6 +20,7 @@
     (lib.mkIf config.programs.adb.enable "adbusers")
     (lib.mkIf config.programs.wireshark.enable "wireshark")
     (lib.mkIf config.virtualisation.docker.enable "docker")
+    (lib.mkIf (with config.services.locate; (enable && package == pkgs.plocate)) "plocate")
     "libvirtd"
     "dialout"
     "plugdev"

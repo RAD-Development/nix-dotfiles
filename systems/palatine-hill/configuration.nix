@@ -23,14 +23,11 @@ let
   ];
 in
 {
+  imports = [ ./networking.nix ];
 
   systemd.services.hydra-notify.serviceConfig.EnvironmentFile =
     config.sops.secrets."hydra/environment".path;
   programs.git.lfs.enable = false;
-  networking = {
-    hostId = "dc2f9781";
-    firewall.enable = false;
-  };
 
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };

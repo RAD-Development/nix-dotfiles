@@ -120,16 +120,16 @@ in
       enable = true;
 
       datasets = {
-        "ZFS-primary/attic".useTemplate = "nix-prod";
-        "ZFS-primary/backups".useTemplate = "production";
-        "ZFS-primary/calibre".useTemplate = "production";
-        "ZFS-primary/db".useTemplate = "production";
-        "ZFS-primary/docker".useTemplate = "production";
-        "ZFS-primary/hydra".useTemplate = "nix-prod";
-        "ZFS-primary/nextcloud".useTemplate = "production";
-        "ZFS-primary/vardocker".useTemplate = "production";
+        "ZFS-primary/attic".useTemplate = "template_nix-prod";
+        "ZFS-primary/backups".useTemplate = "template_production";
+        "ZFS-primary/calibre".useTemplate = "template_production";
+        "ZFS-primary/db".useTemplate = "template_production";
+        "ZFS-primary/docker".useTemplate = "template_production";
+        "ZFS-primary/hydra".useTemplate = "template_nix-prod";
+        "ZFS-primary/nextcloud".useTemplate = "template_production";
+        "ZFS-primary/vardocker".useTemplate = "template_production";
         "ZFS-primary/games" = {
-          useTemplate = "games";
+          useTemplate = "template_games";
           recursive = true;
           processChildrenOnly = true;
         };

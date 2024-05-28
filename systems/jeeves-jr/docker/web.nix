@@ -17,8 +17,8 @@
         TZ = "Etc/EST";
       };
       volumes = [
-        "/ZFS/Main/Docker/jeeves-jr/haproxy/web/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem"
-        "/ZFS/Main/Docker/jeeves-jr/haproxy/web/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+        "/ZFS/Main/Docker/jeeves-jr/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem"
+        "/ZFS/Main/Docker/jeeves-jr/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
       ];
       dependsOn = [ "arch_mirror" ];
       extraOptions = [ "--network=web" ];

@@ -16,17 +16,21 @@
     enable = true;
     networks = {
       # enable DHCP for primary ethernet adapter
-      # "10-lan" = {
-      #   matchConfig.Name = "eno1";
-      #   address = [ "192.168.76.2/32" ];
-      #   routes = [ { routeConfig.Gateway = "192.168.76.1"; } ];
-      #   linkConfig.RequiredForOnline = "routable";
-      # };
+      "10-lan" = {
+        matchConfig.Name = "eno1";
+        address = [ "192.168.76.2/32" ];
+        routes = [ { routeConfig.Gateway = "192.168.76.1"; } ];
+        networkConfig.IPForward = "yes";
+        linkConfig.RequiredForOnline = "routable";
+      };
       # default lan settings
       "60-def-lan" = {
-        matchConfig.Name = "eno*";
-        networkConfig.DHCP = "ipv4";
-        routes = [ { routeConfig.Gateway = "192.168.76.1"; } ];
+        matchConfig.type = "ether";
+        networkConfig = {
+          DHCP = "ipv4";
+          IPForward = "yes";
+        };
+        #routes = [ { routeConfig.Gateway = "192.168.76.1"; } ];
         linkConfig.RequiredForOnline = "no";
       };
     };

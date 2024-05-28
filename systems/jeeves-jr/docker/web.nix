@@ -3,8 +3,8 @@
     arch_mirror = {
       image = "ubuntu/apache2:latest";
       volumes = [
-        "/ZFS/Media/Docker/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/"
-        "/ZFS/Media/Mirror/:/data"
+        "/ZFS/Main/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/"
+        "/ZFS/Main/Mirror/:/data"
       ];
       ports = [ "800:80" ];
       extraOptions = [ "--network=web" ];

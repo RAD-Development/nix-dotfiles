@@ -122,7 +122,7 @@
       after = [ "zfs-import.target" ];
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "${pkgs.python3}/bin/python -m zfs.snapshot_manager --config-file='/ZFS/Media/Scripts/new/config.toml'";
+        ExecStart = "${pkgs.python3} /ZFS/Media/Scripts/new/ZFS/snapshot_manager.py --config-file='/ZFS/Media/Scripts/new/config.toml'";
       };
     };
     timers."snapshot_manager" = {

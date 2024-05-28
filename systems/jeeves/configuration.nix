@@ -115,23 +115,24 @@
       autoScrub.enable = true;
     };
   };
-
-  systemd.services.snapshot_manager = {
-    description = "ZFS Snapshot Manager";
-    requires = [ "zfs-import.target" ];
-    after = [ "zfs-import.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.python3}/bin/python -m zfs.snapshot_manager --config-file='/ZFS/Media/Scripts/new/config.toml'";
+  systemd = {
+    services."snapshot_manager" = {
+      description = "ZFS Snapshot Manager";
+      requires = [ "zfs-import.target" ];
+      after = [ "zfs-import.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.python3}/bin/python -m zfs.snapshot_manager --config-file='/ZFS/Media/Scripts/new/config.toml'";
+      };
     };
-  };
-  systemd.timers.snapshot_manager = {
-    description = "ZFS Snapshot Manager";
-    service = "snapshot_manager";
-    timerConfig = {
-      OnBootSec = "15m";
-      OnUnitActiveSec = "15m";
-      Unit = "snapshot_manager.service";
+    timers."snapshot_manager" = {
+      description = "ZFS Snapshot Manager";
+      service = "snapshot_manager";
+      timerConfig = {
+        OnBootSec = "15m";
+        OnUnitActiveSec = "15m";
+        Unit = "snapshot_manager.service";
+      };
     };
   };
 

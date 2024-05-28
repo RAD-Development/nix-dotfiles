@@ -46,8 +46,8 @@ NIXSTOREPATH="/dev/$VOLGROUP/nix"
 BOOTPART="/dev/${DRIVE}p1"
 
 # git vars
-GITBASE="users/alice/systems"
-FEATUREBRANCH="feature/$MACHINENAME"
+GITBASE="systems"
+FEATUREBRANCH="feature/adding-$MACHINENAME"
 
 if [ $PROCEED != "Y" ]; then
     echo "PROCEED is not set correctly, please validate the below partitions and update the script accordingly"

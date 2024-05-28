@@ -113,10 +113,25 @@
     zfs = {
       trim.enable = true;
       autoScrub.enable = true;
-      autoSnapshot = {
-        enable = true;
-        frequent = 8;
-      };
+    };
+  };
+
+  systemd.services.snapshot_manager = {
+    description = "ZFS Snapshot Manager";
+    requires = [ "zfs-import.target" ];
+    after = [ "zfs-import.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.python}/bin/python -m zfs.snapshot_manager --config-file='/ZFS/Media/Scripts/new/config.toml'";
+    };
+  };
+  systemd.timers.snapshot_manager = {
+    description = "ZFS Snapshot Manager";
+    service = "snapshot_manager";
+    timerConfig = {
+      OnBootSec = "15m";
+      OnUnitActiveSec = "15m";
+      Unit = "snapshot_manager.service";
     };
   };
 

@@ -61,5 +61,6 @@
   "python.analysis.typeCheckingMode": "basic",
   "redhat.telemetry.enabled": true,
   "gitlens.plusFeatures.enabled": false,
-  "github.copilot.editor.enableAutoCompletions": true
+  "github.copilot.editor.enableAutoCompletions": true,
+  "explorer.confirmPasteNative": false
 }

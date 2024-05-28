@@ -30,7 +30,7 @@
         "tunnel"
         "run"
       ];
-      environmentFiles = [ "/ZFS/Main/Docker/jeeves-jr/haproxy/web/cloudflare_tunnel.env" ];
+      environmentFiles = [ "/ZFS/Main/Docker/jeeves-jr/cloudflare_tunnel.env" ];
       dependsOn = [ "haproxy" ];
       extraOptions = [ "--network=web" ];
       autoStart = true;

@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
-  imports = [ ../../users/richie/global/zerotier.nix ];
+  imports = [
+    ../../users/richie/global/zerotier.nix
+    ./docker
+  ];
 
   networking = {
     hostId = "1beb3026";

@@ -19,6 +19,7 @@
     "builtins",
     "cachix",
     "charliermarsh",
+    "cloudflared",
     "codezombiech",
     "Compat",
     "concatLists",

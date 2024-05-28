@@ -21,10 +21,13 @@
     cargo-watch
     cargo-generate
     diesel-cli
+    cargo-audit
+    gitoxide
 
     # nix tools
     nil
     nixfmt-rfc-style
+    nix-init
 
     # markdown
     nodePackages.markdownlint-cli

@@ -7,12 +7,17 @@
 }:
 
 {
-  imports = [
-    ./home/zsh.nix
-    ./home/doom
-    ./home/gammastep.nix
-    ./home/git.nix
-  ] ++ lib.optionals (!machineConfig.server) [ ./non-server.nix ];
+  imports =
+    [
+      ./home/zsh.nix
+      ./home/doom
+      ./home/gammastep.nix
+      ./home/git.nix
+    ]
+    ++ lib.optionals (!machineConfig.server) [
+      ./home/hypr
+      ./non-server.nix
+    ];
 
   home = {
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -35,16 +40,8 @@
     username = "alice";
     homeDirectory = "/home/alice";
     packages = with pkgs; [
-      cmake
-      shellcheck
-      glslang
       gnumake
-      pipenv
       python312
-      python312Packages.isort
-      python312Packages.pynose
-      python312Packages.pytest
-      shellcheck
 
       # useful tools
       ncdu
@@ -55,44 +52,20 @@
 
       # Rust packages
       bat
-      trunk
-      wasm-pack
-      cargo-watch
-      #pkgs.cargo-tarpaulin
-      cargo-generate
-      cargo-audit
       cargo-update
       diesel-cli
-      gitoxide
       tealdeer
       helix
 
       # nix specific packages
-      nil
-      nixfmt-rfc-style
-      nix-init
       nix-output-monitor
       nix-prefetch
       nix-tree
-
-      # markdown
-      nodePackages.markdownlint-cli
+      nh
 
       # doom emacs dependencies
       fd
       ripgrep
-      yaml-language-server
-      nodePackages.typescript-language-server
-      nodePackages.bash-language-server
-      pyright
-      cmake-language-server
-      multimarkdown
-      rustc
-      cargo
-      rust-analyzer
-      clang
-      clang-tools
-      wakatime
 
       # audit
       lynis

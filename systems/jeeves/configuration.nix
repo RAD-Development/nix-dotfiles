@@ -121,6 +121,7 @@
       requires = [ "zfs-import.target" ];
       after = [ "zfs-import.target" ];
       serviceConfig = {
+        Environment = "ZFS_BIN=${pkgs.zfs}/bin/zfs";
         Type = "oneshot";
         ExecStart = "${pkgs.python3}/bin/python3 /ZFS/Media/Scripts/new/ZFS/snapshot_manager.py --config-file='/ZFS/Media/Scripts/new/config.toml'";
       };

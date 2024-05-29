@@ -1,4 +1,7 @@
-{ lib, ... }:
+{ lib, config, ... }:
+let
+  cfg = config.services.rad-dev.k3s-net;
+in
 {
   options = {
     services.rad-dev.k3s-net = {
@@ -11,7 +14,7 @@
     };
   };
 
-  config = lib.mkIf {
+  config = lib.mkIf cfg.enable {
 
     system.activationScripts.setZerotierName = lib.stringAfter [ "var" ] ''
       echo "ebe7fbd44565ba9d=ztkubnet" > /var/lib/zerotier-one/devicemap 

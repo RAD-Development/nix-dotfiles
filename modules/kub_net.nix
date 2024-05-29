@@ -20,12 +20,12 @@ in
       echo "ebe7fbd44565ba9d=ztkubnet" > /var/lib/zerotier-one/devicemap 
     '';
 
-    services.zerotierone = {
+    services.zerotierone = lib.mkDefault {
       enable = true;
       joinNetworks = [ "ebe7fbd44565ba9d" ];
     };
 
-    systemd.network = {
+    systemd.network = lib.mkDefault {
       enable = true;
       wait-online.anyInterface = true;
       netdevs = {
@@ -51,6 +51,6 @@ in
     };
 
     # enable experimental networkd backend so networking doesnt break on hybrid systems
-    networking.useNetworkd = true;
+    networking.useNetworkd = lib.mkDefault true;
   };
 }

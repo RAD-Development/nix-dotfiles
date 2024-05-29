@@ -21,6 +21,7 @@
   networking = {
     hostId = "58f50a15";
     firewall.enable = true;
+    useNetworkd = true;
   };
 
   boot = {

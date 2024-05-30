@@ -72,7 +72,10 @@ rec {
           ];
         };
 
-        services.openssh.enable = true;
+        services.openssh = {
+          enable = true;
+          openFirewall = true;
+        };
         users.users.alice = {
           openssh.authorizedKeys.keys = [
             # photon

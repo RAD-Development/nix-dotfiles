@@ -38,17 +38,20 @@ in
       };
       networks = {
         "30-ztkubnet" = {
-          matchConfig.Name = [
-            "ztkubnet"
-            "vm-*"
-          ];
+          matchConfig.Name = [ "ztkubnet" ];
           networkConfig.Bridge = "brkubnet";
           linkConfig.RequiredForOnline = "enslaved";
         };
         "40-brkubnet" = {
           matchConfig.Name = "brkubnet";
           bridgeConfig = { };
+          networkConfig.LinkLocalAddressing = "no";
           linkConfig.RequiredForOnline = "no";
+        };
+        "41-vms" = {
+          matchConfig.Name = [ "vm-*" ];
+          networkConfig.Bridge = "brkubnet";
+          linkConfig.RequiredForOnline = "enslaved";
         };
       };
     };

@@ -38,7 +38,10 @@ in
       };
       networks = {
         "30-ztkubnet" = {
-          matchConfig.Name = "ztkubnet";
+          matchConfig.Name = [
+            "ztkubnet"
+            "vm-*"
+          ];
           networkConfig.Bridge = "brkubnet";
           linkConfig.RequiredForOnline = "enslaved";
         };

@@ -5,15 +5,18 @@ rec {
     lib.mapAttrs (
       host:
       {
-        ipv4,
+        address,
+        gateway,
         machine-id,
         server ? false,
       }:
-      genMicroVM host ipv4 "x86_64-linux" machine-id (if server then server-config else agent-config)
+      genMicroVM host address gateway "x86_64-linux" machine-id (
+        if server then server-config else agent-config
+      )
     ) vms;
 
   genMicroVM =
-    hostName: ipv4: _system: machine-id: vm-config:
+    hostName: address: gateway: _system: machine-id: vm-config:
     # microvm refers to microvm.nixosModules
 
     # {
@@ -44,32 +47,47 @@ rec {
           text = machine-id + "\n";
         };
 
-        microvm.shares = [
-          {
-            source = "/nix/store";
-            mountPoint = "/nix/.ro-store";
-            tag = "ro-store";
-            proto = "virtiofs";
-          }
-          {
-            # On the host
-            source = "/var/lib/microvms/${hostName}/journal";
-            # In the MicroVM
-            mountPoint = "/var/log/journal";
-            tag = "journal";
-            proto = "virtiofs";
-            socket = "journal.sock";
-          }
-        ];
+        networking.hostName = hostName;
 
-        networking = {
-          inherit hostName;
-          interfaces.ether.ipv4.addresses = [
+        microvm = {
+          interfaces = [
             {
-              address = ipv4;
-              prefixLength = 32;
+              type = "tap";
+              # bridge = "ztkubnet";
+              id = "vm-${hostName}";
+              mac = lib.rad-dev.strToMac hostName;
             }
           ];
+          shares = [
+            {
+              source = "/nix/store";
+              mountPoint = "/nix/.ro-store";
+              tag = "ro-store";
+              proto = "virtiofs";
+            }
+            {
+              # On the host
+              source = "/var/lib/microvms/${hostName}/journal";
+              # In the MicroVM
+              mountPoint = "/var/log/journal";
+              tag = "journal";
+              proto = "virtiofs";
+              socket = "journal.sock";
+            }
+          ];
+        };
+
+        systemd.network.enable = true;
+
+        systemd.network.networks."20-lan" = {
+          matchConfig.Type = "ether";
+          networkConfig = {
+            Address = address;
+            Gateway = gateway;
+            DNS = [ "9.9.9.9" ];
+            IPv6AcceptRA = true;
+            DHCP = "no";
+          };
         };
 
         services.openssh = {

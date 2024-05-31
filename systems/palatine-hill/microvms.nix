@@ -15,7 +15,8 @@ in
     genK3SVM (src + "/modules/opt/k3s-server.nix") (src + "/modules/opt/k3s-agent.nix")
       {
         "ph-server-1" = {
-          ipv4 = "192.168.69.10";
+          address = [ "192.168.69.10/24" ];
+          gateway = "192.168.69.1";
           machine-id = "d694ad1e88b356887bb204ac665263f7";
           server = true;
         };

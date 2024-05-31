@@ -20,13 +20,13 @@ in
       echo "ebe7fbd44565ba9d=ztkubnet" > /var/lib/zerotier-one/devicemap 
     '';
 
-    services.zerotierone = lib.mkDefault {
-      enable = true;
+    services.zerotierone = {
+      enable = lib.mkDefault true;
       joinNetworks = [ "ebe7fbd44565ba9d" ];
     };
 
-    systemd.network = lib.mkDefault {
-      enable = true;
+    systemd.network = {
+      enable = lib.mkDefault true;
       wait-online.anyInterface = true;
       netdevs = {
         "20-brkubnet" = {

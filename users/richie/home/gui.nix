@@ -11,8 +11,11 @@
     firefox
     gimp
     gparted
+    mediainfo
     obs-studio
     obsidian
     sweet-nova
+    vlc
+    util-linux
   ];
 }

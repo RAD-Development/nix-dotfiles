@@ -45,6 +45,9 @@
     clang
     clang-tools
     wakatime
+    enchant
+    nuspell
+    languagetool
 
     # dependencies for nix-dotfiles/hydra-check-action
     nodejs_20

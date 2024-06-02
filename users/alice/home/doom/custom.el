@@ -18,4 +18,4 @@
 
 (setq! lsp-enable-suggest-server-download nil)
 
-(keychain-refresh-environment)
+;; (keychain-refresh-environment)

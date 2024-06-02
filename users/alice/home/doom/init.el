@@ -203,3 +203,8 @@
 ;;               "/evil-collection-vterm\\.el\\'"
 ;;               "/vterm\\.el\\'"
 ;;               "/with-editor\\.el\\'")))
+
+
+;; prevent doom from ignoring ssh agent socket
+(when noninteractive
+  (add-to-list 'doom-env-allow "^SSH_"))

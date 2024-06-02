@@ -57,8 +57,8 @@
 (package! promela-mode
    :recipe (:host github :repo "g15ecb/promela-mode" :files ("promela-mode.el")))
 
-;; manages ssh-agent and gpg-agent configs
-(package! keychain-environment)
+;; ;; manages ssh-agent and gpg-agent configs
+;; (package! keychain-environment)
 
 ;;(package! company-tabnine :recipe (:host github :repo "TommyX12/company-tabnine"))
 

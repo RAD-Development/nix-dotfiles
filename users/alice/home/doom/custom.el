@@ -17,3 +17,5 @@
    (shell-command-to-string "cat /home/alice/.config/doom/wakatime"))
 
 (setq! lsp-enable-suggest-server-download nil)
+
+(keychain-refresh-environment)

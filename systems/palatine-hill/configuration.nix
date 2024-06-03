@@ -43,7 +43,7 @@ in
       "i915.enable_guc=2"
     ];
     kernel.sysctl = {
-      "vm.overcommit_memory" = 1;
+      "vm.overcommit_memory" = lib.mkForce 1;
       "vm.swappiness" = 10;
     };
     extraModprobeConfig = ''

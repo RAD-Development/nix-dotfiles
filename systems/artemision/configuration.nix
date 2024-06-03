@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./programs.nix
@@ -45,7 +50,7 @@
       }) { inherit (pkgs) system; }).fwupd;
 
     fprintd.enable = true;
-    openssh.enable = false;
+    openssh.enable = lib.mkDefault false;
 
     spotifyd = {
       enable = true;

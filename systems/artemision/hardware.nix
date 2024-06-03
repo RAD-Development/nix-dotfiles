@@ -46,7 +46,7 @@
 
   fileSystems = {
 
-    "/" = {
+    "/" = lib.mkDefault {
       device = "/dev/disk/by-uuid/f3c11d62-37f4-495e-b668-1ff49e0d3a47";
       fsType = "ext4";
       options = [

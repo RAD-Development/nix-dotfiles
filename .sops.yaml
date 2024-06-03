@@ -73,7 +73,7 @@ creation_rules:
           - *admin_alice
         age:
           - *artemision
-    
+
   - path_regex: users/richie/secrets\.yaml$
     key_groups:
       - pgp:

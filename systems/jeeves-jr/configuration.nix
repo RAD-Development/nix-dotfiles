@@ -51,21 +51,17 @@
       enable = true;
       exporters.node = {
         enable = true;
-        enabledCollectors = ["systemd"];
+        enabledCollectors = [ "systemd" ];
         port = 9002;
       };
       scrapeConfigs = [
         {
-          job_name = "node";
-          static_configs = [
-            {targets = ["127.0.0.1:9100"];}
-          ];
+          job_name = "jeeves-jr";
+          static_configs = [ { targets = [ "127.0.0.1:9100" ]; } ];
         }
         {
           job_name = "zfs";
-          static_configs = [
-            {targets = ["127.0.0.1:9134"];}
-          ];
+          static_configs = [ { targets = [ "127.0.0.1:9134" ]; } ];
         }
       ];
     };

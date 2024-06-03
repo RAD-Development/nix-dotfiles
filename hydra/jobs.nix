@@ -3,10 +3,10 @@ let
   inherit (inputs.nixpkgs.lib) mapAttrs;
 
   getCfg = _: cfg: cfg.config.system.build.toplevel;
-  getFormat =
-    _: cfg: format:
-    cfg.config.formats.${format};
-  imageWrapper = format: mapAttrs getFormat outputs.nixosConfigurations format;
+  # getFormat =
+  #   _: cfg: format:
+  #    cfg.config.formats.${format};
+  imageWrapper = format: mapAttrs (_: cfg: cfg.config.formats.${format}) outputs.nixosConfigurations;
 in
 {
   inherit (outputs) formatter devShells;

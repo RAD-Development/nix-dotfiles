@@ -50,7 +50,7 @@
       }) { inherit (pkgs) system; }).fwupd;
 
     fprintd.enable = true;
-    openssh.enable = lib.mkDefault false;
+    openssh.enable = lib.mkForce false;
 
     spotifyd = {
       enable = true;

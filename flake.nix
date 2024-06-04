@@ -144,7 +144,7 @@
           lib = self;
         }
       );
-      inherit (lib.rad-dev.systems) genSystems;
+      inherit (lib.rad-dev.systems) genSystems getImages;
       inherit (self) outputs; # for hydra
     in
     rec {
@@ -154,6 +154,12 @@
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations = genSystems inputs src (src + "/systems");
+      images = {
+        install-iso = getImages nixosConfigurations "install-iso";
+        iso = getImages nixosConfigurations "iso";
+        qcow = getImages nixosConfigurations "qcow";
+      };
+
       checks = import ./checks.nix { inherit inputs forEachSystem formatter; };
       devShells = import ./shell.nix { inherit inputs forEachSystem checks; };
     };

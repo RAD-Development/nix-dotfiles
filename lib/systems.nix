@@ -213,4 +213,15 @@ rec {
         }
       ) (lib.rad-dev.lsdir path)
     );
+
+  # gets all the images of a specified format
+  #
+  # args:
+  # systems: a set of systems to generate (usually outputs.nixosConfigurations)
+  # format: a format to generate images for (must be a format compatible with
+  #         nixos-generators or custom)
+  #
+  # type:
+  # AttrSet -> String -> AttrSet
+  getImages = systems: format: lib.mapAttrs (_: cfg: cfg.config.formats.${format}) systems;
 }

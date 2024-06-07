@@ -10,11 +10,11 @@
   imports =
     [
       ./home/zsh.nix
-      ./home/doom
-      ./home/gammastep.nix
       ./home/git.nix
     ]
     ++ lib.optionals (!machineConfig.server) [
+      ./home/gammastep.nix
+      ./home/doom
       ./home/hypr
       ./non-server.nix
     ];

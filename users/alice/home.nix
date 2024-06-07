@@ -41,7 +41,7 @@
     homeDirectory = "/home/alice";
     packages = with pkgs; [
       gnumake
-      python312
+      python3
 
       # useful tools
       ncdu

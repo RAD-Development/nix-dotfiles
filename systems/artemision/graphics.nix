@@ -7,7 +7,14 @@
     driSupport32Bit = true;
 
     ## amdvlk: an open-source Vulkan driver from AMD
-    extraPackages = [ pkgs.amdvlk ];
-    extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
+    extraPackages = with pkgs; [
+      amdvlk
+      rocmPackages.clr.icd
+    ];
+    extraPackages32 = with pkgs; [
+      driversi686Linux.amdvlk
+      rocmPackages.clr.icd
+    ];
   };
+  services.xserver.videoDrivers = [ "amdgpu" ];
 }

@@ -50,7 +50,8 @@ in
         "ZFS-primary/docker".useTemplate = [ "production" ];
         "ZFS-primary/hydra".useTemplate = [ "nix-prod" ];
         "ZFS-primary/nextcloud".useTemplate = [ "production" ];
-        "ZFS-primary/vardocker".useTemplate = [ "production" ];
+        # all docker containers should have a bind mount if they expect lasting zfs snapshots
+        "ZFS-primary/vardocker".useTemplate = [ "nix-prod" ];
         "ZFS-primary/games" = {
           useTemplate = [ "games" ];
           recursive = true;

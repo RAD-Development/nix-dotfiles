@@ -55,6 +55,7 @@
         id = "l62ul-lpweo"; # cspell:disable-line
         path = "/home/richie/notes";
         devices = [
+          "bob"
           "phone"
           "jeeves"
         ];
@@ -64,6 +65,7 @@
         id = "6uppx-vadmy"; # cspell:disable-line
         path = "/home/richie/books";
         devices = [
+          "bob"
           "phone"
           "jeeves"
         ];
@@ -73,6 +75,7 @@
         id = "4ckma-gtshs"; # cspell:disable-line
         path = "/home/richie/important";
         devices = [
+          "bob"
           "phone"
           "jeeves"
         ];
@@ -82,13 +85,17 @@
         id = "vprc5-3azqc"; # cspell:disable-line
         path = "/home/richie/music";
         devices = [
+          "bob"
           "phone"
           "jeeves"
         ];
         "projects" = {
           id = "vyma6-lqqrz"; # cspell:disable-line
           path = "/home/richie/projects";
-          devices = [ "jeeves" ];
+          devices = [
+            "bob"
+            "jeeves"
+          ];
           fsWatcherEnabled = true;
         };
         fsWatcherEnabled = true;

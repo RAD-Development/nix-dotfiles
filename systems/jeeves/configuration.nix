@@ -63,6 +63,7 @@
         id = "l62ul-lpweo"; # cspell:disable-line
         path = "/ZFS/Media/Notes";
         devices = [
+          "bob"
           "phone"
           "rhapsody-in-green"
         ];
@@ -72,6 +73,7 @@
         id = "6uppx-vadmy"; # cspell:disable-line
         path = "/ZFS/Storage/Syncthing/books";
         devices = [
+          "bob"
           "phone"
           "rhapsody-in-green"
         ];
@@ -81,6 +83,7 @@
         id = "4ckma-gtshs"; # cspell:disable-line
         path = "/ZFS/Storage/Syncthing/important";
         devices = [
+          "bob"
           "phone"
           "rhapsody-in-green"
         ];
@@ -90,6 +93,7 @@
         id = "vprc5-3azqc"; # cspell:disable-line
         path = "/ZFS/Storage/Syncthing/music";
         devices = [
+          "bob"
           "phone"
           "rhapsody-in-green"
         ];
@@ -98,7 +102,10 @@
       "projects" = {
         id = "vyma6-lqqrz"; # cspell:disable-line
         path = "/ZFS/Storage/Syncthing/projects";
-        devices = [ "rhapsody-in-green" ];
+        devices = [
+          "bob"
+          "rhapsody-in-green"
+        ];
         fsWatcherEnabled = true;
       };
     };

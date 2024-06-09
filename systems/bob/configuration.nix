@@ -1,9 +1,10 @@
 {
   imports = [
-    ./hardware.nix
     ../../users/richie/global/syncthing_base.nix
     ../../users/richie/global/zerotier.nix
+    ./hardware.nix
     ./nvidia.nix
+    ./steam.nix
   ];
 
   boot = {

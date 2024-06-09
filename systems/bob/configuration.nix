@@ -3,6 +3,7 @@
     ./hardware.nix
     ../../users/richie/global/syncthing_base.nix
     ../../users/richie/global/zerotier.nix
+    ./nvidia.nix
   ];
 
   boot = {

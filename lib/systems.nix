@@ -160,7 +160,7 @@ rec {
     lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs server;
+        inherit inputs server system;
       };
       modules =
         [

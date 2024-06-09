@@ -2,6 +2,7 @@
   lib,
   inputs,
   server,
+  system,
   ...
 }:
 {
@@ -25,8 +26,9 @@
     useUserPackages = true;
     sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
     extraSpecialArgs = {
+      inherit inputs;
       machineConfig = {
-        inherit server;
+        inherit server system;
       };
     };
   };

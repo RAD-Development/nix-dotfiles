@@ -9,9 +9,10 @@ keys:
   # cspell:disable
   - &artemision age1jd2dcpykagz20kpk2kkchte3augqncwfn6nywursx0dkfyze6feqdzxkq2
   - &artemision-home age1t29a6z6cfy8m3cnc8uva0ey833vhcppue8psyumts7mtyf0zufcqvfshuc
-  - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
+  - &bob age13jg97cvy63fzd2ccthcwvfyyxzw5vmwun8s0afq5l4xm0mhl6pjqhne063
   - &jeeves age128ehc0ssgwnuv4r8ayfyu7r80e82xrkmv63g7h9y9q4mhk4w9dyqfymc2w
   - &jeeves-jr age1lffr5f5nz0nrenv3ekgy27e8sztsx4gfp3hfymkz77mqaa5a4gts0ncrrh
+  - &palatine-hill age1z8q02wdp0a2ep5uuffgfeqlfam4ztl95frhw5qhnn6knn0rrmcnqk5evej
   - &rhapsody-in-green age1c7adjulcrma0m7l5ur8efxdjzyskrqcwssfkt77a9rmma7gzss5q02pgmy
   # cspell:enable
 
@@ -73,7 +74,7 @@ creation_rules:
           - *admin_alice
         age:
           - *artemision
-    
+
   - path_regex: users/richie/secrets\.yaml$
     key_groups:
       - pgp:
@@ -83,3 +84,4 @@ creation_rules:
           - *jeeves
           - *jeeves-jr
           - *rhapsody-in-green
+          - *bob

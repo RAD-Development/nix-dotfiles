@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
-  imports = [ ./vscode ];
+  imports = [
+    ./vscode
+    ./firefox.nix
+  ];
 
   home.packages = with pkgs; [
     beeper

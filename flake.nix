@@ -21,6 +21,7 @@
       "cache-nix-dot:0hp/F6mUJXNyZeLBPNBjmyEh8gWsNVH+zkuwlWMmwXg="
     ];
     trusted-users = [ "root" ];
+    allow-import-from-derivation = true;
   };
 
   inputs = {

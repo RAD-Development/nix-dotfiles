@@ -49,6 +49,8 @@
       pulse.enable = true;
     };
 
+    rad-dev.k3s-net.enable = false;
+
     syncthing.settings.folders = {
       "notes" = {
         id = "l62ul-lpweo"; # cspell:disable-line

@@ -11,7 +11,6 @@
     cinnamon.nemo
     cinnamon.nemo-fileroller
     discord-canary
-    firefox
     gimp
     gparted
     mediainfo

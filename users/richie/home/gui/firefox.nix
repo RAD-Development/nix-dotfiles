@@ -3,15 +3,15 @@
   programs.firefox = {
     enable = true;
     profiles.richie = {
-      extensions = with pkgs.inputs.firefox-addons; [
-        bitwarden-password-manager
-        darkreader
-        dearrow
-        fastforwardteam
-        return-youtube-dislikes
-        sponsorblock
-        ublock-origin
-      ];
+      # extensions = with pkgs.inputs.firefox-addons; [
+      #   bitwarden-password-manager
+      #   darkreader
+      #   dearrow
+      #   fastforwardteam
+      #   return-youtube-dislikes
+      #   sponsorblock
+      #   ublock-origin
+      # ];
       search.engines = {
         "Nix Options" = {
           urls = [

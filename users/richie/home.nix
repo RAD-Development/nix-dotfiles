@@ -4,7 +4,7 @@
     ./home/programs.nix
     ./home/sshconfig.nix
     ./home/cli
-  ] ++ lib.optionals (!machineConfig.server) [ ./home/gui.nix ];
+  ] ++ lib.optionals (!machineConfig.server) [ ./home/gui ];
 
   nixpkgs.config.allowUnfree = true;
 

@@ -107,13 +107,37 @@ rec {
       }
     ];
 
-  # genNUROverlay = { inputs, ... }: [ { nixpkgs.overlays = [ inputs.nur.nixosModules.nur ]; } ];
+  # Adds the NUR as an overlay to nixpkgs
+  #
+  # packages should be available on machines as per this exampl
+  #
+  # ```nix
+  # environment.systemPackages = [config.nur.repos.mic92.hello-nur];
+  # ```
+  #
+  # args:
+  # inputs: used to access the nur input
+  #
+  # genNUROverlay :: AttrSet -> [AttrSet]
+  genNUROverlay = { inputs, ... }: [ { nixpkgs.overlays = [ inputs.nur.overlay ]; } ];
 
-  # genNURNonPkgs =
-  #   { inputs, system, ... }:
-  #   {
-  #     nur-no-pkgs = import inputs.nur { nurpkgs = import inputs.nixpkgs { inherit system; }; };
-  #   };
+  # Makes the nur-no-pkgs variable available
+  #
+  # this is specifically for allowing nixosModules to be used without
+  # introducing infinite recursion errors
+  #
+  # use as per the below example
+  # ```nix
+  # imports = [ nur-no-pkgs.repos.iopq.modules.xraya  ];
+  # services.xraya.enable = true;
+  # ```
+  #
+  # genNURNonPkgs :: AttrSet -> AttrSet
+  genNURNonPkgs =
+    { inputs, system, ... }:
+    {
+      nur-no-pkgs = import inputs.nur { nurpkgs = import inputs.nixpkgs { inherit system; }; };
+    };
 
   # A wrapper for optionally generating configs based on arguments to constructSystem
   #
@@ -140,6 +164,7 @@ rec {
   # users: list of users to be added
   # home: enables home-manager on this machine (requires all users to have home-manager)
   # modules: list of machine-specific modules
+  # nur: enables the NUR on this machine (adds nur-no-pkgs variable, nixpkgs overlay, and home-manager module)
   # server: determines if this machine is a server (true) or a PC (false)
   # sops: enables sops on this machine
   # system: the system architecture of the machine
@@ -179,7 +204,7 @@ rec {
             system
             ;
         };
-      };
+      } // lib.mkIf nur genNURNonPkgs;
       modules =
         [
           inputs.nixos-modules.nixosModule
@@ -192,8 +217,8 @@ rec {
         ++ genWrapper sops genSops args
         ++ genWrapper home genHome args
         ++ genWrapper true genUsers args
-        ++ genWrapper (system != "x86_64-linux") genNonX86 args;
-      # ++ genWrapper nur genNUROverlay args;
+        ++ genWrapper (system != "x86_64-linux") genNonX86 args
+        ++ genWrapper nur genNUROverlay args;
     };
 
   # a convenience function for automatically generating NixOS systems by reading a directory via constructSystem

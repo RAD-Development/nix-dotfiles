@@ -27,6 +27,7 @@
       "la" = "eza --all";
 
       "rspace" = "'for f in *\ *; do mv \"$f\" \"\${f// /_}\"; done'";
+      "rebuild" = "sudo nixos-rebuild switch --flake /home/richie/projects/nix-dotfiles#$HOST";
     };
   };
 }

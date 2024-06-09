@@ -136,7 +136,10 @@ rec {
   genNURNonPkgs =
     { inputs, system, ... }:
     {
-      nur-no-pkgs = import inputs.nur { nurpkgs = import inputs.nixpkgs { inherit system; }; };
+      nur-no-pkgs = import inputs.nur {
+        pkgs = null;
+        nurpkgs = import inputs.nixpkgs { inherit system; };
+      };
     };
 
   # A wrapper for optionally generating configs based on arguments to constructSystem

@@ -107,6 +107,14 @@ rec {
       }
     ];
 
+  # genNUROverlay = { inputs, ... }: [ { nixpkgs.overlays = [ inputs.nur.nixosModules.nur ]; } ];
+
+  # genNURNonPkgs =
+  #   { inputs, system, ... }:
+  #   {
+  #     nur-no-pkgs = import inputs.nur { nurpkgs = import inputs.nixpkgs { inherit system; }; };
+  #   };
+
   # A wrapper for optionally generating configs based on arguments to constructSystem
   #
   # args:
@@ -121,7 +129,7 @@ rec {
     lib.optionals cond (func args);
 
   # Makes a custom NixOS system
-  #
+  # /.
   # The args are passed in as an AttrSet
   #
   # args:
@@ -153,6 +161,7 @@ rec {
       users,
       home ? true,
       modules ? [ ],
+      nur ? false,
       server ? true,
       sops ? true,
       system ? "x86_64-linux",
@@ -160,7 +169,16 @@ rec {
     lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs server system;
+        inherit inputs;
+        machineConfig = {
+          inherit
+            home
+            nur
+            server
+            sops
+            system
+            ;
+        };
       };
       modules =
         [
@@ -175,6 +193,7 @@ rec {
         ++ genWrapper home genHome args
         ++ genWrapper true genUsers args
         ++ genWrapper (system != "x86_64-linux") genNonX86 args;
+      # ++ genWrapper nur genNUROverlay args;
     };
 
   # a convenience function for automatically generating NixOS systems by reading a directory via constructSystem

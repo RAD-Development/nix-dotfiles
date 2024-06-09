@@ -1,8 +1,7 @@
 {
   lib,
   inputs,
-  server,
-  system,
+  machineConfig,
   ...
 }:
 {
@@ -24,11 +23,13 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+    sharedModules =
+      lib.optionals machineConfig.sops [ inputs.sops-nix.homeManagerModules.sops ]
+      ++ lib.optionals machineConfig.nur [ inputs.nur.hmModules.nur ];
     extraSpecialArgs = {
       inherit inputs;
       machineConfig = {
-        inherit server system;
+        inherit (machineConfig) server system;
       };
     };
   };

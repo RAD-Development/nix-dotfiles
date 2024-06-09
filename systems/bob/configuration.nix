@@ -40,6 +40,8 @@
       };
     };
 
+    openssh.ports = [ 262 ];
+
     printing.enable = true;
 
     pipewire = {

@@ -21,6 +21,12 @@
         identityFile = "~/.ssh/id_ed25519";
         port = 262;
       };
+      rhapsody-in-green = {
+        hostname = "192.168.90.221";
+        user = "richie";
+        identityFile = "~/.ssh/id_ed25519";
+        port = 922;
+      };
     };
   };
 }

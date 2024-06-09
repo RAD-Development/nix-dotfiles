@@ -89,15 +89,15 @@
           "phone"
           "jeeves"
         ];
-        "projects" = {
-          id = "vyma6-lqqrz"; # cspell:disable-line
-          path = "/home/richie/projects";
-          devices = [
-            "bob"
-            "jeeves"
-          ];
-          fsWatcherEnabled = true;
-        };
+        fsWatcherEnabled = true;
+      };
+      "projects" = {
+        id = "vyma6-lqqrz"; # cspell:disable-line
+        path = "/home/richie/projects";
+        devices = [
+          "bob"
+          "jeeves"
+        ];
         fsWatcherEnabled = true;
       };
     };

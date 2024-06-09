@@ -88,15 +88,15 @@
           "jeeves"
           "rhapsody-in-green"
         ];
-        "projects" = {
-          id = "vyma6-lqqrz"; # cspell:disable-line
-          path = "/home/richie/projects";
-          devices = [
-            "jeeves"
-            "rhapsody-in-green"
-          ];
-          fsWatcherEnabled = true;
-        };
+        fsWatcherEnabled = true;
+      };
+      "projects" = {
+        id = "vyma6-lqqrz"; # cspell:disable-line
+        path = "/home/richie/projects";
+        devices = [
+          "jeeves"
+          "rhapsody-in-green"
+        ];
         fsWatcherEnabled = true;
       };
     };

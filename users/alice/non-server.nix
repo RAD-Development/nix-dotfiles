@@ -53,5 +53,7 @@
     nodejs_20
     nodePackages.prettier
     treefmt
+
+    nextcloud-client
   ];
 }

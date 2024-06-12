@@ -6,10 +6,10 @@
 }:
 {
   imports = [
-    ./cron
-    ./networking.nix
-    ./zfs.nix
     ./hydra.nix
+    ./networking.nix
+    ./nextcloud.nix
+    ./zfs.nix
   ];
 
   programs.git.lfs.enable = false;

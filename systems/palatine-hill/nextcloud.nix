@@ -30,7 +30,7 @@
       DynamicUser = "yes";
       Group = "docker";
       ExecStart = ''
-        docker ps --format "{{.Names}}" | grep -q "^nextcloud-nextcloud-1$" && docker exec --user www-data nextcloud-nextcloud-1 php occ preview:pre-generate
+        ${pkgs.docker}/bin/docker ps --format "{{.Names}}" | ${pkgs.gnugrep}/bin/grep -q "^nextcloud-nextcloud-1$" && ${pkgs.docker}/bin/docker exec --user www-data nextcloud-nextcloud-1 php occ preview:pre-generate
       '';
     };
   };

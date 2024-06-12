@@ -12,6 +12,6 @@
     text = ''
       */10 * * * * docker ps --format "{{.Names}}" | grep -q "^nextcloud-nextcloud-1$" && docker exec --user www-data nextcloud-nextcloud-1 php occ preview:pre-generate
     '';
-    target = /etc/rad-dev/nextcloud-cron;
+    target = "rad-dev/nextcloud-cron";
   };
 }

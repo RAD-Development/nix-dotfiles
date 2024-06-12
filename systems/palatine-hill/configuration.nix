@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ./cron
     ./networking.nix
     ./zfs.nix
     ./hydra.nix

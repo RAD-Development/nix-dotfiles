@@ -5,13 +5,13 @@
   ...
 }:
 let
-  ff-ext = config.nur.repos.rycee.firefox-addons;
+  firefox-extensions = config.nur.repos.rycee.firefox-addons;
 in
 {
   programs.firefox = {
     enable = true;
     profiles.richie = {
-      extensions = with ff-ext; [
+      extensions = with firefox-extensions; [
         bitwarden
         darkreader
         dearrow

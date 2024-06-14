@@ -1,5 +1,6 @@
 {
   imports = [
+    ../../users/richie/global/desktop.nix
     ../../users/richie/global/syncthing_base.nix
     ../../users/richie/global/zerotier.nix
     ./hardware.nix
@@ -32,15 +33,6 @@
     autopull.enable = false;
 
     displayManager.sddm.enable = true;
-
-    xserver = {
-      enable = true;
-      desktopManager.plasma5.enable = true;
-      xkb = {
-        layout = "us";
-        variant = "";
-      };
-    };
 
     openssh.ports = [ 262 ];
 

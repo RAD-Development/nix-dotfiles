@@ -1,8 +1,16 @@
 { config, ... }:
 {
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {
-    nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
-
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement = {
+        enable = true;
+        finegrained = true;
+      };
+      package = config.boot.kernelPackages.nvidiaPackages.production;
+      nvidiaSettings = true;
+    };
     nvidia-container-toolkit.enable = true;
   };
 }

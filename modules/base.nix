@@ -24,7 +24,10 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+    sharedModules = [
+      inputs.sops-nix.homeManagerModules.sops
+      inputs.plasma-manager.homeManagerModules.plasma-manager
+    ];
     extraSpecialArgs = {
       inherit inputs;
       machineConfig = {

@@ -2,6 +2,7 @@
 {
   imports = [
     ./firefox.nix
+    ./kde.nix
     ./vscode
   ];
 

@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ./docker.nix
     ./hydra.nix
     ./networking.nix
     ./nextcloud.nix
@@ -46,8 +47,6 @@
       ];
     };
   };
-
-  virtualisation.docker.daemon.settings.data-root = "/var/lib/docker2";
 
   environment.systemPackages = with pkgs; [
     attic-client

@@ -1,14 +1,17 @@
 {
   pkgs,
-  inputs,
+  config,
   machineConfig,
   ...
 }:
+let
+  firefox-extensions = config.nur.repos.rycee.firefox-addons;
+in
 {
   programs.firefox = {
     enable = true;
     profiles.richie = {
-      extensions = with inputs.firefox-addons.packages.${machineConfig.system}; [
+      extensions = with firefox-extensions; [
         bitwarden
         darkreader
         dearrow

@@ -21,6 +21,7 @@
       "cache-nix-dot:0hp/F6mUJXNyZeLBPNBjmyEh8gWsNVH+zkuwlWMmwXg="
     ];
     trusted-users = [ "root" ];
+    allow-import-from-derivation = true;
   };
 
   inputs = {
@@ -36,17 +37,13 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         nixpkgs-stable.follows = "nixpkgs-stable";
+        flake-compat.follows = "flake-compat";
         flake-utils.follows = "flake-utils";
       };
     };
 
     fenix = {
       url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -92,6 +89,8 @@
       };
     };
 
+    nur.url = "github:nix-community/NUR";
+
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
@@ -128,7 +127,12 @@
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      nur,
+      ...
+    }@inputs:
     let
       systems = [
         "x86_64-linux"

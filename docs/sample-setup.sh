@@ -46,8 +46,8 @@ NIXSTOREPATH="/dev/$VOLGROUP/nix"
 BOOTPART="/dev/${DRIVE}p1"
 
 # git vars
-GITBASE="users/alice/systems"
-FEATUREBRANCH="feature/$MACHINENAME"
+GITBASE="systems"
+FEATUREBRANCH="feature/adding-$MACHINENAME"
 
 if [ $PROCEED != "Y" ]; then
     echo "PROCEED is not set correctly, please validate the below partitions and update the script accordingly"
@@ -181,4 +181,4 @@ Host github.com
         IdentityFile /root/.ssh/id_ed25519_ghdeploy
 EOF
 printf "%s" "$SSHCONFIG" | sudo tee /root/.ssh/config
-sudo $GC remote set-url origin 'git@github.com:RAD-Development/nix-dotfiles.git'
+sudo "$GC" remote set-url origin 'git@github.com:RAD-Development/nix-dotfiles.git'

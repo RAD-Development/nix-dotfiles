@@ -139,7 +139,7 @@ in
       TZ = "America/New_York";
     };
     volumes = [ "/ZFS/Media/Docker/Docker/Storage/overseerr:/config" ];
-    ports = [ "5055:5055" ];
+    ports = [ "5055:5055" ]; # Web UI port
     autoStart = true;
   };
 }

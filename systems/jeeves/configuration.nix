@@ -130,7 +130,7 @@
       serviceConfig = {
         Environment = "ZFS_BIN=${pkgs.zfs}/bin/zfs";
         Type = "oneshot";
-        ExecStart = "${pkgs.python3}/bin/python3 /ZFS/media/Scripts/new/ZFS/snapshot_manager.py --config-file='/ZFS/media/Scripts/new/config.toml'";
+        ExecStart = "${pkgs.python3}/bin/python3 /ZFS/media/Scripts/new/ZFS/snapshot_manager.py --config-file='/root/nix-dotfiles/systems/jeeves/snapshot_config.toml'";
       };
     };
     timers."snapshot_manager" = {

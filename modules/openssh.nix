@@ -23,7 +23,7 @@
 
     settings = {
       AllowAgentForwarding = "no";
-      AllowTcpForwarding = "no";
+      AllowTcpForwarding = lib.mkDefault "no";
       ChallengeResponseAuthentication = "no";
       ClientAliveCountMax = lib.mkDefault 2;
       Compression = "NO";

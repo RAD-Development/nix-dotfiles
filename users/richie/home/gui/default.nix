@@ -16,8 +16,9 @@
     mediainfo
     obs-studio
     obsidian
+    proxychains
     sweet-nova
-    vlc
     util-linux
+    vlc
   ];
 }

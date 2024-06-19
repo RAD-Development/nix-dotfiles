@@ -56,15 +56,13 @@ creation_rules:
 
   - path_regex: systems/palatine-hill/secrets.*\.yaml$
     key_groups:
-      - pgp:
-          - *admin_alice
+      - pgp: *admins
         age:
           - *palatine-hill
 
   - path_regex: systems/palatine-hill/keys/zfs-.*-key$
     key_groups:
-      - pgp:
-          - *admin_alice
+      - pgp: *admins
         age:
           - *palatine-hill
 

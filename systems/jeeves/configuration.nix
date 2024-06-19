@@ -145,7 +145,7 @@
 
   sops = {
     defaultSopsFile = ./secrets.yaml;
-    secrets."zfs/postgres_key".owner = "root";
+    secrets."zfs/postgres_key".path = "/root/zfs/postgres_key";
   };
 
   system.stateVersion = "23.11";

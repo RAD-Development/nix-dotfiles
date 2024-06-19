@@ -4,7 +4,6 @@
     ../../users/richie/global/syncthing_base.nix
     ../../users/richie/global/zerotier.nix
     ./hardware.nix
-    ./steam.nix
   ];
 
   boot = {

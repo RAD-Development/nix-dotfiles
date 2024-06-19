@@ -9,8 +9,8 @@
         "29432:29432"
       ];
       volumes = [
-        "/ZFS/Media/Docker/Docker/Storage/qbit:/config"
-        "/ZFS/Torenting/Qbit/:/data"
+        "/ZFS/media/Docker/Docker/Storage/qbit:/config"
+        "/ZFS/torrenting/Qbit/:/data"
       ];
       environment = {
         PUID = "998";
@@ -29,8 +29,8 @@
         "8118:8118"
       ];
       volumes = [
-        "/ZFS/Media/Docker/Docker/Storage/qbitvpn:/config"
-        "/ZFS/Torenting/QbitVPN/:/data"
+        "/ZFS/media/Docker/Docker/Storage/qbitvpn:/config"
+        "/ZFS/torrenting/QbitVPN/:/data"
         "/etc/localtime:/etc/localtime:ro"
       ];
       environment = {
@@ -48,7 +48,7 @@
         DELUGE_DAEMON_LOG_LEVEL = "debug";
         DELUGE_WEB_LOG_LEVEL = "debug";
       };
-      environmentFiles = [ "/ZFS/Media/Docker/Docker/jeeves/internal/qbitvpn.env" ];
+      environmentFiles = [ "/ZFS/media/Docker/Docker/jeeves/internal/qbitvpn.env" ];
       autoStart = true;
     };
     prowlarr = {
@@ -58,7 +58,7 @@
         PGID = "100";
         TZ = "America/New_York";
       };
-      volumes = [ "/ZFS/Media/Docker/Docker/Storage/prowlarr:/config" ];
+      volumes = [ "/ZFS/media/Docker/Docker/Storage/prowlarr:/config" ];
       autoStart = true;
     };
     radarr = {
@@ -69,9 +69,9 @@
         TZ = "America/New_York";
       };
       volumes = [
-        "/ZFS/Media/Docker/Docker/Storage/radarr:/config"
-        "/ZFS/Storage/Plex/Movies:/movies"
-        "/ZFS/Torenting/QbitVPN:/data"
+        "/ZFS/media/Docker/Docker/Storage/radarr:/config"
+        "/ZFS/storage/Plex/Movies:/movies"
+        "/ZFS/torrenting/QbitVPN:/data"
       ];
       autoStart = true;
     };
@@ -83,9 +83,9 @@
         TZ = "America/New_York";
       };
       volumes = [
-        "/ZFS/Media/Docker/Docker/Storage/sonarr:/config"
-        "/ZFS/Storage/Plex/TV:/tv"
-        "/ZFS/Torenting/QbitVPN:/data"
+        "/ZFS/media/Docker/Docker/Storage/sonarr:/config"
+        "/ZFS/storage/Plex/TV:/tv"
+        "/ZFS/torrenting/QbitVPN:/data"
       ];
       autoStart = true;
     };

@@ -13,9 +13,9 @@
 
   boot = {
     zfs.extraPools = [
-      "Media"
-      "Storage"
-      "Torenting"
+      "media"
+      "storage"
+      "torrenting"
     ];
     filesystem = "zfs";
     useSystemdBoot = true;
@@ -50,7 +50,7 @@
 
     plex = {
       enable = true;
-      dataDir = "/ZFS/Media/Plex/";
+      dataDir = "/ZFS/media/Plex/";
     };
 
     smartd.enable = true;
@@ -61,7 +61,7 @@
     syncthing.settings.folders = {
       "notes" = {
         id = "l62ul-lpweo"; # cspell:disable-line
-        path = "/ZFS/Media/Notes";
+        path = "/ZFS/media/Notes";
         devices = [
           "bob"
           "phone"
@@ -71,7 +71,7 @@
       };
       "books" = {
         id = "6uppx-vadmy"; # cspell:disable-line
-        path = "/ZFS/Storage/Syncthing/books";
+        path = "/ZFS/storage/Syncthing/books";
         devices = [
           "bob"
           "phone"
@@ -81,7 +81,7 @@
       };
       "important" = {
         id = "4ckma-gtshs"; # cspell:disable-line
-        path = "/ZFS/Storage/Syncthing/important";
+        path = "/ZFS/storage/Syncthing/important";
         devices = [
           "bob"
           "phone"
@@ -91,7 +91,7 @@
       };
       "music" = {
         id = "vprc5-3azqc"; # cspell:disable-line
-        path = "/ZFS/Storage/Syncthing/music";
+        path = "/ZFS/storage/Syncthing/music";
         devices = [
           "bob"
           "phone"
@@ -101,7 +101,7 @@
       };
       "projects" = {
         id = "vyma6-lqqrz"; # cspell:disable-line
-        path = "/ZFS/Storage/Syncthing/projects";
+        path = "/ZFS/storage/Syncthing/projects";
         devices = [
           "bob"
           "rhapsody-in-green"
@@ -130,7 +130,7 @@
       serviceConfig = {
         Environment = "ZFS_BIN=${pkgs.zfs}/bin/zfs";
         Type = "oneshot";
-        ExecStart = "${pkgs.python3}/bin/python3 /ZFS/Media/Scripts/new/ZFS/snapshot_manager.py --config-file='/ZFS/Media/Scripts/new/config.toml'";
+        ExecStart = "${pkgs.python3}/bin/python3 /ZFS/media/Scripts/new/ZFS/snapshot_manager.py --config-file='/ZFS/media/Scripts/new/config.toml'";
       };
     };
     timers."snapshot_manager" = {

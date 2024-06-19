@@ -15,7 +15,7 @@
     postgres = {
       image = "postgres:16";
       ports = [ "5432:5432" ];
-      volumes = [ "/ZFS/Media/databases/postgres:/var/lib/postgresql/data" ];
+      volumes = [ "/ZFS/media/databases/postgres:/var/lib/postgresql/data" ];
       environment = {
         POSTGRES_USER = "admin";
         POSTGRES_DB = "archive";

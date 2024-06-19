@@ -36,6 +36,7 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         nixpkgs-stable.follows = "nixpkgs-stable";
+        flake-compat.follows = "flake-compat";
         flake-utils.follows = "flake-utils";
       };
     };
@@ -47,7 +48,10 @@
 
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
     };
 
     flake-utils = {
@@ -104,7 +108,6 @@
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs = {
-        flake-utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
       };
     };

@@ -90,4 +90,15 @@
       autoStart = true;
     };
   };
+  overseerr = {
+    image = "lscr.io/linuxserver/overseerr";
+    environment = {
+      PUID = "998";
+      PGID = "100";
+      TZ = "America/New_York";
+    };
+    volumes = [ "/ZFS/Media/Docker/Docker/Storage/overseerr:/config" ];
+    ports = [ "5055:5055" ];
+    autoStart = true;
+  };
 }

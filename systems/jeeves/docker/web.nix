@@ -60,9 +60,8 @@ in
       TZ = "America/New_York";
     };
     volumes = [ "/ZFS/Media/Docker/Docker/Storage/overseerr:/config" ];
-    # commenting this out for now for setup purposes.
     # TODO: remove ports later since this is going through web
-    # ports = [ "5055:5055" ]; # Web UI port
+    ports = [ "5055:5055" ]; # Web UI port
     dependsOn = [
       "radarr"
       "sonarr"

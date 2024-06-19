@@ -131,15 +131,4 @@ in
     defaultSopsFile = ../secrets.yaml;
     secrets."docker/qbit_vpn".owner = "docker-service";
   };
-  overseerr = {
-    image = "lscr.io/linuxserver/overseerr";
-    environment = {
-      PUID = "998";
-      PGID = "100";
-      TZ = "America/New_York";
-    };
-    volumes = [ "/ZFS/Media/Docker/Docker/Storage/overseerr:/config" ];
-    ports = [ "5055:5055" ]; # Web UI port
-    autoStart = true;
-  };
 }

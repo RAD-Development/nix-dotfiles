@@ -145,7 +145,18 @@
 
   sops = {
     defaultSopsFile = ./secrets.yaml;
-    secrets."zfs/postgres_key".path = "/root/zfs/postgres_key";
+    secrets = {
+      "zfs/backup_key".path = "/root/zfs/backup_key";
+      "zfs/docker_key".path = "/root/zfs/docker_key";
+      "zfs/main_key".path = "/root/zfs/main_key";
+      "zfs/notes_key".path = "/root/zfs/notes_key";
+      "zfs/plex_key".path = "/root/zfs/plex_key";
+      "zfs/postgres_key".path = "/root/zfs/postgres_key";
+      "zfs/qbit_key".path = "/root/zfs/qbit_key";
+      "zfs/scripts_key".path = "/root/zfs/scripts_key";
+      "zfs/syncthing_key".path = "/root/zfs/syncthing_key";
+      "zfs/vault_key".path = "/root/zfs/vault_key";
+    };
   };
 
   system.stateVersion = "23.11";

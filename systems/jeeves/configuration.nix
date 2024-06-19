@@ -143,5 +143,10 @@
     };
   };
 
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets."zfs/postgres_key".owner = "root";
+  };
+
   system.stateVersion = "23.11";
 }

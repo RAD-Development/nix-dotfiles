@@ -51,7 +51,7 @@
 
     plex = {
       enable = true;
-      dataDir = "/zfs/media/Plex/";
+      dataDir = "/zfs/media/plex/";
     };
 
     smartd.enable = true;

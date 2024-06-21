@@ -2,7 +2,7 @@
   virtualisation.oci-containers.containers = {
     grafana = {
       image = "grafana/grafana-enterprise";
-      volumes = [ "/zfs/media/Docker/Docker/Storage/grafana:/var/lib/grafana" ];
+      volumes = [ "/zfs/media/docker/configs/grafana:/var/lib/grafana" ];
       user = "998:998";
       extraOptions = [ "--network=web" ];
       autoStart = true;
@@ -10,7 +10,7 @@
     dnd_file_server = {
       image = "ubuntu/apache2:latest";
       volumes = [
-        "/zfs/media/Docker/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/"
+        "/zfs/media/docker/templates/file_server/sites/:/etc/apache2/sites-enabled/"
         "/ZFS/storage/Main/Table_Top/:/data"
       ];
       extraOptions = [ "--network=web" ];
@@ -19,7 +19,7 @@
     arch_mirror = {
       image = "ubuntu/apache2:latest";
       volumes = [
-        "/zfs/media/Docker/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/"
+        "/zfs/media/docker/templates/file_server/sites/:/etc/apache2/sites-enabled/"
         "/zfs/media/Mirror/:/data"
       ];
       ports = [ "800:80" ];
@@ -33,9 +33,8 @@
         TZ = "Etc/EST";
       };
       volumes = [
-        "/zfs/media/Docker/Docker/jeeves/web/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem"
-        "/zfs/media/Docker/Docker/jeeves/web/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
-        "/zfs/media/Docker/Docker/jeeves/web/haproxy/API:/run/haproxy/"
+        "/zfs/media/docker/cloudflare.pem:/etc/ssl/certs/cloudflare.pem"
+        "/zfs/media/docker/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
       ];
       dependsOn = [
         "grafana"
@@ -51,7 +50,7 @@
         "tunnel"
         "run"
       ];
-      environmentFiles = [ "/zfs/media/Docker/Docker/jeeves/web/cloudflare_tunnel.env" ];
+      environmentFiles = [ "/zfs/media/docker/cloudflare_tunnel.env" ];
       dependsOn = [ "haproxy" ];
       extraOptions = [ "--network=web" ];
       autoStart = true;

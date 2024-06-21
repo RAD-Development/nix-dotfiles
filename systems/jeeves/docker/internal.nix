@@ -9,7 +9,7 @@
         "29432:29432"
       ];
       volumes = [
-        "/zfs/media/Docker/Docker/Storage/qbit:/config"
+        "/zfs/media/docker/configs/qbit:/config"
         "/zfs/torrenting/qbit/:/data"
       ];
       environment = {
@@ -29,7 +29,7 @@
         "8118:8118"
       ];
       volumes = [
-        "/zfs/media/Docker/Docker/Storage/qbitvpn:/config"
+        "/zfs/media/docker/configs/qbitvpn:/config"
         "/zfs/torrenting/qbitvpn/:/data"
         "/etc/localtime:/etc/localtime:ro"
       ];
@@ -48,7 +48,7 @@
         DELUGE_DAEMON_LOG_LEVEL = "debug";
         DELUGE_WEB_LOG_LEVEL = "debug";
       };
-      environmentFiles = [ "/zfs/media/Docker/Docker/jeeves/internal/qbitvpn.env" ];
+      environmentFiles = [ "/zfs/media/docker/qbitvpn.env" ];
       autoStart = true;
     };
     prowlarr = {
@@ -58,7 +58,7 @@
         PGID = "100";
         TZ = "America/New_York";
       };
-      volumes = [ "/zfs/media/Docker/Docker/Storage/prowlarr:/config" ];
+      volumes = [ "/zfs/media/docker/configs/prowlarr:/config" ];
       autoStart = true;
     };
     radarr = {
@@ -69,7 +69,7 @@
         TZ = "America/New_York";
       };
       volumes = [
-        "/zfs/media/Docker/Docker/Storage/radarr:/config"
+        "/zfs/media/docker/configs/radarr:/config"
         "/ZFS/storage/Plex/Movies:/movies"
         "/zfs/torrenting/qbitvpn:/data"
       ];
@@ -83,7 +83,7 @@
         TZ = "America/New_York";
       };
       volumes = [
-        "/zfs/media/Docker/Docker/Storage/sonarr:/config"
+        "/zfs/media/docker/configs/sonarr:/config"
         "/ZFS/storage/Plex/TV:/tv"
         "/zfs/torrenting/qbitvpn:/data"
       ];

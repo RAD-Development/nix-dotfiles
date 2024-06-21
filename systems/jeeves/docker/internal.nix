@@ -10,7 +10,7 @@
       ];
       volumes = [
         "/ZFS/media/Docker/Docker/Storage/qbit:/config"
-        "/ZFS/torrenting/Qbit/:/data"
+        "/ZFS/torrenting/qbit/:/data"
       ];
       environment = {
         PUID = "998";
@@ -30,7 +30,7 @@
       ];
       volumes = [
         "/ZFS/media/Docker/Docker/Storage/qbitvpn:/config"
-        "/ZFS/torrenting/QbitVPN/:/data"
+        "/ZFS/torrenting/qbitvpn/:/data"
         "/etc/localtime:/etc/localtime:ro"
       ];
       environment = {
@@ -71,7 +71,7 @@
       volumes = [
         "/ZFS/media/Docker/Docker/Storage/radarr:/config"
         "/ZFS/storage/Plex/Movies:/movies"
-        "/ZFS/torrenting/QbitVPN:/data"
+        "/ZFS/torrenting/qbitvpn:/data"
       ];
       autoStart = true;
     };
@@ -85,7 +85,7 @@
       volumes = [
         "/ZFS/media/Docker/Docker/Storage/sonarr:/config"
         "/ZFS/storage/Plex/TV:/tv"
-        "/ZFS/torrenting/QbitVPN:/data"
+        "/ZFS/torrenting/qbitvpn:/data"
       ];
       autoStart = true;
     };

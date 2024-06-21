@@ -1,10 +1,10 @@
 { pkgs, ... }:
 
 {
-  hardware.opengl = {
+  hardware.graphics = {
     ## radv: an open-source Vulkan driver from freedesktop
-    driSupport = true;
-    driSupport32Bit = true;
+    enable = true;
+    enable32Bit = true;
 
     ## amdvlk: an open-source Vulkan driver from AMD
     extraPackages = with pkgs; [

@@ -4,23 +4,11 @@ hourly = 2
 daily = 1
 monthly = 0
 
-["media/Plex"]
-15_min = 6
-hourly = 2
-daily = 1
-monthly = 0
-
 ["media/Notes"]
 15_min = 8
 hourly = 24
 daily = 30
 monthly = 12
-
-["media/Docker"]
-15_min = 3
-hourly = 12
-daily = 14
-monthly = 2
 
 ["storage/plex"]
 15_min = 6

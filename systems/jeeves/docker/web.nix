@@ -11,7 +11,7 @@
       image = "ubuntu/apache2:latest";
       volumes = [
         "/zfs/media/docker/templates/file_server/sites/:/etc/apache2/sites-enabled/"
-        "/ZFS/storage/main/Table_Top/:/data"
+        "/zfs/storage/main/Table_Top/:/data"
       ];
       extraOptions = [ "--network=web" ];
       autoStart = true;

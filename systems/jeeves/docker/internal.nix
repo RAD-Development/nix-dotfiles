@@ -70,7 +70,7 @@
       };
       volumes = [
         "/zfs/media/docker/configs/radarr:/config"
-        "/ZFS/storage/Plex/Movies:/movies"
+        "/zfs/storage/Plex/movies:/movies"
         "/zfs/torrenting/qbitvpn:/data"
       ];
       autoStart = true;
@@ -84,7 +84,7 @@
       };
       volumes = [
         "/zfs/media/docker/configs/sonarr:/config"
-        "/ZFS/storage/Plex/TV:/tv"
+        "/zfs/storage/Plex/tv:/tv"
         "/zfs/torrenting/qbitvpn:/data"
       ];
       autoStart = true;

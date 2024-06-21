@@ -4,7 +4,7 @@
     ports = [ "8080:8080" ];
     volumes = [
       "/ZFS:/data"
-      "/zfs/media/Docker/filebrowser:/config"
+      "/zfs/media/docker/configs/filebrowser:/config"
     ];
     autoStart = true;
     user = "nobody:users";

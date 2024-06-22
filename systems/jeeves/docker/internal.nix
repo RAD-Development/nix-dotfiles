@@ -3,7 +3,7 @@
   virtualisation.oci-containers.containers = {
     qbit = {
       image = "ghcr.io/linuxserver/qbittorrent";
-      user = "600:600";
+      user = "600:100";
       ports = [
         "6881:6881"
         "6881:6881/udp"
@@ -24,7 +24,7 @@
     };
     qbitvpn = {
       image = "binhex/arch-qbittorrentvpn";
-      user = "600:600";
+      user = "600:100";
       ports = [
         "6882:6881"
         "6882:6881/udp"
@@ -56,7 +56,7 @@
     };
     prowlarr = {
       image = "ghcr.io/linuxserver/prowlarr";
-      user = "600:600";
+      user = "600:100";
       environment = {
         PUID = "600";
         PGID = "100";
@@ -67,7 +67,7 @@
     };
     radarr = {
       image = "ghcr.io/linuxserver/radarr";
-      user = "600:600";
+      user = "600:100";
       environment = {
         PUID = "600";
         PGID = "100";
@@ -82,7 +82,7 @@
     };
     sonarr = {
       image = "ghcr.io/linuxserver/sonarr";
-      user = "600:600";
+      user = "600:100";
       environment = {
         PUID = "600";
         PGID = "100";

@@ -62,7 +62,7 @@
     syncthing.settings.folders = {
       "notes" = {
         id = "l62ul-lpweo"; # cspell:disable-line
-        path = "/zfs/media/Notes";
+        path = "/zfs/media/notes";
         devices = [
           "bob"
           "phone"

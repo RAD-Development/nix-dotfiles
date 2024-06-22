@@ -12,7 +12,7 @@
   ];
 
   services = {
-    postgres = {
+    postgresql = {
       enable = true;
       ensureDatabases = [ "atticd" ];
       ensureUsers = [

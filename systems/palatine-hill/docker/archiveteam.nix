@@ -7,87 +7,87 @@
 
 let
   containers = {
-    imgur = {
+    archiveteam-imgur = {
       image = "imgur-grab";
       scale = 1;
     };
-    telegram = {
+    archiveteam-telegram = {
       image = "telegram-grab";
       scale = 3;
     };
-    reddit = {
+    archiveteam-reddit = {
       image = "reddit-grab";
       scale = 1;
     };
-    dpreview = {
+    archiveteam-dpreview = {
       image = "dpreview-grab";
       scale = 0;
     };
-    issuu = {
+    archiveteam-issuu = {
       image = "issuu-grab";
       scale = 0;
     };
-    urls = {
+    archiveteam-urls = {
       image = "urls-grab";
       scale = 2;
     };
-    urlteam = {
+    archiveteam-urlteam = {
       image = "terroroftinytown-client-grab";
       scale = 2;
     };
-    mediafire = {
+    archiveteam-mediafire = {
       image = "mediafire-grab";
       scale = 1;
     };
-    github = {
+    archiveteam-github = {
       image = "github-grab";
       scale = 1;
     };
-    lineblog = {
+    archiveteam-lineblog = {
       image = "lineblog-grab";
       scale = 0;
     };
-    banciyuan = {
+    archiveteam-banciyuan = {
       image = "banciyuan-grab";
       scale = 0;
     };
-    wysp = {
+    archiveteam-wysp = {
       image = "wysp-grab";
       scale = 0;
     };
-    xuite = {
+    archiveteam-xuite = {
       image = "xuite-grab";
       scale = 0;
     };
-    gfycat = {
+    archiveteam-gfycat = {
       image = "gfycat-grab";
       scale = 0;
     };
-    skyblog = {
+    archiveteam-skyblog = {
       image = "skyblog-grab";
       scale = 0;
     };
-    zowa = {
+    archiveteam-zowa = {
       image = "zowa-grab";
       scale = 0;
     };
-    blogger = {
+    archiveteam-blogger = {
       image = "blogger-grab";
       scale = 0;
     };
-    vbox7 = {
+    archiveteam-vbox7 = {
       image = "vbox7-grab";
       scale = 0;
     };
-    pastebin = {
+    archiveteam-pastebin = {
       image = "pastebin-grab";
       scale = 1;
     };
-    youtube = {
+    archiveteam-youtube = {
       image = "youtube-grab";
       scale = 1;
     };
-    deviantart = {
+    archiveteam-deviantart = {
       image = "deviantart-grab";
       scale = 1;
     };

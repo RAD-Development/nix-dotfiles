@@ -4,7 +4,7 @@
     grafana = {
       image = "grafana/grafana-enterprise";
       volumes = [ "/zfs/media/docker/configs/grafana:/var/lib/grafana" ];
-      user = "998:998";
+      user = "600:600";
       extraOptions = [ "--network=web" ];
       autoStart = true;
     };
@@ -29,12 +29,12 @@
     };
     haproxy = {
       image = "haproxy:latest";
-      user = "998:998";
+      user = "600:600";
       environment = {
         TZ = "Etc/EST";
       };
       volumes = [
-        "/zfs/media/docker/cloudflare.pem:/etc/ssl/certs/cloudflare.pem"
+        "${config.sops.secrets."docker/haproxy_cert".path}:/etc/ssl/certs/cloudflare.pem"
         "/root/nix-dotfiles/systems/jeeves/docker/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
       ];
       dependsOn = [
@@ -61,10 +61,9 @@
 
   sops = {
     defaultSopsFile = ../secrets.yaml;
-    secrets."docker/cloud_flare_tunnel".owner = "docker-service";
-    secrets."docker/haproxy_cert" = {
-      owner = "docker-service";
-      path = "/zfs/media/docker/test_cloudflare.pem";
+    secrets = {
+      "docker/cloud_flare_tunnel".owner = "docker-service";
+      "docker/haproxy_cert".owner = "docker-service";
     };
   };
 }

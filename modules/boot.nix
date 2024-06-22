@@ -54,7 +54,6 @@ in
       devNodes = "/dev/disk/by-id/";
       forceImportRoot = true;
     };
-
     loader = {
       efi.canTouchEfiVariables = false;
       generationsDir.copyKernels = true;

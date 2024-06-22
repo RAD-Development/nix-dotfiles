@@ -110,8 +110,9 @@
         ];
         description = "Force resync of hydra derivations with attic";
         serviceConfig = {
-          User = "root";
-          Restart = "always";
+          Type = "oneshot";
+          DynamicUser = "yes";
+          Group = "hydra";
           ExecStart = "${config.nix.package}/bin/nix ${./attic/sync-attic.bash}";
         };
       };

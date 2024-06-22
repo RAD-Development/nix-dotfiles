@@ -21,7 +21,7 @@
         POSTGRES_DB = "archive";
         POSTGRES_INITDB_ARGS = "--auth-host=scram-sha-256";
       };
-      environmentFiles = [ config.sops.secrets."postgres".path ];
+      environmentFiles = [ config.sops.secrets."docker/postgres".path ];
       autoStart = true;
       user = "postgres:postgres";
     };
@@ -29,6 +29,6 @@
 
   sops = {
     defaultSopsFile = ../secrets.yaml;
-    secrets."postgres".owner = "postgres";
+    secrets."docker/postgres".owner = "postgres";
   };
 }

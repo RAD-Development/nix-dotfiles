@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   virtualisation.oci-containers.containers = {
     grafana = {
@@ -34,7 +35,7 @@
       };
       volumes = [
         "/zfs/media/docker/cloudflare.pem:/etc/ssl/certs/cloudflare.pem"
-        "/zfs/media/docker/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+        "/root/nix-dotfiles/systems/jeeves/docker/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
       ];
       dependsOn = [
         "grafana"
@@ -50,10 +51,19 @@
         "tunnel"
         "run"
       ];
-      environmentFiles = [ "/zfs/media/docker/cloudflare_tunnel.env" ];
+      environmentFiles = [ config.sops.secrets."docker/cloud_flare_tunnel:".path ];
       dependsOn = [ "haproxy" ];
       extraOptions = [ "--network=web" ];
       autoStart = true;
+    };
+  };
+
+  sops = {
+    defaultSopsFile = ../secrets.yaml;
+    secrets."docker/cloud_flare_tunnel:".owner = "docker-service";
+    secrets."docker/haproxy_cert:" = {
+      owner = "docker-service";
+      path = "/zfs/media/docker/test_cloudflare.pem";
     };
   };
 }

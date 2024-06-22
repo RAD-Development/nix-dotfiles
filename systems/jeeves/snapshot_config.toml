@@ -1,9 +1,3 @@
-["storage/Plex"]
-15_min = 6
-hourly = 2
-daily = 1
-monthly = 0
-
 ["media/Notes"]
 15_min = 8
 hourly = 24

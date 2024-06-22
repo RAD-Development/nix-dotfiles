@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ./attic.nix
     ./docker.nix
     ./hydra.nix
     ./networking.nix

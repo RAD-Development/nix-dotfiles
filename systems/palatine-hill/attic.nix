@@ -113,6 +113,7 @@
           Type = "oneshot";
           DynamicUser = "yes";
           Group = "hydra";
+          ReadWriteDirectories = "-//.cache";
           ExecStart = "${config.nix.package}/bin/nix ${./attic/sync-attic.bash}";
         };
       };

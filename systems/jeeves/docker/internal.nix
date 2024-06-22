@@ -49,7 +49,7 @@
         DELUGE_DAEMON_LOG_LEVEL = "debug";
         DELUGE_WEB_LOG_LEVEL = "debug";
       };
-      environmentFiles = [ config.sops.secrets."docker/haproxy_cert".path ];
+      environmentFiles = [ config.sops.secrets."docker/qbit_vpn".path ];
       autoStart = true;
     };
     prowlarr = {

@@ -1,5 +1,17 @@
 { lib, ... }:
 {
+  users = {
+    users.docker-service = {
+      isSystemUser = true;
+      group = "docker-service";
+      extraGroups = [ "docker" ];
+      uid = 600;
+    };
+    groups.docker-service = {
+      gid = 600;
+    };
+  };
+
   virtualisation.docker = {
     enable = lib.mkDefault true;
     logDriver = "local";

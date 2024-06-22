@@ -1,7 +1,9 @@
+{ config, ... }:
 {
   virtualisation.oci-containers.containers = {
     qbit = {
       image = "ghcr.io/linuxserver/qbittorrent";
+      user = "600:600";
       ports = [
         "6881:6881"
         "6881:6881/udp"
@@ -13,7 +15,7 @@
         "/zfs/torrenting/qbit/:/data"
       ];
       environment = {
-        PUID = "998";
+        PUID = "600";
         PGID = "100";
         TZ = "America/New_York";
         WEBUI_PORT = "8082";
@@ -22,6 +24,7 @@
     };
     qbitvpn = {
       image = "binhex/arch-qbittorrentvpn";
+      user = "600:600";
       ports = [
         "6882:6881"
         "6882:6881/udp"
@@ -35,7 +38,7 @@
       ];
       environment = {
         WEBUI_PORT = "8081";
-        PUID = "998";
+        PUID = "600";
         PGID = "100";
         VPN_ENABLED = "yes";
         VPN_CLIENT = "openvpn";
@@ -48,13 +51,14 @@
         DELUGE_DAEMON_LOG_LEVEL = "debug";
         DELUGE_WEB_LOG_LEVEL = "debug";
       };
-      environmentFiles = [ "/zfs/media/docker/qbitvpn.env" ];
+      environmentFiles = [ config.sops.secrets."docker/haproxy_cert".path ];
       autoStart = true;
     };
     prowlarr = {
       image = "ghcr.io/linuxserver/prowlarr";
+      user = "600:600";
       environment = {
-        PUID = "998";
+        PUID = "600";
         PGID = "100";
         TZ = "America/New_York";
       };
@@ -63,8 +67,9 @@
     };
     radarr = {
       image = "ghcr.io/linuxserver/radarr";
+      user = "600:600";
       environment = {
-        PUID = "998";
+        PUID = "600";
         PGID = "100";
         TZ = "America/New_York";
       };
@@ -77,8 +82,9 @@
     };
     sonarr = {
       image = "ghcr.io/linuxserver/sonarr";
+      user = "600:600";
       environment = {
-        PUID = "998";
+        PUID = "600";
         PGID = "100";
         TZ = "America/New_York";
       };
@@ -89,5 +95,9 @@
       ];
       autoStart = true;
     };
+  };
+  sops = {
+    defaultSopsFile = ../secrets.yaml;
+    secrets."docker/qbit_vpn".owner = "docker-service";
   };
 }

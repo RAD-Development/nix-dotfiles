@@ -1,6 +1,7 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   nix = {
+    package = pkgs.nixVersions.latest;
     diffSystem = true;
     settings = {
       experimental-features = [

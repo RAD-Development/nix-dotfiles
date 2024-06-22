@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ./attic.nix
     ./docker.nix
     ./hydra.nix
     ./networking.nix
@@ -49,8 +50,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    attic-client
-    attic
     docker-compose
     intel-gpu-tools
     jellyfin-ffmpeg
@@ -74,14 +73,6 @@
            superuser_map      /^(.*)$   \1
       '';
 
-      ensureDatabases = [ "atticd" ];
-      ensureUsers = [
-        {
-          name = "atticd";
-          ensureDBOwnership = true;
-        }
-      ];
-
       # initialScript = config.sops.secrets."postgres/init".path;
 
       upgrade = {
@@ -93,7 +84,6 @@
           "hydra-queue-runner"
           "hydra-send-stats"
           "hydra-server"
-          "atticd"
         ];
       };
     };

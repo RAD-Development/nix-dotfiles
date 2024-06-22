@@ -72,7 +72,7 @@
       };
       "books" = {
         id = "6uppx-vadmy"; # cspell:disable-line
-        path = "/zfs/storage/Syncthing/books";
+        path = "/zfs/storage/syncthing/books";
         devices = [
           "bob"
           "phone"
@@ -82,7 +82,7 @@
       };
       "important" = {
         id = "4ckma-gtshs"; # cspell:disable-line
-        path = "/zfs/storage/Syncthing/important";
+        path = "/zfs/storage/syncthing/important";
         devices = [
           "bob"
           "phone"
@@ -92,7 +92,7 @@
       };
       "music" = {
         id = "vprc5-3azqc"; # cspell:disable-line
-        path = "/zfs/storage/Syncthing/music";
+        path = "/zfs/storage/syncthing/music";
         devices = [
           "bob"
           "phone"
@@ -102,7 +102,7 @@
       };
       "projects" = {
         id = "vyma6-lqqrz"; # cspell:disable-line
-        path = "/zfs/storage/Syncthing/projects";
+        path = "/zfs/storage/syncthing/projects";
         devices = [
           "bob"
           "rhapsody-in-green"

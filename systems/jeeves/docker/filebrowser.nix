@@ -7,6 +7,6 @@
       "/zfs/media/docker/configs/filebrowser:/config"
     ];
     autoStart = true;
-    user = "richie:users";
+    user = "1000:users";
   };
 }

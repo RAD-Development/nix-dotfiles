@@ -91,6 +91,10 @@ let
       image = "deviantart-grab";
       scale = 1;
     };
+    archiveteam-postnews = {
+      image = "postnews-grab";
+      scale = 1;
+    };
   };
   container-spec = container: {
     image = "atdr.meo.ws/archiveteam/${container}";

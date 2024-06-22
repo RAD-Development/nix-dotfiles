@@ -106,6 +106,7 @@ let
       "com.centurylinklabs.watchtower.enable" = "true";
       "com.centurylinklabs.watchtower.scope" = "archiveteam";
     };
+    log-driver = "local";
     cmd = lib.splitString " " "--concurrent 6 AmAnd0";
 
   };
@@ -121,6 +122,7 @@ in
           "com.centurylinklabs.watchtower.scope" = "archiveteam";
         };
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
+        log-driver = "local";
         cmd = lib.splitString " " "--label-enable --cleanup --interval 600";
       };
     };

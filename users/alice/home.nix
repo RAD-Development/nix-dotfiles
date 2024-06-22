@@ -46,6 +46,8 @@
       # useful tools
       ncdu
       neofetch
+      onefetch
+      hyfetch
       smartmontools
       wget
       glances

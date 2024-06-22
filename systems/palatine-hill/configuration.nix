@@ -9,11 +9,13 @@
     ./attic.nix
     ./docker.nix
     ./hydra.nix
+    ./microvms.nix
     ./minio.nix
     ./networking.nix
     ./nextcloud.nix
     ./services.nix
     ./zfs.nix
+    ./networking.nix
   ];
 
   programs.git.lfs.enable = false;

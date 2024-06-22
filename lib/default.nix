@@ -56,6 +56,26 @@
     # type:
     # fileList :: Path -> String -> [Path]
     fileList = dir: map (file: dir + "/${file}") (ls dir);
+
+    # Given a attrset of images and a function which generates an image spec,
+    # generates a set of containers (although this could in theory be used for
+    # other things... I'd like to see people try)
+    #
+    # container set must be in the below format
+    # { container-name = {image = "image-uri"; scale = n;}; }
+    # where image-uri gets passed in to the container-spec function as a custom
+    # parameter, and scale is an integer that generates the containers
+    #
+    # container-spec must be a function which accepts one parameter (the
+    # container name) and ideally returns an oci-compliant container.
+    #
+    # args:
+    # containers: an AttrSet which specifies the imageUri and scale of each
+    #   container
+    # container-spec: a function which produces an oci-compliant container spec
+    #
+    # type:
+    # AttrSet -> (AttrSet -> AttrSet) -> AttrSet
     createTemplatedContainers =
       containers: container-spec:
       builtins.listToAttrs (
@@ -71,6 +91,23 @@
       );
 
     # Converts an integer into a string
+    #
+    # Given that trying to do this the way you'd do it in languages like python
+    # ("str" + int) causes the program to error out, I assume this is some sort
+    # of cardinal sin of nix. However, I want templated docker containers so
+    # here we are.
+    #
+    # Fun fact: if you want to parse a negative number (I know, scary right?),
+    # you first need to surround it in parentheses (ie. parseInt (-1000)) as nix
+    # interprets negative numbers as a function and will think you're trying to
+    # do some really weird function application magic if you try to call this
+    # normally (ie. parseInt -1000).
+    #
+    # args:
+    # num: an integer to convert
+    #
+    # type:
+    # parseInt :: Integer -> String
     parseInt =
       num:
       let

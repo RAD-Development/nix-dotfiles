@@ -160,7 +160,12 @@ rec {
     lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs server system;
+        inherit
+          inputs
+          server
+          system
+          src
+          ;
       };
       modules =
         [
@@ -208,7 +213,7 @@ rec {
               inherit inputs src configPath;
               hostname = name;
             }
-            // import configPath { inherit inputs; }
+            // import configPath { inherit inputs src; }
           );
         }
       ) (lib.rad-dev.lsdir path)

@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, src, ... }:
 {
   users = [
     "alice"
@@ -6,6 +6,6 @@
   ];
   modules = [
     inputs.attic.nixosModules.atticd
-    inputs.microvm.nixosModules.host
+    (src + "/modules/opt/microvm-host.nix")
   ];
 }

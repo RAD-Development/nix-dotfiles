@@ -56,5 +56,32 @@
     # type:
     # fileList :: Path -> String -> [Path]
     fileList = dir: map (file: dir + "/${file}") (ls dir);
+    createContainers =
+      containers: container-spec:
+      builtins.listToAttrs (
+        lib.flatten (
+          lib.mapAttrsToList (
+            name: value:
+            (map (num: {
+              name = "${name}-${parseInt num}";
+              value = container-spec value.image;
+            }) (lib.lists.range 1 value.scale))
+          ) containers
+        )
+      );
+
+    parseInt =
+      num:
+      let
+        digits = "0123456789";
+        mod = num: (lib.trivial.mod num 10);
+      in
+      if num > 9 then
+        ((parseInt (builtins.div num 10)) + (lib.substring (mod num) 1 digits))
+      else if num < 0 then
+        "-" + (parseInt (builtins.mul num (-1)))
+      else
+        lib.substring (mod num) 1 digits;
   };
+
 }

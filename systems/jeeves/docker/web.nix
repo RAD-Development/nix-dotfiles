@@ -51,7 +51,7 @@
         "tunnel"
         "run"
       ];
-      environmentFiles = [ config.sops.secrets."docker/cloud_flare_tunnel:".path ];
+      environmentFiles = [ config.sops.secrets."docker/cloud_flare_tunnel".path ];
       dependsOn = [ "haproxy" ];
       extraOptions = [ "--network=web" ];
       autoStart = true;
@@ -60,8 +60,8 @@
 
   sops = {
     defaultSopsFile = ../secrets.yaml;
-    secrets."docker/cloud_flare_tunnel:".owner = "docker-service";
-    secrets."docker/haproxy_cert:" = {
+    secrets."docker/cloud_flare_tunnel".owner = "docker-service";
+    secrets."docker/haproxy_cert" = {
       owner = "docker-service";
       path = "/zfs/media/docker/test_cloudflare.pem";
     };

@@ -23,6 +23,7 @@
     };
     qbitvpn = {
       image = "binhex/arch-qbittorrentvpn";
+      extraOptions = [ "--cap-add=NET_ADMIN" ];
       ports = [
         "6882:6881"
         "6882:6881/udp"

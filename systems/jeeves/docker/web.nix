@@ -47,6 +47,7 @@
     };
     cloud_flare_tunnel = {
       image = "cloudflare/cloudflared:latest";
+      user = "docker-service:docker-service";
       cmd = [
         "tunnel"
         "run"

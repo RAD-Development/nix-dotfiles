@@ -53,6 +53,12 @@ in
           networkConfig.Bridge = "brkubnet";
           linkConfig.RequiredForOnline = "enslaved";
         };
+        "42-kubnet-accuse" = {
+          matchConfig.Name = "kubnet-accuse";
+          networkConfig.Bridge = "brkubnet";
+          linkConfig.RequiredForOnline = "enslaved";
+          address = [ "192.168.69.20/24" ];
+        };
       };
     };
 

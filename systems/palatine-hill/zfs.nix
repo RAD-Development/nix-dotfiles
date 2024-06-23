@@ -65,6 +65,7 @@ in
           frequently = 0;
           hourly = 36;
           daily = 30;
+          weekly = 0;
           monthly = 6;
           yearly = 3;
           autosnap = true;
@@ -77,6 +78,9 @@ in
           frequently = 4;
           hourly = 24;
           daily = 7;
+          weekly = 0;
+          monthly = 0;
+          yearly = 0;
           autosnap = true;
           autoprune = true;
         };
@@ -85,6 +89,9 @@ in
           frequently = 6;
           hourly = 36;
           daily = 3;
+          weekly = 0;
+          monthly = 0;
+          yearly = 0;
           autosnap = true;
           autoprune = true;
         };

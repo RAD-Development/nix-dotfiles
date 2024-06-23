@@ -30,7 +30,7 @@
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = lib.mkForce pkgs.linuxPackages_zen;
     useSystemdBoot = true;
     default = true;
   };

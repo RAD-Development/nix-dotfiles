@@ -5,7 +5,7 @@
   ...
 }:
 let
-  hydra_prometheus_port = 9199;
+  hydra_prometheus_port = "9199";
 in
 {
   systemd.services.hydra-notify.serviceConfig.EnvironmentFile =

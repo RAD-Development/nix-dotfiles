@@ -16,6 +16,7 @@
     croc
     deadnix
     direnv
+    discord
     discord-canary
     eza
     fanficfare

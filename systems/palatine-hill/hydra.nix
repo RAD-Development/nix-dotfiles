@@ -4,7 +4,9 @@
   pkgs,
   ...
 }:
-
+let
+  hydra_prometheus_port = 9199;
+in
 {
   systemd.services.hydra-notify.serviceConfig.EnvironmentFile =
     config.sops.secrets."hydra/environment".path;
@@ -56,7 +58,7 @@
         <hydra_notify>
           <prometheus>
             listen_address = 127.0.0.1
-            port = 9199
+            port = ${hydra_prometheus_port}
           </prometheus>
         </hydra_notify>
       '';
@@ -76,8 +78,19 @@
       };
       scrapeConfigs = [
         {
-          job_name = "hydra";
-          static_configs = [ { targets = [ "127.0.0.1:9199" ]; } ];
+          job_name = "palatine-hill";
+          static_configs = [
+            { targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ]; }
+          ];
+        }
+        {
+          job_name = "hydra-local";
+          static_configs = [ { targets = [ "127.0.0.1:${hydra_prometheus_port}" ]; } ];
+        }
+        {
+          job_name = "hydra-external";
+          scheme = "https";
+          static_configs = [ { targets = [ "hydra.alicehuston.xyz" ]; } ];
         }
       ];
     };

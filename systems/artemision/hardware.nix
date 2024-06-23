@@ -32,7 +32,7 @@
       "amdgpu.graphics_sg=0"
       "amdgpu.abmlevel=3"
     ];
-    kernelPatches = lib.mkIf (lib.versionOlder pkgs.linux.version "6.9") [
+    kernelPatches = lib.mkIf (config.boot.kernelPackages.kernelOlder "6.9") [
       {
         name = "add panel_power_savings sysfs entry to eDP connectors";
         patch = ./kernel-patches/panel_power_savings.patch;

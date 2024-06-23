@@ -62,7 +62,7 @@ in
             port = ${hydra_notify_prometheus_port}
           </prometheus>
         </hydra_notify>
-        queue_runner_metrics_address = [::]:${hydra_queue_runner_prometheus_port}
+        queue_runner_metrics_address = 127.0.0.1:${hydra_queue_runner_prometheus_port}
       '';
     };
 
@@ -72,6 +72,7 @@ in
     };
     prometheus = {
       enable = true;
+      webExternalUrl = "https://prom.alicehuston.xyz";
       port = 9001;
       exporters.node = {
         enable = true;

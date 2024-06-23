@@ -5,7 +5,8 @@
   ...
 }:
 let
-  hydra_prometheus_port = "9199";
+  hydra_notify_prometheus_port = "9199";
+  hydra_queue_runner_prometheus_port = "9200";
 in
 {
   systemd.services.hydra-notify.serviceConfig.EnvironmentFile =
@@ -58,9 +59,10 @@ in
         <hydra_notify>
           <prometheus>
             listen_address = 127.0.0.1
-            port = ${hydra_prometheus_port}
+            port = ${hydra_notify_prometheus_port}
           </prometheus>
         </hydra_notify>
+        queue_runner_metrics_address = [::]:${hydra_queue_runner_prometheus_port}
       '';
     };
 
@@ -85,7 +87,14 @@ in
         }
         {
           job_name = "hydra-local";
-          static_configs = [ { targets = [ "127.0.0.1:${hydra_prometheus_port}" ]; } ];
+          static_configs = [
+            {
+              targets = [
+                "127.0.0.1:${hydra_notify_prometheus_port}"
+                "127.0.0.1:${hydra_queue_runner_prometheus_port}"
+              ];
+            }
+          ];
         }
         {
           job_name = "hydra-external";

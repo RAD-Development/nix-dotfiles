@@ -53,12 +53,32 @@
           timeout = 3600
         </git-input>
         Include ${config.sops.secrets."alice/gha-hydra-token".path}
+        <hydra_notify>
+          <prometheus>
+            listen_address = 127.0.0.1
+            port = 9199
+          </prometheus>
+        </hydra_notify>
       '';
     };
 
     nix-serve = {
       enable = true;
       secretKeyFile = config.sops.secrets."nix-serve/secret-key".path;
+    };
+    prometheus = {
+      enable = true;
+      exporters.node = {
+        enable = true;
+        enabledCollectors = [ "systemd" ];
+        port = 9002;
+      };
+      scrapeConfigs = [
+        {
+          job_name = "hydra";
+          static_configs = [ { targets = [ "127.0.0.1:9199" ]; } ];
+        }
+      ];
     };
   };
 

@@ -56,7 +56,7 @@
     # type:
     # fileList :: Path -> String -> [Path]
     fileList = dir: map (file: dir + "/${file}") (ls dir);
-    createContainers =
+    createTemplatedContainers =
       containers: container-spec:
       builtins.listToAttrs (
         lib.flatten (
@@ -70,6 +70,7 @@
         )
       );
 
+    # Converts an integer into a string
     parseInt =
       num:
       let

@@ -3,7 +3,7 @@
     image = "hurlenko/filebrowser";
     extraOptions = [ "--network=web" ];
     volumes = [
-      "/ZFS:/data"
+      "/zfs:/data"
       "/zfs/media/docker/configs/filebrowser:/config"
     ];
     autoStart = true;

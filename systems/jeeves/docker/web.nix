@@ -38,9 +38,10 @@
         "/root/nix-dotfiles/systems/jeeves/docker/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
       ];
       dependsOn = [
-        "grafana"
         "arch_mirror"
         "dnd_file_server"
+        "filebrowser"
+        "grafana"
       ];
       extraOptions = [ "--network=web" ];
       autoStart = true;

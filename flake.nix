@@ -69,6 +69,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    microvm = {
+      url = "github:astro/microvm.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+
     nix = {
       url = "github:NixOS/nix/latest-release";
       inputs = {

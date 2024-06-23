@@ -66,8 +66,9 @@
     # where image-uri gets passed in to the container-spec function as a custom
     # parameter, and scale is an integer that generates the containers
     #
-    # container-spec must be a function which accepts one parameter (the
-    # container name) and ideally returns an oci-compliant container.
+    # container-spec must be a function which accepts two parameter (the
+    # container name and image name) and ideally returns an oci-compliant
+    # container.
     #
     # args:
     # containers: an AttrSet which specifies the imageUri and scale of each
@@ -75,17 +76,23 @@
     # container-spec: a function which produces an oci-compliant container spec
     #
     # type:
-    # AttrSet -> (AttrSet -> AttrSet) -> AttrSet
+    # AttrSet -> (String -> AttrSet -> AttrSet) -> AttrSet
     createTemplatedContainers =
       containers: container-spec:
       builtins.listToAttrs (
         lib.flatten (
           lib.mapAttrsToList (
             name: value:
-            (map (num: {
-              name = "${name}-${parseInt num}";
-              value = container-spec value.image;
-            }) (lib.lists.range 1 value.scale))
+            (map (
+              num:
+              let
+                container-name = "${name}-${toString num}";
+              in
+              {
+                name = container-name;
+                value = container-spec container-name value.image;
+              }
+            ) (lib.lists.range 1 value.scale))
           ) containers
         )
       );

@@ -77,6 +77,8 @@ in
           frequently = 4;
           hourly = 24;
           daily = 7;
+          autosnap = true;
+          autoprune = true;
         };
         # much shorter lived than others
         games = {

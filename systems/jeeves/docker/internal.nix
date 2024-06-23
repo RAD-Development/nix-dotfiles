@@ -44,7 +44,7 @@
         STRICT_PORT_FORWARD = "yes";
         ENABLE_PRIVOXY = "yes";
         LAN_NETWORK = "192.168.90.0/24";
-        NAME_SERVERS = "192.168.90.0";
+        NAME_SERVERS = "192.168.99.1";
         UMASK = "000";
         DEBUG = "false";
         DELUGE_DAEMON_LOG_LEVEL = "debug";

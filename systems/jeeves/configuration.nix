@@ -5,6 +5,7 @@
     ../../users/richie/global/syncthing_base.nix
     ../../users/richie/global/zerotier.nix
     ./docker
+    ./programs.nix
   ];
 
   networking = {

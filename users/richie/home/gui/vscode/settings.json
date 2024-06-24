@@ -56,5 +56,6 @@
   "explorer.confirmPasteNative": false,
   "github.copilot.enable": {
     "*": false
-  }
+  },
+  "terminal.integrated.scrollback": 10000
 }

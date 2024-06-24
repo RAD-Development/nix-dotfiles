@@ -9,6 +9,7 @@
     gnupg
     ncdu
     neofetch
+    rar
     ripgrep
     sops
     starship

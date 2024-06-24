@@ -55,6 +55,7 @@
     };
     prowlarr = {
       image = "ghcr.io/linuxserver/prowlarr";
+      ports = [ "9696:9696" ];
       environment = {
         PUID = "600";
         PGID = "100";
@@ -65,6 +66,7 @@
     };
     radarr = {
       image = "ghcr.io/linuxserver/radarr";
+      ports = [ "7878:7878" ];
       environment = {
         PUID = "600";
         PGID = "100";
@@ -79,6 +81,7 @@
     };
     sonarr = {
       image = "ghcr.io/linuxserver/sonarr";
+      ports = [ "8989:8989" ];
       environment = {
         PUID = "600";
         PGID = "100";

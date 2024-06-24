@@ -108,10 +108,11 @@ let
     cmd = lib.splitString " " "--concurrent 6 AmAnd0";
 
   };
+  inherit (lib.rad-dev.container-utils) createTemplatedContainers;
 in
 {
   virtualisation.oci-containers.containers =
-    (lib.rad-dev.createTemplatedContainers containers container-spec)
+    (createTemplatedContainers containers container-spec)
     // {
       archiveteam-watchtower = {
         image = "containrrr/watchtower:latest";

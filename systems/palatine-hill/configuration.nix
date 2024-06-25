@@ -9,6 +9,7 @@
     ./attic.nix
     ./docker.nix
     ./hydra.nix
+    ./minio.nix
     ./networking.nix
     ./nextcloud.nix
     ./zfs.nix

@@ -20,6 +20,8 @@ let
     "zfs-torr-key"
     "zfs-var-docker-key"
     "zfs-nix-store-key"
+    "zfs-archiveteam-key"
+    "zfs-minio-key"
   ];
 in
 {
@@ -52,6 +54,7 @@ in
         "ZFS-primary/nextcloud".useTemplate = [ "production" ];
         # all docker containers should have a bind mount if they expect lasting zfs snapshots
         "ZFS-primary/vardocker".useTemplate = [ "nix-prod" ];
+        "ZFS-primary/minio".useTemplate = [ "nix-prod" ];
         "ZFS-primary/games" = {
           useTemplate = [ "games" ];
           recursive = true;

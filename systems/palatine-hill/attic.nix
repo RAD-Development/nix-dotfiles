@@ -45,8 +45,10 @@
           heartbeat = true;
         };
         storage = {
-          type = "local";
-          path = "/ZFS/ZFS-primary/attic/storage";
+          type = "s3";
+          region = "us-east-1";
+          bucket = "cache-nix-dot";
+          endpoint = "https://minio.alicehuston.xyz";
         };
 
         # Warning: If you change any of the values here, it will be

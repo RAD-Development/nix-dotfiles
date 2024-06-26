@@ -5,24 +5,14 @@
   ...
 }:
 let
-  bootkey = key: { "/crypto/keys/${key}" = /crypto/keys/${key}; };
-  zfskeys = [
-    "zfs-attic-key"
-    "zfs-backup-key"
-    "zfs-calibre-key"
-    "zfs-db-key"
-    "zfs-docker-key"
-    "zfs-games-key"
-    "zfs-hydra-key"
-    "zfs-libvirt-key"
-    "zfs-main-key"
-    "zfs-nxtcld-key"
-    "zfs-torr-key"
-    "zfs-var-docker-key"
-    "zfs-nix-store-key"
-    "zfs-archiveteam-key"
-    "zfs-minio-key"
-  ];
+  bootkey = key: {
+    "${(toString config.sops.secrets.${key}.path)}" = config.sops.secrets.${key}.path;
+  };
+  zfskeys = lib.rad-dev.ls ./keys;
+  zfssops = key: {
+    format = "binary";
+    sopsFile = ./keys/${key};
+  };
 in
 {
   boot = {
@@ -101,4 +91,6 @@ in
       };
     };
   };
+
+  sops.secrets = lib.genAttrs zfskeys zfssops;
 }

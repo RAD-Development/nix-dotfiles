@@ -10,7 +10,7 @@ let
   zfssops = key: {
     format = "binary";
     sopsFile = ./keys/${key};
-    path = /crypto/keys/${key};
+    path = "/crypto/keys/${key}";
     mode = "0400";
   };
 in

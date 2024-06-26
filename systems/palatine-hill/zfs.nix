@@ -5,11 +5,13 @@
   ...
 }:
 let
-  bootkey = key: { "/crypto/run-keys/${key}" = config.sops.secrets.${key}.path; };
+  bootkey = key: { "/crypto/keys/${key}" = config.sops.secrets.${key}.path; };
   zfskeys = lib.rad-dev.ls ./keys;
   zfssops = key: {
     format = "binary";
     sopsFile = ./keys/${key};
+    path = /crypto/keys/${key};
+    mode = "0400";
   };
 in
 {

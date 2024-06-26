@@ -5,9 +5,7 @@
   ...
 }:
 let
-  bootkey = key: {
-    "${(toString config.sops.secrets.${key}.path)}" = config.sops.secrets.${key}.path;
-  };
+  bootkey = key: { "/crypto/run-keys/${key}" = config.sops.secrets.${key}.path; };
   zfskeys = lib.rad-dev.ls ./keys;
   zfssops = key: {
     format = "binary";

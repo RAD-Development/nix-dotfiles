@@ -89,7 +89,7 @@
     };
 
     nixos-modules = {
-      url = "github:SuperSandro2000/nixos-modules";
+      url = "github:NuschtOS/nixos-modules";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";

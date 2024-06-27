@@ -336,18 +336,19 @@
         ],
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "search": "search"
       },
       "locked": {
-        "lastModified": 1718982709,
-        "narHash": "sha256-+CFSqBmHtDYi10UF9XSYePsx7uLAqEJMWj1TAZtLA44=",
-        "owner": "SuperSandro2000",
+        "lastModified": 1719486145,
+        "narHash": "sha256-Zr/D1lr0Labn/KxWiPFDsb2Ke8SXp8Aar2eSk/FrX0Q=",
+        "owner": "NuschtOS",
         "repo": "nixos-modules",
-        "rev": "12eb28ea8ec7a2e557eb641fa2ded63113587933",
+        "rev": "b338b10ae1e77f5147a3160b5576f4860eab68d9",
         "type": "github"
       },
       "original": {
-        "owner": "SuperSandro2000",
+        "owner": "NuschtOS",
         "repo": "nixos-modules",
         "type": "github"
       }
@@ -497,6 +498,31 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "search": {
+      "inputs": {
+        "flake-utils": [
+          "nixos-modules",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixos-modules",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1719434060,
+        "narHash": "sha256-A079LGoN11JFO64niwgGpmrxVV5x8KAc7FbE9qJHPBo=",
+        "owner": "nuschtos",
+        "repo": "search",
+        "rev": "959a60732c45f62d20ea4ff66b01dddab7cf0ff2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nuschtos",
+        "repo": "search",
         "type": "github"
       }
     },

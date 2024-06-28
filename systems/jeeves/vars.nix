@@ -13,6 +13,7 @@ in
   media_mirror = "${zfs_media}/mirror";
   media_notes = "${zfs_media}/notes";
   media_plex = "${zfs_media}/plex/";
+  media_scripts = "${zfs_media}/scripts";
   # storage
   storage_main = "${zfs_storage}/main";
   storage_plex = "${zfs_storage}/plex";

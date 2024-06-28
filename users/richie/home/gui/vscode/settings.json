@@ -39,7 +39,7 @@
   "cSpell.enabled": true,
   "cSpell.language": "en,en-US",
   "cSpell.enableFiletypes": ["bat", "csv", "nix", "toml"],
-  "cSpell.userWords": ["Cahill", "syncthing", "unnesieary"],
+  "cSpell.userWords": ["Cahill", "syncthing"],
 
   // nix
   "nix.enableLanguageServer": true,

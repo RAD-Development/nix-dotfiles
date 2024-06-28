@@ -3,6 +3,7 @@
   # create rad-dev namespace for lib
   rad-dev = rec {
     systems = import ./systems.nix { inherit lib; };
+    container-utils = import ./container-utils.nix { inherit lib; };
 
     # any(), but checks if any value in the list is true
     #
@@ -56,5 +57,6 @@
     # type:
     # fileList :: Path -> String -> [Path]
     fileList = dir: map (file: dir + "/${file}") (ls dir);
+
   };
 }

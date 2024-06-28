@@ -1,9 +1,12 @@
 let
+  zfs_media = "/zfs/media";
   zfs_storage = "/zfs/storage";
   zfs_torrenting = "/zfs/torrenting";
-  zfs_media = "/zfs/media";
 in
 {
+  inherit zfs_media;
+  inherit zfs_storage;
+  inherit zfs_torrenting;
   # media
   media_database = "${zfs_media}/syncthing/database";
   media_docker = "${zfs_media}/docker";

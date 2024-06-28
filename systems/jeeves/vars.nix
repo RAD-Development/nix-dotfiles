@@ -4,9 +4,7 @@ let
   zfs_torrenting = "/zfs/torrenting";
 in
 {
-  inherit zfs_media;
-  inherit zfs_storage;
-  inherit zfs_torrenting;
+  inherit zfs_media zfs_storage zfs_torrenting;
   # media
   media_database = "${zfs_media}/syncthing/database";
   media_docker = "${zfs_media}/docker";

@@ -1,4 +1,7 @@
 { pkgs, ... }:
+let
+  vars = import ./vars.nix;
+in
 {
   imports = [
     ../../users/richie/global/ssh.nix
@@ -43,6 +46,12 @@
         mode = "0440";
       };
     };
+    variables = {
+      ZFS_MEDIA = vars.zfs_media;
+      ZFS_STORAGE = vars.zfs_storage;
+      ZFS_STORAGE_PLEX = vars.storage_plex;
+      ZFS_TORRENTING = vars.zfs_torrenting;
+    };
   };
 
   services = {
@@ -52,7 +61,7 @@
 
     plex = {
       enable = true;
-      dataDir = "/zfs/media/plex/";
+      dataDir = vars.media_plex;
     };
 
     smartd.enable = true;
@@ -63,7 +72,7 @@
     syncthing.settings.folders = {
       "notes" = {
         id = "l62ul-lpweo"; # cspell:disable-line
-        path = "/zfs/media/notes";
+        path = vars.media_notes;
         devices = [
           "bob"
           "phone"
@@ -73,7 +82,7 @@
       };
       "books" = {
         id = "6uppx-vadmy"; # cspell:disable-line
-        path = "/zfs/storage/syncthing/books";
+        path = "${vars.storage_syncthing}/books";
         devices = [
           "bob"
           "phone"
@@ -83,7 +92,7 @@
       };
       "important" = {
         id = "4ckma-gtshs"; # cspell:disable-line
-        path = "/zfs/storage/syncthing/important";
+        path = "${vars.storage_syncthing}/important";
         devices = [
           "bob"
           "phone"
@@ -93,7 +102,7 @@
       };
       "music" = {
         id = "vprc5-3azqc"; # cspell:disable-line
-        path = "/zfs/storage/syncthing/music";
+        path = "${vars.storage_syncthing}/music";
         devices = [
           "bob"
           "phone"
@@ -103,7 +112,7 @@
       };
       "projects" = {
         id = "vyma6-lqqrz"; # cspell:disable-line
-        path = "/zfs/storage/syncthing/projects";
+        path = "${vars.storage_syncthing}/projects";
         devices = [
           "bob"
           "rhapsody-in-green"

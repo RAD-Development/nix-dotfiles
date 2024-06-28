@@ -1,4 +1,7 @@
 { config, ... }:
+let
+  vars = import ../vars.nix;
+in
 {
   virtualisation.oci-containers.containers = {
     qbit = {
@@ -10,8 +13,8 @@
         "29432:29432"
       ];
       volumes = [
-        "/zfs/media/docker/configs/qbit:/config"
-        "/zfs/torrenting/qbit/:/data"
+        "${vars.media_docker_configs}/qbit:/config"
+        "${vars.torrenting_qbit}:/data"
       ];
       environment = {
         PUID = "600";
@@ -31,8 +34,8 @@
         "8118:8118"
       ];
       volumes = [
-        "/zfs/media/docker/configs/qbitvpn:/config"
-        "/zfs/torrenting/qbitvpn/:/data"
+        "${vars.media_docker_configs}/qbitvpn:/config"
+        "${vars.torrenting_qbitvpn}:/data"
         "/etc/localtime:/etc/localtime:ro"
       ];
       environment = {
@@ -61,7 +64,7 @@
         PGID = "100";
         TZ = "America/New_York";
       };
-      volumes = [ "/zfs/media/docker/configs/prowlarr:/config" ];
+      volumes = [ "${vars.media_docker_configs}/prowlarr:/config" ];
       autoStart = true;
     };
     radarr = {
@@ -73,9 +76,9 @@
         TZ = "America/New_York";
       };
       volumes = [
-        "/zfs/media/docker/configs/radarr:/config"
-        "/zfs/storage/plex/movies:/movies"
-        "/zfs/torrenting/qbitvpn:/data"
+        "${vars.media_docker_configs}/radarr:/config"
+        "${vars.storage_plex}/movies:/movies"
+        "${vars.torrenting_qbitvpn}:/data"
       ];
       autoStart = true;
     };
@@ -88,9 +91,9 @@
         TZ = "America/New_York";
       };
       volumes = [
-        "/zfs/media/docker/configs/sonarr:/config"
-        "/zfs/storage/plex/tv:/tv"
-        "/zfs/torrenting/qbitvpn:/data"
+        "${vars.media_docker_configs}/sonarr:/config"
+        "${vars.storage_plex}/tv:/tv"
+        "${vars.torrenting_qbitvpn}:/data"
       ];
       autoStart = true;
     };

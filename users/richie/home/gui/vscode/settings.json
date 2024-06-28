@@ -57,5 +57,6 @@
   "github.copilot.enable": {
     "*": false
   },
-  "terminal.integrated.scrollback": 10000
+  "terminal.integrated.scrollback": 10000,
+  "diffEditor.ignoreTrimWhitespace": false
 }

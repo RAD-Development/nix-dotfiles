@@ -56,6 +56,7 @@
     ocrmypdf
     pciutils
     playonlinux
+    prismlauncher
     protonmail-bridge
     protontricks
     qrencode

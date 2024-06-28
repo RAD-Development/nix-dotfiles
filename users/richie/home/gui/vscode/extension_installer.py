@@ -4,18 +4,18 @@ from subprocess import run
 def main():
     extensions = (
         # vscode
-        "ms-vscode-remote.remote-ssh",
-        "ms-vscode-remote.remote-containers",
         "ms-azuretools.vscode-docker",
-        "ms-vsliveshare.vsliveshare",
+        "ms-vscode-remote.remote-containers",
+        "ms-vscode-remote.remote-ssh",
         "ms-vscode.hexeditor",
+        "ms-vsliveshare.vsliveshare",
         "oderwat.indent-rainbow",
-        "usernamehw.errorlens",
         "streetsidesoftware.code-spell-checker",
-        "github.copilot",
+        "supermaven.supermaven",
+        "usernamehw.errorlens",
         # git
-        "eamodio.gitlens",
         "codezombiech.gitignore",
+        "eamodio.gitlens",
         # python
         "charliermarsh.ruff",
         "ms-python.python",
@@ -25,8 +25,8 @@ def main():
         # MD
         "yzhang.markdown-all-in-one",
         # configs
-        "tamasfe.even-better-toml",
         "redhat.vscode-yaml",
+        "tamasfe.even-better-toml",
         # shell
         "timonwong.shellcheck",
         "foxundermoon.shell-format",

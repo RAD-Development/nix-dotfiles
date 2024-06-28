@@ -46,12 +46,6 @@ in
         mode = "0440";
       };
     };
-    variables = {
-      ZFS_MEDIA = vars.zfs_media;
-      ZFS_STORAGE = vars.zfs_storage;
-      ZFS_STORAGE_PLEX = vars.storage_plex;
-      ZFS_TORRENTING = vars.zfs_torrenting;
-    };
   };
 
   services = {

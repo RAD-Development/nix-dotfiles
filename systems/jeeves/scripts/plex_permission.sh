@@ -1,6 +1,6 @@
 #!/bin/bash
 
-plex_dir=$ZFS_STORAGE_PLEX
+plex_dir="/zfs/storage/plex/"
 
 chown docker-service:users -R "$plex_dir"
 find "$plex_dir" -type f -exec chmod 664 {} \;

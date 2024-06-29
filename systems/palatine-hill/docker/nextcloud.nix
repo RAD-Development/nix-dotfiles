@@ -24,7 +24,7 @@ in
         "/ZFS/ZFS-primary/nextcloud/nc_php:/usr/local/etc/php"
         "/ZFS/ZFS-primary/nextcloud/nc_prehooks:/docker-entrypoint-hooks.d/before-starting"
       ];
-      extraOption = [
+      extraOptions = [
         "--network=haproxy-net"
         "--network=postgres-net"
         "--network=nextcloud_default"

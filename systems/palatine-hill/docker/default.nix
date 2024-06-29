@@ -8,8 +8,8 @@
 {
   imports = [
     ./archiveteam.nix
-    ./docker.nix
     ./nextcloud.nix
+    ./postgres.nix
   ];
 
   virtualisation.oci-containers.backend = "docker";

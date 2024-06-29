@@ -49,6 +49,7 @@
       smartmontools
       wget
       glances
+      obsidian
 
       # Rust packages
       bat

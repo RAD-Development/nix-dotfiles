@@ -3,7 +3,7 @@ let
 in
 {
   virtualisation.oci-containers.containers.filebrowser = {
-    image = "hurlenko/filebrowser";
+    image = "hurlenko/filebrowser:latest";
     extraOptions = [ "--network=web" ];
     volumes = [
       "/zfs:/data"

@@ -6,7 +6,7 @@
 }:
 
 let
-  nextcloud-image = import ./nextcloud-image.nix { inherit pkgs; };
+  nextcloud-image = import ./nextcloud-image { inherit pkgs; };
 in
 {
   virtualisation.oci-containers.containers = {

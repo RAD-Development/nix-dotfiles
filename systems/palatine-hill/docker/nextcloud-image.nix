@@ -2,14 +2,14 @@
 let
   nextcloud-apache = pkgs.dockerTools.pullImage {
     imageName = "nextcloud";
-    digest = "sha256:2ab0c5de2afd33c55721e69e87bd1667cad6c4550ba0fd0303cfeb7abb260750";
-    sha256sum = "11fh4jaz1asiihf2092sh7ma9xm35hmnkafpbjr3igkv8jicsky1";
+    imageDigest = "sha256:2ab0c5de2afd33c55721e69e87bd1667cad6c4550ba0fd0303cfeb7abb260750";
+    sha256 = "11fh4jaz1asiihf2092sh7ma9xm35hmnkafpbjr3igkv8jicsky1";
     finalImageName = "nextcloud";
     finalImageTag = "apache";
   };
 in
 
-pkgs.dockerTools.buildLayeredImage {
+pkgs.dockerTools.buildImage {
   name = "nextcloud-custom";
   tag = "latest";
   fromImage = nextcloud-apache;

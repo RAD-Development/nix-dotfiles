@@ -15,11 +15,11 @@
                         awk '$2 == "[gone]" {print $1}' | # get nuked branches
                         sed 's/\\x27/\\x5C\\x27/' | # remove single quotes, for xargs reasons
                         xargs -r git branch -D; # nuke the branches
-        git for-each-ref --format '%(refname:short) %(upstream)' | # dump all older branches
-                        awk 'NF < 2 {print $1}' | # get nuked branches
-                        grep -Pv "(^origin/|^origin$|stash)" | # filter out remotes & stash
-                        sed 's/\\x27/\\x5C\\x27/' | # remove single quotes, for xargs reasons
-                        xargs -r git branch -D # nuke the branches
+        # git for-each-ref --format '%(refname:short) %(upstream)' | # dump all older branches
+        #                 awk 'NF < 2 {print $1}' | # get nuked branches
+        #                 grep -Pv "(^origin/|^origin$|stash)" | # filter out remotes & stash
+        #                 sed 's/\\x27/\\x5C\\x27/' | # remove single quotes, for xargs reasons
+        #                 xargs -r git branch -D # nuke the branches
       '';
     };
     extraConfig = {

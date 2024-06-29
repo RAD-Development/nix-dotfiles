@@ -21,9 +21,9 @@
         "--health-timeout=5s"
         "--health-retries=15"
         "--shm-size=1gb"
+        "--restart=always"
       ];
       environmentFiles = [ config.sops.secrets."docker/pg".path ];
-      restart = "always";
     };
 
     postgres-secondary = {
@@ -41,9 +41,9 @@
         "--health-timeout=5s"
         "--health-retries=15"
         "--shm-size=1gb"
+        "--restart=always"
       ];
       environmentFiles = [ config.sops.secrets."docker/pg".path ];
-      restart = "always";
     };
 
     postgres-adminer = {
@@ -52,7 +52,10 @@
       restart = "always";
       ports = [ "4191:8080" ];
       dependsOn = [ "postgres" ];
-      extraOptions = [ "--network=postgres-net" ];
+      extraOptions = [
+        "--restart=always"
+        "--network=postgres-net"
+      ];
     };
   };
   sops = {

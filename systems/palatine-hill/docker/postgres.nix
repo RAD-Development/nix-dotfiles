@@ -49,7 +49,6 @@
     postgres-adminer = {
       image = "adminer/latest";
       user = "600:600";
-      restart = "always";
       ports = [ "4191:8080" ];
       dependsOn = [ "postgres" ];
       extraOptions = [

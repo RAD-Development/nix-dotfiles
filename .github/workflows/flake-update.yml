@@ -15,14 +15,15 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
-            install_url: https://releases.nixos.org/nix/nix-2.19.0/install
+          install_url: https://releases.nixos.org/nix/nix-2.19.0/install
       - name: Pull latest docker images
         run: nix ./utils/fetch-docker.sh
       - name: Update flake.lock
         id: update
         uses: DeterminateSystems/update-flake-lock@main
         with:
-          pr-title: "Update flake.lock" # Title of PR to be created
+          pr-title: "Update flake.lock ${{ github.ref }}" # Title of PR to be created
+          branch: "update-${{ github.ref }}"
           pr-labels: |                  # Labels to be set on the PR
             dependencies
             automated

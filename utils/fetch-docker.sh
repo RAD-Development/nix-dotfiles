@@ -18,6 +18,6 @@ images=(
 )
 IFS=","
 while read -r name tag arch os relpath; do
-    nix-prefetch-docker --image-name "$name" --image-tag "$tag" --arch "$arch" --os "$os" 2>&1 \
-        | grep -B 1 -A 5 "imageName" | tee "$parent_path/$relpath"
+    nix-prefetch-docker --image-name "$name" --image-tag "$tag" --arch "$arch" --os "$os" --quiet > "$parent_path/$relpath"
+    git --no-pager diff "$parent_path/$relpath"
 done<<< "${images[@]}"

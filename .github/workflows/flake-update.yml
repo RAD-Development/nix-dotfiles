@@ -7,7 +7,7 @@ on:
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # ensure workflow_dispatch only runs on main
+    # if: github.ref == 'refs/heads/main' # ensure workflow_dispatch only runs on main
     steps:
       - uses: actions/checkout@v4
       - name: Install Nix
@@ -15,6 +15,9 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
+            install_url: https://releases.nixos.org/nix/nix-2.19.0/install
+      - name: Pull latest docker images
+        run: nix ./utils/fetch-docker.sh
       - name: Update flake.lock
         id: update
         uses: DeterminateSystems/update-flake-lock@main

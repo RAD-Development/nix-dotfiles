@@ -14,7 +14,8 @@ parent_path=$(dirname "$script_path")
 # relpath is the relative path to the parent_path where you want the file written
 # format: <image name>,<image tag>,<image architecture>,<os>,<relpath>
 images=(
-    "nextcloud,apache,amd64,linux,/systems/palatine-hill/docker/nextcloud-image/nextcloud-apache.nix"
+    # commented out until palatine-hill docker changes are live
+    #"nextcloud,apache,amd64,linux,/systems/palatine-hill/docker/nextcloud-image/nextcloud-apache.nix"
 )
 IFS=","
 while read -r name tag arch os relpath; do

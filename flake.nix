@@ -16,7 +16,7 @@
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "cache.alicehuston.xyz:SJAm8HJVTWUjwcTTLAoi/5E1gUOJ0GWum2suPPv7CUo=%"
+      "cache.alicehuston.xyz:SJAm8HJVTWUjwcTTLAoi/5E1gUOJ0GWum2suPPv7CUo=%" # cspell:disable-line
       "cache-nix-dot:Od9KN34LXc6Lu7y1ozzV1kIXZa8coClozgth/SYE7dU="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
@@ -30,6 +30,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     systems.url = "github:nix-systems/default";
+    nixtest.url = "github:jetify-com/nixtest";
 
     attic = {
       url = "github:zhaofengli/attic";
@@ -131,7 +132,12 @@
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      nixtest,
+      ...
+    }@inputs:
     let
       systems = [
         "x86_64-linux"
@@ -170,5 +176,9 @@
 
       checks = import ./checks.nix { inherit inputs forEachSystem formatter; };
       devShells = import ./shell.nix { inherit inputs forEachSystem checks; };
+
+      # Will recursively look for _test.nix files in the current directory
+      # and run them:
+      tests = nixtest.run ./.;
     };
 }

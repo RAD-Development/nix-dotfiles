@@ -10,6 +10,7 @@
     ./archiveteam.nix
     ./nextcloud.nix
     ./postgres.nix
+    ./unifi.nix
   ];
 
   virtualisation.oci-containers.backend = "docker";
@@ -17,9 +18,6 @@
 
   # "rlcraft-mc-1 itzg/minecraft-server:java8"
   # "mc-router-mc-router-1 itzg/mc-router"
-
-  # "unifi-controller lscr.io/linuxserver/unifi-network-application:latest"
-  # "unifi-20-mongodb-1 mongo:7.0"
 
   # "restic-grafana-1 grafana/grafana:latest"
   # "restic-prometheus-1 prom/prometheus:latest"

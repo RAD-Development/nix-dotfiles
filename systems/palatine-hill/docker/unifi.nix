@@ -24,14 +24,14 @@
         "5514:5514/udp" # optional
       ];
       environment = {
-        PUID = 1000;
-        PGID = 100;
+        PUID = "1000";
+        PGID = "100";
         TZ = "America/New_York";
-        MEM_LIMIT = 1024; # optional
-        MEM_STARTUP = 1024; # optional
+        MEM_LIMIT = "1024"; # optional
+        MEM_STARTUP = "1024"; # optional
         MONGO_USER = "unifi";
         MONGO_HOST = "mongodb";
-        MONGO_PORT = 27017;
+        MONGO_PORT = "27017";
         MONGO_DBNAME = "unifi";
       };
       environmentFiles = [ config.sops.secrets."docker/unifi".path ];
@@ -40,8 +40,8 @@
     mongodb = {
       image = "docker.io/mongo:7.0";
       environment = {
-        PUID = 1000;
-        PGID = 100;
+        PUID = "1000";
+        PGID = "100";
         TZ = "America/New_York";
       };
       extraOptions = [ "--restart=unless-stopped" ];

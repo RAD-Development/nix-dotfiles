@@ -5,7 +5,7 @@
       description = "maintains /zfs/storage/plex permissions";
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "${pkgs.bash}/bin/bash /root/nix-dotfiles/systems/jeeves/scripts/plex_permission.sh";
+        ExecStart = "${pkgs.bash}/bin/bash ${./scripts/plex_permission.sh}";
       };
     };
     timers."plex_permission" = {

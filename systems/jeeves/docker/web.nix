@@ -38,7 +38,7 @@ in
       };
       volumes = [
         "${config.sops.secrets."docker/haproxy_cert".path}:/etc/ssl/certs/cloudflare.pem"
-        "/root/nix-dotfiles/systems/jeeves/docker/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+        "${./haproxy.cfg}:/usr/local/etc/haproxy/haproxy.cfg"
       ];
       dependsOn = [
         "arch_mirror"

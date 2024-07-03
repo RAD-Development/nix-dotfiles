@@ -8,7 +8,7 @@ pkgs.dockerTools.buildImage {
   tag = "latest";
   fromImage = nextcloud-apache;
   runAsRoot = ''
-    RUN set -ex; \
+    set -ex; \
         \
         apt-get update; \
         apt-get install -y --no-install-recommends \
@@ -22,7 +22,7 @@ pkgs.dockerTools.buildImage {
         ; \
         rm -rf /var/lib/apt/lists/*
 
-    RUN set -ex; \
+    set -ex; \
         \
         savedAptMark="$(apt-mark showmanual)"; \
         \
@@ -56,7 +56,7 @@ pkgs.dockerTools.buildImage {
         apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
         rm -rf /var/lib/apt/lists/*
 
-    RUN mkdir -p \
+    mkdir -p \
         /var/log/supervisord \
         /var/run/supervisord \
     ;

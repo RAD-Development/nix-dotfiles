@@ -16,6 +16,7 @@ def main():
         # git
         "codezombiech.gitignore",
         "eamodio.gitlens",
+        "GitHub.vscode-github-actions"
         # python
         "charliermarsh.ruff",
         "ms-python.python",

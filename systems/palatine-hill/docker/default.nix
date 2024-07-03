@@ -15,10 +15,6 @@
   virtualisation.oci-containers.backend = "docker";
   virtualisation.docker.daemon.settings.data-root = "/var/lib/docker2";
 
-  # "nextcloud-go-vod-1 radialapps/go-vod"
-  # "nextcloud-nextcloud-1 nextcloud-nextcloud"
-  # "nextcloud-redis-1 redis"
-
   # "rlcraft-mc-1 itzg/minecraft-server:java8"
   # "mc-router-mc-router-1 itzg/mc-router"
 

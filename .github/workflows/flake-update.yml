@@ -7,7 +7,7 @@ on:
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/main' # ensure workflow_dispatch only runs on main
+    if: github.ref == 'refs/heads/main' # ensure workflow_dispatch only runs on main
     steps:
       - uses: actions/checkout@v4
       - name: Login to Docker Hub
@@ -36,7 +36,7 @@ jobs:
         run: |
           delimiter="$(openssl rand -hex 8)"
           {
-          echo "POSTDIFF=${delimiter}"
+          echo "POSTDIFF<<${delimiter}"
           cat post-diff
           echo "${delimiter}"
           } >> $GITHUB_ENV

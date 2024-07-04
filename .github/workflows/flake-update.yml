@@ -33,10 +33,9 @@ jobs:
       - name: Calculate diff
         run: nix ./utils/diff-evals.sh
       - name: Read diff into environment
-        uses: andstor/file-reader-action@v1
-        id: post_diff
-        with:
-          path: "post-diff"
+        run: |
+          postdiff=$(cat post-diff)
+          echo "POSTDIFF=$postdiff" >> $GITHUB_ENV
       - name: Restore flake.lock for next step
         run: git restore flake.lock
       - name: Update flake.lock
@@ -52,7 +51,7 @@ jobs:
             ```
 
             ```
-            {{ env.steps.post_diff.outputs.contents }}
+            {{ env.POSTDIFF }}
             ```
           pr-labels: |                  # Labels to be set on the PR
             dependencies

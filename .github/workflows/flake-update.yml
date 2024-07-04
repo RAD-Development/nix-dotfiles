@@ -34,8 +34,14 @@ jobs:
         run: nix ./utils/diff-evals.sh
       - name: Read diff into environment
         run: |
-          postdiff=$(cat post-diff)
-          echo "POSTDIFF=$postdiff" >> $GITHUB_ENV
+          delimiter="$(openssl rand -hex 8)"
+          {
+          echo "POSTDIFF=${delimiter}"
+          cat post-diff
+          echo "${delimiter}"
+          } >> $GITHUB_ENV
+
+
       - name: Restore flake.lock for next step
         run: git restore flake.lock
       - name: Update flake.lock

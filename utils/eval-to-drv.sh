@@ -1,5 +1,5 @@
 #!/usr/bin/env nix
-#! nix shell nixpkgs#bash nixpkgs#gnugrep --command bash
+#! nix shell nixpkgs#bash nixpkgs#gnugrep nixpkgs#nixVersions.latest --command bash
 
 # diffs each derivation
 
@@ -7,8 +7,9 @@ set -x
 set -v
 set -e
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 1 ]; then
     echo "$0 (pre|post)"
+    exit 1
 fi
 
 script_path=$(dirname "$(readlink -f $0)")

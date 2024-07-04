@@ -3,11 +3,19 @@ let
   nextcloud-apache = pkgs.dockerTools.pullImage (import ./nextcloud-apache.nix);
 in
 
-pkgs.dockerTools.buildImage {
+pkgs.dockerTools.buildLayeredImage {
   name = "nextcloud-custom";
   tag = "latest";
   fromImage = nextcloud-apache;
-  runAsRoot = ''
+  # diskSize=4096;
+  # buildVMMemorySize=2048;
+  compressor = "zstd";
+  contents = ./.;
+
+  enableFakechroot = true;
+  fakeRootCommands = ''
+    #!${pkgs.runtimeShell}
+
     set -ex; \
         \
         apt-get update; \
@@ -61,7 +69,6 @@ pkgs.dockerTools.buildImage {
         /var/run/supervisord \
     ;
   '';
-  copyToRoot = ./supervisord.conf;
   config = {
     ENV = {
       NEXTCLOUD_UPDATE = 1;
@@ -69,7 +76,7 @@ pkgs.dockerTools.buildImage {
     CMD = [
       "/usr/bin/supervisord"
       "-c"
-      "/supervisord.conf"
+      ./supervisord.conf
     ];
 
   };

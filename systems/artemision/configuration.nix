@@ -16,6 +16,7 @@
     ./fingerprint.nix
     ./steam.nix
     ./graphics.nix
+    ./libvirt.nix
   ];
 
   time.timeZone = "America/New_York";

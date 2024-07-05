@@ -24,7 +24,10 @@ in
         "${config.sops.secrets."docker/haproxy_cert".path}:/etc/ssl/certs/cloudflare.pem"
         "${./haproxy.cfg}:/usr/local/etc/haproxy/haproxy.cfg"
       ];
-      dependsOn = [ "arch_mirror" ];
+      dependsOn = [
+        "arch_mirror"
+        "uptime_kuma"
+      ];
       extraOptions = [ "--network=web" ];
       autoStart = true;
     };

@@ -14,7 +14,7 @@ in
     dnd_file_server = {
       image = "ubuntu/apache2:latest";
       volumes = [
-        "${vars.media_docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
+        "${../../../users/richie/global/docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
         "${vars.storage_main}/Table_Top/:/data"
       ];
       extraOptions = [ "--network=web" ];
@@ -23,7 +23,7 @@ in
     arch_mirror = {
       image = "ubuntu/apache2:latest";
       volumes = [
-        "${vars.media_docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
+        "${../../../users/richie/global/docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
         "${vars.media_mirror}:/data"
       ];
       ports = [ "800:80" ];

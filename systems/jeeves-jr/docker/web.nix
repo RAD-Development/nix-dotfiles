@@ -6,7 +6,7 @@ in
     arch_mirror = {
       image = "ubuntu/apache2:latest";
       volumes = [
-        "${vars.main_docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
+        "${../../../users/richie/global/docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
         "/ZFS/Main/Mirror/:/data"
       ];
       ports = [ "800:80" ];

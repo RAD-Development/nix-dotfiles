@@ -56,6 +56,21 @@ in
       environmentFiles = [ config.sops.secrets."docker/qbit_vpn".path ];
       autoStart = true;
     };
+    bazarr = {
+      image = "ghcr.io/linuxserver/bazarr:latest";
+      ports = [ "6767:6767" ];
+      environment = {
+        PUID = "600";
+        PGID = "100";
+        TZ = "America/New_York";
+      };
+      volumes = [
+        "${vars.media_docker_configs}/bazarr:/config"
+        "${vars.storage_plex}/movies:/movies"
+        "${vars.storage_plex}/tv:/tv"
+      ];
+      autoStart = true;
+    };
     prowlarr = {
       image = "ghcr.io/linuxserver/prowlarr:latest";
       ports = [ "9696:9696" ];

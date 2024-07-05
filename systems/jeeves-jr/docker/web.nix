@@ -16,7 +16,7 @@ in
     };
     haproxy = {
       image = "haproxy:latest";
-      user = "998:998";
+      user = "600:600";
       environment = {
         TZ = "Etc/EST";
       };

@@ -16,7 +16,7 @@ def main():
         # git
         "codezombiech.gitignore",
         "eamodio.gitlens",
-        "GitHub.vscode-github-actions"
+        "GitHub.vscode-github-actions",
         # python
         "charliermarsh.ruff",
         "ms-python.python",
@@ -24,6 +24,7 @@ def main():
         # rust
         "rust-lang.rust-analyzer",
         # MD
+        "davidanson.vscode-markdownlint",
         "yzhang.markdown-all-in-one",
         # configs
         "redhat.vscode-yaml",

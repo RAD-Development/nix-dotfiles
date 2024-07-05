@@ -112,6 +112,20 @@ in
       ];
       autoStart = true;
     };
+    whisper = {
+      image = "ghcr.io/linuxserver/faster-whisper:latest";
+      ports = [ "10300:10300" ];
+      environment = {
+        PUID = "600";
+        PGID = "100";
+        TZ = "America/New_York";
+        WHISPER_MODEL = "tiny-int8";
+        WHISPER_LANG = "en";
+        WHISPER_BEAM = "1";
+      };
+      volumes = [ "${vars.media_docker_configs}/whisper:/config" ];
+      autoStart = true;
+    };
   };
   sops = {
     defaultSopsFile = ../secrets.yaml;

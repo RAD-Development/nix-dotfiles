@@ -1,9 +1,12 @@
+let
+  vars = import ../vars.nix;
+in
 {
   virtualisation.oci-containers.containers = {
     arch_mirror = {
       image = "ubuntu/apache2:latest";
       volumes = [
-        "/ZFS/Main/Docker/templates/file_server/sites/:/etc/apache2/sites-enabled/"
+        "${vars.main_docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
         "/ZFS/Main/Mirror/:/data"
       ];
       ports = [ "800:80" ];
@@ -17,7 +20,7 @@
         TZ = "Etc/EST";
       };
       volumes = [
-        "/ZFS/Main/Docker/jeeves-jr/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem"
+        "${vars.main_docker}/jeeves-jr/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem"
         "${./haproxy.cfg}:/usr/local/etc/haproxy/haproxy.cfg"
       ];
       dependsOn = [ "arch_mirror" ];
@@ -30,7 +33,7 @@
         "tunnel"
         "run"
       ];
-      environmentFiles = [ "/ZFS/Main/Docker/jeeves-jr/cloudflare_tunnel.env" ];
+      environmentFiles = [ "${vars.main_docker}/jeeves-jr/cloudflare_tunnel.env" ];
       dependsOn = [ "haproxy" ];
       extraOptions = [ "--network=web" ];
       autoStart = true;

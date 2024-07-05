@@ -1,11 +1,11 @@
+{ lib, ... }:
 {
-  imports = [
-    ./filebrowser.nix
-    ./internal.nix
-    ./web.nix
-    ./postgresql.nix
-    ./uptime_kuma.nix
-  ];
+  imports =
+    let
+      files = builtins.attrNames (builtins.readDir ./.);
+      nixFiles = builtins.filter (name: lib.hasSuffix ".nix" name && name != "default.nix") files;
+    in
+    map (file: ./. + "/${file}") nixFiles;
 
   virtualisation.oci-containers.backend = "docker";
 }

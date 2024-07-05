@@ -1,3 +1,4 @@
+{ config, ... }:
 let
   vars = import ../vars.nix;
 in
@@ -7,7 +8,7 @@ in
       image = "ubuntu/apache2:latest";
       volumes = [
         "${../../../users/richie/global/docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
-        "/ZFS/Main/Mirror/:/data"
+        "${vars.main_mirror}:/data"
       ];
       ports = [ "800:80" ];
       extraOptions = [ "--network=web" ];
@@ -20,7 +21,7 @@ in
         TZ = "Etc/EST";
       };
       volumes = [
-        "${vars.main_docker}/jeeves-jr/haproxy/cloudflare.pem:/etc/ssl/certs/cloudflare.pem"
+        "${config.sops.secrets."docker/haproxy_cert".path}:/etc/ssl/certs/cloudflare.pem"
         "${./haproxy.cfg}:/usr/local/etc/haproxy/haproxy.cfg"
       ];
       dependsOn = [ "arch_mirror" ];
@@ -33,10 +34,18 @@ in
         "tunnel"
         "run"
       ];
-      environmentFiles = [ "${vars.main_docker}/jeeves-jr/cloudflare_tunnel.env" ];
+      environmentFiles = [ config.sops.secrets."docker/cloud_flare_tunnel".path ];
       dependsOn = [ "haproxy" ];
       extraOptions = [ "--network=web" ];
       autoStart = true;
     };
   };
+  sops = {
+    defaultSopsFile = ../secrets.yaml;
+    secrets = {
+      "docker/cloud_flare_tunnel".owner = "docker-service";
+      "docker/haproxy_cert".owner = "docker-service";
+    };
+  };
+
 }

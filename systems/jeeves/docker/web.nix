@@ -45,6 +45,7 @@ in
         "dnd_file_server"
         "filebrowser"
         "grafana"
+        "uptime_kuma"
       ];
       extraOptions = [ "--network=web" ];
       autoStart = true;

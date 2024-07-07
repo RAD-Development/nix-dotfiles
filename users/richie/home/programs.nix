@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   home.packages = with pkgs; [
     # cli
@@ -43,5 +43,6 @@
     nix-prefetch
     nix-tree
     nixpkgs-fmt
+    inputs.server_tools.packages.x86_64-linux.server_tools
   ];
 }

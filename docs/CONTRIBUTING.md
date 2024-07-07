@@ -69,12 +69,12 @@ which do not have an associated issue must be tagged to the same. It is
 **highly recommended** that all PR's be tagged to an issue but PR's should
 not be rejected if they are not tagged to an issue.
 
-Any issue or PR that is tagged to the project must have a priority (High/Medium
-/Low) and an estimate (rough amount of time in hours) associated. Start date
-and end date must be included for non-critical items (branches not beginning
-with `hotfix/` or `urgent/`). This is done in order to understand effort and
-criticality of the project item. Please see [Critical Issues](#critical-issues)
-for further details.
+Any issue or PR that is tagged to the project must have a priority
+(High/Medium/Low) and an estimate (rough amount of time in hours) associated.
+Start dateand end date must be included for non-critical items (branches not
+beginning with `hotfix/` or `urgent/`). This is done in order to understand
+effort and criticality of the project item. Please see
+[Critical Issues](#critical-issues) for further details.
 
 ### Critical Issues
 
@@ -87,13 +87,13 @@ rules.
 
 - Critical issues may bypass the [quorum rules](#review-process), as long as the
   PR has been tested on at least one machine
-    - Issues which bypass the quorum process must have a second reviewer tagged
-    - All critical issues which bypass the approval process must have an RCA issue
-      opened and the RCA logged into the `inc/` folder
-    - The second reviewer has 2 weeks to retroactively review and approve the PR
-    - If the retro does not happen in the given window, an issue shall be opened
-      to either re-review the PR or to revert and replace the fix with a
-      permanent solution
+  - Issues which bypass the quorum process must have a second reviewer tagged
+  - All critical issues which bypass the approval process must have an RCA issue
+    opened and the RCA logged into the `inc/` folder
+  - The second reviewer has 2 weeks to retroactively review and approve the PR
+  - If the retro does not happen in the given window, an issue shall be opened
+    to either re-review the PR or to revert and replace the fix with a
+    permanent solution
 - Critical issues must be tagged to `Nix Flake Features` project, and must have
   a priority of `High` and an estimate tagged. Start and end date are not needed
 

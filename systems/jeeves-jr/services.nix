@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ config, inputs, ... }:
 {
   systemd = {
     services.startup_validation = {
@@ -6,7 +6,7 @@
       description = "validates startup";
       serviceConfig = {
         Type = "oneshot";
-        Environment = "WEBHOOK_URL=test";
+        Environment = config.sops.secrets."server-validation/webhook".path;
         ExecStart = "${inputs.server_tools.packages.x86_64-linux.default}/bin/validate_jeevesjr";
       };
     };
@@ -17,5 +17,9 @@
         Unit = "startup_validation.service";
       };
     };
+  };
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets."server-validation/webhook".owner = "root";
   };
 }

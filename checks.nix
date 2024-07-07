@@ -43,6 +43,16 @@ forEachSystem (system: {
       # toml hooks
       check-toml.enable = true;
 
+      # markdown hooks
+      mdl = {
+        enable = true;
+        settings.rules = [
+          "all"
+          "rule 'MD007', :indent => 2"
+          "rule 'MD013', :tables => false"
+        ];
+      };
+
       # git hooks
       check-merge-conflicts.enable = true;
       ## prevents committing to main

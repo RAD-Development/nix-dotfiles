@@ -87,11 +87,11 @@ rules.
 
 - Critical issues may bypass the [quorum rules](#review-process), as long as the
   PR has been tested on at least one machine
-  - Issues which bypass the quorum process must have a second reviewer tagged
-  - All critical issues which bypass the approval process must have an RCA issue
+   - Issues which bypass the quorum process must have a second reviewer tagged
+   - All critical issues which bypass the approval process must have an RCA issue
     opened and the RCA logged into the `inc/` folder
-  - The second reviewer has 2 weeks to retroactively review and approve the PR
-  - If the retro does not happen in the given window, an issue shall be opened
+   - The second reviewer has 2 weeks to retroactively review and approve the PR
+   - If the retro does not happen in the given window, an issue shall be opened
     to either re-review the PR or to revert and replace the fix with a
     permanent solution
 - Critical issues must be tagged to `Nix Flake Features` project, and must have

@@ -19,7 +19,7 @@ let
 
   prs = readJSONFile pulls;
   refs = readJSONFile branches;
-  repo = "RAD-Development/nix-dotfiles";
+  repo = "ahuston-0/nix-dotfiles-hydra";
 
   # template for creating a job
   makeJob =

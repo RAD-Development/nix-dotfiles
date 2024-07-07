@@ -6,6 +6,7 @@
         description = "maintains /zfs/storage/plex permissions";
         serviceConfig = {
           Type = "oneshot";
+          Environment = "WEBHOOK_URL=test";
           ExecStart = "${pkgs.bash}/bin/bash ${./scripts/plex_permission.sh}";
         };
       };

@@ -7,7 +7,7 @@
       serviceConfig = {
         Type = "oneshot";
         Environment = "WEBHOOK_URL=test";
-        ExecStart = "${inputs.server_tools.packages.x86_64-linux.default}/bin/validate_jeevesjr";
+        ExecStart = "${inputs.server_tools.packages.x86_64-linux.default}/bin/validate_palatine_hill";
       };
     };
     timers.startup_validation = {

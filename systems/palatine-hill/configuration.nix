@@ -61,6 +61,7 @@
     nfs.server.enable = true;
     openssh.ports = [ 666 ];
     smartd.enable = true;
+    calibre-server.enable = true;
 
     postgresql = {
       enable = true;

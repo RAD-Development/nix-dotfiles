@@ -9,13 +9,13 @@
           ExecStart = "${pkgs.bash}/bin/bash ${./scripts/plex_permission.sh}";
         };
       };
-    };
-    startup_validation = {
-      wantedBy = [ "multi-user.target" ];
-      description = "validates startup";
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = "${inputs.server_tools.packages.x86_64-linux.default}/bin/validate_jeeves";
+      startup_validation = {
+        wantedBy = [ "multi-user.target" ];
+        description = "validates startup";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = "${inputs.server_tools.packages.x86_64-linux.default}/bin/validate_jeeves";
+        };
       };
     };
     timers = {

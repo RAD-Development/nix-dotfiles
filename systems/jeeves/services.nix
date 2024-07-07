@@ -15,7 +15,7 @@
       description = "validates startup";
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "${inputs.server_tools.packages.x86_64-linux.server_tools}/bin/validate_jeeves";
+        ExecStart = "${inputs.server_tools.packages.x86_64-linux.default}/bin/validate_jeeves";
       };
     };
     timers = {

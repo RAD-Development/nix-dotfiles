@@ -2,6 +2,6 @@
 {
   environment.systemPackages = with pkgs; [
     git
-    python3
+    python312
   ];
 }

@@ -27,7 +27,7 @@
     wget
     # python
     poetry
-    python3
+    python312
     ruff
     # Rust packages
     topgrade

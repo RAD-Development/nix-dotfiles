@@ -3,8 +3,7 @@
 This repository contains the flake required to build critical and personal
 infrastructure running NixOS. The setup can be explored as follows.
 
-This repo supports `x86_64-linux` and `aarch64-linux`, and in theory supports
-Mac (althought that hasn't been tested).
+This repo supports `x86_64-linux` and (theorically) `aarch64-linux`.
 
 ## Setting Up
 
@@ -21,15 +20,17 @@ for further information.
 
 ## Repo Structure
 
+- `docs/`: public documentation, including contributors and setup guides
+- `hydra/`: hydra configuration, used for our CI/CD
 - `keys/`: PGP public keys, for those who are using `SOPS` for secrets
+- `lib`: custom nix library functions, including general utility functions and
+  dynamic system construction
 - `modules/`: Nix modules created by us for common services or overrides
   (fail2ban, hydra, certain boot params, etc.)
 - `systems/`: config for common *server* components, as well as per-server configurations
-- `users/`: this directory has two major subdirectories, both are critical
-    - `users/<user>`: includes configs for `home-manager`, `SOPS`, and `SSH` keys
-       , for those who use them
-    - `users/<user>/systems`: functions similarly to `systems/`, although for
-  laptops, desktops, and even a Raspberry Pi now
+- `users/<user>/`: includes per-user configs for `home-manager`, `SOPS`, and
+  `SSH` keys
+- `utils/`: utility scripts primarily used for dependency updates
 
 ## Contributing
 

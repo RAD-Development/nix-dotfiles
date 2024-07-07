@@ -2,25 +2,26 @@
 
 ## Preliminary info
 
-This repository is written using nix-flakes on nix-unstable all the way
+This repository is written using nix flakes on nix-unstable all the way
 through. We do not currently have a way to provide support for NixOS stable
 releases and nor do we plan to (please open an issue if that
 is a breaking issue so we can better understand your use-case).
 
-## Style Guide
+## Pre-commit hooks
 
-We do not currently have a set formatter, although work is being done to
-narrow down our options. See
-[our fork of the rfc-0101 repo](https://github.com/RAD-Development/rfc-0101).
+We use pre-commit hooks for validating code before it is pushed into the repo.
+Please install `direnv` and run `direnv allow` in the project directory to
+add the pre-commit-hooks to your workflow. We will reject PRs if we notice
+violations in the pre-commit checks.
 
 ## Active Development
 
-To contribute to the repo, you can either ask to be provided a role
-(for those who are adding machines to the repo), or fork the repo and open a PR
-(for those who are making external contributions).
+To contribute to the repo, you can either ask to have a role (for those who are
+adding machines to the repo), or fork the repo and open a PR (for those who are
+making external contributions).
 
-Our main branch is protected (not even admins can directly push to main) and
-all PRs require at least one approval. PRs which touch global files
+Our main branch has branch-protection (not even admins can directly push to
+main) and all PRs require at least one approval. PRs which touch global files
 (`flake.nix`, `modules/`, `systems/configuration.nix`, `.sops.yaml`, etc)
 must have two approvals and may require more subject to the approvers discretion
 (ie. a change which affect all servers or users).
@@ -31,15 +32,15 @@ We use the below guide for creating branches currently. It is not necessarily
 a strict standard, but if not followed will lead to questions from reviewers,
 and will eventually trip a check when merging to main.
 
-| Branch Name      | Use Case                                                                                                                                                                             |
-|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| main             | protected branch which all machines pull from, do not try to push directly                                                                                                            |
-| feature/\<item\> | \<item\> is a new feature being added to the repo, for personal or common use                                                                                                        |
-| fixup/\<item\>   | \<item\> is a non-urgent bug, PRs merging from these branches should be merged when possible, but are not considered mission-critical                                                |
-| hotfix/\<item\>  | \<item\> is a mission-critical bug, either affecting all users or a breaking change on a user's machines. These PRs should be reviewed ASAP. This is automatically subject to the [Critical Issues](#critical-issues) process                                          |
-| urgent/\<item\>  | Accepted as an alias for the above, due to dev's coming from multiple standards and the criticality of these issues                                                                  |
-| exp/\<item\>     | \<item\> is a non-critical experiment. This is used for shipping around potential new features or fixes to multiple branches                                                         |
-| merge/\<item\>   | \<item\> is a temporary branch and should never be merged directly to main. This is solely used for addressing merge conflicts which are too complex to be merged directly on branch |
+| Branch Name      | Use Case                                                                                                                                                                                                                      |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| main             | protected branch which all machines pull from, do not try to push directly                                                                                                                                                    |
+| feature/\<item\> | \<item\> is a new feature added to the repo, for personal or common use                                                                                                                                                       |
+| fixup/\<item\>   | \<item\> is a non-urgent bug, PRs merging from these branches should be merged when possible, but are not considered mission-critical                                                                                         |
+| hotfix/\<item\>  | \<item\> is a mission-critical bug, either affecting all users or a breaking change on a user's machines. These PRs should be reviewed ASAP. This is automatically subject to the [Critical Issues](#critical-issues) process |
+| urgent/\<item\>  | Accepted as an alias for the above, due to dev's coming from multiple standards and the criticality of these issues                                                                                                           |
+| exp/\<item\>     | \<item\> is a non-critical experiment. This is used for shipping around potential new features or fixes to multiple branches                                                                                                  |
+| merge/\<item\>   | \<item\> is a temporary branch and should never be merged directly to main. This is solely used for addressing merge conflicts which are too complex to be merged directly on branch                                          |
 
 ### Review Process
 
@@ -49,7 +50,7 @@ auto-approved. However, for PR's affecting global files you need two
 approvals based on the latest commit (stale approvals will not work).
 
 In the event that quorum cannot be reached on approvals (specifically members
-that cannot approve who normally would), the PR will be placed on-hold unless
+that cannot approve who normally would), the PR will be marked as *draft* unless
 a member who is unable to approve defers their approval power. This deferral
 must be publicly acknowledged in the PR and confirmed by another member.
 This process essentially acknowledges that at least two people besides the

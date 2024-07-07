@@ -52,6 +52,12 @@
         calibreLibrary = "/var/lib/calibre-server";
       };
     };
+    calibre-server = {
+      enable = true;
+      user = "calibre-web";
+      group = "calibre-web";
+
+    };
     gvfs.enable = true;
 
     fwupd = {
@@ -78,6 +84,8 @@
       #systemd.services.spotifyd.serviceConfig = systemd.services.spotifyd.
     };
   };
+
+  users.users.alice.extraGroups = [ "calibre-web" ];
 
   system.autoUpgrade.enable = false;
   system.stateVersion = "24.05";

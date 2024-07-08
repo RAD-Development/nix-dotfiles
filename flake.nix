@@ -161,7 +161,7 @@
     rec {
       inherit lib; # for allowing use of custom functions in nix repl
 
-      hydraJobs = import ./hydra/jobs.nix { inherit inputs outputs; };
+      hydraJobs = import ./hydra/jobs.nix { inherit inputs outputs systems; };
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
       nixosConfigurations = genSystems inputs src (src + "/systems");

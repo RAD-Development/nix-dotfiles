@@ -47,6 +47,7 @@
     wakatime
     enchant
     nuspell
+    hunspellDicts.en-us
     languagetool
 
     # dependencies for nix-dotfiles/hydra-check-action

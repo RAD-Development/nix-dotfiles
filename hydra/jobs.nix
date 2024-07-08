@@ -4,13 +4,15 @@ let
   pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
 
   getCfg = _: cfg: cfg.config.system.build.toplevel;
+  hostToAgg = _: cfg: cfg;
 in
 rec {
   inherit (outputs) formatter devShells checks;
 
+  host = mapAttrs getCfg outputs.nixosConfigurations;
+
   hosts = pkgs.releaseTools.aggregate {
     name = "hosts";
-    constituents = mapAttrsToList getCfg outputs.nixosConfigurations;
+    constituents = mapAttrsToList hostToAgg host;
   };
 }
-// (mapAttrs getCfg outputs.nixosConfigurations)

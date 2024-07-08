@@ -26,8 +26,8 @@ for further information.
 - `lib`: custom nix library functions, including general utility functions and
   dynamic system construction
 - `modules/`: Nix modules created by us for common services or overrides
-  (fail2ban, hydra, certain boot params, etc.)
-- `systems/`: config for common *server* components, as well as per-server configurations
+  (openssh, hydra, certain boot params, etc.)
+- `systems/`: per-system configurations
 - `users/<user>/`: includes per-user configs for `home-manager`, `SOPS`, and
   `SSH` keys
 - `utils/`: utility scripts primarily used for dependency updates

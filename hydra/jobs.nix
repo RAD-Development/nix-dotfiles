@@ -5,10 +5,13 @@ let
 
   getCfg = _: cfg: cfg.config.system.build.toplevel;
 in
-{
+rec {
   inherit (outputs) formatter devShells checks;
+
+  machines = mapAttrsToList getCfg outputs.nixosConfigurations;
+
   hosts = pkgs.releaseTools.aggregate {
     name = "hosts";
-    constituents = mapAttrsToList getCfg outputs.nixosConfigurations;
+    constituents = machines;
   };
 }

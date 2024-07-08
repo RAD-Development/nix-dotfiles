@@ -15,4 +15,13 @@ rec {
     name = "hosts";
     constituents = mapAttrsToList hostToAgg host;
   };
+
+  devChecks = pkgs.releaseTools.aggregate {
+    name = "devChecks";
+    constituents = [
+      formatter
+      devShells
+      checks
+    ];
+  };
 }

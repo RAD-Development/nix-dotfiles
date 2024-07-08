@@ -57,7 +57,16 @@ in
         </git-input>
         <githubstatus>
           # check hosts and any declared checks
-          jobs = (build-fork-hydra):pr-.*:(hosts|checks.*)
+          jobs = (build-fork-hydra):pr-.*:hosts
+          context = ci/hydra: hosts
+          inputs = nixexpr
+          useShortContext = true
+          excludeBuildFromContext = 1
+        </githubstatus>
+        <githubstatus>
+          # check hosts and any declared checks
+          jobs = (build-fork-hydra):pr-.*:devChecks
+          context = ci/hydra: checks
           inputs = nixexpr
           useShortContext = true
           excludeBuildFromContext = 1

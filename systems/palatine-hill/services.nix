@@ -1,9 +1,15 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 {
   systemd = {
     services.startup_validation = {
       wantedBy = [ "multi-user.target" ];
       description = "validates startup";
+      path = [ pkgs.zfs ];
       serviceConfig = {
         Type = "oneshot";
         Environment = config.sops.secrets."server-validation/webhook".path;

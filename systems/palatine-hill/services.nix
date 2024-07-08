@@ -12,7 +12,7 @@
       path = [ pkgs.zfs ];
       serviceConfig = {
         Type = "oneshot";
-        Environment = config.sops.secrets."server-validation/webhook".path;
+        EnvironmentFile = config.sops.secrets."server-validation/webhook".path;
         ExecStart = "${inputs.server_tools.packages.x86_64-linux.default}/bin/validate_palatine_hill";
       };
     };

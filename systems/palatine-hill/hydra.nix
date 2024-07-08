@@ -43,7 +43,7 @@ in
   services = {
     hydra = {
       enable = true;
-      hydraURL = "http://localhost:3000";
+      hydraURL = "https://hydra.alicehuston.xyz";
       smtpHost = "alicehuston.xyz";
       notificationSender = "hydra@alicehuston.xyz";
       gcRootsDir = "/ZFS/ZFS-primary/hydra";
@@ -60,6 +60,7 @@ in
           ## This example will match all jobs
           #jobs = .*
           inputs = nixexpr
+          useShortContext = true
           excludeBuildFromContext = 1
         </githubstatus>
         Include ${config.sops.secrets."alice/gha-hydra-token".path}

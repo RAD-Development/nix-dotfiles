@@ -1,4 +1,10 @@
-{ pulls, branches, ... }:
+{
+  pulls,
+  branches,
+  nixexpr,
+  nixpkgs,
+  ...
+}:
 let
   # create the json spec for the jobset
   makeSpec =
@@ -19,7 +25,7 @@ let
 
   prs = readJSONFile pulls;
   refs = readJSONFile branches;
-  repo = "ahuston-0/nix-dotfiles-hydra";
+  repo = "RAD-Development/nix-dotfiles";
 
   # template for creating a job
   makeJob =
@@ -42,6 +48,15 @@ let
       checkinterval = 300; # every 6 months
       enableemail = false;
       emailoverride = "";
+      inputs = {
+        inherit
+          nixexpr
+          nixpkgs
+          pulls
+          branches
+          ;
+        # rev = pkgs.runCommand "rev" {} ''echo "${src.rev}" > $out'';
+      };
     };
 
   # Create a hydra job for a branch

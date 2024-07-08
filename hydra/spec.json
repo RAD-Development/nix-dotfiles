@@ -12,23 +12,23 @@
   "type": 0,
   "inputs": {
     "nixexpr": {
-      "value": "https://github.com/ahuston-0/nix-dotfiles-hydra main",
+      "value": "https://github.com/RAD-Development/nix-dotfiles main",
       "type": "git",
       "emailresponsible": false
     },
     "nixpkgs": {
-      "value": "https://github.com/NixOS/nixpkgs nixos-unstable-small",
+      "value": "https://github.com/NixOS/nixpkgs nixos-unstable",
       "type": "git",
       "emailresponsible": false
     },
     "pulls": {
       "type": "githubpulls",
-      "value": "ahuston-0 nix-dotfiles-hydra",
+      "value": "RAD-Development nix-dotfiles",
       "emailresponsible": false
     },
     "branches": {
       "type": "github_refs",
-      "value": "ahuston-0 nix-dotfiles-hydra heads -",
+      "value": "RAD-Development nix-dotfiles heads -",
       "emailresponsible": false
     }
   }

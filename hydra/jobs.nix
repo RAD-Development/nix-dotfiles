@@ -19,9 +19,9 @@ rec {
   devChecks = pkgs.releaseTools.aggregate {
     name = "devChecks";
     constituents = [
-      formatter
-      devShells
-      checks
+      formatter.x86_64-linux
+      devShells.x86_64-linux
+      checks.x86_64-linux
     ];
   };
 }

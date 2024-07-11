@@ -11,7 +11,6 @@
     glslang
     pipenv
     python312Packages.isort
-    python312Packages.pynose
     python312Packages.pytest
 
     # rust tools

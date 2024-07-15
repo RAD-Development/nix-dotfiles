@@ -604,11 +604,11 @@
         "poetry2nix": "poetry2nix"
       },
       "locked": {
-        "lastModified": 1721079485,
-        "narHash": "sha256-mNvYoiQtFq5dmbvOqlDkuEF/0EONMobU4hgbWZdW5+U=",
+        "lastModified": 1721081006,
+        "narHash": "sha256-8ss+bdxJ80LiUq0LXWUHX4aWkiU7QvcYHDA4nxCLItE=",
         "owner": "RAD-Development",
         "repo": "server_tools",
-        "rev": "5256f41fd305ea772391ea70398a89e23e9d1bd7",
+        "rev": "8417f19c4fc9c7573c5754b557b5f36376e7176c",
         "type": "github"
       },
       "original": {

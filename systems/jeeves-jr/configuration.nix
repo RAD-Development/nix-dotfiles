@@ -4,6 +4,7 @@
     ../../users/richie/global/ssh.nix
     ../../users/richie/global/zerotier.nix
     ./docker
+    ./services.nix
   ];
 
   networking = {

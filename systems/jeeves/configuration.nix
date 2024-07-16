@@ -9,6 +9,7 @@ in
     ../../users/richie/global/zerotier.nix
     ./docker
     ./programs.nix
+    ./services.nix
   ];
 
   networking = {

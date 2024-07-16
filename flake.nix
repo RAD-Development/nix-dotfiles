@@ -118,6 +118,11 @@
       };
     };
 
+    server_tools = {
+      url = "github:RAD-Development/server_tools";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     wired-notify = {
       url = "github:Toqozz/wired-notify";
       inputs = {

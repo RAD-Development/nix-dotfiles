@@ -37,23 +37,24 @@
   "[nix]": { "editor.defaultFormatter": "jnoortheen.nix-ide" },
   "[python]": { "editor.defaultFormatter": "charliermarsh.ruff" },
   "[yaml]": { "editor.defaultFormatter": "redhat.vscode-yaml" },
-  
+
   // spell check
   "cSpell.enabled": true,
   "cSpell.language": "en,en-US",
   "cSpell.enableFiletypes": ["bat", "csv", "nix", "toml"],
   "cSpell.userWords": ["Cahill", "syncthing"],
-  
+
   // nix
   "nix.enableLanguageServer": true,
   "nix.serverPath": "nil",
-  
+
   // force the use of rust-analyzer from dev shell
   "rust-analyzer.server.path": "rust-analyzer",
-  
+
   // other
   "python.analysis.typeCheckingMode": "basic",
   "redhat.telemetry.enabled": true,
-  "gitlens.plusFeatures.enabled": false
+  "gitlens.plusFeatures.enabled": false,
   // new
+  "hediet.vscode-drawio.resizeImages": null
 }

@@ -12,6 +12,7 @@
     ./minio.nix
     ./networking.nix
     ./nextcloud.nix
+    ./services.nix
     ./zfs.nix
   ];
 

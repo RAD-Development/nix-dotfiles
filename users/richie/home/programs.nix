@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   home.packages = with pkgs; [
     # cli
@@ -27,7 +27,7 @@
     wget
     # python
     poetry
-    python3
+    python312
     ruff
     # Rust packages
     topgrade
@@ -43,5 +43,6 @@
     nix-prefetch
     nix-tree
     nixpkgs-fmt
+    inputs.server_tools.packages.x86_64-linux.default
   ];
 }

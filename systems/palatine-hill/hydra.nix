@@ -4,7 +4,10 @@
   pkgs,
   ...
 }:
-
+let
+  hydra_notify_prometheus_port = "9199";
+  hydra_queue_runner_prometheus_port = "9200";
+in
 {
   systemd.services.hydra-notify.serviceConfig.EnvironmentFile =
     config.sops.secrets."hydra/environment".path;
@@ -53,12 +56,53 @@
           timeout = 3600
         </git-input>
         Include ${config.sops.secrets."alice/gha-hydra-token".path}
+        <hydra_notify>
+          <prometheus>
+            listen_address = 127.0.0.1
+            port = ${hydra_notify_prometheus_port}
+          </prometheus>
+        </hydra_notify>
+        queue_runner_metrics_address = 127.0.0.1:${hydra_queue_runner_prometheus_port}
       '';
     };
 
     nix-serve = {
       enable = true;
       secretKeyFile = config.sops.secrets."nix-serve/secret-key".path;
+    };
+    prometheus = {
+      enable = true;
+      webExternalUrl = "https://prom.alicehuston.xyz";
+      port = 9001;
+      exporters.node = {
+        enable = true;
+        enabledCollectors = [ "systemd" ];
+        port = 9002;
+      };
+      scrapeConfigs = [
+        {
+          job_name = "palatine-hill";
+          static_configs = [
+            { targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ]; }
+          ];
+        }
+        {
+          job_name = "hydra-local";
+          static_configs = [
+            {
+              targets = [
+                "127.0.0.1:${hydra_notify_prometheus_port}"
+                "127.0.0.1:${hydra_queue_runner_prometheus_port}"
+              ];
+            }
+          ];
+        }
+        {
+          job_name = "hydra-external";
+          scheme = "https";
+          static_configs = [ { targets = [ "hydra.alicehuston.xyz" ]; } ];
+        }
+      ];
     };
   };
 

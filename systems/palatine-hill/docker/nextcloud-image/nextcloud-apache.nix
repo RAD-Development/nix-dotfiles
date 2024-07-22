@@ -1,7 +1,7 @@
 {
   imageName = "nextcloud";
-  imageDigest = "sha256:3ad47054206bdf4ad03cc33bd2a3691d9df277e21d1b081cd7c8bdb60dc5219f";
-  sha256 = "02sfj5lj8l813z62zvm0gbcaz7aczjjrpisdf0v8s7fxv2vxyk69";
+  imageDigest = "sha256:fe7f941cc514fe01e343a515c7b33e6b12707c718157f6e25a67119e9918a061";
+  sha256 = "07w9rvmr2qy037ljdmk6w1n2dmwwa31ig7gzfb084wiv18hjfrg4";
   finalImageName = "nextcloud";
   finalImageTag = "apache";
 }

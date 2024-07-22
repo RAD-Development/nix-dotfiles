@@ -55,7 +55,8 @@
     nmap
     ocrmypdf
     pciutils
-    playonlinux
+    #disabled until wxpython compat with python3.12
+    #playonlinux
     prismlauncher
     protonmail-bridge
     protontricks

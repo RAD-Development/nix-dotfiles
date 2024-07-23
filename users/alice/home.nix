@@ -42,6 +42,13 @@
     packages = with pkgs; [
       gnumake
       python3
+      poetry
+
+      # pre-commit
+      pre-commit
+      deadnix
+      statix
+      nil
 
       # useful tools
       ncdu

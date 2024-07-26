@@ -354,16 +354,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1718895438,
-        "narHash": "sha256-k3JqJrkdoYwE3fHE6xGDY676AYmyh4U2Zw+0Bwe5DLU=",
-        "owner": "nixos",
+        "lastModified": 1721839275,
+        "narHash": "sha256-+LZ601+i0xFyCOzDvRuBopGZ7vdeVLNCh+/AArCrpFM=",
+        "owner": "the-sun-will-rise-tomorrow",
         "repo": "nixpkgs",
-        "rev": "d603719ec6e294f034936c0d0dc06f689d91b6c3",
+        "rev": "e7266f17f15648aa6d4ae6d352dd97271fc52b1a",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
+        "owner": "the-sun-will-rise-tomorrow",
+        "ref": "dockertools-fuse-overlayfs",
         "repo": "nixpkgs",
         "type": "github"
       }

@@ -17,7 +17,7 @@ pkgs.dockerTools.buildImage {
   #   pathsToLink = [ "./supervisord.conf" ];
 
   # };
-
+  useFUSEOverlayFS = true;
   # enableFakechroot = true;
   runAsRoot = ''
     set -ex; \

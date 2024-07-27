@@ -15,6 +15,8 @@
         };
       };
       startup_validation = {
+        requires = [ "network-online.target" ];
+        after = [ "network-online.target" ];
         wantedBy = [ "multi-user.target" ];
         description = "validates startup";
         path = [ pkgs.zfs ];

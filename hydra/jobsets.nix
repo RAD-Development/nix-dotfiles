@@ -1,10 +1,4 @@
-{
-  pulls,
-  branches,
-  nixexpr,
-  nixpkgs,
-  ...
-}:
+{ pulls, branches, ... }:
 let
   # create the json spec for the jobset
   makeSpec =
@@ -45,18 +39,9 @@ let
       enabled = 1;
       type = 1;
       hidden = false;
-      checkinterval = 300; # every 6 months
+      checkinterval = 300; # every 5 minutes
       enableemail = false;
       emailoverride = "";
-      inputs = {
-        inherit
-          nixexpr
-          nixpkgs
-          pulls
-          branches
-          ;
-        # rev = pkgs.runCommand "rev" {} ''echo "${src.rev}" > $out'';
-      };
     };
 
   # Create a hydra job for a branch

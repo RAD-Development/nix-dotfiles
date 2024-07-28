@@ -14,6 +14,11 @@ Please install `direnv` and run `direnv allow` in the project directory to
 add the pre-commit-hooks to your workflow. We will reject PRs if we notice
 violations in the pre-commit checks.
 
+To disable pre-commit hooks from your shell, run `touch .noprecommit` in the
+top-level of the repo. This will not stop the checks from running during the PR
+checks, but will prevent them from running in the direnv environment when
+inconvenient.
+
 ## Active Development
 
 To contribute to the repo, you can either ask to have a role (for those who are

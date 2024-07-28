@@ -13,7 +13,18 @@ forEachSystem (
 
     # construct the shell provided by pre-commit for running hooks
     pre-commit = pkgs.mkShell {
-      inherit (checks.${system}.pre-commit-check) shellHook;
+      shellHook = ''
+        if [ -f ./.noprecommit ]; then
+          echo ".noprecommit found! Delete this file to re-install pre-commit hooks"
+          if [ -f ./.pre-commit-config.yaml ]; then
+            echo "uninstalling pre-commit hooks"
+            pre-commit uninstall
+            rm .pre-commit-config.yaml
+          fi
+        else
+          ${checks.${system}.pre-commit-check.shellHook}
+        fi
+      '';
       buildInputs = checks.${system}.pre-commit-check.enabledPackages;
     };
 

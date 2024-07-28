@@ -1,6 +1,7 @@
 # direnv
 .direnv
 .envrc
+.noprecommit
 
 # build outputs
 .*.swp

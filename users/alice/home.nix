@@ -74,6 +74,8 @@
       # doom emacs dependencies
       fd
       ripgrep
+      ruff-lsp
+      pyright
 
       # audit
       lynis

@@ -20,5 +20,6 @@
     sweet-nova
     util-linux
     vlc
+    zoom-us
   ];
 }

@@ -84,7 +84,7 @@ in
             Type = "oneshot";
             User = "root";
             WorkingDirectory = path;
-            ExecStart = "${pkgs.git}/bin/git pull --all";
+            ExecStart = "${pkgs.git}/bin/git pull --all --prune";
           };
         }
       ) repos;

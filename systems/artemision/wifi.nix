@@ -22,6 +22,7 @@ in
       "9872441561".psk = "@PASS_longboat_home@";
       "5HuFios".psk = "@PASS_longboat_home@";
       "24HuFios".psk = "@PASS_longboat_home@";
+      "Verizon_ZLHQ3H".psk = "@PASS_angie@";
       "optimumwifi" = { };
       "CableWiFi" = { };
     };

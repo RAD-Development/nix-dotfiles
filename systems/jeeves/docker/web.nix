@@ -20,16 +20,6 @@ in
       extraOptions = [ "--network=web" ];
       autoStart = true;
     };
-    arch_mirror = {
-      image = "ubuntu/apache2:latest";
-      volumes = [
-        "${../../../users/richie/global/docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
-        "${vars.media_mirror}:/data"
-      ];
-      ports = [ "800:80" ];
-      extraOptions = [ "--network=web" ];
-      autoStart = true;
-    };
     haproxy = {
       image = "haproxy:latest";
       user = "600:600";

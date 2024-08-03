@@ -7,6 +7,7 @@ in
     ../../users/richie/global/ssh.nix
     ../../users/richie/global/syncthing_base.nix
     ../../users/richie/global/zerotier.nix
+    ./arch_mirror.nix
     ./docker
     ./programs.nix
     ./services.nix

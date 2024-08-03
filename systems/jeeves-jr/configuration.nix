@@ -3,6 +3,7 @@
   imports = [
     ../../users/richie/global/ssh.nix
     ../../users/richie/global/zerotier.nix
+    ./arch_mirror.nix
     ./docker
     ./services.nix
   ];

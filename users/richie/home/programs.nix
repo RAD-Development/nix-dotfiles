@@ -44,5 +44,6 @@
     nix-tree
     nixpkgs-fmt
     inputs.server_tools.packages.x86_64-linux.default
+    inputs.arch_mirror.packages.x86_64-linux.default
   ];
 }

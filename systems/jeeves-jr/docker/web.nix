@@ -1,19 +1,6 @@
 { config, ... }:
-let
-  vars = import ../vars.nix;
-in
 {
   virtualisation.oci-containers.containers = {
-    arch_mirror = {
-      image = "ubuntu/apache2:latest";
-      volumes = [
-        "${../../../users/richie/global/docker_templates}/file_server/sites/:/etc/apache2/sites-enabled/"
-        "${vars.main_mirror}:/data"
-      ];
-      ports = [ "800:80" ];
-      extraOptions = [ "--network=web" ];
-      autoStart = true;
-    };
     haproxy = {
       image = "haproxy:latest";
       user = "600:600";

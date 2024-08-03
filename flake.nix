@@ -29,6 +29,11 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     systems.url = "github:nix-systems/default";
 
+    arch_mirror = {
+      url = "github:RichieCahill/arch_mirror";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     attic = {
       url = "github:zhaofengli/attic";
       inputs = {

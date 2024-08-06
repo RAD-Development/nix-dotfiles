@@ -12,5 +12,6 @@
         latitude = 74.03;
       };
     };
+    extraPackages = python3Packages: with python3Packages; [ psycopg2 ];
   };
 }

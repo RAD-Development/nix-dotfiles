@@ -182,6 +182,7 @@
     "PRIVOXY",
     "prowlarr",
     "proxychains",
+    "psycopg",
     "PUID",
     "pulseaudio",
     "punycode",

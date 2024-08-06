@@ -61,7 +61,7 @@ let
 
   # Create a hydra job for a PR
   jobOfPR = id: info: {
-    name = "pr-${id}";
+    name = if info.draft then "draft-${id}" else "pr-${id}";
     value = makeJob {
       description = "PR ${id}: ${info.title}";
       flake = "git+ssh://git@github.com/${info.head.repo.full_name}?ref=${info.head.ref}";

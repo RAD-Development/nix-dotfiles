@@ -19,6 +19,7 @@
       util-linux
       xz
       zlib
+      zlib-ng
       zstd
     ];
   };

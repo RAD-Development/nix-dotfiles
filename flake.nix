@@ -78,7 +78,7 @@
         nixpkgs.follows = "nixpkgs";
         flake-compat.follows = "flake-compat";
         flake-parts.follows = "flake-parts";
-        pre-commit-hooks.follows = "pre-commit-hooks";
+        git-hooks-nix.follows = "pre-commit-hooks";
       };
     };
 
@@ -100,7 +100,7 @@
     };
 
     pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
+      url = "github:cachix/git-hooks.nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         nixpkgs-stable.follows = "nixpkgs-stable";
@@ -125,7 +125,10 @@
 
     server_tools = {
       url = "github:RAD-Development/server_tools";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
     };
 
     wired-notify = {

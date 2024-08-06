@@ -5,6 +5,7 @@
     ../../users/richie/global/zerotier.nix
     ./arch_mirror.nix
     ./docker
+    ./home_assistant.nix
     ./services.nix
   ];
 

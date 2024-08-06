@@ -19,15 +19,21 @@
       "10-lan" = {
         matchConfig.Name = "eno1";
         address = [ "192.168.76.2/24" ];
-        routes = [ { routeConfig.Gateway = "192.168.76.1"; } ];
-        IPForward = "yes";
+        routes = [ { Gateway = "192.168.76.1"; } ];
+        networkConfig = {
+          IPv4Forwarding = true;
+          IPv6Forwarding = true;
+        };
         linkConfig.RequiredForOnline = "routable";
       };
       # default lan settings
       "60-def-lan" = {
         matchConfig.type = "ether";
-        DHCP = "ipv4";
-        IPForward = "yes";
+        networkConfig = {
+          DHCP = "ipv4";
+          IPv4Forwarding = true;
+          IPv6Forwarding = true;
+        };
         #routes = [ { routeConfig.Gateway = "192.168.76.1"; } ];
         linkConfig.RequiredForOnline = "no";
       };

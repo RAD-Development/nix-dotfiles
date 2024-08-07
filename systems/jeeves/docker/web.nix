@@ -52,6 +52,23 @@ in
       extraOptions = [ "--network=web" ];
       autoStart = true;
     };
+    overseerr = {
+      image = "lscr.io/linuxserver/overseerr";
+      environment = {
+        PUID = "600";
+        PGID = "100";
+        TZ = "America/New_York";
+      };
+      volumes = [ "${vars.media_docker_configs}/overseerr:/config" ];
+      # TODO: remove ports later since this is going through web
+      ports = [ "5055:5055" ]; # Web UI port
+      dependsOn = [
+        "radarr"
+        "sonarr"
+      ];
+      extraOptions = [ "--network=web" ];
+      autoStart = true;
+    };
   };
 
   sops = {

@@ -3,6 +3,7 @@
   # create rad-dev namespace for lib
   rad-dev = rec {
     systems = import ./systems.nix { inherit lib; };
+    microvm = import ./microvms.nix { inherit lib; };
 
     # any(), but checks if any value in the list is true
     #
@@ -56,5 +57,30 @@
     # type:
     # fileList :: Path -> String -> [Path]
     fileList = dir: map (file: dir + "/${file}") (ls dir);
+
+    # constructs a mac address from a string's hash
+    #
+    # args:
+    # hashable: the string to hash
+    #
+    # type:
+    # strToMac :: String -> String
+    strToMac =
+      hashable:
+      let
+        # computes sha512 hash of input
+        hashStr = builtins.hashString "sha512" hashable;
+        # grabs first 12 letters of hash
+        hashSub = start: builtins.substring start 2 (builtins.substring 0 12 hashStr);
+        # joins list of strings with a delimiter between
+        joiner =
+          delim: arr:
+          builtins.foldl' (
+            a: b: lib.concatStrings ([ a ] ++ (lib.optionals (a != "") [ delim ]) ++ [ b ])
+          ) "" arr;
+        # generates a list of indexes for the hash
+        starts = builtins.genList (x: x * 2) 6;
+      in
+      joiner ":" (map hashSub starts);
   };
 }

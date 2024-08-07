@@ -20,13 +20,13 @@ in
       echo "ebe7fbd44565ba9d=ztkubnet" > /var/lib/zerotier-one/devicemap 
     '';
 
-    services.zerotierone = lib.mkDefault {
-      enable = true;
+    services.zerotierone = {
+      enable = lib.mkDefault true;
       joinNetworks = [ "ebe7fbd44565ba9d" ];
     };
 
-    systemd.network = lib.mkDefault {
-      enable = true;
+    systemd.network = {
+      enable = lib.mkDefault true;
       wait-online.anyInterface = true;
       netdevs = {
         "20-brkubnet" = {
@@ -38,14 +38,26 @@ in
       };
       networks = {
         "30-ztkubnet" = {
-          matchConfig.Name = "ztkubnet";
+          matchConfig.Name = [ "ztkubnet" ];
           networkConfig.Bridge = "brkubnet";
           linkConfig.RequiredForOnline = "enslaved";
         };
         "40-brkubnet" = {
           matchConfig.Name = "brkubnet";
           bridgeConfig = { };
+          networkConfig.LinkLocalAddressing = "no";
           linkConfig.RequiredForOnline = "no";
+        };
+        "41-vms" = {
+          matchConfig.Name = [ "vm-*" ];
+          networkConfig.Bridge = "brkubnet";
+          linkConfig.RequiredForOnline = "enslaved";
+        };
+        "42-kubnet-accuse" = {
+          matchConfig.Name = "kubnet-accuse";
+          networkConfig.Bridge = "brkubnet";
+          linkConfig.RequiredForOnline = "enslaved";
+          address = [ "192.168.69.20/24" ];
         };
       };
     };

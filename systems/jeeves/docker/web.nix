@@ -55,11 +55,11 @@ in
     overseerr = {
       image = "lscr.io/linuxserver/overseerr";
       environment = {
-        PUID = "998";
+        PUID = "600";
         PGID = "100";
         TZ = "America/New_York";
       };
-      volumes = [ "/ZFS/Media/Docker/Docker/Storage/overseerr:/config" ];
+      volumes = [ "${vars.media_docker_configs}/overseerr:/config" ];
       # TODO: remove ports later since this is going through web
       ports = [ "5055:5055" ]; # Web UI port
       dependsOn = [

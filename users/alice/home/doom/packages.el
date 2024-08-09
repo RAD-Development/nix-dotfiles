@@ -80,3 +80,10 @@
 
 (package! pacdiff.el
   :recipe (:host github :repo "fbrosda/pacdiff.el" :files ("pacdiff.el" "README.org" "LICENSE")))
+
+(package! python-docstring-mode
+  :recipe (:host github :repo "glyph/python-docstring-mode" :files ("python-docstring.el" "docstring_wrap.py")))
+
+(package! sphinx-doc)
+
+;; https://github.com/glyph/python-docstring-mode.git

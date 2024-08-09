@@ -19,3 +19,7 @@
 (setq! lsp-enable-suggest-server-download nil)
 
 ;; (keychain-refresh-environment)
+
+(add-hook 'python-mode-hook (lambda ()
+                                (require 'sphinx-doc)
+                                (sphinx-doc-mode t)))

@@ -6,17 +6,18 @@
 }:
 {
   imports = [
-    ./programs.nix
-    ./desktop.nix
-    ./wifi.nix
-    ./zerotier.nix
-    ./fonts.nix
-    ./polkit.nix
     ./audio.nix
+    ./desktop.nix
     ./fingerprint.nix
-    ./steam.nix
+    ./fonts.nix
     ./graphics.nix
     ./libvirt.nix
+    ./polkit.nix
+    ./programs.nix
+    ./steam.nix
+    ./stylix.nix
+    ./wifi.nix
+    ./zerotier.nix
   ];
 
   time.timeZone = "America/New_York";

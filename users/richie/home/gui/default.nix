@@ -8,8 +8,8 @@
   home.packages = with pkgs; [
     beeper
     candy-icons
-    cinnamon.nemo
-    cinnamon.nemo-fileroller
+    nemo
+    nemo-fileroller
     discord-canary
     gimp
     gparted

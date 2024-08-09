@@ -131,6 +131,15 @@
       };
     };
 
+    stylix = {
+      url = "github:danth/stylix";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     wired-notify = {
       url = "github:Toqozz/wired-notify";
       inputs = {

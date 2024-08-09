@@ -64,6 +64,7 @@
       diesel-cli
       tealdeer
       helix
+      ripunzip
 
       # nix specific packages
       nix-output-monitor

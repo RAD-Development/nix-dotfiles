@@ -7,6 +7,7 @@
   users = [ "alice" ];
   modules = [
     inputs.nixos-hardware.nixosModules.framework-16-7040-amd
+    inputs.stylix.nixosModules.stylix
     {
       environment.systemPackages = [
         inputs.wired-notify.packages.x86_64-linux.default

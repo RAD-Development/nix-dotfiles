@@ -12,7 +12,7 @@
     calibre
     # calibre dedrm?
     candy-icons
-    cinnamon.nemo-with-extensions
+    nemo-with-extensions
     croc
     deadnix
     direnv
